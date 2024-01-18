@@ -1,10 +1,10 @@
-import { View, Image, Text, ImageBackground } from 'react-native';
+import { View, Text, ImageBackground } from 'react-native';
 import { useSelector } from 'react-redux'; 
 import style from './CityBackground.style';
-import { RootState } from '../store/store';
+import { RootState } from '../../store/store';
 
 import { useFonts, Poppins_400Regular } from '@expo-google-fonts/poppins';
-import { CityWeather } from './CityWeather';
+import { CityWeather } from '../CityWeather/CityWeather';
 
 const CityBackground = () => {
 
