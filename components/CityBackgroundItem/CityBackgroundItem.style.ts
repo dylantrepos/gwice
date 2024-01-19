@@ -18,7 +18,6 @@ export default StyleSheet.create({
     textShadowColor: '#000',
     textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 19,
-    fontFamily: "Poppins_400Regular",
     marginTop: 125,
   }
 });

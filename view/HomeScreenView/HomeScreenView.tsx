@@ -1,12 +1,12 @@
 import { StatusBar } from "expo-status-bar"
-import { Text, View } from "react-native"
+import { View } from "react-native"
 import style from './HomeScreenView.style';
-import CityBackground from "../../components/CityBackground/CityBackground";
+import { CityBackgroundItem } from "../../components/CityBackgroundItem/CityBackgroundItem";
 
 export const HomeScreenView = () => {
   return (
     <View style={style.container}>
-      <CityBackground />
+      <CityBackgroundItem />
       <StatusBar style="auto" />
     </View>
   )

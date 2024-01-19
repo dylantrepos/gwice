@@ -14,8 +14,8 @@ const generalSlice = createSlice({
   name: 'general',
   initialState,
   reducers: {
-    setCurrentCity: (state, action: PayloadAction<{city: City}>) => {
-      state.currentCity = action.payload.city;
+    setCurrentCity: (state, action: PayloadAction<{cityName: City}>) => {
+      state.currentCity = action.payload.cityName;
     },
   }
 })

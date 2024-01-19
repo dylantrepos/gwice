@@ -1,26 +1,35 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   cityWeatherLargeContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 30,
-    paddingHorizontal: 40,
+    gap: 5,
+    paddingHorizontal: 25,
     paddingVertical: 10,
     backgroundColor: 'white',
     borderRadius: 10,
     shadowColor: '#000',
-    shadowOffset: { 
-      width: 1, 
-      height: 1 
-    },
-    shadowOpacity: 1,
-    shadowRadius: 2,
+    justifyContent: 'center',
+    minWidth: 300,
+    minHeight: 120,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 1,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 20,
+        shadowColor: '#000',
+      },
+    }),
   },
   image: {
-    height: 80,
-    width: 80,
+    height: 120,
+    width: 120,
   },
   textTitle: {
     fontSize: 25,
@@ -31,6 +40,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     display: 'flex',
     justifyContent: 'space-between',
+    gap: 10,
     marginTop: 20,
   },
   cityWeatherSmallContainer: { 
@@ -39,10 +49,11 @@ export default StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
     borderRadius: 10,
+    minHeight: 120,
   },
   cityWeatherSmallImage: {
-    width: 25,
-    height: 25,
+    width: 50,
+    height: 50,
     marginBottom: 5,
   },
   cityWeatherSmallTextTitle: {
