@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, Text, ImageProps } from 'react-native';
+import { View, Image, Text, ImageProps, ScrollView } from 'react-native';
 import { WeatherHourly } from '../../types/Weather';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -8,6 +8,7 @@ import { LoaderItem } from '../LoaderItem/LoaderItem';
 import { ErrorItem } from '../ErrorItem/ErrorItem';
 import style from './CityWeatherItem.style';
 import useGetWeather from '../../hooks/useGetWeather';
+import { WeatherModal } from '../Modal/WeatherModal';
 
 const CityWeatherHourItem = ({
   temperature,
@@ -28,11 +29,16 @@ const CityWeatherHourItem = ({
 }
 
 export const CityWeatherItem = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const [imageSource, setImageSource] = useState<ImageProps>(require('../../assets/images/weather-icons/not-found.png'));
   const { currentCity } = useSelector((state: RootState) => state.general);
 
   // const [data, setData] = useState(null);
   const {isLoading, data: weather, error} = useGetWeather(currentCity.cityName);
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
   useEffect(() => { 
     if (!isLoading && weather) {
@@ -42,15 +48,27 @@ export const CityWeatherItem = () => {
   }, [isLoading, weather]);
 
   return (
-    <View>
-      <View style={style.cityWeatherLargeContainer}>
+    <View
+      style={style.cityWeatherItem}
+    >
+      <WeatherModal 
+        modalVisible={modalVisible}
+        toggleModal={toggleModal}
+      />
+      <View 
+        style={style.cityWeatherLargeContainer}
+        onTouchEnd={() => toggleModal()}
+      >
         {isLoading 
           ? <LoaderItem />
           : error 
             ? <ErrorItem />
             : weather 
               ? <>
-                  <Image source={imageSource} style={style.image} />
+                  <Image 
+                    source={imageSource} 
+                    style={style.image} 
+                  />
                   <View>
                       <Text style={style.textTitle}>{weather.current.temperature}</Text>
                       <Text>Précipitations : {weather.current.precipitation}</Text>
@@ -61,7 +79,18 @@ export const CityWeatherItem = () => {
               : <Text>No weather data available.</Text>
         }
       </View>
-      <View style={style.cityWeatherListSmall}>
+      <ScrollView 
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        snapToAlignment='start'
+        decelerationRate="fast"
+        alwaysBounceHorizontal={false}
+        snapToInterval={style.cityWeatherSmallContainer.width + 18}
+        contentContainerStyle={{
+          columnGap: 18,
+        }}
+        style={style.cityWeatherListSmall}
+      >
         {(weather?.hourly ?? []).map((weatherElt, index) => (
           <CityWeatherHourItem 
             key={`weather-sm-item-${index}`}
@@ -71,7 +100,7 @@ export const CityWeatherItem = () => {
             isDay={weatherElt?.isDay ?? ''}
           />)
         )}
-      </View>
+      </ScrollView>
     </View>
   )
 };

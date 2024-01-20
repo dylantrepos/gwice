@@ -2,12 +2,22 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { CityLille } from "../cities/CityLille";
 import { City } from "../cities/types/city";
 
+type WeatherSettings = {
+  laps: string;
+  range: string;
+}
+
 type State = {
   currentCity: City;
+  weatherSettings: WeatherSettings;
 }
 
 const initialState: State = {
   currentCity: CityLille,
+  weatherSettings: {
+    laps: '2',
+    range: '11'
+  }
 };
 
 const generalSlice = createSlice({
@@ -17,6 +27,9 @@ const generalSlice = createSlice({
     setCurrentCity: (state, action: PayloadAction<{cityName: City}>) => {
       state.currentCity = action.payload.cityName;
     },
+    setWeatherSettings: (state, action: PayloadAction<WeatherSettings>) => {
+      state.weatherSettings = action.payload;
+    }
   }
 })
 
@@ -24,5 +37,6 @@ export default generalSlice.reducer;
 
 export const { 
   setCurrentCity,
+  setWeatherSettings,
 } = generalSlice.actions;
 

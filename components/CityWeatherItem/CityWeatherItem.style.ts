@@ -1,6 +1,9 @@
 import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  cityWeatherItem: {
+    maxWidth: '90%',
+  },
   cityWeatherLargeContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -37,11 +40,9 @@ export default StyleSheet.create({
     marginBottom: 5,
   },
   cityWeatherListSmall: {
-    flexDirection: 'row',
-    display: 'flex',
-    justifyContent: 'space-between',
-    gap: 10,
     marginTop: 20,
+    backgroundColor: 'red',
+    flexGrow: 0,
   },
   cityWeatherSmallContainer: { 
     backgroundColor: 'white',
@@ -49,7 +50,9 @@ export default StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
     borderRadius: 10,
-    minHeight: 120,
+    // minHeight: 120,
+    columnGap: 10,
+
   },
   cityWeatherSmallImage: {
     width: 50,
