@@ -20,6 +20,11 @@ export const WeatherModal = ({
   const [currLaps, setCurrLaps] = useState(+laps);
   const [currRange, setCurrRange] = useState(+range);
 
+  /**
+   * ! Create a navigation page Setting
+   * -> Include weather settings
+   */
+
   const handleLapsChange = (value: number) => {
     setCurrLaps(value);
   };

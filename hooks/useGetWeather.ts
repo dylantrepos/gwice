@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { SERVER_HOST, SERVER_PORT } from '@env';
-import { Weather } from '../types/Weather';
+import { Weather, WeatherSettings } from '../types/Weather';
 import { fetchWeather } from '../services/weather';
 
 type UseGetWeather = {
@@ -10,9 +10,10 @@ type UseGetWeather = {
   error: unknown
 }
 
-const useGetWeather = (city: string): UseGetWeather => {
+const useGetWeather = (city: string, settings: WeatherSettings): UseGetWeather => {
+  console.log('settings update : ', settings);
   const { isLoading, isError, data, error } = useQuery(
-    'weather', 
+    ['weather', city, settings], 
     () => fetchWeather(city),
   );
 

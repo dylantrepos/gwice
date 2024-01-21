@@ -41,26 +41,48 @@ export default StyleSheet.create({
   },
   cityWeatherListSmall: {
     marginTop: 20,
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     flexGrow: 0,
   },
   cityWeatherSmallContainer: { 
     backgroundColor: 'white',
-    width: 60,
+    width: 85,
     paddingVertical: 10,
     alignItems: 'center',
     borderRadius: 10,
     // minHeight: 120,
-    columnGap: 10,
-
+    columnGap: 5,
+    position: 'relative',
+  },
+  halfBottomBorder: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    height: '50%',
+    width: '100%',
+    // backgroundColor: '#F6F6F6',
+    borderRadius: 10,
+    borderColor: '#F6F6F6',
+    borderWidth: 1,
+    zIndex: -1,
   },
   cityWeatherSmallImage: {
     width: 50,
     height: 50,
-    marginBottom: 5,
+    // marginBottom: 5,
   },
   cityWeatherSmallTextTitle: {
     fontSize: 14,
     fontWeight: '700',
+  },
+  cityWeatherSmallTextDate: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#878787',
+  },
+  cityWeatherSmallTextHour: {
+    fontSize: 14,
+    fontWeight: '700',
+    // color: '#878787',
   }
 });

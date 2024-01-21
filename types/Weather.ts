@@ -21,5 +21,11 @@ export type WeatherHourly = {
   temperature: string,
   weatherCode: number,
   weatherText?: string,
-  isDay: number
+  isDay: number,
+  date: string,
+}
+
+export type WeatherSettings = {
+  laps: string;
+  range: string;
 }

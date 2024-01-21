@@ -8,22 +8,23 @@ import { LoaderItem } from '../LoaderItem/LoaderItem';
 import { ErrorItem } from '../ErrorItem/ErrorItem';
 import style from './CityWeatherItem.style';
 import useGetWeather from '../../hooks/useGetWeather';
-import { WeatherModal } from '../Modal/WeatherModal';
 
 const CityWeatherHourItem = ({
   temperature,
   hour,
   weatherCode,
-  isDay
+  isDay,
+  date 
 }: WeatherHourly) => {
   const imageSource = weatherCodeIcons[isDay ? 'day' : 'night'][weatherCode];
-  console.log('weatherCode', weatherCode);
 
   return (
     <View style={style.cityWeatherSmallContainer}>
+      <Text style={style.cityWeatherSmallTextHour}>{hour}</Text>
+      <Text style={style.cityWeatherSmallTextDate}>{date}</Text>
       <Image source={imageSource} style={style.cityWeatherSmallImage} />
       <Text style={style.cityWeatherSmallTextTitle}>{temperature}</Text>
-      <Text>{hour}</Text>
+      <View style={style.halfBottomBorder} />
     </View>
   );
 }
@@ -31,18 +32,13 @@ const CityWeatherHourItem = ({
 export const CityWeatherItem = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [imageSource, setImageSource] = useState<ImageProps>(require('../../assets/images/weather-icons/not-found.png'));
-  const { currentCity } = useSelector((state: RootState) => state.general);
+  const { currentCity, weatherSettings } = useSelector((state: RootState) => state.general);
 
   // const [data, setData] = useState(null);
-  const {isLoading, data: weather, error} = useGetWeather(currentCity.cityName);
-
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
-  };
+  const {isLoading, data: weather, error} = useGetWeather(currentCity.cityName, weatherSettings);
 
   useEffect(() => { 
     if (!isLoading && weather) {
-      console.log({weather});
       setImageSource(weatherCodeIcons[weather.current.isDay ? 'day' : 'night'][weather.current.weatherCode]);
     }
   }, [isLoading, weather]);
@@ -51,13 +47,8 @@ export const CityWeatherItem = () => {
     <View
       style={style.cityWeatherItem}
     >
-      <WeatherModal 
-        modalVisible={modalVisible}
-        toggleModal={toggleModal}
-      />
       <View 
         style={style.cityWeatherLargeContainer}
-        onTouchEnd={() => toggleModal()}
       >
         {isLoading 
           ? <LoaderItem />
@@ -85,9 +76,9 @@ export const CityWeatherItem = () => {
         snapToAlignment='start'
         decelerationRate="fast"
         alwaysBounceHorizontal={false}
-        snapToInterval={style.cityWeatherSmallContainer.width + 18}
+        snapToInterval={style.cityWeatherSmallContainer.width + 10}
         contentContainerStyle={{
-          columnGap: 18,
+          columnGap: 10,
         }}
         style={style.cityWeatherListSmall}
       >
@@ -98,6 +89,7 @@ export const CityWeatherItem = () => {
             hour={weatherElt?.hour ?? ''}
             weatherCode={weatherElt?.weatherCode ?? ''}
             isDay={weatherElt?.isDay ?? ''}
+            date={weatherElt?.date ?? ''}
           />)
         )}
       </ScrollView>

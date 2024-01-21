@@ -1,11 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { CityLille } from "../cities/CityLille";
 import { City } from "../cities/types/city";
-
-type WeatherSettings = {
-  laps: string;
-  range: string;
-}
+import { WeatherSettings } from "../types/Weather";
 
 type State = {
   currentCity: City;
@@ -16,7 +12,7 @@ const initialState: State = {
   currentCity: CityLille,
   weatherSettings: {
     laps: '2',
-    range: '11'
+    range: '12'
   }
 };
 
