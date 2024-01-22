@@ -2,14 +2,16 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
-    height: 400,
-  },
-  image: {
+    position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
-    height: '100%',
+    paddingBottom: 20,
+  },
+  image: {
+    height: 400,
+    position: 'absolute',
     width: '100%',
+    top: 0,
   },
   cityName: {
     zIndex: 1,
@@ -18,6 +20,6 @@ export default StyleSheet.create({
     textShadowColor: '#000',
     textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 19,
-    marginTop: 125,
+    marginTop: 50,
   }
 });

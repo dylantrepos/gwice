@@ -3,14 +3,15 @@ import { Platform, StyleSheet } from "react-native";
 export default StyleSheet.create({
   cityWeatherItem: {
     maxWidth: '90%',
+
   },
   cityWeatherLargeContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
-    paddingHorizontal: 25,
-    paddingVertical: 10,
+    gap: 10,
+    paddingRight: 25,
+    paddingLeft: 15,
     backgroundColor: 'white',
     borderRadius: 10,
     shadowColor: '#000',
@@ -31,11 +32,14 @@ export default StyleSheet.create({
     }),
   },
   image: {
-    height: 120,
-    width: 120,
+    height: 150,
+    width: 150,
+    // borderWidth: 1,
+    // borderColor: 'black',
+    // borderRadius: 10,
   },
   textTitle: {
-    fontSize: 25,
+    fontSize: 16,
     fontWeight: '700',
     marginBottom: 5,
   },

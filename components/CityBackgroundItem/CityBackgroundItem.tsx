@@ -14,11 +14,11 @@ export const CityBackgroundItem = () => {
         style={style.image} 
         source={image.homeImage}
       >
-        <Text style={style.cityName}>
-          { cityName }
-        </Text>
-        <CityWeatherItem />
       </ImageBackground>
+      <Text style={style.cityName}>
+        { cityName }
+      </Text>
+      <CityWeatherItem />
     </View>
   );
 };

@@ -1,28 +1,45 @@
-export type Weather = {
-  current: WeatherCurrent,
-  hourly: WeatherHourly[]
-}
+export type OpenMeteoDataCurrent = {
+  temperature: number;
+  relativeHumidity: number;
+  windSpeed: number;
+  apparentTemperature: number;
+  isDay: number;
+  precipitation: number;
+  weatherCode: number;
+  weatherText: string;
+};
 
-export type WeatherCurrent = {
-  hour: string,
-  temperature: string,
-  windSpeed: string,
-  humidity: string,
-  isDay: number,
-  precipitation: string,
-  weatherCode: number,
-  weatherText: string,
-  image: string
-}
+export type OpenMeteoDataDaily = {
+  time: string;
+  date: string;
+  weatherCode: number;
+  temperatureMin: string;
+  temperatureMax: string;
+  precipitation: string;
+  windSpeed: string;
+  rain: number;
+};
 
-export type WeatherHourly = {
-  image?: string,
-  hour: string,
-  temperature: string,
-  weatherCode: number,
-  weatherText?: string,
-  isDay: number,
-  date: string,
+export type OpenMeteoDataHourly = {
+  time: string;
+  date: string;
+  hour: string;
+  temperature: string;
+  isDay: number;
+  weatherCode: number;
+  weatherText: string;
+};
+
+export type OpenMeteoDataForecast = {
+    weather: OpenMeteoDataDaily;
+    hourly: OpenMeteoDataHourly[];
+};
+
+export type OpenMeteoData = {
+  current: OpenMeteoDataCurrent;
+  forecast: {
+    [date: string]: OpenMeteoDataForecast;
+  }
 }
 
 export type WeatherSettings = {

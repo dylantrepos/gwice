@@ -5,6 +5,9 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  scrollView: {
+    backgroundColor: 'red',
+  },
   text: {
     color:'red'
   }

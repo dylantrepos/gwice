@@ -2,10 +2,12 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { CityLille } from "../cities/CityLille";
 import { City } from "../cities/types/city";
 import { WeatherSettings } from "../types/Weather";
+import { AppDispatch } from "../store/store";
 
 type State = {
   currentCity: City;
   weatherSettings: WeatherSettings;
+  refetchHome: boolean;
 }
 
 const initialState: State = {
@@ -13,7 +15,8 @@ const initialState: State = {
   weatherSettings: {
     laps: '2',
     range: '12'
-  }
+  },
+  refetchHome: false
 };
 
 const generalSlice = createSlice({
@@ -25,14 +28,18 @@ const generalSlice = createSlice({
     },
     setWeatherSettings: (state, action: PayloadAction<WeatherSettings>) => {
       state.weatherSettings = action.payload;
+    },
+    setRefetchHome: (state, action: PayloadAction<boolean>) => {
+      console.log('setRefetchHome :', action.payload);
+      state.refetchHome = action.payload;
     }
   }
-})
-
-export default generalSlice.reducer;
+});
 
 export const { 
   setCurrentCity,
   setWeatherSettings,
+  setRefetchHome
 } = generalSlice.actions;
 
+export default generalSlice.reducer;

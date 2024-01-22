@@ -1,19 +1,20 @@
 import { useQuery } from 'react-query';
-import { SERVER_HOST, SERVER_PORT } from '@env';
-import { Weather, WeatherSettings } from '../types/Weather';
+import { OpenMeteoData, WeatherSettings } from '../types/Weather';
 import { fetchWeather } from '../services/weather';
 
 type UseGetWeather = {
   isLoading: boolean;
   isError: boolean;
-  data: Weather | undefined;
+  data: OpenMeteoData | undefined;
   error: unknown
 }
-
-const useGetWeather = (city: string, settings: WeatherSettings): UseGetWeather => {
-  console.log('settings update : ', settings);
+const useGetWeather = (
+  city: string, 
+  settings: WeatherSettings, 
+  refetchHome: boolean
+): UseGetWeather => {
   const { isLoading, isError, data, error } = useQuery(
-    ['weather', city, settings], 
+    ['weather', city, settings, refetchHome], 
     () => fetchWeather(city),
   );
 
