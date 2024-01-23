@@ -1,10 +1,7 @@
 import style from './SettingsHomeView.style';
 import { Pressable, Text, View } from "react-native"
-import { ChevronRight } from "../../../assets/icons/ChevronRight";
-import { Sun } from "../../../assets/icons/Sun";
+import { Sun } from 'lucide-react-native'
 import { SettingsLayout } from "../../../layouts/SettingsLayout";
-import { useEffect } from 'react';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 type SettingsHomeViewProps = {
   navigation: any;
@@ -27,7 +24,6 @@ const SettingsNavButton = ({title, navigation, icons}: SettingsNavButtonProps) =
         {icons ?? null}
         <Text style={style.settingsScreenButtonText}>{title}</Text>
       </View>
-      <ChevronRight />
     </Pressable>
   )
 }
@@ -35,7 +31,7 @@ const SettingsNavButton = ({title, navigation, icons}: SettingsNavButtonProps) =
 const settingsNavList = [
   {
     title: 'Weather',
-    icons: <Sun />
+    icons: <Sun color={'black'} />
   },
   {
     title: 'Other',

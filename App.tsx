@@ -6,10 +6,9 @@ import { store } from './store/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsHomeView';
-import { Home } from './assets/icons/Home';
-import { Settings } from './assets/icons/Settings';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
+import { Home, Settings } from 'lucide-react-native'
 
 const SettingsScreens = () => {
   const SettingStack = createNativeStackNavigator();
@@ -37,8 +36,8 @@ export default function App() {
   const queryClient = new QueryClient();
   const Tab = createBottomTabNavigator();
   const iconSize = {
-    height: 24,
-    width: 24,
+    height: 26,
+    width: 26,
   }
 
   return (
@@ -46,7 +45,22 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <StatusBar style='light' />
         <NavigationContainer>
-          <Tab.Navigator>
+          <Tab.Navigator 
+            screenOptions={{
+              tabBarActiveTintColor: '#0D89CE',
+              tabBarInactiveTintColor: 'gray',
+              tabBarStyle: {
+                backgroundColor: '#F5F5F5',
+                borderTopWidth: 0,
+                elevation: 0,
+                height: 60,
+              },
+              tabBarLabelStyle: {
+                fontSize: 20,
+                fontWeight: '400',
+              },
+            }}
+          >
             <Tab.Screen 
               name="Home-tab" 
               component={HomeView} 

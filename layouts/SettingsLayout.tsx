@@ -3,7 +3,7 @@ import { View, Text, Pressable } from 'react-native';
 import style from './SettingsLayout.style';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { ChevronRight } from '../assets/icons/ChevronRight';
+import { ChevronLeft } from 'lucide-react-native';
 
 
 type Props = {
@@ -26,7 +26,7 @@ export const SettingsLayout = ({
             onPress={() => navigation.goBack()}
             style={style.settingsLayoutChevron}
           >
-            <ChevronRight />
+            <ChevronLeft color={'black'} />
           </Pressable>
         )}
         <Text style={style.settingsLayoutTitle}>{title}</Text>

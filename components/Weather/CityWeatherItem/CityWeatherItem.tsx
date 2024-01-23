@@ -1,39 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text, ImageProps, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { weatherCodeIcons } from '../../utils/weatherImgCode';
-import { LoaderItem } from '../LoaderItem/LoaderItem';
-import { ErrorItem } from '../ErrorItem/ErrorItem';
+import { RootState } from '../../../store/store';
+import { weatherCodeIcons } from '../../../utils/weatherImgCode';
+import { LoaderItem } from '../../LoaderItem/LoaderItem';
+import { ErrorItem } from '../../ErrorItem/ErrorItem';
 import style from './CityWeatherItem.style';
-import useGetWeather from '../../hooks/useGetWeather';
-import { OpenMeteoDataForecast, OpenMeteoDataHourly } from '../../types/Weather';
-import { useSwipe } from '../../hooks/useSwap';
-
-type CityWeatherHourItemProps = Omit<OpenMeteoDataHourly, 'weatherText' | 'time'>;
-
-
-const CityWeatherHourItem = ({
-  temperature,
-  hour,
-  weatherCode,
-  isDay,
-  date
-}: CityWeatherHourItemProps) => {
-  const imageSource = weatherCodeIcons[isDay ? 'day' : 'night'][weatherCode];
-
-  return (
-    <View style={style.cityWeatherSmallContainer}>
-      <Text style={style.cityWeatherSmallTextHour}>{hour}</Text>
-      <Image source={imageSource} style={style.cityWeatherSmallImage} />
-      <Text style={style.cityWeatherSmallTextTitle}>{temperature}</Text>
-      <View style={style.halfBottomBorder} />
-    </View>
-  );
-}
+import useGetWeather from '../../../hooks/useGetWeather';
+import { OpenMeteoDataForecast, OpenMeteoDataHourly } from '../../../types/Weather';
+import { useSwipe } from '../../../hooks/useSwap';
+import { CityWeatherHourlyItem } from '../CityWeatherHourlyItem/CityWeatherHourlyItem';
+import { CityWeatherCurrentItem } from '../CityWeatherCurrentItem/CityWeatherCurrentItem';
+import { CityWeatherDailyItem } from '../CityWeatherDailyItem/CityWeatherDailyItem';
+import { dateOptions } from '../weatherSettings';
 
 export const CityWeatherItem = () => {
-  const [imageSource, setImageSource] = useState<ImageProps>(require('../../assets/images/weather-icons/not-found.png'));
+  const [imageSource, setImageSource] = useState<ImageProps>(require('../../../assets/images/weather-icons/not-found.png'));
   const { currentCity, weatherSettings, refetchHome } = useSelector((state: RootState) => state.general);
   const {isLoading, data: weather, error} = useGetWeather(currentCity.cityName, weatherSettings, refetchHome);
   const [weatherHourly, setWeatherHourly] = useState<OpenMeteoDataHourly[]>([]);
@@ -68,8 +50,7 @@ export const CityWeatherItem = () => {
         })
     }
 
-  const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const currentDateText = date.toLocaleDateString('fr-FR', options);
+  const currentDateText = date.toLocaleDateString('fr-FR', dateOptions);
 
 
   useEffect(() => { 
@@ -89,8 +70,14 @@ export const CityWeatherItem = () => {
   }, [isLoading, weather]);
 
   useEffect(() => {
-    setWeatherHourly(weather?.forecast[currentDate].hourly ?? []);
-  }, [dailyWeather])
+    const currHourly = dailyWeatherDay === 0 
+    ? dailyWeather[dailyWeatherDay]?.hourly.filter((hourly) => {
+      const hour = hourly.hour.split(':')[0];
+      return +hour > currentHour || +hour > 19;
+    }) 
+    : dailyWeather[dailyWeatherDay]?.hourly ?? [];
+    setWeatherHourly(currHourly);
+  }, [dailyWeatherDay])
 
   return (
     <View
@@ -104,21 +91,16 @@ export const CityWeatherItem = () => {
           ? <LoaderItem />
           : error 
             ? <ErrorItem />
-            : weather 
-              ? <>
-                  <Image 
-                    source={imageSource} 
-                    style={style.image} 
+            : weather && dailyWeather.length > 0
+              ? dailyWeatherDay === 0 ? 
+                <CityWeatherCurrentItem 
+                  imageSource={imageSource}
+                  currentDateText={currentDateText}
+                  weather={weather.current}
+                />
+                : <CityWeatherDailyItem 
+                    weather={dailyWeather[dailyWeatherDay]?.weather} 
                   />
-                  <View>
-                      <Text style={style.textTitle}>{currentDateText}</Text>
-                      <Text style={style.textTitle}>{dailyWeather[dailyWeatherDay]?.weather.date}</Text>
-                      <Text>Température : {weather.current.temperature}</Text>
-                      <Text>Précipitations : {weather.current.precipitation}</Text>
-                      <Text>Humidité : {weather.current.relativeHumidity}</Text>
-                      <Text>Vent : {weather.current.windSpeed}</Text>
-                  </View> 
-                </>
               : <Text>No weather data available.</Text>
         }
       </View>
@@ -128,20 +110,16 @@ export const CityWeatherItem = () => {
         snapToAlignment='start'
         decelerationRate="fast"
         alwaysBounceHorizontal={false}
-        snapToInterval={style.cityWeatherSmallContainer.width + 10}
+        snapToInterval={30}
         contentContainerStyle={{
           columnGap: 10,
         }}
         style={style.cityWeatherListSmall}
       >
-        {(weatherHourly).map((weatherElt, index) => (
-          <CityWeatherHourItem 
+        {(weatherHourly)?.map((weatherElt, index) => (
+          <CityWeatherHourlyItem 
             key={`weather-sm-item-${index}`}
-            temperature={weatherElt?.temperature ?? ''}
-            hour={weatherElt?.hour ?? ''}
-            weatherCode={weatherElt?.weatherCode ?? ''}
-            isDay={weatherElt?.isDay ?? ''}
-            date={weatherElt?.date ?? ''}
+            weather={weatherElt}
           />)
         )}
       </ScrollView>

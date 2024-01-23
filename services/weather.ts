@@ -7,6 +7,7 @@ export const fetchWeather = async (city: string): Promise<OpenMeteoData> => {
   const address = `${SERVER_HOST}`;
   const { laps, range } = store.getState().general.weatherSettings;
 
+  console.log('[Request] fetchWeather');
   const response = await axios.get(`${address}/weather`, {
     headers: {
       'Content-Type': 'application/json',
