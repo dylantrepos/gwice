@@ -6,6 +6,7 @@ import { store } from '../../../store/store';
 import { setWeatherSettings } from '../../../reducers/generalReducer';
 import { SettingsLayout } from '../../../layouts/SettingsLayout';
 import { useNavigation } from '@react-navigation/native';
+import { Plus, Minus } from 'lucide-react-native';
 
 const animationOptions = (value: number) => ({
   toValue: value, 
@@ -17,18 +18,15 @@ const animationOptions = (value: number) => ({
 export const SettingsWeatherView = ({
 
 }) => {
+  const startDailyHour = store.getState().general.weatherSettings.startDailyHour;
+  const [currStartDailyHour, setCurrStartDailyHour] = useState(startDailyHour);
   const dispatch = useDispatch();
-  const laps = store.getState().general.weatherSettings.laps.toString();
-  const range = store.getState().general.weatherSettings.range.toString();
-  const [currLaps, setCurrLaps] = useState(+laps);
-  const [currRange, setCurrRange] = useState(+range);
-  const position = React.useRef(new Animated.Value(1)).current;
   const navigate = useNavigation();
+  const position = useRef(new Animated.Value(1)).current;
 
-  const handleCloseModal = () => { 
+  const handleSaveSettings = () => { 
     dispatch(setWeatherSettings({
-      laps: currLaps.toString(),
-      range: currRange.toString()
+      startDailyHour: currStartDailyHour
     }));
     navigate.goBack();
   };
@@ -37,66 +35,38 @@ export const SettingsWeatherView = ({
     Animated.timing(position, animationOptions(value)).start();
   
   useEffect(() => {
-    animate(currLaps !== +laps || currRange !== +range ? 0 : 1)
-  }, [currLaps, currRange]);
+    animate(currStartDailyHour !== startDailyHour ? 0 : 1)
+  }, [currStartDailyHour]);
   
   return (
     <SettingsLayout title={'Weather'}>
       <View style={style.weatherInputContainer}>
-        <Text style={style.weatherInputDescription}>Hourly steps</Text>
+        <Text style={style.weatherInputDescription}>Start daily hour at</Text>
         <View style={style.weatherInputRadioContainer}>
           <Pressable  
             style={style.weatherInputRadio}
             onPress={() => {
-              if ((currLaps - 1) * 6 > 1) {
-                setCurrLaps(+currLaps - 1);
-                setCurrRange((currLaps - 1) * 6)
+              if ((currStartDailyHour - 1) > 0) {
+                setCurrStartDailyHour(currStartDailyHour - 1);
               }
             }} 
           >
-            <Text style={style.weatherInputRadioText}>-</Text>
+            <Minus color={'#0D89CE'} size={45} strokeWidth={1}/>
           </Pressable>
-          <Text style={style.weatherInputText}>{currLaps}</Text>
+          <Text style={style.weatherInputText}>{currStartDailyHour}</Text>
           <Pressable 
             style={style.weatherInputRadio}
             onPress={() => {
-              if (currLaps < 6) {
-                setCurrLaps(currLaps + 1);
-                setCurrRange((currLaps + 1) * 6);
+              if (currStartDailyHour < 24) {
+                setCurrStartDailyHour(currStartDailyHour + 1);
               }
             }} 
           >
-            <Text style={style.weatherInputRadioText}>+</Text>
+            <Plus color={'#0D89CE'} size={45} strokeWidth={1}/>
           </Pressable>
         </View>
       </View>
       <View style={style.weatherInputLine} />
-      <View style={style.weatherInputContainer}>
-        <Text style={style.weatherInputDescription}>Meteo forecast</Text>
-        <View style={style.weatherInputRadioContainer}>
-          <Pressable  
-            style={style.weatherInputRadio}
-            onPress={() => {
-              if ((currRange / 2) >= currLaps * 6) {
-                setCurrRange(currRange / 2);
-              }
-            }} 
-          >
-            <Text style={style.weatherInputRadioText}>-</Text>
-          </Pressable>
-          <Text style={style.weatherInputText}>{currRange}</Text>
-          <Pressable 
-            style={style.weatherInputRadio}
-            onPress={() => {
-              if (currRange * 2 < (+currLaps * 6 * 4)) {
-                setCurrRange(currRange * 2);
-              }
-            }} 
-          >
-            <Text style={style.weatherInputRadioText}>+</Text>
-          </Pressable>
-        </View>
-      </View> 
       <Animated.View
       style={[
         style.closeButtonAnim,
@@ -110,7 +80,7 @@ export const SettingsWeatherView = ({
         ],}
       ]}>
       <Pressable
-          onPress={handleCloseModal}
+          onPress={handleSaveSettings}
           style={style.closeButton}
         >
           <Text style={style.closeButtonText}>Save settings</Text>

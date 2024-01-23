@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
@@ -17,9 +17,20 @@ export default StyleSheet.create({
     zIndex: 1,
     fontSize: 90,
     color: '#fff',
-    textShadowColor: '#000',
-    textShadowOffset: { width: 0, height: 4 },
-    textShadowRadius: 19,
     marginTop: 50,
+    
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 1,
+        shadowRadius: 2,
+      },
+      android: {
+        textShadowColor: '#000',
+        textShadowOffset: { width: 0, height: 4 },
+        textShadowRadius: 15,
+      },
+    }),
   }
 });

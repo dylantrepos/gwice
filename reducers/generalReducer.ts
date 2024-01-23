@@ -13,8 +13,7 @@ type State = {
 const initialState: State = {
   currentCity: CityLille,
   weatherSettings: {
-    laps: '2',
-    range: '12'
+    startDailyHour: 7,
   },
   refetchHome: false
 };

@@ -2,7 +2,7 @@ import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   cityWeatherItem: {
-    maxWidth: '90%',
+    width: '90%',
   },
   cityWeatherLargeContainer: {
     paddingHorizontal: 15,
@@ -11,11 +11,14 @@ export default StyleSheet.create({
     shadowColor: '#000',
     minWidth: 300,
     minHeight: 120,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 1,
+        shadowOpacity: .2,
         shadowRadius: 2,
       },
       android: {

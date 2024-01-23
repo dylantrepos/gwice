@@ -43,6 +43,5 @@ export type OpenMeteoData = {
 }
 
 export type WeatherSettings = {
-  laps: string;
-  range: string;
+  startDailyHour: number;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import { View, Image, Text, ImageProps, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
@@ -12,7 +12,7 @@ import { useSwipe } from '../../../hooks/useSwap';
 import { CityWeatherHourlyItem } from '../CityWeatherHourlyItem/CityWeatherHourlyItem';
 import { CityWeatherCurrentItem } from '../CityWeatherCurrentItem/CityWeatherCurrentItem';
 import { CityWeatherDailyItem } from '../CityWeatherDailyItem/CityWeatherDailyItem';
-import { dateOptions } from '../weatherSettings';
+import { animationDuration, dateOptions } from '../weatherSettings';
 
 export const CityWeatherItem = () => {
   const [imageSource, setImageSource] = useState<ImageProps>(require('../../../assets/images/weather-icons/not-found.png'));
@@ -22,66 +22,78 @@ export const CityWeatherItem = () => {
   const date = new Date();
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0'); 
-  const [currentData, setCurrentData] = useState<number>(0);
   const [dailyWeather, setDailyWeather] = useState<OpenMeteoDataForecast[]>([]);
   const [dailyWeatherDay, setDailyWeatherDay] = useState(0);
   const currentDate = `${day}/${month}`;
   const currentHour = date.getHours(); 
+  const [showElt, setShowElt] = useState<boolean>(true);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const [itemWidth, setItemWidth] = useState(20);
 
-  const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 6)
+  const onSwipeLeft = () => {
+      setDailyWeatherDay((old) => {
+        if (old + 1 < dailyWeather.length) {
+          setShowElt(false);
+          setTimeout(() => {
+            setDailyWeatherDay(old + 1);
+            setShowElt(true);
+          }, animationDuration);
+        } 
+        return old;
+      })
+  }
 
-    function onSwipeLeft(){
-        console.log('SWIPE_LEFT')
-        setDailyWeatherDay((old) => {
-          console.log('old', old);
-          if (old + 1 < dailyWeather.length) {
-            return old + 1
-          } else return old;
-        })
-    }
+  const onSwipeRight = () => {
+      setDailyWeatherDay((old) => {
+        if (old - 1 >= 0) {
+          setShowElt(false);
+          setTimeout(() => {
+            setDailyWeatherDay(old - 1);
+            setShowElt(true);
+          }, animationDuration);
+        } 
+        return old;
+      })
+  }
+  
+  const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 6);
 
-    function onSwipeRight(){
-        console.log('SWIPE_RIGHT');
-        setDailyWeatherDay((old) => {
-          console.log('old', old);
-          if (old - 1 >= 0) {
-            return old - 1
-          } else return old;
-        })
-    }
 
   const currentDateText = date.toLocaleDateString('fr-FR', dateOptions);
 
+  const updateHourlyWeather = () => {
+    if (!isLoading && weather) {
+      const date = Object.values(weather.forecast)[dailyWeatherDay].weather.date;
+      const currNextHourly = dailyWeatherDay === 0 ? weather.forecast[date].hourly.filter((hourly) => {
+        const hour = hourly.hour.split(':')[0];
+        return +hour > currentHour || +hour > 19;
+      }) : weather.forecast[date].hourly;
+
+      setWeatherHourly(currNextHourly);
+    }
+  }
 
   useEffect(() => { 
     if (!isLoading && weather) {
-      const currNextHourly = weather.forecast[currentDate].hourly.filter((hourly) => {
-        const hour = hourly.hour.split(':')[0];
-        return +hour > currentHour || +hour > 19;
-      });
-
-      setWeatherHourly(currNextHourly);
       const forecast = Object.values(weather.forecast);
-      // console.log('forecast', forecast);
       setDailyWeather(forecast);
-
+      updateHourlyWeather();
+      
       setImageSource(weatherCodeIcons[weather.current.isDay ? 'day' : 'night'][weather.current.weatherCode]);
     }
-  }, [isLoading, weather]);
-
-  useEffect(() => {
-    const currHourly = dailyWeatherDay === 0 
-    ? dailyWeather[dailyWeatherDay]?.hourly.filter((hourly) => {
-      const hour = hourly.hour.split(':')[0];
-      return +hour > currentHour || +hour > 19;
-    }) 
-    : dailyWeather[dailyWeatherDay]?.hourly ?? [];
-    setWeatherHourly(currHourly);
-  }, [dailyWeatherDay])
+    if (scrollViewRef.current) {
+      const scrollTo = dailyWeatherDay === 0 ? 0 : (itemWidth + 10) * weatherSettings.startDailyHour;
+      scrollViewRef.current.scrollTo({ x: scrollTo, animated: true });
+    }
+  }, [isLoading, weather, weatherSettings, dailyWeatherDay]);
 
   return (
     <View
       style={style.cityWeatherItem}
+      onLayout={(event) => {
+        const { width } = event.nativeEvent.layout;
+        setItemWidth(Math.round((Math.round(width) - (3 * 10)) / 4))
+      }}
     >
       <View 
         style={style.cityWeatherLargeContainer}
@@ -97,20 +109,23 @@ export const CityWeatherItem = () => {
                   imageSource={imageSource}
                   currentDateText={currentDateText}
                   weather={weather.current}
+                  show={showElt}
                 />
                 : <CityWeatherDailyItem 
                     weather={dailyWeather[dailyWeatherDay]?.weather} 
+                    show={showElt}
                   />
               : <Text>No weather data available.</Text>
         }
       </View>
       <ScrollView 
         horizontal={true}
+        ref={scrollViewRef}
         showsHorizontalScrollIndicator={false}
         snapToAlignment='start'
         decelerationRate="fast"
         alwaysBounceHorizontal={false}
-        snapToInterval={30}
+        snapToInterval={itemWidth + 10}
         contentContainerStyle={{
           columnGap: 10,
         }}
@@ -120,6 +135,10 @@ export const CityWeatherItem = () => {
           <CityWeatherHourlyItem 
             key={`weather-sm-item-${index}`}
             weather={weatherElt}
+            show={showElt}
+            styleProps={{
+              width: itemWidth,
+            }}
           />)
         )}
       </ScrollView>

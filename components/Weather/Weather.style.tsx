@@ -19,10 +19,20 @@ export default StyleSheet.create({
     shadowColor: '#000',
     justifyContent: 'center',
   },
+  cityAnimated: {
+    height: 150,
+    width: 150,
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // borderWidth: 1,
+    // borderColor: 'black',
+    // borderRadius: 10,
+  },
   image: {
     height: 150,
     width: 150,
-    flex: 1,  
     // borderWidth: 1,
     // borderColor: 'black',
     // borderRadius: 10,
@@ -30,15 +40,17 @@ export default StyleSheet.create({
   cityWeatherInfo: {
     flex: 1,
     gap: 5,
+    // backgroundColor: 'blue',
   },
   cityWeatherDate: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '600',
     marginBottom: 5,
   },
   cityWeatherInfoDetail: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 5,
   },
 });

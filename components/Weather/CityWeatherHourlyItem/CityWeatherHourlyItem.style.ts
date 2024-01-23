@@ -3,12 +3,15 @@ import { Platform, StyleSheet } from "react-native";
 export default StyleSheet.create({
   cityWeatherHourlyContainer: { 
     backgroundColor: 'white',
-    width: 85,
+    // width: 84,
     paddingVertical: 10,
-    alignItems: 'center',
     borderRadius: 10,
+  },
+  cityWeatherHourlyContainerAnimated: { 
+    backgroundColor: 'white',
+    alignItems: 'center',
     // minHeight: 120,
-    columnGap: 5,
+    columnGap: 10,
     position: 'relative',
   },
   halfBottomBorder: {
@@ -24,7 +27,7 @@ export default StyleSheet.create({
     zIndex: -1,
   },
   cityWeatherHourlyImage: {
-    width: 50,
+    width: '80%',
     height: 50,
     // marginBottom: 5,
   },
