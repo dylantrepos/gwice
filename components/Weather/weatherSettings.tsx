@@ -18,6 +18,16 @@ export const animationDurationStaggerOut = 10;
 export const animationDurationStaggIn = 100;
 export const animationDurationStaggOut = 20;
 
+export const fadeRange = {
+  inputRange: [0, 1],
+  outputRange: [0, 1],
+};
+
+export const fadeTranslateX = {
+  inputRange: [0, 1],
+  outputRange: [-10, 1],
+}
+
 export const animationOptions = (value: number) => ({
   toValue: value, 
   duration: animationDuration, 

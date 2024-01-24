@@ -1,10 +1,10 @@
 export type OpenMeteoDataCurrent = {
-  temperature: number;
-  relativeHumidity: number;
-  windSpeed: number;
-  apparentTemperature: number;
+  temperature: string;
+  relativeHumidity: string;
+  windSpeed: string;
+  apparentTemperature: string;
   isDay: number;
-  precipitation: number;
+  precipitation: string;
   weatherCode: number;
   weatherText: string;
 };
@@ -18,6 +18,8 @@ export type OpenMeteoDataDaily = {
   precipitation: string;
   windSpeed: string;
   rain: number;
+  sunrise: string;
+  sunset: string;
 };
 
 export type OpenMeteoDataHourly = {

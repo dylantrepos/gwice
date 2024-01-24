@@ -1,10 +1,10 @@
-import { View, Image, Text, ImageProps, Animated, Easing } from 'react-native';
+import { View, Image, ImageProps, Animated } from 'react-native';
 import style from './CityWeatherCurrentItem.style';
 import { OpenMeteoDataCurrent } from '../../../types/Weather';
-import { Thermometer, CloudRainWind, Wind } from 'lucide-react-native';
-import { animationDurationStaggIn, animationDurationStaggOut,  animationDurationStaggerIn, animationDurationStaggerOut, animationOptions, iconSettings as icon } from '../weatherSettings';
-import { capitalizeFirstLetter } from '../../../utils/utils';
+import { animationDurationStaggIn, animationDurationStaggOut,  animationDurationStaggerIn, animationDurationStaggerOut, animationOptions } from '../weatherSettings';
+import { capitalizeFirstLetter, getAnimatedWeatherArray } from '../../../utils/utils';
 import { useEffect, useRef } from 'react';
+import { WeatherInfoElements } from '../weatherInfoElements';
 
 type Props = {
   imageSource: ImageProps;
@@ -19,76 +19,29 @@ export const CityWeatherCurrentItem = ({
   weather,
   show
 }: Props) => {
-  const { temperature, relativeHumidity, windSpeed, precipitation } = weather;
+  const { temperature, windSpeed, precipitation } = weather;
+  const { windSpeedItem, precipitationItem, temperatureItem, dateItem } = WeatherInfoElements;
 
   const fade = useRef(new Animated.Value(0)).current;
-  const fadeAnim1 = useRef(new Animated.Value(0)).current;
-  const fadeAnim2 = useRef(new Animated.Value(0)).current;
-  const fadeAnim3 = useRef(new Animated.Value(0)).current;
-  const fadeAnim4 = useRef(new Animated.Value(0)).current;
+  const fadeDate = useRef(new Animated.Value(0)).current;
+  const fadeTemperature = useRef(new Animated.Value(0)).current;
+  const fadePrecipitation = useRef(new Animated.Value(0)).current;
+  const fadeWind = useRef(new Animated.Value(0)).current;
+  const fadeAnimElements = [fadeDate, fadeTemperature, fadePrecipitation, fadeWind];
 
   const fadeIn = () => {
+    const animatedArray = getAnimatedWeatherArray('in', animationDurationStaggIn, fadeAnimElements)
     Animated.timing(fade, animationOptions(1)).start();
-    Animated.stagger(animationDurationStaggerIn, [
-      Animated.timing(fadeAnim1, {
-        toValue: 1,
-        duration: animationDurationStaggIn,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeAnim2, {
-        toValue: 1,
-        duration: animationDurationStaggIn,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeAnim3, {
-        toValue: 1,
-        duration: animationDurationStaggIn,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeAnim4, {
-        toValue: 1,
-        duration: animationDurationStaggIn,
-        useNativeDriver: true,
-      }),
-    ]).start();
+    Animated.stagger(animationDurationStaggerIn, animatedArray).start();
   }
   const fadeOut = () => {
+    const animatedArray = getAnimatedWeatherArray('out', animationDurationStaggOut, fadeAnimElements)
     Animated.timing(fade, animationOptions(0)).start();
-    Animated.stagger(animationDurationStaggerOut, [
-      Animated.timing(fadeAnim1, {
-        toValue: 0,
-        duration: animationDurationStaggOut,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeAnim2, {
-        toValue: 0,
-        duration: animationDurationStaggOut,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeAnim3, {
-        toValue: 0,
-        duration: animationDurationStaggOut,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeAnim4, {
-        toValue: 0,
-        duration: animationDurationStaggOut,
-        useNativeDriver: true,
-      }),
-    ]).start();
+    Animated.stagger(animationDurationStaggerOut, animatedArray).start();
   }
 
-  const opacity = fade.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 1],
-  });
-
   useEffect(() => {
-    if (show) {
-      fadeIn();
-    } else {
-      fadeOut();
-    }
+    show ? fadeIn() : fadeOut();
   }, [show]);
 
   
@@ -98,7 +51,7 @@ export const CityWeatherCurrentItem = ({
       <Animated.View 
         style={{
           ...style.cityAnimated,
-          opacity
+          opacity: fade,
         }} 
       >
         <Image 
@@ -107,60 +60,10 @@ export const CityWeatherCurrentItem = ({
         />
       </Animated.View> 
       <View style={style.cityWeatherInfo}>
-          <Animated.View style={{opacity: fadeAnim1}}>
-            <Text style={style.cityWeatherDate}>{capitalizeFirstLetter(currentDateText)}</Text>
-          </Animated.View>
-          <Animated.View 
-            style={{
-              ...style.cityWeatherInfoDetail,
-              opacity: fadeAnim2,
-              transform: [
-                {
-                  translateX: fadeAnim2.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [-10, 1],
-                  }),
-                },
-              ],
-            }}
-          >
-            <Thermometer color={icon.color} size={icon.size} strokeWidth={icon.strokeWidth} />
-            <Text> {temperature} </Text>
-          </Animated.View>
-          <Animated.View 
-            style={{
-              ...style.cityWeatherInfoDetail,
-              opacity: fadeAnim3,
-              transform: [
-                {
-                  translateX: fadeAnim3.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [-10, 1],
-                  }),
-                },
-              ],
-            }}
-          >
-            <CloudRainWind color={icon.color} size={icon.size} strokeWidth={icon.strokeWidth} />
-            <Text> {precipitation}</Text>
-          </Animated.View>
-          <Animated.View 
-            style={{
-              ...style.cityWeatherInfoDetail,
-              opacity: fadeAnim4,
-              transform: [
-                {
-                  translateX: fadeAnim4.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [-10, 1],
-                  }),
-                },
-              ],
-            }}
-          >
-            <Wind color={icon.color} size={icon.size} strokeWidth={icon.strokeWidth} />
-            <Text> {windSpeed}</Text>
-          </Animated.View>
+        {dateItem.component(capitalizeFirstLetter(currentDateText), fadeDate)}
+        {temperatureItem.component(temperature, fadeTemperature)}
+        {precipitationItem.component(precipitation, fadePrecipitation)}
+        {windSpeedItem.component(windSpeed, fadeWind)}
       </View> 
     </View>
   )

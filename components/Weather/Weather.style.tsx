@@ -53,4 +53,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     gap: 5,
   },
+  cityWeatherTempMin: {
+    color: '#3988FD',
+    marginLeft: 4,
+  },
+  cityWeatherTempMax: {
+    color: '#FD3939',
+  },
 });

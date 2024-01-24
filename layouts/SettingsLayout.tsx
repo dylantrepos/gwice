@@ -26,7 +26,7 @@ export const SettingsLayout = ({
             onPress={() => navigation.goBack()}
             style={style.settingsLayoutChevron}
           >
-            <ChevronLeft color={'black'} />
+            <ChevronLeft color={'black'} size={30}/>
           </Pressable>
         )}
         <Text style={style.settingsLayoutTitle}>{title}</Text>

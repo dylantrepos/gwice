@@ -1,5 +1,5 @@
-import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
-import { View, Image, Text, ImageProps, ScrollView } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, ImageProps, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { weatherCodeIcons } from '../../../utils/weatherImgCode';
@@ -15,27 +15,26 @@ import { CityWeatherDailyItem } from '../CityWeatherDailyItem/CityWeatherDailyIt
 import { animationDuration, dateOptions } from '../weatherSettings';
 
 export const CityWeatherItem = () => {
-  const [imageSource, setImageSource] = useState<ImageProps>(require('../../../assets/images/weather-icons/not-found.png'));
   const { currentCity, weatherSettings, refetchHome } = useSelector((state: RootState) => state.general);
+  
   const {isLoading, data: weather, error} = useGetWeather(currentCity.cityName, weatherSettings, refetchHome);
+  
+  const [imageSource, setImageSource] = useState<ImageProps>(require('../../../assets/images/weather-icons/not-found.png'));
   const [weatherHourly, setWeatherHourly] = useState<OpenMeteoDataHourly[]>([]);
-  const date = new Date();
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0'); 
   const [dailyWeather, setDailyWeather] = useState<OpenMeteoDataForecast[]>([]);
-  const [dailyWeatherDay, setDailyWeatherDay] = useState(0);
-  const currentDate = `${day}/${month}`;
-  const currentHour = date.getHours(); 
+  const [currentDayCursor, setCurrentDayCursor] = useState(0);
   const [showElt, setShowElt] = useState<boolean>(true);
-  const scrollViewRef = useRef<ScrollView>(null);
   const [itemWidth, setItemWidth] = useState(20);
 
+  const date = new Date();
+  const scrollViewRef = useRef<ScrollView>(null);
+
   const onSwipeLeft = () => {
-      setDailyWeatherDay((old) => {
+      setCurrentDayCursor((old) => {
         if (old + 1 < dailyWeather.length) {
           setShowElt(false);
           setTimeout(() => {
-            setDailyWeatherDay(old + 1);
+            setCurrentDayCursor(old + 1);
             setShowElt(true);
           }, animationDuration);
         } 
@@ -44,11 +43,11 @@ export const CityWeatherItem = () => {
   }
 
   const onSwipeRight = () => {
-      setDailyWeatherDay((old) => {
+      setCurrentDayCursor((old) => {
         if (old - 1 >= 0) {
           setShowElt(false);
           setTimeout(() => {
-            setDailyWeatherDay(old - 1);
+            setCurrentDayCursor(old - 1);
             setShowElt(true);
           }, animationDuration);
         } 
@@ -63,11 +62,11 @@ export const CityWeatherItem = () => {
 
   const updateHourlyWeather = () => {
     if (!isLoading && weather) {
-      const date = Object.values(weather.forecast)[dailyWeatherDay].weather.date;
-      const currNextHourly = dailyWeatherDay === 0 ? weather.forecast[date].hourly.filter((hourly) => {
+      const weatherDate = Object.values(weather.forecast)[currentDayCursor].weather.date;
+      const currNextHourly = currentDayCursor === 0 ? weather.forecast[weatherDate].hourly.filter((hourly) => {
         const hour = hourly.hour.split(':')[0];
-        return +hour > currentHour || +hour > 19;
-      }) : weather.forecast[date].hourly;
+        return +hour > date.getHours() || +hour > 19;
+      }) : weather.forecast[weatherDate].hourly;
 
       setWeatherHourly(currNextHourly);
     }
@@ -82,10 +81,10 @@ export const CityWeatherItem = () => {
       setImageSource(weatherCodeIcons[weather.current.isDay ? 'day' : 'night'][weather.current.weatherCode]);
     }
     if (scrollViewRef.current) {
-      const scrollTo = dailyWeatherDay === 0 ? 0 : (itemWidth + 10) * weatherSettings.startDailyHour;
+      const scrollTo = currentDayCursor === 0 ? 0 : (itemWidth + 10) * weatherSettings.startDailyHour;
       scrollViewRef.current.scrollTo({ x: scrollTo, animated: true });
     }
-  }, [isLoading, weather, weatherSettings, dailyWeatherDay]);
+  }, [isLoading, weather, weatherSettings, currentDayCursor]);
 
   return (
     <View
@@ -104,7 +103,7 @@ export const CityWeatherItem = () => {
           : error 
             ? <ErrorItem />
             : weather && dailyWeather.length > 0
-              ? dailyWeatherDay === 0 ? 
+              ? currentDayCursor === 0 ? 
                 <CityWeatherCurrentItem 
                   imageSource={imageSource}
                   currentDateText={currentDateText}
@@ -112,10 +111,10 @@ export const CityWeatherItem = () => {
                   show={showElt}
                 />
                 : <CityWeatherDailyItem 
-                    weather={dailyWeather[dailyWeatherDay]?.weather} 
+                    weather={dailyWeather[currentDayCursor]?.weather} 
                     show={showElt}
                   />
-              : <Text>No weather data available.</Text>
+              : !weather?.current ?? <Text>No weather data available.</Text> 
         }
       </View>
       <ScrollView 
