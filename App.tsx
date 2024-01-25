@@ -9,6 +9,7 @@ import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsH
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
 import { Home, Settings } from 'lucide-react-native'
+import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 const SettingsScreens = () => {
   const SettingStack = createNativeStackNavigator();
@@ -32,12 +33,43 @@ const SettingsScreens = () => {
   )
 }
 
+const HomeScreens = () => {
+  const HomeStack = createNativeStackNavigator();
+
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <HomeStack.Screen 
+        name="Home" 
+        component={HomeView} 
+        
+      />
+    </HomeStack.Navigator>
+  )
+}
+
 export default function App() {
   const queryClient = new QueryClient();
   const Tab = createBottomTabNavigator();
   const iconSize = {
     height: 26,
     width: 26,
+  }
+  const tabStyle = {
+    container: {
+      backgroundColor: '#FFF',
+      borderTopWidth: 1,
+      borderTopColor: '#F6F6F6',
+      elevation: 0,
+      height: 60,
+    } as StyleProp<ViewStyle>,
+    label: {
+      fontSize: 20,
+      fontWeight: '400',
+    } as StyleProp<TextStyle>,
   }
 
   return (
@@ -49,21 +81,12 @@ export default function App() {
             screenOptions={{
               tabBarActiveTintColor: '#0D89CE',
               tabBarInactiveTintColor: 'gray',
-              tabBarStyle: {
-                backgroundColor: '#F5F5F5',
-                borderTopWidth: 0,
-                elevation: 0,
-                height: 60,
-              },
-              tabBarLabelStyle: {
-                fontSize: 20,
-                fontWeight: '400',
-              },
+              tabBarStyle: tabStyle.container,
+              tabBarLabelStyle: tabStyle.label,
             }}
           >
             <Tab.Screen 
               name="Home-tab" 
-              component={HomeView} 
               options={{ 
                 headerShown: false,
                 tabBarLabel: () => null,
@@ -75,7 +98,18 @@ export default function App() {
                   />
                 ,
               }}
-            />
+              listeners={({ navigation }) => ({
+                tabPress: event => {
+                  // prevent the default action
+                  event.preventDefault();
+            
+                  // navigate to the desired screen
+                  navigation.navigate('Home');
+                },
+              })}
+            >
+              {HomeScreens}
+            </Tab.Screen>
             <Tab.Screen 
               name="Settings-tab" 
               options={{ 
@@ -88,6 +122,15 @@ export default function App() {
                     width={iconSize.width}
                   />
               }}
+              listeners={({ navigation }) => ({
+                tabPress: event => {
+                  // prevent the default action
+                  event.preventDefault();
+            
+                  // navigate to the desired screen
+                  navigation.navigate('Settings');
+                },
+              })}
             >
               {SettingsScreens}
             </Tab.Screen>
