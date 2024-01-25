@@ -11,14 +11,16 @@ import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/Set
 import { Home, Settings } from 'lucide-react-native'
 import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
-const SettingsScreens = () => {
-  const SettingStack = createNativeStackNavigator();
+const SettingStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
 
+const SettingsScreens = () => {
   return (
     <SettingStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
+      initialRouteName="Settings" 
     >
       <SettingStack.Screen 
         name="Settings" 
@@ -34,13 +36,12 @@ const SettingsScreens = () => {
 }
 
 const HomeScreens = () => {
-  const HomeStack = createNativeStackNavigator();
-
   return (
     <HomeStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
+      initialRouteName="Home" 
     >
       <HomeStack.Screen 
         name="Home" 
@@ -104,7 +105,7 @@ export default function App() {
                   event.preventDefault();
             
                   // navigate to the desired screen
-                  navigation.navigate('Home');
+                  navigation.navigate('Home-tab', { screen: 'Home' });
                 },
               })}
             >
@@ -128,7 +129,7 @@ export default function App() {
                   event.preventDefault();
             
                   // navigate to the desired screen
-                  navigation.navigate('Settings');
+                  navigation.navigate('Settings-tab', { screen: 'Settings' });
                 },
               })}
             >
