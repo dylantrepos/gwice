@@ -1,6 +1,7 @@
 import { Wind, CloudRainWind, Thermometer } from 'lucide-react-native';
 import { fadeTranslateX, iconSettings as icon } from "./weatherSettings";
-import { Animated, Text } from 'react-native';
+import { Animated } from 'react-native';
+import { Text } from '../Text/Text';
 import style from './Weather.style';
 import { PropsWithChildren } from 'react';
 
@@ -9,7 +10,7 @@ export const WeatherInfoElements = {
     title: 'Date',
     component: (date: string, fadeAnim: Animated.Value) => (
       <WeatherInfoDetail fadeAnim={fadeAnim}>
-        <Text style={style.cityWeatherDate}>{ date }</Text>
+        <Text weight='500' styles={style.cityWeatherDate}>{ date }</Text>
       </WeatherInfoDetail>
     ),
   },
@@ -36,9 +37,9 @@ export const WeatherInfoElements = {
     component: (min: string, max: string, fadeAnim: Animated.Value) => (
       <WeatherInfoDetail fadeAnim={fadeAnim}>
         <Thermometer color={icon.color} size={icon.size} strokeWidth={icon.strokeWidth} />
-        <Text style={style.cityWeatherTempMin}>{min}</Text>
+        <Text styles={style.cityWeatherTempMin}>{min}</Text>
         <Text>|</Text>
-        <Text style={style.cityWeatherTempMax}>{max}</Text>
+        <Text styles={style.cityWeatherTempMax}>{max}</Text>
       </WeatherInfoDetail>
     ),
   },

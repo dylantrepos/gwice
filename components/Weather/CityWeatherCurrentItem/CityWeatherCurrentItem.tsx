@@ -1,7 +1,7 @@
-import { View, Image, ImageProps, Animated } from 'react-native';
+import { View, Image, ImageProps, Animated, Easing } from 'react-native';
 import style from './CityWeatherCurrentItem.style';
 import { OpenMeteoDataCurrent } from '../../../types/Weather';
-import { animationDurationStaggIn, animationDurationStaggOut,  animationDurationStaggerIn, animationDurationStaggerOut, animationOptions } from '../weatherSettings';
+import { animationBounceOptions, animationDurationStaggIn, animationDurationStaggOut,  animationDurationStaggerIn, animationDurationStaggerOut, animationOptions, bounceTranslateY } from '../weatherSettings';
 import { capitalizeFirstLetter, getAnimatedWeatherArray } from '../../../utils/utils';
 import { useEffect, useRef } from 'react';
 import { WeatherInfoElements } from '../weatherInfoElements';
@@ -28,6 +28,15 @@ export const CityWeatherCurrentItem = ({
   const fadePrecipitation = useRef(new Animated.Value(0)).current;
   const fadeWind = useRef(new Animated.Value(0)).current;
   const fadeAnimElements = [fadeDate, fadeTemperature, fadePrecipitation, fadeWind];
+  const bounceValue = useRef(new Animated.Value(0)).current;
+  const translateY = bounceValue.interpolate(bounceTranslateY);
+
+  const startBounceAnimation = () => {
+    Animated.loop(
+      Animated.timing(bounceValue, animationBounceOptions),
+    ).start();
+  };
+
 
   const fadeIn = () => {
     const animatedArray = getAnimatedWeatherArray('in', animationDurationStaggIn, fadeAnimElements)
@@ -44,7 +53,9 @@ export const CityWeatherCurrentItem = ({
     show ? fadeIn() : fadeOut();
   }, [show]);
 
-  
+  useEffect(() => {
+    startBounceAnimation();
+  }, []);
 
   return (
     <View style={style.cityWeather}>
@@ -52,6 +63,9 @@ export const CityWeatherCurrentItem = ({
         style={{
           ...style.cityAnimated,
           opacity: fade,
+          transform: [
+            { translateY: translateY }
+          ]
         }} 
       >
         <Image 

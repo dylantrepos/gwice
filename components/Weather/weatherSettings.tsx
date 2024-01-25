@@ -28,9 +28,21 @@ export const fadeTranslateX = {
   outputRange: [-10, 1],
 }
 
+export const bounceTranslateY = {
+  inputRange: [0, 0.5, 1],
+  outputRange: [.5, -.5, .5] 
+}
+
 export const animationOptions = (value: number) => ({
   toValue: value, 
   duration: animationDuration, 
   useNativeDriver: true, 
   easing: Easing.inOut(Easing.linear), 
 } as Animated.TimingAnimationConfig)
+
+export const animationBounceOptions = {
+  toValue: 1, 
+  duration: 2500, 
+  useNativeDriver: true,
+  easing: Easing.inOut(Easing.linear),
+} as Animated.TimingAnimationConfig;

@@ -3,9 +3,9 @@ import { Platform, StyleSheet } from "react-native";
 export default StyleSheet.create({
   cityWeatherHourlyContainer: { 
     backgroundColor: 'white',
-    // width: 84,
-    paddingVertical: 10,
     borderRadius: 10,
+    overflow: 'hidden',
+    // width: 84,
   },
   cityWeatherHourlyContainerAnimated: { 
     backgroundColor: 'white',
@@ -13,12 +13,13 @@ export default StyleSheet.create({
     // minHeight: 120,
     columnGap: 10,
     position: 'relative',
+    paddingVertical: 10,
   },
   halfBottomBorder: {
     position: 'absolute',
     bottom: 0,
     left: 0,
-    height: '50%',
+    height: '60%',
     width: '100%',
     // backgroundColor: '#F6F6F6',
     borderRadius: 10,
@@ -29,9 +30,9 @@ export default StyleSheet.create({
   cityWeatherHourlyImage: {
     width: '80%',
     height: 50,
-    // marginBottom: 5,
+    marginBottom: 5,
   },
-  cityWeatherHourlyTextTitle: {
+  cityWeatherHourlyTemperature: {
     fontSize: 14,
     fontWeight: '400',
   },

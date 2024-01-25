@@ -1,8 +1,11 @@
-import { View, Text, ImageBackground } from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import { useSelector } from 'react-redux'; 
 import style from './CityBackgroundItem.style';
 import { RootState } from '../../store/store';
 import { CityWeatherItem } from '../Weather/CityWeatherItem/CityWeatherItem';
+import { Text } from '../Text/Text';
+
+
 
 export const CityBackgroundItem = () => {
 
@@ -15,7 +18,7 @@ export const CityBackgroundItem = () => {
         source={image.homeImage}
       >
       </ImageBackground>
-      <Text style={style.cityName}>
+      <Text styles={style.cityName} weight='500'>
         { cityName }
       </Text>
       <CityWeatherItem />

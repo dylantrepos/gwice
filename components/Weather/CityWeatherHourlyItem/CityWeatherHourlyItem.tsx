@@ -49,7 +49,7 @@ export const CityWeatherHourlyItem = ({
         }}>
         <Text style={style.cityWeatherHourlyTextHour}>{hour}</Text>
         <Image source={imageSource} style={style.cityWeatherHourlyImage} />
-        <Text style={style.cityWeatherHourlyTextTitle}>{temperature}</Text>
+        <Text style={style.cityWeatherHourlyTemperature}>{temperature}</Text>
         <View style={style.halfBottomBorder} />
       </Animated.View>
     </View>
