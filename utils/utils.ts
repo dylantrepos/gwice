@@ -18,3 +18,11 @@ export const getAnimatedWeatherArray = (toValue: 'in' | 'out', duration: number,
     })
   })
 }
+
+export const limitTitleLength = (title: string, maxWords: number = 10) => {
+  const words = title.split(' ');
+  if (words.length > maxWords) {
+    return words.slice(0, maxWords).join(' ') + '...';
+  }
+  return title;
+};

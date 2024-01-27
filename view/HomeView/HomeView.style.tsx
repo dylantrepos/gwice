@@ -6,6 +6,7 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
   },
   scrollView: {
+
   },
   text: {
     color:'red'

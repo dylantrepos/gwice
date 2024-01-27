@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
 import { Home, Settings } from 'lucide-react-native'
 import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { CulturalEventsView } from './view/CulturalEventsView/CulturalEventsView';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -46,6 +47,10 @@ const HomeScreens = () => {
       <HomeStack.Screen 
         name="Home" 
         component={HomeView} 
+      />
+      <HomeStack.Screen 
+        name="CulturalEvents" 
+        component={CulturalEventsView} 
         
       />
     </HomeStack.Navigator>

@@ -5,7 +5,6 @@ import { store } from '../store/store';
 
 export const fetchWeather = async (city: string): Promise<OpenMeteoData> => {
   const address = `${SERVER_HOST}`;
-  const { laps, range } = store.getState().general.weatherSettings;
 
   console.log('[Request] fetchWeather');
   const response = await axios.get(`${address}/weather`, {
@@ -13,9 +12,7 @@ export const fetchWeather = async (city: string): Promise<OpenMeteoData> => {
       'Content-Type': 'application/json',
     },
     params: {
-      city,
-      laps,
-      range
+      city
     }
   });
 

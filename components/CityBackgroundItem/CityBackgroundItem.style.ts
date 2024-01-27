@@ -6,6 +6,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 20,
+    // backgroundColor: 'blue',
     flex: 1,
   },
   image: {

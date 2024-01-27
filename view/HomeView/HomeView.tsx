@@ -6,8 +6,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useCallback, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setRefetchHome } from "../../reducers/generalReducer";
+import { CulturalEventsItem } from "../../components/CulturalEvents/CulturalEventsItem/CulturalEventsItem";
 
-export const HomeView = () => {
+type HomeViewProps = {
+  navigation: any;
+  route: any;
+};
+
+export const HomeView = ({
+  navigation,
+  route
+}: HomeViewProps)  => {
   const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
 
@@ -29,6 +38,7 @@ export const HomeView = () => {
           }
         > 
           <CityBackgroundItem />
+          <CulturalEventsItem navigation={navigation} route={route} />
         </ScrollView>      
     </SafeAreaView>
   )

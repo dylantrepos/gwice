@@ -4,6 +4,7 @@ import style from './CityBackgroundItem.style';
 import { RootState } from '../../store/store';
 import { CityWeatherItem } from '../Weather/CityWeatherItem/CityWeatherItem';
 import { Text } from '../Text/Text';
+import { CulturalEventsItem } from '../CulturalEvents/CulturalEventsItem/CulturalEventsItem';
 
 
 
