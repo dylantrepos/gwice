@@ -31,12 +31,14 @@ export const CulturalEventsCardItem = ({
       <View style={style.culturalEventsCardImageContainer}>
         <Image 
           style={style.culturalEventsCardImage}
-          source={{uri: image}}
+          source={{uri: image ?? ''}}
         />
       </View>
       <View style={style.culturalEventsCardDetails}>
-        <Text styles={style.culturalEventsCardDetailsTitle} weight="500">{limitTitleLength(title)}</Text>
-        <Text styles={style.culturalEventsCardDetailsTitle} weight="300">{date}</Text>
+        <Text styles={style.culturalEventsCardDetailsTitle} weight="500">{limitTitleLength(title ?? '')}</Text>
+        <Text styles={style.culturalEventsCardDetailsTitle} weight="300">
+          {`${(date?.end && date?.end !== date.start) ? 'Du ' : 'Le '}${date?.start}${(date?.end && date?.end !== date.start) ? ` au ${date.end}` : ''}`}
+        </Text>
       </View>
     </Pressable>
   )

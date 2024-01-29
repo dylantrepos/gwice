@@ -21,7 +21,7 @@ export const CulturalEventsItem = ({
 }: Props) => {
   const { currentCity, refetchHome } = useSelector((state: RootState) => state.general);
   
-  const {isLoading, data: culturalEvents, error} = useGetCulturalEvents(currentCity.cityName, 'today', refetchHome);
+  const {isLoading, events, error} = useGetCulturalEvents(currentCity.cityName, 'today', refetchHome);
   
 
   const handlePress = () => {
@@ -31,8 +31,8 @@ export const CulturalEventsItem = ({
 
   useEffect(() => {
     // console.log('CulturalEventsItem.tsx: useEffect: culturalEvents: ', culturalEvents);
-    console.log('CulturalEventsItem.tsx: useEffect: culturalEvents: ', culturalEvents?.events?.length);
-  }, [culturalEvents]);
+    console.log('CulturalEventsItem.tsx: useEffect: culturalEvents: ', events?.length);
+  }, [events]);
 
   return (
     <View style={style.culturalEvents}>
@@ -59,35 +59,15 @@ export const CulturalEventsItem = ({
           ? <LoaderItem />
           : error 
             ? <ErrorItem />
-            : culturalEvents && culturalEvents?.events?.length > 0 ?
-              culturalEvents.events.map((culturalEvent, index) => (
+            : events && events?.length > 0 ?
+              events.map((event, index) => (
                 <CulturalEventsCardItem 
                   key={index}
                   navigation={navigation}
                   route={route}
-                  event={culturalEvent}
+                  event={event}
                 />
               ))
-              // <>
-              //   <CulturalEventsCardItem 
-              //     navigation={navigation}
-              //     route={route}
-              //     title="Exposition"
-              //     date="Du 1er au 30 juin"
-              //   />
-              //   <CulturalEventsCardItem 
-              //     navigation={navigation}
-              //     route={route}
-              //     title="Exposition"
-              //     date="Du 1er au 30 juin"
-              //   />
-              //   <CulturalEventsCardItem 
-              //     navigation={navigation}
-              //     route={route}
-              //     title="Exposition"
-              //     date="Du 1er au 30 juin"
-              //   />
-              // </>
               : <Text>No cultural events available.</Text> 
         }
       </ScrollView>

@@ -8,6 +8,25 @@ export default StyleSheet.create({
   scrollView: {
     paddingBottom: 40,
   },
+  infosContainer: {
+    backgroundColor: '#F6F6F6',
+    paddingLeft: 10,
+    paddingRight: 20,
+    paddingVertical: 10,
+    marginHorizontal: 20,
+    borderRadius: 10,
+    borderColor: '#F6F6F6',
+    borderWidth: 1,
+    marginVertical: 20,
+  },
+  infoContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 10,
+    width: '100%',
+  },
   image: {
     height: 300,
     width: 'auto',
@@ -18,13 +37,13 @@ export default StyleSheet.create({
     fontSize: 20,
   },
   date: {
-    paddingHorizontal: 20,
     fontSize: 16,
-    marginBottom: 10,
+    marginTop: 5,
+    marginRight: 10,
   },
   description: {
     paddingHorizontal: 20,
-    fontSize: 14,
+    fontSize: 16,
     marginBottom: 10,
   },
   location: {
@@ -44,5 +63,24 @@ export default StyleSheet.create({
   linkUrl: {
     fontSize: 14,
     color: 'blue',
+  },
+  accessContainer: {
+    marginBottom: 10,
+  },
+  transportContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 10,
+    paddingHorizontal: 20,
+  },
+  transportType: {
+    fontSize: 16,
+    fontWeight: '600',
+    flex: 1,
+  },
+  transportValue: {
+    fontSize: 16,
+    flex: 4,
   },
 });
