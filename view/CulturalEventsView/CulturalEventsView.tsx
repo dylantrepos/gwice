@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar"
-import { RefreshControl, ScrollView, View, Image, Pressable, Linking, TouchableOpacity, Modal, Animated, Dimensions } from "react-native"
+import { RefreshControl, ScrollView, View, Image, Pressable, Linking, TouchableOpacity, Modal, Animated, Dimensions, Platform } from "react-native"
 import style from './CulturalEventsView.style';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
@@ -79,18 +79,35 @@ export const CulturalEventsView = ({
                 <TouchableOpacity 
                   style={{
                     position: 'absolute', 
-                    top: 50, 
-                    right: 30, 
+                    bottom: 50, 
+                    alignSelf: 'center',
+                    borderWidth: 1,
+                    borderColor: 'red',
+                    borderRadius: 50,
                     zIndex: 1,
                     width: 50,
                     height: 50,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    backgroundColor: '#fff',
+                    ...Platform.select({
+                      ios: {
+                        shadowOffset: {
+                          width: 0,
+                          height: 9,
+                        },
+                        shadowOpacity: 0.50,
+                        shadowRadius: 12.35,
+                      },
+                      android: {
+                        elevation: 10,
+                      },
+                    }),
                   }}
                   onPress={() => handleOpenModal(false)}
                 >
-                  <X size={34} color={'#fff'} />
+                  <X size={34} color={'red'} />
                 </TouchableOpacity>
                 <PanPinchView
                   minScale={1}

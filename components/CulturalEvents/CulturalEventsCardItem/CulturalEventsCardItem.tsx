@@ -2,13 +2,13 @@ import { ChevronRight } from "lucide-react-native";
 import style from './CulturalEventsCardItem.style';
 import { Text } from "../../Text/Text";
 import { Image, Pressable, View } from "react-native";
-import { limitTitleLength } from "../../../utils/utils";
-import { CulturalEvent } from "../../../types/CulturalEvents";
+import { getFormatedDateFromTimestamp, limitTitleLength } from "../../../utils/utils";
+import { LilleCulturalEvent } from "../../../types/CulturalEvents";
 
 type Props = {
   navigation: any;
   route: any;
-  event: CulturalEvent
+  event: LilleCulturalEvent
 }
 
 export const CulturalEventsCardItem = ({
@@ -16,12 +16,22 @@ export const CulturalEventsCardItem = ({
   route,
   event
 }: Props) => {
-  const { title, image, date } = event;
+  const { 
+    title, 
+    image, 
+    dateRange,
+    description,
+    location,
+    "categories-metropolitaines": categoriesMetropolitaines,
+    nextTiming
+  } = event;
 
   const handlePress = () => {
     console.log('Pressed!');
     navigation.push('CulturalEvents', {event});
   }
+
+  const imageSrc = `${image.base}${image.filename}`
 
   return (
     <Pressable 
@@ -31,13 +41,13 @@ export const CulturalEventsCardItem = ({
       <View style={style.culturalEventsCardImageContainer}>
         <Image 
           style={style.culturalEventsCardImage}
-          source={{uri: image ?? ''}}
+          source={{uri: imageSrc}}
         />
       </View>
       <View style={style.culturalEventsCardDetails}>
-        <Text styles={style.culturalEventsCardDetailsTitle} weight="500">{limitTitleLength(title ?? '')}</Text>
+        <Text styles={style.culturalEventsCardDetailsTitle} weight="500">{limitTitleLength(title['fr'] ?? '')}</Text>
         <Text styles={style.culturalEventsCardDetailsTitle} weight="300">
-          {`${(date?.end && date?.end !== date.start) ? 'Du ' : 'Le '}${date?.start}${(date?.end && date?.end !== date.start) ? ` au ${date.end}` : ''}`}
+          {`${getFormatedDateFromTimestamp(nextTiming.begin)}`}
         </Text>
       </View>
     </Pressable>
