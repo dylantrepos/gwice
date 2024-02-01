@@ -3,44 +3,44 @@ import style from './CulturalEventsItem.style';
 import { Text } from "../../Text/Text";
 import { Pressable, ScrollView, View } from "react-native";
 import { CulturalEventsCardItem } from "../CulturalEventsCardItem/CulturalEventsCardItem";
+import { CulturalEventCard, LilleCulturalEvent } from "../../../types/CulturalEvents";
+import { useGetCulturalEvents } from "../../../hooks/useGetCulturalEvents";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import useGetCulturalEvents from "../../../hooks/useGetCulturalEvents";
-import { LoaderItem } from "../../LoaderItem/LoaderItem";
-import { ErrorItem } from "../../ErrorItem/ErrorItem";
-import { useEffect } from "react";
+import { WarningScreenItem } from "../../WarningScreenItem/WarningScreenItem";
 
 type Props = {
   navigation: any;
-  route: any
+  route: any;
+  title: string;
+  handleNavigation: () => void;
+  category?: number;
 }
 
 export const CulturalEventsItem = ({
   navigation, 
-  route
+  route,
+  title,
+  handleNavigation,
+  category
 }: Props) => {
   const { currentCity, refetchHome } = useSelector((state: RootState) => state.general);
-  
-  const {isLoading, events, error} = useGetCulturalEvents(currentCity.cityName, 'today', refetchHome);
-  
 
-  const handlePress = () => {
-    console.log('Pressed!');
-    navigation.push('CulturalEvents');
-  }
+  const {
+    isLoading, 
+    events, 
+    isError
+  } = useGetCulturalEvents(currentCity.cityName, 'today', refetchHome, category);
 
-  useEffect(() => {
-    // console.log('CulturalEventsItem.tsx: useEffect: culturalEvents: ', culturalEvents);
-    console.log('CulturalEventsItem.tsx: useEffect: culturalEvents: ', events?.length);
-  }, [events]);
+  if (!events) return null;
 
   return (
     <View style={style.culturalEvents}>
       <Pressable 
         style={style.culturalEventsTitleContainer}
-        onPress={handlePress}
+        onPress={handleNavigation}
       >
-        <Text styles={style.culturalEventsTitle} weight="500">Événements culturels</Text>
+        <Text styles={style.culturalEventsTitle} weight="500">{title}</Text>
         <ChevronRight size={20} color={'black'}/>
       </Pressable>
       <ScrollView
@@ -50,17 +50,21 @@ export const CulturalEventsItem = ({
         snapToAlignment='start'
         decelerationRate="fast"
         alwaysBounceHorizontal={false}
+        snapToInterval={50}
+        
         contentContainerStyle={{
           columnGap: 15,
           paddingRight: 30,
         }}
+
+        
       >
-        { isLoading 
-          ? <LoaderItem />
-          : error 
-            ? <ErrorItem />
-            : events && events?.length > 0 ?
-              events.map((event, index) => (
+        { isLoading || isError ?
+            <WarningScreenItem
+              type={isLoading ? 'loader' : 'error'}
+            />
+            : events && events?.total > 0 ?
+              events.events.map((event, index) => (
                 <CulturalEventsCardItem 
                   key={index}
                   navigation={navigation}
@@ -68,7 +72,9 @@ export const CulturalEventsItem = ({
                   event={event}
                 />
               ))
-              : <Text>No cultural events available.</Text> 
+              : <WarningScreenItem
+                  type={'unavailable'}
+                >{title} non disponible.</WarningScreenItem> 
         }
       </ScrollView>
     </View>

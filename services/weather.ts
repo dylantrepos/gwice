@@ -1,7 +1,6 @@
 import { SERVER_HOST } from '@env';
 import { OpenMeteoData } from '../types/Weather';
 import axios from 'axios';
-import { store } from '../store/store';
 
 export const fetchWeather = async (city: string): Promise<OpenMeteoData> => {
   const address = `${SERVER_HOST}`;

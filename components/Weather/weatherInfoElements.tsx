@@ -19,7 +19,7 @@ export const WeatherInfoElements = {
     component: (windSpeed: string, fadeAnim: Animated.Value) => (
       <WeatherInfoDetail fadeAnim={fadeAnim}>
         <Wind color={icon.color} size={icon.size} strokeWidth={icon.strokeWidth} />
-        <Text>{ windSpeed }</Text>
+        <Text styles={style.cityWeatherInfoDetailText}>{ windSpeed }</Text>
       </WeatherInfoDetail>
     ),
   },
@@ -28,7 +28,7 @@ export const WeatherInfoElements = {
     component: (precipitation: string, fadeAnim: Animated.Value) => (
       <WeatherInfoDetail fadeAnim={fadeAnim}>
         <CloudRainWind color={icon.color} size={icon.size} strokeWidth={icon.strokeWidth} />
-        <Text>{ precipitation }</Text>
+        <Text styles={style.cityWeatherInfoDetailText}>{ precipitation }</Text>
       </WeatherInfoDetail>
     ),
   },
@@ -48,7 +48,7 @@ export const WeatherInfoElements = {
     component: (temperature: string, fadeAnim: Animated.Value) => (
       <WeatherInfoDetail fadeAnim={fadeAnim}>
         <Thermometer color={icon.color} size={icon.size} strokeWidth={icon.strokeWidth} />
-        <Text>{ temperature }</Text>
+        <Text styles={style.cityWeatherInfoDetailText}>{ temperature }</Text>
       </WeatherInfoDetail>
     ),
   }, 

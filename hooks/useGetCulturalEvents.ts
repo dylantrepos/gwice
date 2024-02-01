@@ -1,25 +1,75 @@
 import { useQuery } from 'react-query';
-import { LilleCulturalEvent, WhenQuery } from '../types/CulturalEvents';
-import { fetchLilleCulturalEvents } from '../services/culturalEvents';
+import { AllEvents, CulturalEventCard, CulturalEventCardRequest, EventsCategory, LilleCulturalEvent, WhenQuery } from '../types/CulturalEvents';
+import { fetchLilleAllCulturalEvents, fetchLilleCulturalEvent, fetchLilleCulturalEvents } from '../services/culturalEvents';
 
 type UseGetCulturalEvents = {
   isLoading: boolean;
   isError: boolean;
-  events: LilleCulturalEvent[] | undefined;
-  error: unknown
+  events: CulturalEventCardRequest | undefined;
+  category?: string;
 }
 
-const useGetCulturalEvents = (
-  city: string, 
-  when: WhenQuery,
-  refetchHome: boolean
-): UseGetCulturalEvents => {
-  const { isLoading, isError, data: events, error } = useQuery(
-    ['culturalEvents', city, when, refetchHome], 
-    () => fetchLilleCulturalEvents(city, when),
-  );
+type UseGetCulturalEvent = {
+  isLoading: boolean;
+  isError: boolean;
+  events: LilleCulturalEvent | undefined;
+  category?: string;
+}
 
-  return { isLoading, isError, events, error };
+type ResponseEvent = {
+  title: string;
+  isLoading: boolean;
+  isError: boolean;
+  events: LilleCulturalEvent[] | undefined;
+}
+
+type UseGetAllCulturalEvents = {
+  isLoading: boolean;
+  isError: boolean;
+  events: AllEvents | undefined;
 };
 
-export default useGetCulturalEvents;
+export const useGetCulturalEvents = (
+  city: string, 
+  when: WhenQuery,
+  refetchHome: boolean,
+  categories?: number,
+): UseGetCulturalEvents => {
+
+  const { isLoading, isError, data: events, error } = useQuery(
+    [`culturalEvents-${categories}`, city, when, refetchHome], 
+    () => fetchLilleCulturalEvents(city, when, categories),
+  );
+
+  return { isLoading, isError, events };
+
+
+};
+
+export const useGetCulturalEvent = (
+  uid: string,
+): UseGetCulturalEvent => {
+
+  const { isLoading, isError, data: events, error } = useQuery(
+    [`culturalEvents-event`, uid], 
+    () => fetchLilleCulturalEvent(uid),
+  );
+  return { isLoading, isError, events };
+};
+
+export const useGetCulturalEventsByCategory = (
+  city: string, 
+  when: WhenQuery,
+  refetchHome: boolean,
+): UseGetAllCulturalEvents => {
+
+
+  const { isLoading, isError, data: events } = useQuery(
+    [`culturalEvents-allCategory`, city, when, refetchHome], 
+    () => fetchLilleAllCulturalEvents(city, when),
+  );
+
+  console.log('[events] : ', events);
+
+  return { isLoading, isError, events };
+};

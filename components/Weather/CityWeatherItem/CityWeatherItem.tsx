@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, ImageProps, ScrollView } from 'react-native';
+import { View, ImageProps, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { weatherCodeIcons } from '../../../utils/weatherImgCode';
-import { LoaderItem } from '../../LoaderItem/LoaderItem';
-import { ErrorItem } from '../../ErrorItem/ErrorItem';
 import style from './CityWeatherItem.style';
 import useGetWeather from '../../../hooks/useGetWeather';
 import { OpenMeteoDataForecast, OpenMeteoDataHourly } from '../../../types/Weather';
@@ -13,6 +11,7 @@ import { CityWeatherHourlyItem } from '../CityWeatherHourlyItem/CityWeatherHourl
 import { CityWeatherCurrentItem } from '../CityWeatherCurrentItem/CityWeatherCurrentItem';
 import { CityWeatherDailyItem } from '../CityWeatherDailyItem/CityWeatherDailyItem';
 import { animationDuration, dateOptions } from '../weatherSettings';
+import { WarningScreenItem } from '../../WarningScreenItem/WarningScreenItem';
 
 export const CityWeatherItem = () => {
   const { currentCity, weatherSettings, refetchHome } = useSelector((state: RootState) => state.general);
@@ -98,10 +97,10 @@ export const CityWeatherItem = () => {
         style={style.cityWeatherLargeContainer}
         onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}
       >
-        {isLoading 
-          ? <LoaderItem />
-          : error 
-            ? <ErrorItem />
+        { isLoading || error ?
+            <WarningScreenItem
+              type={isLoading ? 'loader' : 'error'}
+            />
             : weather && dailyWeather.length > 0
               ? currentDayCursor === 0 ? 
                 <CityWeatherCurrentItem 
@@ -114,7 +113,12 @@ export const CityWeatherItem = () => {
                     weather={dailyWeather[currentDayCursor]?.weather} 
                     show={showElt}
                   />
-              : !weather?.current ?? <Text>No weather data available.</Text> 
+              : !weather?.current ?? 
+                <WarningScreenItem
+                  type='unavailable'
+                >
+                  No weather data available.
+                </WarningScreenItem> 
         }
       </View>
       <ScrollView 

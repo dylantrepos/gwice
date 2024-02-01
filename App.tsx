@@ -9,8 +9,10 @@ import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsH
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
 import { Home, Settings } from 'lucide-react-native'
-import { StyleProp, TextStyle, ViewStyle } from 'react-native';
-import { CulturalEventsView } from './view/CulturalEventsView/CulturalEventsView';
+import { StyleProp, Text, TextStyle, ViewStyle } from 'react-native';
+import { CulturalEventView } from './view/CulturalEventsView/CulturalEventView/CulturalEventView';
+import { CulturalEventListView } from './view/CulturalEventsView/CulturalEventListView/CulturalEventListView';
+import { Poppins_100Thin, Poppins_100Thin_Italic, Poppins_200ExtraLight, Poppins_200ExtraLight_Italic, Poppins_300Light, Poppins_300Light_Italic, Poppins_400Regular, Poppins_400Regular_Italic, Poppins_500Medium, Poppins_500Medium_Italic, Poppins_600SemiBold, Poppins_600SemiBold_Italic, Poppins_700Bold, Poppins_700Bold_Italic, Poppins_800ExtraBold, Poppins_800ExtraBold_Italic, Poppins_900Black, Poppins_900Black_Italic, useFonts } from "@expo-google-fonts/poppins";
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -49,8 +51,13 @@ const HomeScreens = () => {
         component={HomeView} 
       />
       <HomeStack.Screen 
-        name="CulturalEvents" 
-        component={CulturalEventsView} 
+        name="CulturalEvent" 
+        component={CulturalEventView} 
+        
+      />
+      <HomeStack.Screen 
+        name="CulturalEventList" 
+        component={CulturalEventListView} 
         
       />
     </HomeStack.Navigator>
@@ -77,6 +84,31 @@ export default function App() {
       fontWeight: '400',
     } as StyleProp<TextStyle>,
   }
+
+  const [fontsLoaded] = useFonts({
+    Poppins_100: Poppins_100Thin,
+    Poppins_100_Italic: Poppins_100Thin_Italic,
+    Poppins_200: Poppins_200ExtraLight,
+    Poppins_200_Italic: Poppins_200ExtraLight_Italic,
+    Poppins_300: Poppins_300Light,
+    Poppins_300_Italic: Poppins_300Light_Italic,
+    Poppins_400: Poppins_400Regular,
+    Poppins_400_Italic: Poppins_400Regular_Italic,
+    Poppins_500: Poppins_500Medium,
+    Poppins_500_Italic: Poppins_500Medium_Italic,
+    Poppins_600: Poppins_600SemiBold,
+    Poppins_600_Italic: Poppins_600SemiBold_Italic,
+    Poppins_700: Poppins_700Bold,
+    Poppins_700_Italic: Poppins_700Bold_Italic,
+    Poppins_800Bold: Poppins_800ExtraBold,
+    Poppins_800_Italic: Poppins_800ExtraBold_Italic,
+    Poppins_900: Poppins_900Black,
+    Poppins_900_Italic: Poppins_900Black_Italic,
+  });
+
+  if (!fontsLoaded) {
+    return <Text>Loading fonts...</Text>;
+  };
 
   return (
     <Provider store={store}>

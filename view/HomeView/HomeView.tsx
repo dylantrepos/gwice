@@ -4,9 +4,11 @@ import style from './HomeView.style';
 import { CityBackgroundItem } from "../../components/CityBackgroundItem/CityBackgroundItem";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCallback, useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setRefetchHome } from "../../reducers/generalReducer";
 import { CulturalEventsItem } from "../../components/CulturalEvents/CulturalEventsItem/CulturalEventsItem";
+import { useGetCulturalEvents } from "../../hooks/useGetCulturalEvents";
+import { RootState } from "../../store/store";
 
 type HomeViewProps = {
   navigation: any;
@@ -18,6 +20,7 @@ export const HomeView = ({
   route
 }: HomeViewProps)  => {
   const [refreshing, setRefreshing] = useState(false);
+  const { currentCity, refetchHome } = useSelector((state: RootState) => state.general);
   const dispatch = useDispatch();
 
   const onRefresh = useCallback(() => {
@@ -38,7 +41,12 @@ export const HomeView = ({
           }
         > 
           <CityBackgroundItem />
-          <CulturalEventsItem navigation={navigation} route={route} />
+          <CulturalEventsItem 
+            navigation={navigation} 
+            route={route} 
+            title={'Événements culturels'}
+            handleNavigation={() => navigation.push('CulturalEventList')}
+          />
         </ScrollView>      
     </SafeAreaView>
   )

@@ -1,6 +1,8 @@
 import { SERVER_HOST } from '@env';
 import axios from 'axios';
-import { CulturalEvents, LilleCulturalEvent, WhenQuery } from '../types/CulturalEvents';
+import { AllEvents, CulturalEventCard, CulturalEventCardRequest, CulturalEvents, EventsCategory, LilleCulturalEvent, WhenQuery } from '../types/CulturalEvents';
+import { eventsCategory } from '../utils/culturalEvents';
+import { Key } from 'lucide-react-native';
 
 export const fetchCulturalEvents = async (city: string, when: WhenQuery): Promise<CulturalEvents> => {
   const address = `${SERVER_HOST}`;
@@ -26,21 +28,100 @@ export const fetchCulturalEvents = async (city: string, when: WhenQuery): Promis
 
 export const fetchLilleCulturalEvents = async (
   city: string,
-  when: WhenQuery
-): Promise<LilleCulturalEvent[]> => {
+  when: WhenQuery,
+  category?: number,
+): Promise<CulturalEventCardRequest> => {
   const address = `${SERVER_HOST}`;
 
+  const URL = `https://api.openagenda.com/v2/agendas/89904399/events?key=b139873be49e4eaf8802204829301bb2&includeLabels=true&includeFields[]=uid&includeFields[]=title&includeFields[]=location.city&includeFields[]=image.base&includeFields[]=image.filename&includeFields[]=categories-metropolitaines&includeFields[]=firstTiming.begin&includeFields[]=lastTiming.end${category ? '&categories-metropolitaines[]=' + category : ''}`
 
-  console.log('[Request] fetchCulturalEvents');
-  const response = await axios.get(`${address}/events/cultural`, {
+  // console.log('[Request] fetchCulturalEvents : ', category);
+  const response = await axios.get(URL, {
     headers: {
       'Content-Type': 'application/json',
     },
     params: {
       city,
-      when
     }
   });
   
-  return response.data as LilleCulturalEvent[];
+  // console.log('[Response] fetchLilleCulturalEvents - ', response.data);
+  return response.data as CulturalEventCardRequest;
 }
+
+export const fetchLilleCulturalEvent = async (
+  uid: string,
+): Promise<LilleCulturalEvent> => {
+  const address = `${SERVER_HOST}`;
+  const URL = `https://api.openagenda.com/v2/agendas/89904399/events?key=b139873be49e4eaf8802204829301bb2&includeLabels=true&detailed=1`
+
+  // console.log('[Request] fetchCulturalEvents : ', category);
+  const response = await axios.get(URL, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    params: {
+      uid,
+    }
+  });
+  
+  // console.log('[Response] fetchLilleCulturalEvents - ', response.data);
+  return response.data.events[0] as LilleCulturalEvent;
+}
+
+export const fetchLilleAllCulturalEvents = async (
+  city: string,
+  when: WhenQuery,
+): Promise<AllEvents> => {
+  const address = `${SERVER_HOST}`;
+
+  console.log('[Request] fetchLilleAllCulturalEvents');
+
+  const categoryId = eventsCategory['sport'];
+
+  const response = await axios.get(`https://api.openagenda.com/v2/agendas/89904399/events`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    params: {
+      key: 'b139873be49e4eaf8802204829301bb2',
+      detailed: 1,
+      city,
+      ['categories-metropolitaines[]']: categoryId
+    }
+  });
+  
+  console.log('res : ', [{
+    title: 'Sport',
+    events: response.data,
+  }]);
+
+  // console.log('[Response] fetchLilleCulturalEvents - ', response.data);
+  return [{
+    title: 'Sport',
+    data: response.data,
+  }];
+}
+
+// export const fetchLilleAllCulturalEvents = async (
+//   city: string,
+//   when: WhenQuery,
+// ): Promise<AllEvents> => {
+//   const address = `${SERVER_HOST}`;
+
+//   console.log('[Request] fetchLilleAllCulturalEvents');
+
+//   const response = await axios.get(`${address}/events/cultural`, {
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     params: {
+//       city,
+//       when,
+//       all: true,
+//     }
+//   });
+  
+//   // console.log('[Response] fetchLilleCulturalEvents - ', response.data);
+//   return response.data.events as AllEvents ?? [];
+// }

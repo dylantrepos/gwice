@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
@@ -7,6 +7,28 @@ export default StyleSheet.create({
   },
   scrollView: {
     paddingBottom: 40,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    zIndex: 1,
+    backgroundColor: '#fff',
+    borderRadius: 50,
+    padding: 5,
+    ...Platform.select({
+      ios: {
+        shadowOffset: {
+          width: 0,
+          height: 9,
+        },
+        shadowOpacity: 0.50,
+        shadowRadius: 12.35,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
   },
   infosContainer: {
     backgroundColor: '#F6F6F6',
@@ -83,4 +105,33 @@ export default StyleSheet.create({
     fontSize: 16,
     flex: 4,
   },
+  closeImageButton: {
+    position: 'absolute', 
+    bottom: 50, 
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: 'red',
+    borderRadius: 50,
+    zIndex: 1,
+    width: 50,
+    height: 50,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    ...Platform.select({
+      ios: {
+        shadowOffset: {
+          width: 0,
+          height: 9,
+        },
+        shadowOpacity: 0.50,
+        shadowRadius: 12.35,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
+  
+  }
 });
