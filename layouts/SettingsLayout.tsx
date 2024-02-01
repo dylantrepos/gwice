@@ -4,6 +4,7 @@ import style from './SettingsLayout.style';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from 'lucide-react-native';
+import { HeaderPage } from '../components/HeaderPage/HeaderPage';
 
 
 type Props = {
@@ -20,17 +21,10 @@ export const SettingsLayout = ({
     <SafeAreaView 
       style={style.settingsLayout}
     >
-      <View style={style.settingsLayoutHeader}>
-        { title !== 'Settings' && (
-          <Pressable 
-            onPress={() => navigation.goBack()}
-            style={style.settingsLayoutChevron}
-          >
-            <ChevronLeft color={'black'} size={30}/>
-          </Pressable>
-        )}
-        <Text style={style.settingsLayoutTitle}>{title}</Text>
-      </View>
+      <HeaderPage 
+        title={title}
+        navigation={navigation}
+      />
       { children }
     </SafeAreaView>
   );
