@@ -30,15 +30,13 @@ type UseGetAllCulturalEvents = {
 };
 
 export const useGetCulturalEvents = (
-  city: string, 
-  when: WhenQuery,
   refetchHome: boolean,
   categories?: number,
 ): UseGetCulturalEvents => {
 
   const { isLoading, isError, data: events, error } = useQuery(
-    [`culturalEvents-${categories}`, city, when, refetchHome], 
-    () => fetchLilleCulturalEvents(city, when, categories),
+    [`culturalEvents-${categories}`, refetchHome], 
+    () => fetchLilleCulturalEvents(categories),
   );
 
   return { isLoading, isError, events };

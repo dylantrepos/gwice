@@ -45,7 +45,7 @@ export const HomeView = ({
             navigation={navigation} 
             route={route} 
             title={'Événements culturels'}
-            handleNavigation={() => navigation.push('CulturalEventList')}
+            handleNavigation={() => navigation.push('HomeCulturalEvent')}
           />
         </ScrollView>      
     </SafeAreaView>

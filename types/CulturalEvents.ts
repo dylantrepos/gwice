@@ -1,3 +1,5 @@
+import { LucideIcon } from "lucide-react-native";
+
 export type CulturalEvent = {
   id: string;
   title: string | null;
@@ -323,3 +325,11 @@ export type EventsCategory =
       after: string[],
     }
   }[];
+
+  export type ListCategoryItem = {
+    id: number;
+    title: string;
+    iconName: string;
+    iconElt?: LucideIcon | undefined;
+  };
+  

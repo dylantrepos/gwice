@@ -20,9 +20,9 @@ export const Text = ({
   return (
     <TextReactNative 
       style={{
+        fontFamily: `Poppins_${weight}${italic ? '_Italic' : ''}`,
         ...style.text, 
         ...styles, 
-        fontFamily: `Poppins_${weight}${italic ? '_Italic' : ''}`
       }}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}

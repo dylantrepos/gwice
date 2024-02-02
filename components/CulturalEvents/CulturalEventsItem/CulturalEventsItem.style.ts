@@ -7,7 +7,8 @@ export default StyleSheet.create({
     // width: 400,
     // marginTop: 20,
     // marginLeft: 20,
-    marginBottom: 50,
+    marginBottom: 20,
+    height: 300,
   },
   culturalEventsTitleContainer: {
     flexDirection: "row",

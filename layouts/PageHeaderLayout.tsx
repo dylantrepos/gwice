@@ -10,25 +10,13 @@ import { RefreshControl, ScrollView } from 'react-native';
 
 type Props = {
   title: string,
-  refetch: () => void;
 }
 
 export const PageHeaderLayout = ({
   title,
-  refetch,
   children
 }: PropsWithChildren<Props>) => {
   const navigation = useNavigation();
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    refetch();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1000);
-  }, []);
-
 
   return (
     <SafeAreaView 
@@ -39,14 +27,7 @@ export const PageHeaderLayout = ({
         title={title}
         navigation={navigation}
       />
-      <ScrollView 
-        // style={style.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      > 
         { children }
-      </ScrollView>
     </SafeAreaView>
   );
 };

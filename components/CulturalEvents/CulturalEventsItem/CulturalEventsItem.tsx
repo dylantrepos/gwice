@@ -8,6 +8,7 @@ import { useGetCulturalEvents } from "../../../hooks/useGetCulturalEvents";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { WarningScreenItem } from "../../WarningScreenItem/WarningScreenItem";
+import { formatTitle } from "../../../utils/culturalEvents";
 
 type Props = {
   navigation: any;
@@ -30,9 +31,10 @@ export const CulturalEventsItem = ({
     isLoading, 
     events, 
     isError
-  } = useGetCulturalEvents(currentCity.cityName, 'today', refetchHome, category);
+  } = useGetCulturalEvents(refetchHome, category);
 
   if (!events) return null;
+
 
   return (
     <View style={style.culturalEvents}>
@@ -40,7 +42,7 @@ export const CulturalEventsItem = ({
         style={style.culturalEventsTitleContainer}
         onPress={handleNavigation}
       >
-        <Text styles={style.culturalEventsTitle} weight="500">{title}</Text>
+        <Text styles={style.culturalEventsTitle} weight="500">{formatTitle(title)}</Text>
         <ChevronRight size={20} color={'black'}/>
       </Pressable>
       <ScrollView

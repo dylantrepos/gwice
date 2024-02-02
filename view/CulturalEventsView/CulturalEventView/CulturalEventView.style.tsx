@@ -118,7 +118,7 @@ export default StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     ...Platform.select({
       ios: {
         shadowOffset: {

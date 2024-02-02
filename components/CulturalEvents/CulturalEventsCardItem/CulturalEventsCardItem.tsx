@@ -28,32 +28,29 @@ export const CulturalEventsCardItem = ({
   } = event;
 
   const [imageLoaded, setImageLoaded] = useState(false);
+  const imageSrc = `${image.base}${image.filename}`;
+
+  useEffect(() => {
+    Image.prefetch(imageSrc)
+      .then(() => setImageLoaded(true))
+      .catch(error => console.error("Failed to prefetch image", error));
+  }, []);
 
   const handlePress = () => {
     console.log('Pressed!');
     navigation.push('CulturalEvent', {uid});
   }
 
-  const imageSrc = `${image.base}${image.filename}`;
-
-  useEffect(() => {
-    setImageLoaded(false);
-  }, [imageLoaded]);
-
-  return (
+  return imageLoaded && (
     <Pressable 
       style={style.culturalEventsCard}
       onPress={handlePress}
     >
       <View style={style.culturalEventsCardImageContainer}>
-        {imageLoaded ? <WarningScreenItem type='loader' /> : null}
+        {/* {imageLoaded ? <WarningScreenItem type='loader' /> : null} */}
         <Image 
           style={style.culturalEventsCardImage}
           source={{uri: imageSrc}}
-          onLoadStart={() => setImageLoaded(false)}
-          onLoadEnd={() => {
-            setImageLoaded(true)
-          }}
         />
       </View>
       <View style={style.culturalEventsCardCategory}>

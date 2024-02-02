@@ -11,6 +11,7 @@ export default StyleSheet.create({
     borderColor: '#F6F6F6',
     borderWidth: 1,
     width: 300,
+    // height: 240,
     borderRadius: 10,
     overflow: "hidden",
   },
@@ -45,11 +46,9 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     display: 'flex',
-    flex: 1
   },
   culturalEventsCardDetailsTitle: {
     fontSize: 12,
-    flex: 2,
   },
   culturalEventsCardDetailsDate: {
     display: 'flex',

@@ -27,8 +27,6 @@ export const fetchCulturalEvents = async (city: string, when: WhenQuery): Promis
 }
 
 export const fetchLilleCulturalEvents = async (
-  city: string,
-  when: WhenQuery,
   category?: number,
 ): Promise<CulturalEventCardRequest> => {
   const address = `${SERVER_HOST}`;
@@ -40,11 +38,8 @@ export const fetchLilleCulturalEvents = async (
     headers: {
       'Content-Type': 'application/json',
     },
-    params: {
-      city,
-    }
   });
-  
+
   // console.log('[Response] fetchLilleCulturalEvents - ', response.data);
   return response.data as CulturalEventCardRequest;
 }

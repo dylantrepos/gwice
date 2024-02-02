@@ -1,4 +1,4 @@
-import { Pressable, TextProps, View } from 'react-native';
+import { Pressable, TextProps, TextStyle, View, ViewStyle } from 'react-native';
 import { PropsWithChildren } from "react";
 import { ChevronLeft } from "lucide-react-native";
 import { Text } from "../Text/Text";
@@ -7,23 +7,38 @@ import style from './HeaderPage.style';
 type Props = TextProps & {
   title: string;
   navigation: any;
+  styles?: ViewStyle;
+  iconColor?: string;
+  iconSize?: number;
+  titleStyles?: TextStyle;
 }
 
 export const HeaderPage = ({
   title,
-  navigation
+  navigation,
+  styles,
+  iconColor = 'black',
+  iconSize = 30,
+  titleStyles,
 }: PropsWithChildren<Props>) => {
 
 
   return (
-    <View style={style.header}>
+    <View style={{...style.header, ...styles}}>
       <Pressable 
           onPress={() => navigation.goBack()}
           style={style.headerChevron}
         >
-          <ChevronLeft color={'black'} size={30}/>
+          <ChevronLeft color={iconColor} size={iconSize}/>
       </Pressable>
-      <Text styles={style.headerTitle}>{title}</Text>
+      <Text 
+        styles={{
+          ...style.headerTitle,
+          ...titleStyles ?? ''
+        }}
+        >
+          { title }
+      </Text>
     </View>
   );
 }

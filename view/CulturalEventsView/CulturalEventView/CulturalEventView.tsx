@@ -119,7 +119,7 @@ export const CulturalEventView = ({
                   style={style.closeImageButton}
                   onPress={() => handleOpenModal(false)}
                 >
-                  <X size={34} color={'red'} />
+                  <X size={26} color={'red'} strokeWidth={1}/>
                 </TouchableOpacity>
                 <PanPinchView
                   minScale={1}

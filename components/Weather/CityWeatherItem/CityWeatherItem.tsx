@@ -95,7 +95,8 @@ export const CityWeatherItem = () => {
     >
       <View 
         style={style.cityWeatherLargeContainer}
-        onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}
+        onTouchStart={onTouchStart} 
+        onTouchEnd={onTouchEnd}
       >
         { isLoading || error ?
             <WarningScreenItem
