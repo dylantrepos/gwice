@@ -19,16 +19,16 @@ export const useSwipe = (
     const onTouchEnd = (e: any) => {
       // get touch position and screen size
       const positionX = e.nativeEvent.pageX
-        const range = windowWidth / rangeOffset
+      const range = windowWidth / rangeOffset
 
-        // check if position is growing positively and has reached specified range
-        if(positionX - firstTouch > range){
-            onSwipeRight && onSwipeRight()
-        }
-        // check if position is growing negatively and has reached specified range
-        else if(firstTouch - positionX > range){
-            onSwipeLeft && onSwipeLeft()
-        }
+      // check if position is growing positively and has reached specified range
+      if(positionX - firstTouch > range){
+          onSwipeRight && onSwipeRight()
+      }
+      // check if position is growing negatively and has reached specified range
+      else if(firstTouch - positionX > range){
+          onSwipeLeft && onSwipeLeft()
+      }
     }
 
     return {onTouchStart, onTouchEnd };

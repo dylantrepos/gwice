@@ -1,21 +1,21 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setRefetchHome } from "../../../reducers/generalReducer";
 import { RootState } from "../../../store/store";
-import { Dimensions, FlatList, Image, ImageBackground, Pressable, SectionList, View, ViewToken } from "react-native";
+import { Animated, Dimensions, Easing, FlatList, Image, ImageBackground, LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent, Platform, Pressable, ScrollView, SectionList, TouchableOpacity, View, ViewToken } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { HeaderPage } from "../../../components/HeaderPage/HeaderPage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import style from './HomeCulturalEventView.style';
 import { Text } from "../../../components/Text/Text";
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView } from "react-native-gesture-handler";
 import { eventsCategoryLille, formatTitle } from "../../../utils/culturalEvents";
-import { LucideIcon } from "lucide-react-native";
+import { CalendarDays, ChevronDown, Euro, Filter, LucideIcon, Scroll, Search } from "lucide-react-native";
 import { ListCategoryItem } from "../../../types/CulturalEvents";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Poppins_400Regular, Poppins_600SemiBold } from "@expo-google-fonts/poppins";
+import { useSwipe } from "../../../hooks/useSwap";
 
 type Props = {
   navigation: any;
@@ -25,7 +25,7 @@ type Props = {
 type Comp = Record<string, JSX.Element>;
 
 const labelsName = [
-  'À la une',
+  'A la une',
   'Aujourd\'hui',
   'Ce week-end',
   'Cette semaine',
@@ -39,7 +39,7 @@ const titleComp = (title: string) => {
   )
 }
 
-const labels = labelsName.map((label) => {
+const labels = labelsName.map((label, index) => {
   return {
     name: label,
     component: titleComp(label)
@@ -52,9 +52,10 @@ export const HomeCulturalEventView = ({
   route
 }: Props) => {
   const [refreshing, setRefreshing] = useState(false);
-  const { currentCity, refetchHome } = useSelector((state: RootState) => state.general);
+  const [filterCategory, setFilterCategory] = useState<string[]>([]);
   const dispatch = useDispatch();
-  const Tab = createMaterialTopTabNavigator();
+
+  // const Tab = createMaterialTopTabNavigator();
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -65,189 +66,77 @@ export const HomeCulturalEventView = ({
   }, []);
 
   return (
-    <SafeAreaView
-      style={style.homeCulturalEvent}
-    >
-      <StatusBar style="auto" />
-      <Header 
-        navigation={navigation}
-      />
-      <CategoryListItem 
-        categories={eventsCategoryLille}
-      />
-      <Tab.Navigator
-        style={style.eventTempNavigator}
-        screenOptions={({ route }) => ({
-          // tabBarItemStyle: { width: 'auto' },
-          // tabBarGap: 10,
-          tabBarScrollEnabled: true,
-          tabBarActiveTintColor: '#0D89CE',
-          tabBarInactiveTintColor: '#BBBBBB',
-          tabBarContentContainerStyle: { 
-            // backgroundColor: 'powderblue',
-            // paddingHorizontal: 20,
-          },  
-          tabBarIndicatorContainerStyle: {
-
-          },
-          tabBarItemStyle: {
-            justifyContent: 'space-around',
-            backgroundColor: 'transparent',
-          },
-          tabBarIndicatorStyle: { 
-            backgroundColor: '#0D89CE',
-            borderRadius: 10,
-            height: 3,
-          },
-          tabBarPressColor: '#fff',
-          tabBarStyle: { 
-            backgroundColor: '#transparent',
-
-          },
-          tabBarPressOpacity: 0,
-        })}
+    <View style={{ flex: 1, backgroundColor: 'red', height: Dimensions.get("screen").height, position: 'relative' }}>
+      <SafeAreaView
+        style={style.homeCulturalEvent}
       >
-        { labels.map((label, index) => {
-          return (
-            <Tab.Screen 
-              key={`label-${index}`}
-              name={label.name} 
-              component={label.component} 
-              options={() => ({
-                tabBarLabel: ({ color, focused }) => (
-                  <Text 
-                    weight={'400'}
-                    styles={{ 
-                      color, 
-                      fontSize: 16, 
-                    }
-                  }>
-                    {label.name}
-                  </Text>
-                ),
-              })}
+        <Animated.ScrollView
+          stickyHeaderHiddenOnScroll={true}
+          stickyHeaderIndices={[3]}
+        >
+          <PromoteEvent 
+            navigation={navigation}
+          />
+          <SearchEventItem />
+            <Text 
+              styles={style.categoryContainerTitle} 
+              weight="600"
+            >
+              Par thème
+            </Text>
+
+          <View
+            style={{
+              backgroundColor: 'white',
+            }}
+          >
+
+            <CategoryListItem 
+              categories={eventsCategoryLille}
+              categoriesSelected={filterCategory}
+              filterCategory={setFilterCategory}
             />
-          )
-          })
-        }
-      </Tab.Navigator>
-    </SafeAreaView>
+            <FilterListItem />
+          </View>
+          <CardsListItem />
+        </Animated.ScrollView>
+     </SafeAreaView>
+    </View>
   )
 }
 
-const Title1View = () => {
-  // Replace with your actual view
-  return <Text>Title 1</Text>;
-}
-
-const Title2View = () => {
-  // Replace with your actual view
-  return <Text>Title 2</Text>;
-}
-
-const Title3View = () => {
-  // Replace with your actual view
-  return <Text>Title 3</Text>;
+const SearchEventItem = () => {
+  return (
+    <Pressable
+      style={style.searchEvent}
+    >
+      <Search
+        size={22}
+        color="black"
+        strokeWidth={2}
+        style={style.searchEventIcon}
+      />
+      <Text
+        styles={style.searchEventTitle}
+      >
+        Rechercher un événement
+      </Text>
+    </Pressable>
+  )
 }
 
 /*
- *
- * Components
- * 
- */
-
-type CategoryListItemProps = {
-  categories: ListCategoryItem[];
-}
-
-const CategoryListItem = ({
-  categories
-}: CategoryListItemProps) => {
-  const splittedCategories = [];
-
-  for (let i = 0; i < categories.length; i += 2) {
-    const itemTop = categories[i];
-    const itemBottom = i + 1 < categories.length ? categories[i + 1] : null;
-
-    splittedCategories.push({
-      top: itemTop,
-      bottom: itemBottom,
-    });
-  }
-
-  return (
-    <View
-    style={style.categoryContainer}
-  >
-    <Text 
-      styles={style.categoryContainerTitle} weight="600"
-    >
-      Par thème
-    </Text>
-    <FlatList
-      data={splittedCategories}
-      horizontal
-      keyExtractor={(item, index) => item.top.title + index}
-      renderItem={({item}) => {
-        const { top, bottom } = item;
-        const TopIcon = top.iconElt;
-        const BottomIcon = bottom ? bottom.iconElt : null;
-        return (
-          <View style={style.categoryList}>
-            <View style={style.category}>
-              { TopIcon && 
-                <TopIcon 
-                  color={'white'} 
-                  size={32} 
-                  strokeWidth={1} 
-                  style={style.categoryIcon}
-                />
-              }
-              <Text 
-                styles={style.categoryName}
-                weight="500"
-              >
-                  {formatTitle(top.title)}
-              </Text>
-            </View>
-            { bottom && (
-              <View style={style.category}>
-                { BottomIcon && 
-                  <BottomIcon 
-                    color={'white'} 
-                    size={32} 
-                    strokeWidth={1} 
-                    style={style.categoryIcon}
-                  />
-                }
-                <Text 
-                  styles={style.categoryName}
-                  weight="500"
-                >
-                    {formatTitle(bottom.title)}
-                </Text>
-              </View>
-            )}
-          </View>
-        )
-      }}
-      contentContainerStyle={{
-        columnGap: 10,
-        paddingHorizontal: 20,
-      }}
-      showsHorizontalScrollIndicator={false}
-    />
-  </View>
-  )
-}
-
-type HeaderProps = {
+*
+* Components
+* 
+*/
+type PromoteEventProps = {
   navigation: any;
 }
 
-const Header = ({
+const PromoteEvent = ({
   navigation
-}: HeaderProps) => {
+}: PromoteEventProps) => {
 
   const handlePressPromoteEvent = () => {
     console.log('Promote pressed!');
@@ -266,10 +155,10 @@ const Header = ({
         >
           <HeaderPage 
             title={'Événements'}
-            navigation={navigation}
+            // navigation={navigation}
             styles={style.header}
             titleStyles={style.headerTitle}
-            iconColor="white"
+            // iconColor="white"
           />
           <LinearGradient 
             colors={['transparent', 'rgba(0,0,0,1)']}
@@ -289,3 +178,237 @@ const Header = ({
         </ImageBackground>
       </Pressable>
 )};
+
+
+const CardsListItem = () => {
+  // Replace with your actual view
+  return (
+    <View
+      style={style.cardList}
+    >
+      {Array.from({ length: 10 }).map((_, index) => (
+        <View
+          key={`card-${index}`}
+        style={style.card}
+      >
+        <ImageBackground
+          style={style.cardImage}
+          source={{
+            uri: 'https://lilleaddict.fr/wp-content/uploads/2024/02/gand-festival-lumieres-1024x900.jpeg'
+          }}
+        >
+          <LinearGradient
+            colors={['rgba(0,0,0,1)', 'transparent']}
+            style={style.cardInfos}
+          >
+            <Text 
+              styles={style.cardTitle}
+              weight="700"
+            >
+              Événements du week-end
+            </Text>
+            <Text 
+              styles={style.cardDate}
+            >
+              Du 31 jan. au 4 fév.
+            </Text>
+          </LinearGradient>
+          <LinearGradient
+            colors={['transparent', 'rgba(0,0,0,1)']}
+          >
+            <Text 
+              styles={style.cardDescription} 
+              numberOfLines={3}
+            >
+              Ce week-end ça envoie du lourd près de chez toi avec le festival des lumières de Gand, l’Enduropale, le Playground Market et un open air au Fort de Mons… Enfin bref, un bon gros programme que l’on t’explique par ici. 🙂
+            </Text>
+          </LinearGradient>
+        </ImageBackground>
+      </View>
+      ))}
+    </View>
+  );
+}
+
+type CategoryListItemProps = {
+  categories: ListCategoryItem[];
+  categoriesSelected: string[];
+  filterCategory: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+const CategoryListItem = ({
+  categories,
+  categoriesSelected,
+  filterCategory
+}: CategoryListItemProps) => {
+
+  const handleToggleCategory = (category: string) => {
+    const index = categoriesSelected.indexOf(category);
+    if (index === -1) {
+      filterCategory([...categoriesSelected, category]);
+      console.log('categoriesSelected: added');
+    } else {
+      filterCategory(categoriesSelected.filter((cat) => cat !== category));
+      console.log('categoriesSelected: removed');
+    }
+  }
+
+  const opacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
+  return (
+    <View
+      style={style.categoryContainer}
+    >
+      <FlatList
+        data={categories}
+        horizontal
+        contentContainerStyle={{
+          columnGap: 10,
+          paddingHorizontal: 20,
+        }}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item, index) => item.title + index}
+        renderItem={({item}) => {
+          const { title, iconElt: IconElt } = item;
+
+          return (
+            <Pressable 
+              style={style.category}
+              onPress={() => {
+                handleToggleCategory(title);
+              }}
+            >
+              { IconElt && (
+                  <View
+                    style={{
+                      backgroundColor: categoriesSelected.includes(title) ? '#0D89CE' : 'transparent',
+                      borderRadius: 100,
+                      padding: 10,
+                      ...Platform.select({
+                        ios: {
+                          shadowOffset: {
+                            width: 0,
+                            height: 9,
+                          },
+                          shadowOpacity: categoriesSelected.includes(title) ? 0.50 : 0,
+                          shadowRadius: 12.35,
+                        },
+                        android: {
+                          elevation: categoriesSelected.includes(title) ? 5 : 0,
+                        },
+                      }),
+                    }}
+                    >
+                    <IconElt 
+                      color={categoriesSelected.includes(title) ? 'white' : 'black'} 
+                      size={40} 
+                      strokeWidth={1} 
+                      style={style.categoryIcon}
+                      />
+                  </View>
+              )}
+              <Text 
+                styles={{
+                  ...style.categoryName,
+                  paddingHorizontal: 15,
+                  paddingVertical: 5,
+                  lineHeight: 23,
+                }}
+                weight="500"
+              >
+                  {formatTitle(title)}
+              </Text>
+            </Pressable>
+          )
+        }}
+      />
+  </View>
+  )
+}
+
+const FilterListItem = () => {
+  // Replace with your actual view
+  return (
+    <ScrollView
+      style={style.filterList}
+      horizontal
+      contentContainerStyle={{
+        paddingHorizontal: 20,
+        gap: 10,
+      }}
+      showsHorizontalScrollIndicator={false}
+    >
+      <View
+        style={style.filter}
+      >
+        <CalendarDays
+          size={22}
+          color="black"
+          strokeWidth={2}
+          style={style.filterIcon}
+        />
+        <Text 
+          styles={style.filterTitle}
+        >
+          Cette semaine
+        </Text>
+        <ChevronDown
+          size={22}
+          color="black"
+          strokeWidth={2}
+          style={style.filterIcon}
+        />
+      </View>
+      <View
+        style={style.filter}
+      >
+        <Euro
+          size={22}
+          color="black"
+          strokeWidth={2}
+          style={style.filterIcon}
+        />
+        <Text 
+          styles={style.filterTitle}
+        >
+          Tous les prix
+        </Text>
+        <ChevronDown
+          size={22}
+          color="black"
+          strokeWidth={2}
+          style={style.filterIcon}
+        />
+      </View>
+      <View
+        style={style.filter}
+      >
+        <Filter
+          size={22}
+          color="black"
+          strokeWidth={2}
+          style={style.filterIcon}
+        />
+        <Text 
+          styles={style.filterTitle}
+        >
+          Trier par
+        </Text>
+        <ChevronDown
+          size={22}
+          color="black"
+          strokeWidth={2}
+          style={style.filterIcon}
+        />
+      </View>
+    </ScrollView>
+  );
+}

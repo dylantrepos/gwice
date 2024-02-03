@@ -54,7 +54,7 @@ export const CityWeatherItem = () => {
       })
   }
   
-  const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 6);
+  const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 50);
 
 
   const currentDateText = date.toLocaleDateString('fr-FR', dateOptions);
@@ -97,6 +97,7 @@ export const CityWeatherItem = () => {
         style={style.cityWeatherLargeContainer}
         onTouchStart={onTouchStart} 
         onTouchEnd={onTouchEnd}
+        onTouchCancel={onTouchEnd}
       >
         { isLoading || error ?
             <WarningScreenItem

@@ -6,7 +6,7 @@ import style from './HeaderPage.style';
 
 type Props = TextProps & {
   title: string;
-  navigation: any;
+  navigation?: any;
   styles?: ViewStyle;
   iconColor?: string;
   iconSize?: number;
@@ -25,12 +25,14 @@ export const HeaderPage = ({
 
   return (
     <View style={{...style.header, ...styles}}>
-      <Pressable 
+      { navigation && (
+        <Pressable 
           onPress={() => navigation.goBack()}
           style={style.headerChevron}
         >
           <ChevronLeft color={iconColor} size={iconSize}/>
       </Pressable>
+      )}
       <Text 
         styles={{
           ...style.headerTitle,
