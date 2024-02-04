@@ -31,6 +31,7 @@ export type CulturalEvents = {
 }
 
 export type WhenQuery = 'today' | 'week' | 'weekend' | 'month' | 'default';
+
 interface ImageVariant {
   filename: string;
   size: {

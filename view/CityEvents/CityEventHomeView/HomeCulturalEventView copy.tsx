@@ -6,12 +6,12 @@ import { Animated, Dimensions, Easing, FlatList, Image, ImageBackground, LayoutC
 import { StatusBar } from "expo-status-bar";
 import { HeaderPage } from "../../../components/HeaderPage/HeaderPage";
 import { SafeAreaView } from "react-native-safe-area-context";
-import style from './HomeCulturalEventView.style';
+import style from './CityEventHomeView.style';
 import { Text } from "../../../components/Text/Text";
 import { LinearGradient } from 'expo-linear-gradient';
-import { eventsCategoryLille, formatTitle } from "../../../utils/culturalEvents";
+import { eventsCategoryLille, formatTitle } from "../../../utils/events";
 import { LucideIcon, Scroll } from "lucide-react-native";
-import { ListCategoryItem } from "../../../types/CulturalEvents";
+import { ListCategoryItem } from "../../../types/Events";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Poppins_400Regular, Poppins_600SemiBold } from "@expo-google-fonts/poppins";

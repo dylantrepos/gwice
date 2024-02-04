@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { AllEvents, CulturalEventCard, CulturalEventCardRequest, EventsCategory, LilleCulturalEvent, WhenQuery } from '../types/CulturalEvents';
+import { AllEvents, CulturalEventCard, CulturalEventCardRequest, EventsCategory, LilleCulturalEvent, WhenQuery } from '../types/Events';
 import { fetchLilleAllCulturalEvents, fetchLilleCulturalEvent, fetchLilleCulturalEvents } from '../services/culturalEvents';
 
 type UseGetCulturalEvents = {

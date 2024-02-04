@@ -10,7 +10,7 @@ import { useSwipe } from '../../../hooks/useSwap';
 import { CityWeatherHourlyItem } from '../CityWeatherHourlyItem/CityWeatherHourlyItem';
 import { CityWeatherCurrentItem } from '../CityWeatherCurrentItem/CityWeatherCurrentItem';
 import { CityWeatherDailyItem } from '../CityWeatherDailyItem/CityWeatherDailyItem';
-import { animationDuration, dateOptions } from '../weatherSettings';
+import { animationDuration, dateOptions } from '../cityWeatherSettings';
 import { WarningScreenItem } from '../../WarningScreenItem/WarningScreenItem';
 
 export const CityWeatherItem = () => {

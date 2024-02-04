@@ -1,53 +1,24 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setRefetchHome } from "../../../reducers/generalReducer";
-import { RootState } from "../../../store/store";
-import { Animated, Dimensions, Easing, FlatList, Image, ImageBackground, LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent, Platform, Pressable, ScrollView, SectionList, TouchableOpacity, View, ViewToken } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { Animated, Dimensions, FlatList, Image, ImageBackground, Platform, Pressable, ScrollView, View } from "react-native";
 import { HeaderPage } from "../../../components/HeaderPage/HeaderPage";
 import { SafeAreaView } from "react-native-safe-area-context";
-import style from './HomeCulturalEventView.style';
+import style from './CityEventHomeView.style';
 import { Text } from "../../../components/Text/Text";
 import { LinearGradient } from 'expo-linear-gradient';
-import { eventsCategoryLille, formatTitle } from "../../../utils/culturalEvents";
-import { CalendarDays, ChevronDown, Euro, Filter, LucideIcon, Scroll, Search } from "lucide-react-native";
-import { ListCategoryItem } from "../../../types/CulturalEvents";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Poppins_400Regular, Poppins_600SemiBold } from "@expo-google-fonts/poppins";
-import { useSwipe } from "../../../hooks/useSwap";
+import { eventsCategoryLille, formatTitle } from "../../../utils/events";
+import { CalendarDays, ChevronDown, Euro, Filter, Search } from "lucide-react-native";
+import { ListCategoryItem } from "../../../types/Events";
+
 
 type Props = {
   navigation: any;
   route: any;
 }
 
-type Comp = Record<string, JSX.Element>;
 
-const labelsName = [
-  'A la une',
-  'Aujourd\'hui',
-  'Ce week-end',
-  'Cette semaine',
-  'Ce mois-ci',
-  'Cette année'
-];
-
-const titleComp = (title: string) => {
-  return (
-    () => <Text>{title}</Text>
-  )
-}
-
-const labels = labelsName.map((label, index) => {
-  return {
-    name: label,
-    component: titleComp(label)
-  }
-});
-
-
-export const HomeCulturalEventView = ({
+export const CityEventHomeView = ({
   navigation,
   route
 }: Props) => {
@@ -169,11 +140,15 @@ const PromoteEvent = ({
             >
               Du 31 jan. au 4 fév.
             </Text>
-            <Text
-              styles={style.promoteEventButton}
+            <Pressable
+              style={style.promoteEventButton}
             >
-              Appuyez pour découvrir
-            </Text>
+              <Text
+                styles={style.promoteEventButtonText}
+              >
+                Appuyez pour découvrir
+              </Text>
+            </Pressable>
           </LinearGradient>
         </ImageBackground>
       </Pressable>
@@ -215,9 +190,10 @@ const CardsListItem = () => {
           </LinearGradient>
           <LinearGradient
             colors={['transparent', 'rgba(0,0,0,1)']}
+            style={style.cardDescription} 
           >
             <Text 
-              styles={style.cardDescription} 
+              styles={style.cardDescriptionText} 
               numberOfLines={3}
             >
               Ce week-end ça envoie du lourd près de chez toi avec le festival des lumières de Gand, l’Enduropale, le Playground Market et un open air au Fort de Mons… Enfin bref, un bon gros programme que l’on t’explique par ici. 🙂
@@ -298,7 +274,7 @@ const CategoryListItem = ({
                             width: 0,
                             height: 9,
                           },
-                          shadowOpacity: categoriesSelected.includes(title) ? 0.50 : 0,
+                          shadowOpacity: categoriesSelected.includes(title) ? 0.20 : 0,
                           shadowRadius: 12.35,
                         },
                         android: {
@@ -309,7 +285,7 @@ const CategoryListItem = ({
                     >
                     <IconElt 
                       color={categoriesSelected.includes(title) ? 'white' : 'black'} 
-                      size={40} 
+                      size={34} 
                       strokeWidth={1} 
                       style={style.categoryIcon}
                       />

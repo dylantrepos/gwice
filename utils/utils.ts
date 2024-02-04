@@ -1,5 +1,5 @@
 import { Animated } from 'react-native';
-import { dateOptions } from '../components/Weather/weatherSettings';
+import { dateOptions } from '../components/CityWeather/cityWeatherSettings';
 
 export const capitalizeFirstLetter = (string: string) => { 
   return string.charAt(0).toUpperCase() + string.slice(1);

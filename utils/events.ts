@@ -1,4 +1,4 @@
-import { EventsCategory, ListCategoryItem } from "../types/CulturalEvents";
+import { EventsCategory, ListCategoryItem } from "../types/Events";
 import { Award, BadgePercent, Bike, BookHeart, Briefcase, Brush, ChevronRight, Clapperboard, Drama, Guitar, HeartPulse, Hotel, Leaf, LucideIcon, MapPin, MessageSquareText, Mic2, Palette, PartyPopper, Popcorn, School, School2, Shirt, Sparkle, Theater, Ticket } from "lucide-react-native";
 
 export const eventsCategory: Record<EventsCategory, number> = {

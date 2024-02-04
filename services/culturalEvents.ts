@@ -1,7 +1,7 @@
 import { SERVER_HOST } from '@env';
 import axios from 'axios';
-import { AllEvents, CulturalEventCard, CulturalEventCardRequest, CulturalEvents, EventsCategory, LilleCulturalEvent, WhenQuery } from '../types/CulturalEvents';
-import { eventsCategory } from '../utils/culturalEvents';
+import { AllEvents, CulturalEventCard, CulturalEventCardRequest, CulturalEvents, EventsCategory, LilleCulturalEvent, WhenQuery } from '../types/Events';
+import { eventsCategory } from '../utils/events';
 import { Key } from 'lucide-react-native';
 
 export const fetchCulturalEvents = async (city: string, when: WhenQuery): Promise<CulturalEvents> => {

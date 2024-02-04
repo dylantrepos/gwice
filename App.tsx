@@ -5,15 +5,17 @@ import { Provider } from 'react-redux'; // Import Provider
 import { store } from './store/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsHomeView';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
 import { Home, Settings } from 'lucide-react-native'
 import { StyleProp, Text, TextStyle, ViewStyle } from 'react-native';
-import { CulturalEventView } from './view/CulturalEventsView/CulturalEventView/CulturalEventView';
-import { CulturalEventListView } from './view/CulturalEventsView/CulturalEventListView/CulturalEventListView';
+
+// Views
+import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
+import { CityEventView } from './view/CityEvents/CityEventView/CityEventView';
+import { CityEventHomeView } from './view/CityEvents/CityEventHomeView/CityEventHomeView';
+import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsHomeView';
+
 import { Poppins_100Thin, Poppins_100Thin_Italic, Poppins_200ExtraLight, Poppins_200ExtraLight_Italic, Poppins_300Light, Poppins_300Light_Italic, Poppins_400Regular, Poppins_400Regular_Italic, Poppins_500Medium, Poppins_500Medium_Italic, Poppins_600SemiBold, Poppins_600SemiBold_Italic, Poppins_700Bold, Poppins_700Bold_Italic, Poppins_800ExtraBold, Poppins_800ExtraBold_Italic, Poppins_900Black, Poppins_900Black_Italic, useFonts } from "@expo-google-fonts/poppins";
-import { HomeCulturalEventView } from './view/CulturalEventsView/HomeCulturalEventView/HomeCulturalEventView';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -53,17 +55,12 @@ const HomeScreens = () => {
       />
       <HomeStack.Screen 
         name="CulturalEvent" 
-        component={CulturalEventView} 
-        
-      />
-      <HomeStack.Screen 
-        name="CulturalEventList" 
-        component={CulturalEventListView} 
+        component={CityEventView} 
         
       />
       <HomeStack.Screen 
         name="HomeCulturalEvent" 
-        component={HomeCulturalEventView} 
+        component={CityEventHomeView} 
         
       />
     </HomeStack.Navigator>

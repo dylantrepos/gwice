@@ -2,7 +2,7 @@ import { View, ImageBackground } from 'react-native';
 import { useSelector } from 'react-redux'; 
 import style from './CityBackgroundItem.style';
 import { RootState } from '../../store/store';
-import { CityWeatherItem } from '../Weather/CityWeatherItem/CityWeatherItem';
+import { CityWeatherItem } from '../CityWeather/CityWeatherItem/CityWeatherItem';
 import { Text } from '../Text/Text';
 
 

@@ -1,10 +1,10 @@
 import { View, Image, ImageProps, Animated, Easing } from 'react-native';
 import style from './CityWeatherCurrentItem.style';
 import { OpenMeteoDataCurrent } from '../../../types/Weather';
-import { animationBounceOptions, animationDurationStaggIn, animationDurationStaggOut,  animationDurationStaggerIn, animationDurationStaggerOut, animationOptions, bounceTranslateY } from '../weatherSettings';
+import { animationBounceOptions, animationDurationStaggIn, animationDurationStaggOut,  animationDurationStaggerIn, animationDurationStaggerOut, animationOptions, bounceTranslateY } from '../cityWeatherSettings';
 import { capitalizeFirstLetter, getAnimatedWeatherArray } from '../../../utils/utils';
 import { useEffect, useRef } from 'react';
-import { WeatherInfoElements } from '../weatherInfoElements';
+import { cityWeatherInfoElements } from '../cityWeatherInfoElements';
 
 type Props = {
   imageSource: ImageProps;
@@ -20,7 +20,7 @@ export const CityWeatherCurrentItem = ({
   show
 }: Props) => {
   const { temperature, windSpeed, precipitation } = weather;
-  const { windSpeedItem, precipitationItem, temperatureItem, dateItem } = WeatherInfoElements;
+  const { windSpeedItem, precipitationItem, temperatureItem, dateItem } = cityWeatherInfoElements;
 
   const fade = useRef(new Animated.Value(0)).current;
   const fadeDate = useRef(new Animated.Value(0)).current;

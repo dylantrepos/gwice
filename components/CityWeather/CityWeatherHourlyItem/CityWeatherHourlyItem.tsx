@@ -3,7 +3,7 @@ import { weatherCodeIcons } from '../../../utils/weatherImgCode';
 import style from './CityWeatherHourlyItem.style';
 import { OpenMeteoDataHourly} from '../../../types/Weather';
 import { useEffect, useRef } from 'react';
-import { animationOptions } from '../weatherSettings';
+import { animationOptions } from '../cityWeatherSettings';
 
 type Props = {
   weather: OpenMeteoDataHourly;

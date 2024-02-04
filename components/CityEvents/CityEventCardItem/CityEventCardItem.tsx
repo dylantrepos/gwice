@@ -1,11 +1,10 @@
 import { Calendar } from "lucide-react-native";
-import style from './CulturalEventsCardItem.style';
+import style from './CityEventCardItem.style';
 import { Text } from "../../Text/Text";
 import { Image, Pressable, View } from "react-native";
 import { getFormatedDateFromTimestamp } from "../../../utils/utils";
-import { CulturalEventCard } from "../../../types/CulturalEvents";
+import { CulturalEventCard } from "../../../types/Events";
 import { useEffect, useState } from "react";
-import { WarningScreenItem } from "../../WarningScreenItem/WarningScreenItem";
 
 type Props = {
   navigation: any;
@@ -13,7 +12,7 @@ type Props = {
   event: CulturalEventCard;
 }
 
-export const CulturalEventsCardItem = ({
+export const CityEventCardItem = ({
   navigation, 
   route,
   event

@@ -1,14 +1,13 @@
 import { ChevronRight } from "lucide-react-native";
-import style from './CulturalEventsItem.style';
+import style from './CityEventsListHorizontalItem.style';
 import { Text } from "../../Text/Text";
 import { Pressable, ScrollView, View } from "react-native";
-import { CulturalEventsCardItem } from "../CulturalEventsCardItem/CulturalEventsCardItem";
-import { CulturalEventCard, LilleCulturalEvent } from "../../../types/CulturalEvents";
+import { CityEventCardItem } from "../CityEventCardItem/CityEventCardItem";
 import { useGetCulturalEvents } from "../../../hooks/useGetCulturalEvents";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { WarningScreenItem } from "../../WarningScreenItem/WarningScreenItem";
-import { formatTitle } from "../../../utils/culturalEvents";
+import { formatTitle } from "../../../utils/events";
 
 type Props = {
   navigation: any;
@@ -18,7 +17,7 @@ type Props = {
   category?: number;
 }
 
-export const CulturalEventsItem = ({
+export const CityEventsListHorizontalItem = ({
   navigation, 
   route,
   title,
@@ -67,7 +66,7 @@ export const CulturalEventsItem = ({
             />
             : events && events?.total > 0 ?
               events.events.map((event, index) => (
-                <CulturalEventsCardItem 
+                <CityEventCardItem 
                   key={index}
                   navigation={navigation}
                   route={route}

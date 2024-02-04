@@ -1,12 +1,12 @@
 import { StatusBar } from "expo-status-bar"
 import { RefreshControl, ScrollView, View, Image, Pressable, Linking, TouchableOpacity, Modal, Dimensions, Platform } from "react-native"
-import style from './CulturalEventView.style';
+import style from './CityEventView.style';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCallback, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setRefetchHome } from "../../../reducers/generalReducer";
 import { Text } from "../../../components/Text/Text";
-import { LilleCulturalEvent } from "../../../types/CulturalEvents";
+import { LilleCulturalEvent } from "../../../types/Events";
 import { BadgeEuro, Calendar, ChevronLeft, MapPin, X } from "lucide-react-native";
 import PanPinchView from "react-native-pan-pinch-view";
 import { getFormatedDateFromTimestamp } from "../../../utils/utils";
@@ -19,7 +19,7 @@ type Props = {
   route: any;
 }
 
-export const CulturalEventView = ({
+export const CityEventView = ({
   navigation,
   route
 }: Props) => {

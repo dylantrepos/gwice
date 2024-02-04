@@ -54,14 +54,17 @@ export default StyleSheet.create({
     fontSize: 20,
   },
   promoteEventButton: {
-    color: '#fff',
     borderWidth: 1,
     borderColor: '#fff',
     paddingHorizontal: 20,
-    paddingVertical: 5,
+    paddingVertical: 10,
     borderRadius: 100,
-    lineHeight: 20,
     alignSelf: 'center',
+  },
+  promoteEventButtonText: {
+    color: '#fff',
+    lineHeight: 20,
+    textAlign: 'center',
   },
 
   // Search event
@@ -164,7 +167,7 @@ export default StyleSheet.create({
     overflow: 'hidden',
     position: 'relative',
     // width: '100%',
-    marginVertical: 10,
+    marginVertical: 5,
     marginHorizontal: 10,
     height: 400,
   },
@@ -184,10 +187,13 @@ export default StyleSheet.create({
     color: '#fff',
   },
   cardDescription: {
+    justifyContent: 'flex-end',
+    height: 200,
+  },
+  cardDescriptionText: {
     color: '#fff',
     padding: 20,
-    height: 200,
-    verticalAlign: 'bottom',
+    paddingBottom: 30,
   },
 
 

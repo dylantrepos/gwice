@@ -2,10 +2,10 @@ import { View, Image, Animated } from 'react-native';
 import style from './CityWeatherDaiIyItem.style';
 import { OpenMeteoDataDaily } from '../../../types/Weather';
 import { weatherCodeIcons } from '../../../utils/weatherImgCode';
-import { animationBounceOptions, animationDurationStaggIn, animationDurationStaggOut,  animationDurationStaggerIn, animationDurationStaggerOut, animationOptions, bounceTranslateY } from '../weatherSettings';
+import { animationBounceOptions, animationDurationStaggIn, animationDurationStaggOut,  animationDurationStaggerIn, animationDurationStaggerOut, animationOptions, bounceTranslateY } from '../cityWeatherSettings';
 import { getAnimatedWeatherArray, getFormatedDate } from '../../../utils/utils';
 import { useEffect, useRef } from 'react';
-import { WeatherInfoElements } from '../weatherInfoElements';
+import { cityWeatherInfoElements } from '../cityWeatherInfoElements';
 
 type Props = {
   weather: OpenMeteoDataDaily;
@@ -17,7 +17,7 @@ export const CityWeatherDailyItem = ({
   show
 }: Props) => {
   const { temperatureMin, temperatureMax, windSpeed, precipitation, time } = weather;
-  const { windSpeedItem, precipitationItem, temperatureMinMaxItem, dateItem } = WeatherInfoElements;
+  const { windSpeedItem, precipitationItem, temperatureMinMaxItem, dateItem } = cityWeatherInfoElements;
   
   const fade = useRef(new Animated.Value(0)).current;
   const fadeDate = useRef(new Animated.Value(0)).current;
