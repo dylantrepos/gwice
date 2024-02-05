@@ -7,7 +7,6 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setRefetchHome } from "../../reducers/generalReducer";
 import { CityEventsListHorizontalItem } from "../../components/CityEvents/CityEventsListHorizontalItem/CityEventsListHorizontalItem";
-import { useGetCulturalEvents } from "../../hooks/useGetCulturalEvents";
 import { RootState } from "../../store/store";
 
 type HomeViewProps = {

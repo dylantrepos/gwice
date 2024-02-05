@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from 'react-redux';
-import { setRefetchHome } from "../../../reducers/generalReducer";
+import { setRefetchCityEventHome } from "../../../reducers/generalReducer";
 import { Animated, Dimensions, FlatList, Image, ImageBackground, Platform, Pressable, ScrollView, View } from "react-native";
 import { HeaderPage } from "../../../components/HeaderPage/HeaderPage";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,8 +8,10 @@ import style from './CityEventHomeView.style';
 import { Text } from "../../../components/Text/Text";
 import { LinearGradient } from 'expo-linear-gradient';
 import { eventsCategoryLille, formatTitle } from "../../../utils/events";
-import { CalendarDays, ChevronDown, Euro, Filter, Search } from "lucide-react-native";
+import { CalendarDays, ChevronDown, Euro, Eye, Filter, Search } from "lucide-react-native";
 import { ListCategoryItem } from "../../../types/Events";
+import { GestureHandlerRootView, RefreshControl } from "react-native-gesture-handler";
+import { CityEventsListVerticalItem } from "../../../components/CityEvents/CityEventsListVerticalItem/CityEventsListVerticaltem";
 
 
 type Props = {
@@ -23,56 +25,84 @@ export const CityEventHomeView = ({
   route
 }: Props) => {
   const [refreshing, setRefreshing] = useState(false);
-  const [filterCategory, setFilterCategory] = useState<string[]>([]);
+  const [filteredCategoryIdList, setFilteredCategoryIdList] = useState<number[]>([]);
   const dispatch = useDispatch();
 
   // const Tab = createMaterialTopTabNavigator();
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    dispatch(setRefetchHome(true));
+    dispatch(setRefetchCityEventHome(true));
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   }, []);
 
+  
+
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <View style={{ flex: 1, backgroundColor: 'red', height: Dimensions.get("screen").height, position: 'relative' }}>
       <SafeAreaView
         style={style.homeCulturalEvent}
       >
-        <Animated.ScrollView
+        <ScrollView
           stickyHeaderHiddenOnScroll={true}
-          stickyHeaderIndices={[3]}
+          stickyHeaderIndices={[2]}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         >
           <PromoteEvent 
             navigation={navigation}
           />
           <SearchEventItem />
-            <Text 
-              styles={style.categoryContainerTitle} 
-              weight="600"
-            >
-              Par thème
-            </Text>
-
           <View
             style={{
               backgroundColor: 'white',
+              paddingTop: 20,
             }}
           >
-
+             <View
+              style={style.categoryTitleContainer}
+             >
+              <Text 
+                styles={style.categoryContainerTitle} 
+                weight="600"
+              >
+                Par thème
+              </Text>
+              { filteredCategoryIdList.length > 0 && (
+                <Pressable
+                  onPress={() => setFilteredCategoryIdList([])}
+                  style={style.categoryContainerFilterButton}
+                >
+                  <Text
+                    styles={style.categoryContainerFilterText} 
+                    weight="500"
+                  >
+                    Tout supprimer
+                  </Text>
+                </Pressable>
+              )}
+             </View>
             <CategoryListItem 
               categories={eventsCategoryLille}
-              categoriesSelected={filterCategory}
-              filterCategory={setFilterCategory}
+              categoriesSelected={filteredCategoryIdList}
+              filteredCategoryIdList={setFilteredCategoryIdList}
             />
             <FilterListItem />
           </View>
-          <CardsListItem />
-        </Animated.ScrollView>
+          <CityEventsListVerticalItem 
+            refetchCityEventHome={refreshing}
+            route={route}
+            navigation={navigation}
+            filteredCategoryIdList={filteredCategoryIdList}
+          />
+        </ScrollView>
      </SafeAreaView>
     </View>
+    </GestureHandlerRootView>
   )
 }
 
@@ -154,77 +184,25 @@ const PromoteEvent = ({
       </Pressable>
 )};
 
-
-const CardsListItem = () => {
-  // Replace with your actual view
-  return (
-    <View
-      style={style.cardList}
-    >
-      {Array.from({ length: 10 }).map((_, index) => (
-        <View
-          key={`card-${index}`}
-        style={style.card}
-      >
-        <ImageBackground
-          style={style.cardImage}
-          source={{
-            uri: 'https://lilleaddict.fr/wp-content/uploads/2024/02/gand-festival-lumieres-1024x900.jpeg'
-          }}
-        >
-          <LinearGradient
-            colors={['rgba(0,0,0,1)', 'transparent']}
-            style={style.cardInfos}
-          >
-            <Text 
-              styles={style.cardTitle}
-              weight="700"
-            >
-              Événements du week-end
-            </Text>
-            <Text 
-              styles={style.cardDate}
-            >
-              Du 31 jan. au 4 fév.
-            </Text>
-          </LinearGradient>
-          <LinearGradient
-            colors={['transparent', 'rgba(0,0,0,1)']}
-            style={style.cardDescription} 
-          >
-            <Text 
-              styles={style.cardDescriptionText} 
-              numberOfLines={3}
-            >
-              Ce week-end ça envoie du lourd près de chez toi avec le festival des lumières de Gand, l’Enduropale, le Playground Market et un open air au Fort de Mons… Enfin bref, un bon gros programme que l’on t’explique par ici. 🙂
-            </Text>
-          </LinearGradient>
-        </ImageBackground>
-      </View>
-      ))}
-    </View>
-  );
-}
-
 type CategoryListItemProps = {
   categories: ListCategoryItem[];
-  categoriesSelected: string[];
-  filterCategory: React.Dispatch<React.SetStateAction<string[]>>
+  categoriesSelected: number[];
+  filteredCategoryIdList: React.Dispatch<React.SetStateAction<number[]>>
 }
 
 const CategoryListItem = ({
   categories,
   categoriesSelected,
-  filterCategory
+  filteredCategoryIdList
 }: CategoryListItemProps) => {
 
-  const handleToggleCategory = (category: string) => {
-    const index = categoriesSelected.indexOf(category);
+  const handleToggleCategory = (categoryId: number) => {
+    const index = categoriesSelected.indexOf(categoryId);
     if (index === -1) {
-      filterCategory([...categoriesSelected, category]);
+      filteredCategoryIdList([...categoriesSelected, categoryId]);
       console.log('categoriesSelected: added');
     } else {
-      filterCategory(categoriesSelected.filter((cat) => cat !== category));
+      filteredCategoryIdList(categoriesSelected.filter((cat) => cat !== categoryId));
       console.log('categoriesSelected: removed');
     }
   }
@@ -239,6 +217,7 @@ const CategoryListItem = ({
     }).start();
   }, []);
 
+
   return (
     <View
       style={style.categoryContainer}
@@ -248,24 +227,23 @@ const CategoryListItem = ({
         horizontal
         contentContainerStyle={{
           columnGap: 10,
-          paddingHorizontal: 20,
         }}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item, index) => item.title + index}
         renderItem={({item}) => {
-          const { title, iconElt: IconElt } = item;
+          const { title, id, iconElt: IconElt } = item;
 
           return (
             <Pressable 
               style={style.category}
               onPress={() => {
-                handleToggleCategory(title);
+                handleToggleCategory(id);
               }}
             >
               { IconElt && (
                   <View
                     style={{
-                      backgroundColor: categoriesSelected.includes(title) ? '#0D89CE' : 'transparent',
+                      backgroundColor: categoriesSelected.includes(id) ? '#0D89CE' : 'transparent',
                       borderRadius: 100,
                       padding: 10,
                       ...Platform.select({
@@ -274,17 +252,17 @@ const CategoryListItem = ({
                             width: 0,
                             height: 9,
                           },
-                          shadowOpacity: categoriesSelected.includes(title) ? 0.20 : 0,
+                          shadowOpacity: categoriesSelected.includes(id) ? 0.20 : 0,
                           shadowRadius: 12.35,
                         },
                         android: {
-                          elevation: categoriesSelected.includes(title) ? 5 : 0,
+                          elevation: categoriesSelected.includes(id) ? 5 : 0,
                         },
                       }),
                     }}
                     >
                     <IconElt 
-                      color={categoriesSelected.includes(title) ? 'white' : 'black'} 
+                      color={categoriesSelected.includes(id) ? 'white' : 'black'} 
                       size={34} 
                       strokeWidth={1} 
                       style={style.categoryIcon}

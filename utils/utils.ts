@@ -38,6 +38,6 @@ export const getFormatedDateFromTimestamp = (timestamp: number | string) => {
   }
 
   const date = new Date(timestamp);
-  const formatedDate = date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
+  const formatedDate = date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric'});
   return formatedDate;
 }

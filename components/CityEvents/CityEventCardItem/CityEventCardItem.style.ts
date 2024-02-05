@@ -60,4 +60,59 @@ export default StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
   },
+
+  // Event Card Large
+  cardList: {
+    paddingBottom: 20,
+  },
+  card: {
+    borderRadius: 10,
+    overflow: 'hidden',
+    position: 'relative',
+    // width: '100%',
+    marginVertical: 5,
+    marginHorizontal: 10,
+    height: 450,
+  },
+  cardImage: {
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  cardInfos: {
+    // width: '100%',
+    padding: 20,
+    paddingBottom: 60,
+  },
+  cardTitle: {
+    color: '#fff',
+    fontSize: 20,
+  },
+  cardDate: {
+    color: '#fff',
+  },
+  cardDescription: {
+    justifyContent: 'flex-end',
+    height: 200,
+  },
+  cardDescriptionCategoryContainer: {
+    borderRadius: 100,
+    paddingVertical: 2,
+    paddingHorizontal: 10,
+    marginHorizontal: 20,
+    borderWidth: 1,
+    borderColor: '#fff',
+    alignSelf: 'flex-start',
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+  },
+  cardDescriptionCategory: {
+    lineHeight: 20,
+  },
+  cardDescriptionText: {
+    color: '#fff',
+    padding: 20,
+  },
 });

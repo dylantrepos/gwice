@@ -91,8 +91,14 @@ export interface CategoryOption {
   display: boolean;
 }
 
+export interface CityEventDetailsRequest {
+  total: number;
+  events: CityEventDetails[];
+  sort: string;
+  after: string[];
+}
 
-export interface LilleCulturalEvent {
+export interface CityEventDetails {
   longDescription: { [key: string]: string };
   country: { [key: string]: string };
   interetintercommunal: number[];
@@ -276,19 +282,20 @@ interface Category {
 
 
 
-export interface CulturalEventCard {
+export interface CityEventCard {
     image: Image;
     uid: number;
     firstTiming: Timing;
     lastTiming: Timing;
     location: Location;
     title: Title;
+    description?: { [key: string]: string };
     "categories-metropolitaines": Category[];
 };
 
-export interface CulturalEventCardRequest {
+export interface CityEventCardRequest {
   total: number;
-  events: CulturalEventCard[];
+  events: CityEventCard[];
   sort: string;
   after: string[];
 }
@@ -321,7 +328,7 @@ export type EventsCategory =
     title: string,
     data: {
       total: number,
-      events: LilleCulturalEvent[],
+      events: CityEventDetails[],
       sort: string,
       after: string[],
     }

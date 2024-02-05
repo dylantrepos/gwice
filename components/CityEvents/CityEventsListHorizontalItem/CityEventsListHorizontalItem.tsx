@@ -3,7 +3,7 @@ import style from './CityEventsListHorizontalItem.style';
 import { Text } from "../../Text/Text";
 import { Pressable, ScrollView, View } from "react-native";
 import { CityEventCardItem } from "../CityEventCardItem/CityEventCardItem";
-import { useGetCulturalEvents } from "../../../hooks/useGetCulturalEvents";
+import { useGetCityEvents } from "../../../hooks/useGetCityEvents";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { WarningScreenItem } from "../../WarningScreenItem/WarningScreenItem";
@@ -14,7 +14,7 @@ type Props = {
   route: any;
   title: string;
   handleNavigation: () => void;
-  category?: number;
+  categoryIdList?: number[];
 }
 
 export const CityEventsListHorizontalItem = ({
@@ -22,15 +22,15 @@ export const CityEventsListHorizontalItem = ({
   route,
   title,
   handleNavigation,
-  category
+  categoryIdList
 }: Props) => {
-  const { currentCity, refetchHome } = useSelector((state: RootState) => state.general);
+  const { currentCity, refetchCityEventHome } = useSelector((state: RootState) => state.general);
 
   const {
     isLoading, 
     events, 
     isError
-  } = useGetCulturalEvents(refetchHome, category);
+  } = useGetCityEvents({refetchCityEventHome, categoryIdList});
 
   if (!events) return null;
 

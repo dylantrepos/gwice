@@ -8,6 +8,7 @@ type State = {
   currentCity: City;
   weatherSettings: WeatherSettings;
   refetchHome: boolean;
+  refetchCityEventHome: boolean;
 }
 
 const initialState: State = {
@@ -15,7 +16,8 @@ const initialState: State = {
   weatherSettings: {
     startDailyHour: 7,
   },
-  refetchHome: false
+  refetchHome: false,
+  refetchCityEventHome: false,
 };
 
 const generalSlice = createSlice({
@@ -31,14 +33,19 @@ const generalSlice = createSlice({
     setRefetchHome: (state, action: PayloadAction<boolean>) => {
       console.log('setRefetchHome :', action.payload);
       state.refetchHome = action.payload;
-    }
+    },
+    setRefetchCityEventHome: (state, action: PayloadAction<boolean>) => {
+      console.log('setRefetchCityEventHome :', action.payload);
+      state.refetchCityEventHome = action.payload;
+    },
   }
 });
 
 export const { 
   setCurrentCity,
   setWeatherSettings,
-  setRefetchHome
+  setRefetchHome,
+  setRefetchCityEventHome
 } = generalSlice.actions;
 
 export default generalSlice.reducer;

@@ -76,7 +76,8 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     gap: 10,
-    margin: 20,
+    marginTop: 20,
+    marginHorizontal: 20,
     borderRadius: 100,
     width: '90%',
     maxWidth: 400,
@@ -97,10 +98,27 @@ export default StyleSheet.create({
   // Category
   categoryContainer: {
     backgroundColor: 'white',
+    flexDirection: 'row',
+  },
+  categoryTitleContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+  },
+  categoryContainerFilterButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: '#C70303',
+  },
+  categoryContainerFilterText: {
+    color: '#C70303',
+    fontSize: 12,
   },
   categoryContainerTitle: {
     fontSize: 18,
-    paddingLeft: 20,
     paddingTop: 10,
   },
   categoryList: {

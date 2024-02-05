@@ -6,12 +6,12 @@ import { useCallback, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setRefetchHome } from "../../../reducers/generalReducer";
 import { Text } from "../../../components/Text/Text";
-import { LilleCulturalEvent } from "../../../types/Events";
+import { CityEventCardRequest, CityEventDetails, CityEventDetailsRequest } from "../../../types/Events";
 import { BadgeEuro, Calendar, ChevronLeft, MapPin, X } from "lucide-react-native";
 import PanPinchView from "react-native-pan-pinch-view";
 import { getFormatedDateFromTimestamp } from "../../../utils/utils";
-import { useGetCulturalEvent } from "../../../hooks/useGetCulturalEvents";
 import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
+import { useGetCityEventDetail } from "../../../hooks/useGetCityEvents";
 
 
 type Props = {
@@ -41,9 +41,11 @@ export const CityEventView = ({
     }, 1000);
   }, []);
 
-  const { uid } = route.params;
+  const { eventId } = route.params;
 
-  const {isLoading, events, isError} = useGetCulturalEvent(uid);
+  console.log('CityEventView.tsx: uid: ', eventId);
+
+  const {isLoading, events, isError} = useGetCityEventDetail(eventId);
 
   if (isLoading) {
     return <WarningScreenItem type='loader' />; 
@@ -67,7 +69,7 @@ export const CityEventView = ({
     conditions,
     links,
     'categories-metropolitaines': category
-  } = events as LilleCulturalEvent;
+  } = (events as CityEventDetailsRequest).events[0] as CityEventDetails;
 
   console.log('CulturalEventsView.tsx: event: ', title);
 
@@ -85,7 +87,10 @@ export const CityEventView = ({
     ios: `${scheme}${location.name}@${latLng}`,
     android: `${scheme}${latLng}(${location.name})`
   }) ?? '';
-      
+
+
+  const today = new Date();
+  const firstTimingDate = new Date(firstTiming.begin);
 
   return (
     <SafeAreaView style={style.container}>
@@ -150,7 +155,9 @@ export const CityEventView = ({
               <Text 
                 styles={style.date}
               >
-                {`Du ${getFormatedDateFromTimestamp(firstTiming.begin)} au ${getFormatedDateFromTimestamp(lastTiming.end)}`}
+               {getFormatedDateFromTimestamp(firstTiming.begin) === getFormatedDateFromTimestamp(lastTiming.end) 
+              ? `${getFormatedDateFromTimestamp(firstTiming.begin)}` 
+              : firstTimingDate < today ? `Jusqu'au ${getFormatedDateFromTimestamp(lastTiming.end)}` : `Du ${getFormatedDateFromTimestamp(firstTiming.begin)} au ${getFormatedDateFromTimestamp(lastTiming.end)}`}
               </Text>
             </View>
             <View style={style.infoContainer}>
