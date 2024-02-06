@@ -1,9 +1,9 @@
 import { Calendar } from "lucide-react-native";
 import style from './CityEventCardItem.style';
 import { Text } from "../../Text/Text";
-import { Image, ImageBackground, Pressable, View } from "react-native";
+import { Animated, Image, ImageBackground, Pressable, View } from "react-native";
 import { getFormatedDateFromTimestamp } from "../../../utils/utils";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { CityEventCard } from "../../../types/Events";
 import { allEventsCategoryLille, formatTitle } from '../../../utils/events';
@@ -89,8 +89,9 @@ type CityEventCardLargeItemProps = {
 export const CityEventCardLargeItem = memo(({
   navigation, 
   route,
-  event
+  event,
 }: CityEventCardLargeItemProps) => {
+
   const { 
     uid,
     title, 
@@ -101,7 +102,7 @@ export const CityEventCardLargeItem = memo(({
     description
   } = event;
 
-  const category = allEventsCategoryLille.find(category => category.id === categoriesMetropolitaines[categoriesMetropolitaines.length - 1].id);
+  if (!categoriesMetropolitaines) return null;
 
   const categoriesId = categoriesMetropolitaines.map(category => category.id);
 
@@ -125,12 +126,12 @@ export const CityEventCardLargeItem = memo(({
   const today = new Date();
   const firstTimingDate = new Date(firstTiming.begin);
 
-  return imageLoaded && (
+  return  (
     <Pressable 
       style={style.card}
       onPress={handlePress}
     >
-       <ImageBackground
+       {imageLoaded && <ImageBackground
           style={style.cardImage}
           source={{
             uri: imageSrc
@@ -198,8 +199,59 @@ export const CityEventCardLargeItem = memo(({
               </Text>
             }
           </LinearGradient>
-        </ImageBackground>
+        </ImageBackground>}
     </Pressable>
   )
 }, (prevProps, nextProps) => { // and here is what i didn't notice before.
   return prevProps.event.uid === nextProps.event.uid;});
+
+
+export const CityEventCardLargeEmptyItem = () => {
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(fadeAnim, {
+          toValue: 0.33,
+          duration: 750,
+          useNativeDriver: false,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 0.66,
+          duration: 750,
+          useNativeDriver: false,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 750,
+          useNativeDriver: false,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 750,
+          useNativeDriver: false,
+        }),
+      ]),
+      {
+        iterations: -1,
+      }
+    ).start();
+  }, []);
+
+  
+  return (
+    <Animated.View 
+      style={{
+        ...style.cardEmptyContainer,
+        backgroundColor: fadeAnim.interpolate({
+          inputRange: [0, 0.33, 0.66, 1],
+          outputRange: ['#E7F4FB', '#EBE7FB', '#E7FBF7', '#FBF9E7'],
+        }),
+      }}
+    >
+    </Animated.View>
+  )
+};

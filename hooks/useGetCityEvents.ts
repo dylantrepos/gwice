@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { InfiniteData, useInfiniteQuery, useQuery } from 'react-query';
 import { AllEvents, CityEventCard, CityEventCardRequest, CityEventDetails, CityEventDetailsRequest, EventsCategory, WhenQuery } from '../types/Events';
 import { fetchCityEventDetails, fetchCityEvents } from '../services/cityEvents';
 
@@ -9,31 +9,43 @@ import { fetchCityEventDetails, fetchCityEvents } from '../services/cityEvents';
 type UseGetCityEvents = {
   isLoading: boolean;
   isError: boolean;
-  events: CityEventCardRequest | undefined;
+  events: InfiniteData<CityEventCardRequest> | undefined;
   category?: string;
+  hasNextPage?: boolean;
+  fetchNextPage: () => void;
 }
 
 type UseGetCityEventsProps = {
   refetchCityEventHome: boolean;
   categoryIdList?: number[];
-  nextEventPageIds?: (number | string)[] | null;
 }
 
 export const useGetCityEvents = ({
   refetchCityEventHome,
   categoryIdList = [],
-  nextEventPageIds = null,
 }: UseGetCityEventsProps): UseGetCityEvents => {
 
-  const { isLoading, isError, data: events, error } = useQuery(
-    [`cityEvents`, refetchCityEventHome, categoryIdList, nextEventPageIds], 
-    () => fetchCityEvents({
-      categoryIdList,
-      nextEventPageIds,
-    }),
+  const { 
+    isLoading, 
+    isError, 
+    data: events, 
+    hasNextPage,
+    fetchNextPage
+  } = useInfiniteQuery(
+    [`cityEvents`, refetchCityEventHome, categoryIdList], 
+    ({pageParam: nextEventPageIds = null}) => fetchCityEvents({ categoryIdList, nextEventPageIds }),
+    {
+      refetchOnWindowFocus: false,
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.after) {
+          return lastPage.after;
+        }
+        return undefined;
+      },
+    }
   );
 
-  return { isLoading, isError, events };
+  return { isLoading, isError, events, hasNextPage, fetchNextPage};
 
 
 };

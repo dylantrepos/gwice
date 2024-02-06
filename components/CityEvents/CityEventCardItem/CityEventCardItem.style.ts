@@ -74,6 +74,15 @@ export default StyleSheet.create({
     marginHorizontal: 10,
     height: 450,
   },
+
+  cardEmptyContainer: {
+    borderRadius: 10,
+    overflow: 'hidden',
+    position: 'relative',
+    marginVertical: 5,
+    marginHorizontal: 10,
+    height: 450,
+  },
   cardImage: {
     justifyContent: 'space-between',
     flex: 1,

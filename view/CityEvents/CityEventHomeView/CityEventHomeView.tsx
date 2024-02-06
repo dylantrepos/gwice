@@ -12,24 +12,32 @@ import { CalendarDays, ChevronDown, Euro, Eye, Filter, Search } from "lucide-rea
 import { CityEventCard, ListCategoryItem } from "../../../types/Events";
 import { GestureHandlerRootView, RefreshControl } from "react-native-gesture-handler";
 import { useGetCityEvents } from "../../../hooks/useGetCityEvents";
-import { CityEventCardLargeItem } from "../../../components/CityEvents/CityEventCardItem/CityEventCardItem";
+import { CityEventCardLargeEmptyItem, CityEventCardLargeItem } from "../../../components/CityEvents/CityEventCardItem/CityEventCardItem";
 import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
 
 
 type HeaderListProps = {
   navigation: any;
+  handleHeaderHeight: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const HeaderList = ({
   navigation,
+  handleHeaderHeight
 }: HeaderListProps) => {
 
-  return  ( <>
+  return  ( 
+  <View
+    onLayout={(event) => {
+      const {height} = event.nativeEvent.layout;
+      handleHeaderHeight(height);
+    }}
+  >
     <PromoteEvent 
       navigation={navigation}
     />
     <SearchEventItem />
-  </>)
+  </View>)
 }
 
 type StickyHeaderProps = {
@@ -86,16 +94,24 @@ type Props = {
   route: any;
 }
 
+type CityEventCardLargeItemProps = {
+  item: any;
+  index: number;
+}
+
 
 export const CityEventHomeView = ({
   navigation,
   route
 }: Props) => {
   const [refreshing, setRefreshing] = useState(false);
-  const [eventList, setEventList] = useState<CityEventCard[]>([]);
+  const [eventList, setEventList] = useState<CityEventCard[] | number[]>([]);
   const [filteredCategoryIdList, setFilteredCategoryIdList] = useState<number[]>([]);
-  const [nextEventPageIds, setNextEventPageIds] = useState<(string | number)[]>();
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const dispatch = useDispatch();
+  const flatListRef = useRef<VirtualizedList<CityEventCard> | null>(null);
+  const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -105,25 +121,55 @@ export const CityEventHomeView = ({
     }, 1000);
   }, []);
 
+  useEffect(() => {
+    setEventList([]);
+
+    if (flatListRef.current) {
+      // flatListRef.current.scrollToOffset({ animated: true, offset: 200 });
+    }
+  }, [filteredCategoryIdList]);
+
+  const CityHomeEventRender = useCallback(({item, index}: CityEventCardLargeItemProps) => {
+    // check if the item is the sticky header
+    return index === 0 ? item : eventList?.length > 0 ? (
+      <CityEventCardLargeItem 
+        navigation={navigation}
+        route={route}
+        event={item as CityEventCard}
+      />
+    ) : (
+      <CityEventCardLargeEmptyItem />
+    )
+}, [eventList])
+
   const {
     isLoading, 
     events, 
-    isError
+    isError,
+    hasNextPage,
+    fetchNextPage
   } = useGetCityEvents({
     refetchCityEventHome: refreshing, 
     categoryIdList: filteredCategoryIdList,
-    nextEventPageIds
   });
 
-  
-  useEffect(() => { 
-    // console.log('events changed : ', events.events);
+  const fetchMoreData = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  }
+
+  useEffect(() => {
+    setEventList([]);
+    if (flatListRef.current && scrollPosition > headerHeight) {
+      flatListRef.current.scrollToOffset({ animated: false, offset: headerHeight });
+    }
+  }, [filteredCategoryIdList]);
+
+  useEffect(() => {
     if (!isLoading && events) {
-      console.log('events.events updated ');
-      setEventList((old) => ([
-        ...old,
-        ...events.events
-      ]));
+      const eventsListFinal = events.pages.map((page) => page.events).flat();
+      setEventList(eventsListFinal);
     }
   }, [events]);
 
@@ -135,19 +181,37 @@ export const CityEventHomeView = ({
         >
           <VirtualizedList
             removeClippedSubviews={false}
+            contentContainerStyle={{ minHeight: '100%' }}
+            maxToRenderPerBatch={10}
+            windowSize={21}
+            ref={flatListRef}
+            onScroll={(event) => {
+              setScrollPosition(event.nativeEvent.contentOffset.y);
+            }}
+            // data={eventList}
             data={[
                   <StickyHeader 
                     filteredCategoryIdList={filteredCategoryIdList}
                     handleSetFilteredCategoryIdList={setFilteredCategoryIdList}
 
                     />, 
-                  ...eventList
+                    // ...fakeWaitingData
+                  ...(eventList?.length > 0 || !isLoading ? eventList : fakeWaitingData)
                 ]}
-            // initialNumToRender={5}
-            disableVirtualization
+            initialNumToRender={1}
+            // maintainVisibleContentPosition={
+            //   {
+            //     minIndexForVisible: 0,
+            //     // autoscrollToTopThreshold: 100
+            //   }
+            // }
+            // disableVirtualization
             showsVerticalScrollIndicator={false}
             getItem={(data, index) => data[index]}
             getItemCount={(data) => data?.length}
+            getItemLayout={(data, index) => (
+              {length: 450, offset: 450 * index, index}
+            )}
             stickyHeaderHiddenOnScroll={true}
             stickyHeaderIndices={[1]}
             refreshControl={
@@ -155,15 +219,12 @@ export const CityEventHomeView = ({
                 refreshing={refreshing} onRefresh={onRefresh} 
               />
             }
-            onEndReachedThreshold={2}
-            onEndReached={() => {
-              if (events?.after) {
-                setNextEventPageIds(events.after);
-              }
-            }}
+            onEndReachedThreshold={5}
+            onEndReached={fetchMoreData}
             ListHeaderComponent={
               <HeaderList 
                 navigation={navigation} 
+                handleHeaderHeight={setHeaderHeight}
               />
             }
             ListEmptyComponent={
@@ -171,18 +232,31 @@ export const CityEventHomeView = ({
                 type={isLoading ? 'loader' : 'error'} 
               />
             }
-            
-            renderItem={({item, index}) => {
-              // check if the item is the sticky header
-              console.log('item: ', index === 0 ? 'sticky header ------------' : item.title);
-              return index === 0 ? item : (
-                <CityEventCardLargeItem 
-                  navigation={navigation}
-                  route={route}
-                  event={item as CityEventCard}
-                />
-              )
-            }}
+            renderItem={CityHomeEventRender}
+            // extraData={filteredCategoryIdList}
+            ListFooterComponent={() => (
+              <View
+                style={{
+                  padding: 20,
+                  width: '100%',
+                }}
+              >
+                { isLoading ? (
+                    <WarningScreenItem 
+                      type="loader" 
+                    />
+                  ) : (
+                    <Text 
+                      styles={{
+                        textAlign: 'center',
+                      }}
+                    >
+                      Il n'y a plus d'événements disponibles.
+                    </Text>
+                  )
+                }
+              </View>
+            )}
             keyExtractor={(item, index) => `${(item as CityEventCard)?.uid?.toString()}-${index}` ?? `${item}-header-${index}`}
           />
       </SafeAreaView>
