@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setRefetchCityEventHome } from "../../../reducers/generalReducer";
-import { Animated, Dimensions, FlatList, Image, ImageBackground, Platform, Pressable, ScrollView, View } from "react-native";
+import { Animated, Dimensions, FlatList, Image, ImageBackground, Platform, Pressable, ScrollView, View, VirtualizedList } from "react-native";
 import { HeaderPage } from "../../../components/HeaderPage/HeaderPage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import style from './CityEventHomeView.style';
@@ -9,9 +9,76 @@ import { Text } from "../../../components/Text/Text";
 import { LinearGradient } from 'expo-linear-gradient';
 import { eventsCategoryLille, formatTitle } from "../../../utils/events";
 import { CalendarDays, ChevronDown, Euro, Eye, Filter, Search } from "lucide-react-native";
-import { ListCategoryItem } from "../../../types/Events";
+import { CityEventCard, ListCategoryItem } from "../../../types/Events";
 import { GestureHandlerRootView, RefreshControl } from "react-native-gesture-handler";
-import { CityEventsListVerticalItem } from "../../../components/CityEvents/CityEventsListVerticalItem/CityEventsListVerticaltem";
+import { useGetCityEvents } from "../../../hooks/useGetCityEvents";
+import { CityEventCardLargeItem } from "../../../components/CityEvents/CityEventCardItem/CityEventCardItem";
+import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
+
+
+type HeaderListProps = {
+  navigation: any;
+}
+
+const HeaderList = ({
+  navigation,
+}: HeaderListProps) => {
+
+  return  ( <>
+    <PromoteEvent 
+      navigation={navigation}
+    />
+    <SearchEventItem />
+  </>)
+}
+
+type StickyHeaderProps = {
+  filteredCategoryIdList: number[];
+  handleSetFilteredCategoryIdList: React.Dispatch<React.SetStateAction<number[]>>;
+};
+
+const StickyHeader = ({
+  filteredCategoryIdList,
+  handleSetFilteredCategoryIdList
+}: StickyHeaderProps) => {
+  return (
+    <View
+    style={{
+      backgroundColor: 'white',
+      paddingTop: 20,
+    }}
+  >
+     <View
+      style={style.categoryTitleContainer}
+     >
+      <Text 
+        styles={style.categoryContainerTitle} 
+        weight="600"
+      >
+        Par thème
+      </Text>
+      { filteredCategoryIdList.length > 0 && (
+        <Pressable
+          onPress={() => handleSetFilteredCategoryIdList([])}
+          style={style.categoryContainerFilterButton}
+        >
+          <Text
+            styles={style.categoryContainerFilterText} 
+            weight="500"
+          >
+            Tout supprimer
+          </Text>
+        </Pressable>
+      )}
+     </View>
+    <CategoryListItem 
+      categories={eventsCategoryLille}
+      categoriesSelected={filteredCategoryIdList}
+      filteredCategoryIdList={handleSetFilteredCategoryIdList}
+    />
+    <FilterListItem />
+  </View>)
+}
 
 
 type Props = {
@@ -25,10 +92,10 @@ export const CityEventHomeView = ({
   route
 }: Props) => {
   const [refreshing, setRefreshing] = useState(false);
+  const [eventList, setEventList] = useState<CityEventCard[]>([]);
   const [filteredCategoryIdList, setFilteredCategoryIdList] = useState<number[]>([]);
+  const [nextEventPageIds, setNextEventPageIds] = useState<(string | number)[]>();
   const dispatch = useDispatch();
-
-  // const Tab = createMaterialTopTabNavigator();
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -38,99 +105,97 @@ export const CityEventHomeView = ({
     }, 1000);
   }, []);
 
+  const {
+    isLoading, 
+    events, 
+    isError
+  } = useGetCityEvents({
+    refetchCityEventHome: refreshing, 
+    categoryIdList: filteredCategoryIdList,
+    nextEventPageIds
+  });
+
   
+  useEffect(() => { 
+    // console.log('events changed : ', events.events);
+    if (!isLoading && events) {
+      console.log('events.events updated ');
+      setEventList((old) => ([
+        ...old,
+        ...events.events
+      ]));
+    }
+  }, [events]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-    <View style={{ flex: 1, backgroundColor: 'red', height: Dimensions.get("screen").height, position: 'relative' }}>
-      <SafeAreaView
-        style={style.homeCulturalEvent}
-      >
-        <ScrollView
-          stickyHeaderHiddenOnScroll={true}
-          stickyHeaderIndices={[2]}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
+      <View style={{ flex: 1, backgroundColor: 'red', height: Dimensions.get("screen").height, position: 'relative' }}>
+        <SafeAreaView
+          style={style.homeCulturalEvent}
         >
-          <PromoteEvent 
-            navigation={navigation}
-          />
-          <SearchEventItem />
-          <View
-            style={{
-              backgroundColor: 'white',
-              paddingTop: 20,
+          <VirtualizedList
+            removeClippedSubviews={false}
+            data={[
+                  <StickyHeader 
+                    filteredCategoryIdList={filteredCategoryIdList}
+                    handleSetFilteredCategoryIdList={setFilteredCategoryIdList}
+
+                    />, 
+                  ...eventList
+                ]}
+            // initialNumToRender={5}
+            disableVirtualization
+            showsVerticalScrollIndicator={false}
+            getItem={(data, index) => data[index]}
+            getItemCount={(data) => data?.length}
+            stickyHeaderHiddenOnScroll={true}
+            stickyHeaderIndices={[1]}
+            refreshControl={
+              <RefreshControl 
+                refreshing={refreshing} onRefresh={onRefresh} 
+              />
+            }
+            onEndReachedThreshold={2}
+            onEndReached={() => {
+              if (events?.after) {
+                setNextEventPageIds(events.after);
+              }
             }}
-          >
-             <View
-              style={style.categoryTitleContainer}
-             >
-              <Text 
-                styles={style.categoryContainerTitle} 
-                weight="600"
-              >
-                Par thème
-              </Text>
-              { filteredCategoryIdList.length > 0 && (
-                <Pressable
-                  onPress={() => setFilteredCategoryIdList([])}
-                  style={style.categoryContainerFilterButton}
-                >
-                  <Text
-                    styles={style.categoryContainerFilterText} 
-                    weight="500"
-                  >
-                    Tout supprimer
-                  </Text>
-                </Pressable>
-              )}
-             </View>
-            <CategoryListItem 
-              categories={eventsCategoryLille}
-              categoriesSelected={filteredCategoryIdList}
-              filteredCategoryIdList={setFilteredCategoryIdList}
-            />
-            <FilterListItem />
-          </View>
-          <CityEventsListVerticalItem 
-            refetchCityEventHome={refreshing}
-            route={route}
-            navigation={navigation}
-            filteredCategoryIdList={filteredCategoryIdList}
+            ListHeaderComponent={
+              <HeaderList 
+                navigation={navigation} 
+              />
+            }
+            ListEmptyComponent={
+              <WarningScreenItem 
+                type={isLoading ? 'loader' : 'error'} 
+              />
+            }
+            
+            renderItem={({item, index}) => {
+              // check if the item is the sticky header
+              console.log('item: ', index === 0 ? 'sticky header ------------' : item.title);
+              return index === 0 ? item : (
+                <CityEventCardLargeItem 
+                  navigation={navigation}
+                  route={route}
+                  event={item as CityEventCard}
+                />
+              )
+            }}
+            keyExtractor={(item, index) => `${(item as CityEventCard)?.uid?.toString()}-${index}` ?? `${item}-header-${index}`}
           />
-        </ScrollView>
-     </SafeAreaView>
-    </View>
+      </SafeAreaView>
+      </View>
     </GestureHandlerRootView>
   )
 }
 
-const SearchEventItem = () => {
-  return (
-    <Pressable
-      style={style.searchEvent}
-    >
-      <Search
-        size={22}
-        color="black"
-        strokeWidth={2}
-        style={style.searchEventIcon}
-      />
-      <Text
-        styles={style.searchEventTitle}
-      >
-        Rechercher un événement
-      </Text>
-    </Pressable>
-  )
-}
-
-/*
-*
-* Components
-* 
-*/
+ /*
+  *
+  * Components
+  * 
+  */
 type PromoteEventProps = {
   navigation: any;
 }
@@ -183,6 +248,28 @@ const PromoteEvent = ({
         </ImageBackground>
       </Pressable>
 )};
+
+
+const SearchEventItem = () => {
+  return (
+    <Pressable
+      style={style.searchEvent}
+    >
+      <Search
+        size={22}
+        color="black"
+        strokeWidth={2}
+        style={style.searchEventIcon}
+      />
+      <Text
+        styles={style.searchEventTitle}
+      >
+        Rechercher un événement
+      </Text>
+    </Pressable>
+  )
+}
+
 
 type CategoryListItemProps = {
   categories: ListCategoryItem[];

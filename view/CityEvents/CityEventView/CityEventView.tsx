@@ -11,7 +11,7 @@ import { BadgeEuro, Calendar, ChevronLeft, MapPin, X } from "lucide-react-native
 import PanPinchView from "react-native-pan-pinch-view";
 import { getFormatedDateFromTimestamp } from "../../../utils/utils";
 import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
-import { useGetCityEventDetail } from "../../../hooks/useGetCityEvents";
+import { useGetCityEventDetails } from "../../../hooks/useGetCityEvents";
 
 
 type Props = {
@@ -43,9 +43,7 @@ export const CityEventView = ({
 
   const { eventId } = route.params;
 
-  console.log('CityEventView.tsx: uid: ', eventId);
-
-  const {isLoading, events, isError} = useGetCityEventDetail(eventId);
+  const {isLoading, events, isError} = useGetCityEventDetails({ eventId });
 
   if (isLoading) {
     return <WarningScreenItem type='loader' />; 

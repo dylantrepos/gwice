@@ -1,38 +1,19 @@
 import { SERVER_HOST } from '@env';
 import axios from 'axios';
-import { AllEvents, CityEventCard, CityEventCardRequest, CityEventDetails, CityEventDetailsRequest, CulturalEvents, EventsCategory, WhenQuery } from '../types/Events';
+import { CityEventCardRequest, CityEventDetailsRequest } from '../types/Events';
 import { store } from '../store/store';
 
-export const fetchCulturalEvents = async (city: string, when: WhenQuery): Promise<CulturalEvents> => {
-  const address = `${SERVER_HOST}`;
-
-
-  console.log('[Request] fetchCulturalEvents');
-  const response = await axios.get(`${address}/events/cultural`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    params: {
-      city,
-      when
-    }
-  });
-
-  if (typeof response.data === 'object' && response.data !== null) {
-    return response.data as CulturalEvents;
-  } else {
-    throw new Error('Received data is not of type Weather');
-  }
-}
 
 type FetchLilleCulturalEvents = {
   categoryIdList: number[];
+  nextEventPageIds?: (number | string)[] | null;
 }
 
 
 
 export const fetchCityEvents = async ({
   categoryIdList = [],
+  nextEventPageIds = null,
 }: FetchLilleCulturalEvents): Promise<CityEventCardRequest> => {
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().general.currentCity.cityName;
@@ -46,7 +27,8 @@ export const fetchCityEvents = async ({
       },
       params: {
         cityName,
-        categoryIdList: categoryIdList.join(',')
+        categoryIdList: categoryIdList.join(','),
+        nextEventPageIds,
       }
     },
   );

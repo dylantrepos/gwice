@@ -3,7 +3,7 @@ import style from './CityEventCardItem.style';
 import { Text } from "../../Text/Text";
 import { Image, ImageBackground, Pressable, View } from "react-native";
 import { getFormatedDateFromTimestamp } from "../../../utils/utils";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { CityEventCard } from "../../../types/Events";
 import { allEventsCategoryLille, formatTitle } from '../../../utils/events';
@@ -83,11 +83,10 @@ export const CityEventCardItem = ({
 type CityEventCardLargeItemProps = {
   navigation: any;
   route: any;
-  key: string;
   event: CityEventCard;
 }
 
-export const CityEventCardLargeItem = ({
+export const CityEventCardLargeItem = memo(({
   navigation, 
   route,
   event
@@ -102,9 +101,12 @@ export const CityEventCardLargeItem = ({
     description
   } = event;
 
-  const category = allEventsCategoryLille.find(category => category.id === categoriesMetropolitaines[0].id);
+  const category = allEventsCategoryLille.find(category => category.id === categoriesMetropolitaines[categoriesMetropolitaines.length - 1].id);
 
-  const CategoryIconElt = category?.iconElt ?? null;
+  const categoriesId = categoriesMetropolitaines.map(category => category.id);
+
+  const categories = categoriesId.map(categoryId => allEventsCategoryLille.find(category => category.id === categoryId));
+  const lastThreeCategories = categories.slice(-3);
 
   const [imageLoaded, setImageLoaded] = useState(false);
   const imageSrc = `${image.base}${image.filename}`;
@@ -156,28 +158,37 @@ export const CityEventCardLargeItem = ({
             colors={['transparent', 'rgba(0,0,0,1)']}
             style={style.cardDescription} 
           >
-            {categoriesMetropolitaines && 
+            {categories && (
               <View
-                style={style.cardDescriptionCategoryContainer}
+                style={style.cardDescriptionCategoriesContainer}
               >
-                { CategoryIconElt && (
-                  <View>
-                    <CategoryIconElt
-                      color={'black'} 
-                      size={20} 
-                      strokeWidth={1} 
-                      // style={style.categoryIcon}
-                      />
-                  </View>
-              )}
-                <Text 
-                  styles={style.cardDescriptionCategory} 
-                >
-                  {formatTitle(categoriesMetropolitaines[0].label['fr'] ?? '')}
-                </Text>
+                {lastThreeCategories.map((category, index) => {
+                  const CategoryIconElt = category?.iconElt ?? null;
+                  return (
+                    <View 
+                      key={index}
+                      style={style.cardDescriptionCategoryContainer}
+                    >
+                      { CategoryIconElt && (
+                        <View>
+                          <CategoryIconElt
+                            color={'black'} 
+                            size={20} 
+                            strokeWidth={1} 
+                            // style={style.categoryIcon}
+                            />
+                        </View>
+                    )}
+                      <Text 
+                        styles={style.cardDescriptionCategory} 
+                      >
+                        {formatTitle(category?.title ?? '')}
+                      </Text>
+                    </View>
+                  )
+                })}
               </View>
-            }
-            
+            )}
             {description && 
               <Text 
                 styles={style.cardDescriptionText} 
@@ -190,4 +201,5 @@ export const CityEventCardLargeItem = ({
         </ImageBackground>
     </Pressable>
   )
-};
+}, (prevProps, nextProps) => { // and here is what i didn't notice before.
+  return prevProps.event.uid === nextProps.event.uid;});

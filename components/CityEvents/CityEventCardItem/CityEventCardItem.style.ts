@@ -94,11 +94,17 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     height: 200,
   },
+  cardDescriptionCategoriesContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 5,
+    flexWrap: 'wrap',
+    marginHorizontal: 20,
+  },
   cardDescriptionCategoryContainer: {
     borderRadius: 100,
     paddingVertical: 2,
     paddingHorizontal: 10,
-    marginHorizontal: 20,
     borderWidth: 1,
     borderColor: '#fff',
     alignSelf: 'flex-start',
