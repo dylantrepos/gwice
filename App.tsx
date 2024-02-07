@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home, Settings } from 'lucide-react-native'
-import { StyleProp, Text, TextStyle, ViewStyle } from 'react-native';
+import { SafeAreaView, StyleProp, Text, TextStyle, View, ViewStyle } from 'react-native';
 
 // Views
 import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
@@ -16,6 +16,7 @@ import { CityEventHomeView } from './view/CityEvents/CityEventHomeView/CityEvent
 import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsHomeView';
 
 import { Poppins_100Thin, Poppins_100Thin_Italic, Poppins_200ExtraLight, Poppins_200ExtraLight_Italic, Poppins_300Light, Poppins_300Light_Italic, Poppins_400Regular, Poppins_400Regular_Italic, Poppins_500Medium, Poppins_500Medium_Italic, Poppins_600SemiBold, Poppins_600SemiBold_Italic, Poppins_700Bold, Poppins_700Bold_Italic, Poppins_800ExtraBold, Poppins_800ExtraBold_Italic, Poppins_900Black, Poppins_900Black_Italic, useFonts } from "@expo-google-fonts/poppins";
+import { WarningScreenItem } from './components/WarningScreenItem/WarningScreenItem';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -110,7 +111,13 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <Text>Loading fonts...</Text>;
+    return (
+      <SafeAreaView>
+        <View>
+          <WarningScreenItem type='loader' />
+        </View>
+      </SafeAreaView>
+    );
   };
 
   return (

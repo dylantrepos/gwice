@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, ImageProps, ScrollView } from 'react-native';
+import { View, ImageProps, ScrollView, Animated } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { weatherCodeIcons } from '../../../utils/weatherImgCode';
@@ -12,6 +12,7 @@ import { CityWeatherCurrentItem } from '../CityWeatherCurrentItem/CityWeatherCur
 import { CityWeatherDailyItem } from '../CityWeatherDailyItem/CityWeatherDailyItem';
 import { animationDuration, dateOptions } from '../cityWeatherSettings';
 import { WarningScreenItem } from '../../WarningScreenItem/WarningScreenItem';
+import { useBackgroundColorLoading } from '../../../hooks/useBackgroundColorLoading';
 
 export const CityWeatherItem = () => {
   const { currentCity, weatherSettings, refetchHome } = useSelector((state: RootState) => state.general);
@@ -27,6 +28,8 @@ export const CityWeatherItem = () => {
 
   const date = new Date();
   const scrollViewRef = useRef<ScrollView>(null);
+
+  const {backgroundColor} = useBackgroundColorLoading(isLoading);
 
   const onSwipeLeft = () => {
       setCurrentDayCursor((old) => {
@@ -93,17 +96,20 @@ export const CityWeatherItem = () => {
         setItemWidth(Math.round((Math.round(width) - (3 * 10)) / 4))
       }}
     >
-      <View 
-        style={style.cityWeatherLargeContainer}
+      <Animated.View 
+        style={{
+          ...style.cityWeatherLargeContainer,
+          backgroundColor: isLoading ? backgroundColor : 'white',
+        }}
         onTouchStart={onTouchStart} 
         onTouchEnd={onTouchEnd}
         onTouchCancel={onTouchEnd}
       >
-        { isLoading || error ?
+        { error ?
             <WarningScreenItem
-              type={isLoading ? 'loader' : 'error'}
+              type={'error'}
             />
-            : weather && dailyWeather.length > 0
+            : !isLoading && weather && dailyWeather.length > 0
               ? currentDayCursor === 0 ? 
                 <CityWeatherCurrentItem 
                   imageSource={imageSource}
@@ -119,10 +125,10 @@ export const CityWeatherItem = () => {
                 <WarningScreenItem
                   type='unavailable'
                 >
-                  No weather data available.
+                  Module météo indisponible.
                 </WarningScreenItem> 
         }
-      </View>
+      </Animated.View>
       <ScrollView 
         horizontal={true}
         ref={scrollViewRef}
@@ -133,6 +139,7 @@ export const CityWeatherItem = () => {
         snapToInterval={itemWidth + 10}
         contentContainerStyle={{
           columnGap: 10,
+          height: 120,
         }}
         style={style.cityWeatherListSmall}
       >
@@ -143,6 +150,7 @@ export const CityWeatherItem = () => {
             show={showElt}
             styleProps={{
               width: itemWidth,
+              height: '100%',
             }}
           />)
         )}

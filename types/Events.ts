@@ -66,11 +66,6 @@ interface OriginAgenda {
   title: string;
 }
 
-interface Timing {
-  end: string;
-  begin: string;
-}
-
 interface Location {
   address: string;
   city: string;
@@ -259,7 +254,7 @@ interface Image {
   base: string;
 }
 
-interface Timing {
+export interface Timing {
   end: string;
   begin: string;
 }
@@ -290,6 +285,8 @@ export interface CityEventCard {
     location: Location;
     title: Title;
     description?: { [key: string]: string };
+    nextTiming: Timing;
+    timings: Timing[];
     "categories-metropolitaines": Category[];
 };
 

@@ -42,7 +42,9 @@ export const CityWeatherHourlyItem = ({
   }, [show]);
 
   return (
-    <View style={{...style.cityWeatherHourlyContainer, ...styleProps}}>
+    <View 
+      style={{...style.cityWeatherHourlyContainer, ...styleProps}}
+      >
       <Animated.View style={{
         ...style.cityWeatherHourlyContainerAnimated,
         opacity: opacity

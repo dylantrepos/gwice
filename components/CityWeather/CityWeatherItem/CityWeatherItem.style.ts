@@ -9,7 +9,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     minWidth: 300,
-    minHeight: 120,
+    minHeight: 150,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

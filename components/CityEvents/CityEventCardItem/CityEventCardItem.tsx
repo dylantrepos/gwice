@@ -6,7 +6,10 @@ import { getFormatedDateFromTimestamp } from "../../../utils/utils";
 import { memo, useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { CityEventCard } from "../../../types/Events";
-import { allEventsCategoryLille, formatTitle } from '../../../utils/events';
+import { FilterDateItem, allEventsCategoryLille, formatDate, formatTitle } from '../../../utils/events';
+import { useBackgroundColorLoading } from "../../../hooks/useBackgroundColorLoading";
+import { formatDistanceToNow } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 type Props = {
   navigation: any;
@@ -84,12 +87,16 @@ type CityEventCardLargeItemProps = {
   navigation: any;
   route: any;
   event: CityEventCard;
+  startDate: Date;
+  selectedItemDate: FilterDateItem;
 }
 
 export const CityEventCardLargeItem = memo(({
   navigation, 
   route,
   event,
+  startDate,
+  selectedItemDate
 }: CityEventCardLargeItemProps) => {
 
   const { 
@@ -99,7 +106,9 @@ export const CityEventCardLargeItem = memo(({
     "categories-metropolitaines": categoriesMetropolitaines,
     firstTiming,
     lastTiming,
-    description
+    description,
+    nextTiming,
+    timings
   } = event;
 
   if (!categoriesMetropolitaines) return null;
@@ -150,9 +159,15 @@ export const CityEventCardLargeItem = memo(({
             <Text 
               styles={style.cardDate}
             >
-              {getFormatedDateFromTimestamp(firstTiming.begin) === getFormatedDateFromTimestamp(lastTiming.end) 
-              ? `${getFormatedDateFromTimestamp(firstTiming.begin)}` 
-              : firstTimingDate < today ? `Jusqu'au ${getFormatedDateFromTimestamp(lastTiming.end)}` : `Du ${getFormatedDateFromTimestamp(firstTiming.begin)} au ${getFormatedDateFromTimestamp(lastTiming.end)}`}
+               {
+                nextTiming &&
+                formatDate({
+                  inputDate: new Date(nextTiming.begin), 
+                  selectedItemDate, 
+                  timings: timings,
+                  title: title['fr']
+                })
+               }
             </Text>
           </LinearGradient>
           <LinearGradient
@@ -208,48 +223,13 @@ export const CityEventCardLargeItem = memo(({
 
 export const CityEventCardLargeEmptyItem = () => {
 
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
-
-  useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(fadeAnim, {
-          toValue: 0.33,
-          duration: 750,
-          useNativeDriver: false,
-        }),
-        Animated.timing(fadeAnim, {
-          toValue: 0.66,
-          duration: 750,
-          useNativeDriver: false,
-        }),
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 750,
-          useNativeDriver: false,
-        }),
-        Animated.timing(fadeAnim, {
-          toValue: 0,
-          duration: 750,
-          useNativeDriver: false,
-        }),
-      ]),
-      {
-        iterations: -1,
-      }
-    ).start();
-  }, []);
-
+  const { backgroundColor } = useBackgroundColorLoading(true)
   
   return (
     <Animated.View 
       style={{
         ...style.cardEmptyContainer,
-        backgroundColor: fadeAnim.interpolate({
-          inputRange: [0, 0.33, 0.66, 1],
-          outputRange: ['#E7F4FB', '#EBE7FB', '#E7FBF7', '#FBF9E7'],
-        }),
+        backgroundColor,
       }}
     >
     </Animated.View>

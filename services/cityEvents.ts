@@ -7,6 +7,8 @@ import { store } from '../store/store';
 type FetchLilleCulturalEvents = {
   categoryIdList: number[];
   nextEventPageIds?: (number | string)[] | null;
+  startDate?: Date | null;
+  endDate?: Date | null;
 }
 
 
@@ -14,9 +16,16 @@ type FetchLilleCulturalEvents = {
 export const fetchCityEvents = async ({
   categoryIdList = [],
   nextEventPageIds = null,
+  startDate = null,
+  endDate = null,
 }: FetchLilleCulturalEvents): Promise<CityEventCardRequest> => {
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().general.currentCity.cityName;
+
+  console.log({
+    startDate,
+    endDate,
+  });
 
   console.log(`adress: ${address}/events`);
   const response = await axios.get(
@@ -29,9 +38,14 @@ export const fetchCityEvents = async ({
         cityName,
         categoryIdList: categoryIdList.join(','),
         nextEventPageIds,
+        startDate: startDate ?? null,
+        endDate: endDate ?? null,
       }
     },
   );
+
+  const test = response.data.events.find((event: any) => event.uid === 16608328);
+  // console.log('[Response] fetchCityEvents - ', {title: test.title, timingsFirst: test.timings[0].begin});
 
   return response.data as CityEventCardRequest;
 }

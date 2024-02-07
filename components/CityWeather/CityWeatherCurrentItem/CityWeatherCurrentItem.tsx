@@ -58,7 +58,10 @@ export const CityWeatherCurrentItem = ({
   }, []);
 
   return (
-    <View style={style.cityWeather}>
+    <View style={{
+      ...style.cityWeather,
+      height: 150,
+    }}>
       <Animated.View 
         style={{
           ...style.cityAnimated,

@@ -18,11 +18,15 @@ type UseGetCityEvents = {
 type UseGetCityEventsProps = {
   refetchCityEventHome: boolean;
   categoryIdList?: number[];
+  startDate?: Date | null;
+  endDate?: Date | null;
 }
 
 export const useGetCityEvents = ({
   refetchCityEventHome,
   categoryIdList = [],
+  startDate = null,
+  endDate = null,
 }: UseGetCityEventsProps): UseGetCityEvents => {
 
   const { 
@@ -32,8 +36,13 @@ export const useGetCityEvents = ({
     hasNextPage,
     fetchNextPage
   } = useInfiniteQuery(
-    [`cityEvents`, refetchCityEventHome, categoryIdList], 
-    ({pageParam: nextEventPageIds = null}) => fetchCityEvents({ categoryIdList, nextEventPageIds }),
+    [`cityEvents`, refetchCityEventHome, categoryIdList, startDate, endDate], 
+    ({pageParam: nextEventPageIds = null}) => fetchCityEvents({ 
+        categoryIdList, 
+        nextEventPageIds,
+        startDate,
+        endDate,
+    }),
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage, pages) => {

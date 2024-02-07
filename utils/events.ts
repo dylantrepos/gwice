@@ -1,5 +1,7 @@
-import { EventsCategory, ListCategoryItem } from "../types/Events";
+import { EventsCategory, ListCategoryItem, Timing } from '../types/Events';
 import { Award, BadgePercent, Bike, BookHeart, Briefcase, Brush, ChevronRight, Clapperboard, Drama, Guitar, HeartPulse, Hotel, Leaf, LucideIcon, MapPin, MessageSquareText, Mic2, Palette, PartyPopper, Popcorn, School, School2, Shirt, Sparkle, Theater, Ticket } from "lucide-react-native";
+import { format, formatDistanceToNow, isAfter, isBefore, endOfDay, addDays, isWithinInterval, endOfWeek, startOfWeek, isWeekend } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 export const eventsCategory: Record<EventsCategory, number> = {
   "atelier": 3,
@@ -224,7 +226,97 @@ export const allEventsCategoryLille: ListCategoryItem[] = [
   },
 ];
 
+export type FilterDateItem = {
+  id: number;
+  label: string;
+  value: string;
+}
+
+export const filterDate: FilterDateItem[] = [
+  {
+    id: 1,
+    label: 'Aujourd\'hui',
+    value: 'today',
+  },
+  {
+    id: 2,
+    label: 'Demain',
+    value: 'tomorrow',
+  },
+  {
+    id: 3,
+    label: 'Ce weekend',
+    value: 'weekend',
+  },
+  {
+    id: 4,
+    label: 'Cette semaine',
+    value: 'week',
+  },
+  {
+    id: 5,
+    label: 'Choisir une date',
+    value: 'choose',
+  },
+]
+
 export const formatTitle = (title: string) => {
   const titleUpdate = title.split('-')[0];
   return titleUpdate[0].toUpperCase() + titleUpdate.slice(1);
+}
+
+const findClosestWeekendDate = (timings: Timing[]): Date | null => {
+  let closestWeekendDate: Date | null = null;
+
+  const now = new Date();
+  const startOfNextWeek = startOfWeek(addDays(now, 7));
+  const endOfNextWeek = endOfWeek(addDays(now, 7));
+
+  for (const timing of timings) {
+    const date = new Date(timing.begin);
+
+    if (isWeekend(date) && isWithinInterval(date, { start: now, end: endOfNextWeek })) {
+      if (closestWeekendDate === null || date < closestWeekendDate) {
+        closestWeekendDate = date;
+      }
+    }
+  }
+
+  return closestWeekendDate;
+}
+
+type FormatDateProps = {
+  inputDate: Date;
+  selectedItemDate: FilterDateItem;
+  timings: Timing[] | null;
+  title: string;
+}
+
+export const formatDate = ({
+  inputDate,
+  selectedItemDate,
+  timings,
+  title,
+}: FormatDateProps): string => {
+  const now = new Date();
+  const endOfToday = endOfDay(now);
+  const endOfTomorrow = endOfDay(addDays(now, 1));
+  const endOfDayAfterTomorrow = endOfDay(addDays(now, 2));
+
+  if (selectedItemDate.value === 'weekend' && timings) {
+      const closestWeekendDate = findClosestWeekendDate(timings);
+      if (closestWeekendDate) {
+        return format(closestWeekendDate, 'eeee dd MMMM à HH:mm', { locale: fr });
+      }
+  }
+
+  if (isAfter(inputDate, now) && isBefore(inputDate, endOfToday)) {
+    return `Dans ${formatDistanceToNow(inputDate, { locale: fr })}`;
+  } else if (isAfter(inputDate, endOfToday) && isBefore(inputDate, endOfTomorrow)) {
+    return `Demain à ${format(inputDate, 'HH:mm')}`;
+  } else if (isAfter(inputDate, endOfTomorrow) && isBefore(inputDate, endOfDayAfterTomorrow)) {
+    return `Après-demain à ${format(inputDate, 'HH:mm')}`;
+  } else {
+    return format(inputDate, 'eeee dd MMMM à HH:mm', { locale: fr });
+  }
 }
