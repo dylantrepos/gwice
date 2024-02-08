@@ -47,7 +47,62 @@ export const CityEventListFilterItem = ({
   const [itemHeight, setItemHeight] = useState(0);
   const [currSelectedItem, setCurrSelectedItem] = useState(filterDate[3]);
   const opacity = useRef(new Animated.Value(0)).current;
-  
+  const animatedValue = useRef(new Animated.Value(0)).current;
+  const [currAnimValue, setCurrAnimValue] = useState(0);
+
+
+  useEffect(() => {
+    console.log('currSelectedItem :', currSelectedItem);
+    console.log('selectedItemDate :', selectedItemDate);
+    const listener = animatedValue.addListener(({ value }) => setCurrAnimValue(value));
+
+    console.log({
+      currSelectedItem: currSelectedItem.id,
+      selectedItemDate: selectedItemDate.id,
+      currAnimValue
+    })
+    
+    if (currSelectedItem.id === selectedItemDate.id) {
+      if(currAnimValue === 0) return;
+
+      Animated.sequence([
+        Animated.timing(animatedValue, {
+          toValue: 1,
+          duration: 150,
+          useNativeDriver: false,
+        }),
+        Animated.timing(animatedValue, {
+          toValue: 0,
+          duration: 150,
+          useNativeDriver: false,
+        }),
+      ]).start();
+    } else {
+      if (currAnimValue === 1) return;
+
+      Animated.sequence([
+        Animated.timing(animatedValue, {
+          toValue: 0,
+          duration: 150,
+          useNativeDriver: false,
+        }),
+        Animated.timing(animatedValue, {
+          toValue: 1,
+          duration: 150,
+          useNativeDriver: false,
+        }),
+      ]).start();
+    }
+
+    return () => {
+      animatedValue.removeListener(listener);
+    };
+  }, [currSelectedItem, selectedItemDate]);
+
+  const backgroundColor = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['lightgrey', '#3988FD'],
+  });
 
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
@@ -394,24 +449,35 @@ export const CityEventListFilterItem = ({
                     )}
 
                   <Pressable
-                    onPress={() => handleConfirm(selectedItemDate.value)}
-                    style={{
-                      backgroundColor: '#3988FD',
-                      paddingHorizontal: 10,
-                      paddingVertical: 20,
-                      borderRadius: 10,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginTop: 20,
+                    onPress={() => {
+                      if (currSelectedItem.value === 'choose') {
+                        console.log('choose');
+                        handleConfirm(selectedItemDate.value)
+                      } else if (currSelectedItem.id !== selectedItemDate.id) {
+                        console.log('currSelectedItem.id !== selectedItemDate.id : ', currSelectedItem.id !== selectedItemDate.id);
+                        handleConfirm(selectedItemDate.value)
+                      }
                     }}
                   >
-                    <Text 
-                      weight="600"
-                      styles={{
-                        color: 'white',
+                    <Animated.View
+                       style={{
+                        backgroundColor: backgroundColor,
+                        paddingHorizontal: 10,
+                        paddingVertical: 20,
+                        borderRadius: 10,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginTop: 20,
                       }}
-                    >Valider</Text>
+                    >
+                      <Text 
+                        weight="600"
+                        styles={{
+                          color: 'white',
+                        }}
+                      >Valider</Text>
+                    </Animated.View>
                   </Pressable>
                 </View>
               </View>
