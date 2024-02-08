@@ -3,33 +3,33 @@ import { WarningScreenItem } from "../../WarningScreenItem/WarningScreenItem";
 import { Text } from "../../Text/Text";
 
 type CityEventListFooterItemProps = {
-  isLoading: boolean
+  isLoading: boolean;
+  eventLength: number;
 }
 
 export const CityEventListFooterItem = ({
-  isLoading
+  isLoading,
+  eventLength
 }: CityEventListFooterItemProps) => {
   return (
     <View
       style={{
-        padding: 20,
+        paddingHorizontal: 20,
+        paddingVertical: 40,
         width: '100%',
       }}
     >
-      { isLoading ? (
-          <WarningScreenItem 
-            type="loader" 
-          />
-        ) : (
-          <Text
-            styles={{
-              textAlign: 'center',
-            }}
-          >
-            Il n'y a plus d'événements disponibles.
-          </Text>
-        )
-      }
+      <Text
+          styles={{
+            textAlign: 'center',
+          }}
+        >
+          {
+            eventLength === 0 
+            ? "Pas d'événements disponibles."
+            : "Pas d'autres événements pour cette période."
+          }
+        </Text>
     </View>
   )
 };

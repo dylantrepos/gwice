@@ -269,7 +269,6 @@ const findClosestWeekendDate = (timings: Timing[]): Date | null => {
   let closestWeekendDate: Date | null = null;
 
   const now = new Date();
-  const startOfNextWeek = startOfWeek(addDays(now, 7));
   const endOfNextWeek = endOfWeek(addDays(now, 7));
 
   for (const timing of timings) {
@@ -285,11 +284,29 @@ const findClosestWeekendDate = (timings: Timing[]): Date | null => {
   return closestWeekendDate;
 }
 
+const findClosestDate = (timings: Timing[], startDate: Date): Date | null => {
+  let closestDate: Date | null = null;
+  let smallestDifference: number | null = null;
+
+  for (const timing of timings) {
+    const date = new Date(timing.begin);
+    const difference = Math.abs(date.getTime() - startDate.getTime());
+
+    if (smallestDifference === null || difference < smallestDifference) {
+      smallestDifference = difference;
+      closestDate = date;
+    }
+  }
+
+  return closestDate;
+}
+
 type FormatDateProps = {
   inputDate: Date;
   selectedItemDate: FilterDateItem;
   timings: Timing[] | null;
   title: string;
+  startDate: Date;
 }
 
 export const formatDate = ({
@@ -297,6 +314,7 @@ export const formatDate = ({
   selectedItemDate,
   timings,
   title,
+  startDate
 }: FormatDateProps): string => {
   const now = new Date();
   const endOfToday = endOfDay(now);
@@ -310,12 +328,22 @@ export const formatDate = ({
       }
   }
 
+  if (selectedItemDate.value === 'choose' && timings) {
+      const closestDate = findClosestDate(timings, startDate);
+      if (closestDate) {
+        if (isAfter(closestDate, now) && isBefore(closestDate, endOfToday)) {
+          return `Dans ${formatDistanceToNow(closestDate, { locale: fr })}`;
+        } else if (isAfter(closestDate, endOfToday) && isBefore(closestDate, endOfTomorrow)) {
+          return `Demain à ${format(closestDate, 'HH:mm')}`;
+        }
+        return format(closestDate, 'eeee dd MMMM à HH:mm', { locale: fr });
+      }
+  }
+
   if (isAfter(inputDate, now) && isBefore(inputDate, endOfToday)) {
     return `Dans ${formatDistanceToNow(inputDate, { locale: fr })}`;
   } else if (isAfter(inputDate, endOfToday) && isBefore(inputDate, endOfTomorrow)) {
     return `Demain à ${format(inputDate, 'HH:mm')}`;
-  } else if (isAfter(inputDate, endOfTomorrow) && isBefore(inputDate, endOfDayAfterTomorrow)) {
-    return `Après-demain à ${format(inputDate, 'HH:mm')}`;
   } else {
     return format(inputDate, 'eeee dd MMMM à HH:mm', { locale: fr });
   }

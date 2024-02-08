@@ -8,7 +8,7 @@ import { Text } from "../../../components/Text/Text";
 import { CityEventCard } from "../../../types/Events";
 import { GestureHandlerRootView, RefreshControl } from "react-native-gesture-handler";
 import { useGetCityEvents } from "../../../hooks/useGetCityEvents";
-import { CityEventCardLargeEmptyItem, CityEventCardLargeItem } from "../../../components/CityEvents/CityEventCardItem/CityEventCardItem";
+import { CityEventCardLargeEmptyItem, CityEventCardLargeItem } from '../../../components/CityEvents/CityEventCardItem/CityEventCardItem';
 import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
 import { CityEventListPromoteItem } from "../../../components/CityEvents/CityEventListPromoteItem/CityEventListPromoteItem";
 import { CityEventListSearchItem } from '../../../components/CityEvents/CityEventListSearchItem/CityEventListSearchItem';
@@ -92,17 +92,17 @@ export const CityEventHomeView = ({
       } 
     }
 
-    return index === 0 ? item : eventList?.length > 0 ? (
-      <CityEventCardLargeItem 
-        navigation={navigation}
-        route={route}
-        event={item as CityEventCard}
-        startDate={startDate}
-        selectedItemDate={selectedItemDate}
-      />
-    ) : (
-      <CityEventCardLargeEmptyItem />
-    )
+    return index === 0 
+      ? item 
+      : eventList?.length > 0 
+        ? <CityEventCardLargeItem 
+            navigation={navigation}
+            route={route}
+            event={item as CityEventCard}
+            startDate={startDate}
+            selectedItemDate={selectedItemDate}
+          />
+        : <CityEventCardLargeEmptyItem />
   }, [eventList])
 
   const {
@@ -110,7 +110,10 @@ export const CityEventHomeView = ({
     events, 
     isError,
     hasNextPage,
-    fetchNextPage
+    fetchNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isRefetching
   } = useGetCityEvents({
     refetchCityEventHome: refreshing, 
     categoryIdList: filteredCategoryIdList,
@@ -120,26 +123,20 @@ export const CityEventHomeView = ({
 
   const fetchMoreData = () => {
     if (hasNextPage) {
+      console.log('ca fetch');
       fetchNextPage();
     }
   }
-
-  useEffect(() => {
-    console.log('/////////');
-    console.log('startDate', startDate);
-    console.log('endDate', endDate);
-}, [startDate, endDate]);
 
   useEffect(() => {
     setEventList([]);
     if (flatListRef.current && scrollPosition > headerHeight) {
       flatListRef.current.scrollToOffset({ animated: false, offset: headerHeight });
     }
-  }, [filteredCategoryIdList]);
+  }, [filteredCategoryIdList, startDate, endDate, selectedItemDate]);
 
   useEffect(() => {
     if (!isLoading && events) {
-      console.log('events total', events.pages[0].total);
       const eventsListFinal = events.pages.map((page) => page.events).flat();
       setEventList(eventsListFinal);
     }
@@ -171,7 +168,7 @@ export const CityEventHomeView = ({
                 selectedItemDate={selectedItemDate}
                 setSelectedItemDate={setSelectedItemDate}
                 />, 
-              ...(eventList?.length > 0 || !isLoading ? eventList : fakeWaitingData)
+              ...(eventList?.length > 0 && !isLoading ? eventList : fakeWaitingData)
             ]}
             initialNumToRender={1}
             showsVerticalScrollIndicator={false}
@@ -195,17 +192,27 @@ export const CityEventHomeView = ({
                 handleHeaderHeight={setHeaderHeight}
               />
             }
+            
             ListEmptyComponent={
               <WarningScreenItem 
                 type={isLoading ? 'loader' : 'error'} 
               />
             }
             renderItem={CityHomeEventRender}
-            ListFooterComponent={() => (
-              <CityEventListFooterItem
-                isLoading={isLoading}
-              />
-            )}
+            ListFooterComponent={() => {
+              return (isLoading || isFetching || isFetchingNextPage || isRefetching) 
+                ? <>
+                    <CityEventCardLargeEmptyItem />
+                    <CityEventCardLargeEmptyItem />
+                    <CityEventCardLargeEmptyItem />
+                  </>
+                : (
+                  <CityEventListFooterItem 
+                    isLoading={isLoading}
+                    eventLength={eventList.length}
+                  />
+                )
+            }}
             keyExtractor={(item, index) => `${(item as CityEventCard)?.uid?.toString()}-${index}` ?? `${item}-header-${index}`}
             extraData={selectedItemDate}
           />

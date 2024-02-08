@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { WarningScreenItem } from "../../WarningScreenItem/WarningScreenItem";
 import { formatTitle } from "../../../utils/events";
+import { useEffect, useState } from "react";
 
 type Props = {
   navigation: any;
@@ -25,6 +26,7 @@ export const CityEventsListHorizontalItem = ({
   categoryIdList
 }: Props) => {
   const { currentCity, refetchCityEventHome } = useSelector((state: RootState) => state.general);
+  const [eventList, setEventList] = useState<any[]>([]);
 
   const {
     isLoading, 
@@ -32,7 +34,12 @@ export const CityEventsListHorizontalItem = ({
     isError
   } = useGetCityEvents({refetchCityEventHome, categoryIdList});
 
-  if (!events) return null;
+  useEffect(() => {
+    if (!isLoading && events) {
+      const eventsListFinal = events.pages.map((page) => page.events).flat();
+      setEventList(eventsListFinal);
+    }
+  }, [events]);
 
 
   return (
@@ -64,8 +71,8 @@ export const CityEventsListHorizontalItem = ({
             <WarningScreenItem
               type={isLoading ? 'loader' : 'error'}
             />
-            : events && events?.total > 0 ?
-              events.events.map((event, index) => (
+            : events && eventList.length > 0 ?
+              eventList.map((event, index) => (
                 <CityEventCardItem 
                   key={index}
                   navigation={navigation}

@@ -165,7 +165,9 @@ export const CityEventCardLargeItem = memo(({
                   inputDate: new Date(nextTiming.begin), 
                   selectedItemDate, 
                   timings: timings,
-                  title: title['fr']
+                  title: title['fr'],
+                  startDate,
+                  
                 })
                }
             </Text>
@@ -188,8 +190,8 @@ export const CityEventCardLargeItem = memo(({
                       { CategoryIconElt && (
                         <View>
                           <CategoryIconElt
-                            color={'black'} 
-                            size={20} 
+                            color={'#0D89CE'} 
+                            size={22} 
                             strokeWidth={1} 
                             // style={style.categoryIcon}
                             />
@@ -213,6 +215,7 @@ export const CityEventCardLargeItem = memo(({
                 {description['fr'] ?? ''}
               </Text>
             }
+            
           </LinearGradient>
         </ImageBackground>}
     </Pressable>

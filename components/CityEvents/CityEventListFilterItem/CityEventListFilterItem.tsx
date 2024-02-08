@@ -84,6 +84,7 @@ export const CityEventListFilterItem = ({
       setEndDate(endOfDay.toDate());
     }
     if (item === 'tomorrow') {
+      console.log('tomorrow :');
       const tomorrow = moment.tz("Europe/Paris").add(1, 'days');
       const tomorrowEndOfDay = moment(tomorrow).endOf('day').add(1, 'hours');
 
@@ -275,7 +276,6 @@ export const CityEventListFilterItem = ({
                         <Pressable
                           onPress={() => {
                             setShowStartDatePicker(false);
-                            console.log('dim : ', Dimensions.get('screen').height);
                           }}
                           style={{
                             position: 'absolute',
@@ -310,7 +310,6 @@ export const CityEventListFilterItem = ({
                               display="inline"
                               onChange={(event, selectedDate) => {
                                 const currentDate = selectedDate || startDate;
-                                console.log('currentDate', currentDate);
                                 setStartDate(currentDate);
                                 setShowStartDatePicker(false);
                               }}
@@ -324,7 +323,6 @@ export const CityEventListFilterItem = ({
                             display="default"
                             onChange={(event, selectedDate) => {
                               const currentDate = selectedDate || startDate;
-                              console.log('currentDate', currentDate);
                               setStartDate(currentDate);
                               setShowStartDatePicker(false);
                             }}
@@ -337,7 +335,6 @@ export const CityEventListFilterItem = ({
                         <Pressable
                           onPress={() => {
                             setShowEndDatePicker(false);
-                            console.log('dim : ', Dimensions.get('screen').height);
                           }}
                           style={{
                             position: 'absolute',
