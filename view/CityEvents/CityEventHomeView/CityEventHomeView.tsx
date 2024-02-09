@@ -16,6 +16,7 @@ import { CityEventListStickyHeaderItem } from "../../../components/CityEvents/Ci
 import { CityEventListFooterItem } from "../../../components/CityEvents/CityEventListFooterItem/CityEventListFooterItem";
 import moment from 'moment-timezone';
 import { FilterDateItem, filterDate } from "../../../utils/events";
+import { endOfDay, isBefore, isAfter } from 'date-fns';
 
 
 type HeaderListProps = {
@@ -84,10 +85,17 @@ export const CityEventHomeView = ({
   const CityHomeEventRender = useCallback(({item, index}: CityEventCardLargeItemProps) => {
     // check if the item is the sticky header
     if (index > 0 && item.nextTiming) {
-      const nextTiming = new Date(item.nextTiming.begin);
+      const nextTimingStart = new Date(item.nextTiming.begin);
+      const nextTimingEnd = new Date(item.nextTiming.end);
       const now = new Date();
+      const endOfToday = endOfDay(now);
 
-      if (nextTiming < now) {
+      const dateInFrance1 = moment().tz('Europe/Paris').format();
+      const dateInFrance2 = moment().tz('Europe/Paris').toDate().toISOString();
+
+      if (isBefore(nextTimingStart, now) && isBefore(nextTimingEnd, now)) {
+
+        // Wrong next timing
         return null;
       } 
     }
@@ -123,7 +131,6 @@ export const CityEventHomeView = ({
 
   const fetchMoreData = () => {
     if (hasNextPage) {
-      console.log('ca fetch');
       fetchNextPage();
     }
   }
@@ -168,7 +175,7 @@ export const CityEventHomeView = ({
                 selectedItemDate={selectedItemDate}
                 setSelectedItemDate={setSelectedItemDate}
                 />, 
-              ...(eventList?.length > 0 && !isLoading ? eventList : fakeWaitingData)
+              ...(!isLoading ? eventList : fakeWaitingData)
             ]}
             initialNumToRender={1}
             showsVerticalScrollIndicator={false}

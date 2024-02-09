@@ -8,8 +8,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import { CityEventCard } from "../../../types/Events";
 import { FilterDateItem, allEventsCategoryLille, formatDate, formatTitle } from '../../../utils/events';
 import { useBackgroundColorLoading } from "../../../hooks/useBackgroundColorLoading";
-import { formatDistanceToNow } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { format } from "date-fns";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import moment from "moment";
 
 type Props = {
   navigation: any;
@@ -29,7 +31,13 @@ export const CityEventCardItem = ({
     "categories-metropolitaines": categoriesMetropolitaines,
     firstTiming,
     lastTiming,
+    timings,
+    nextTiming
   } = event;
+
+  if (!categoriesMetropolitaines) return null;
+
+  const { currentHomeViewDate } = useSelector((state: RootState) => state.general);
 
   const [imageLoaded, setImageLoaded] = useState(false);
   const imageSrc = `${image.base}${image.filename}`;
@@ -45,6 +53,14 @@ export const CityEventCardItem = ({
     navigation.push('CulturalEvent', {eventId});
   }
 
+  const categoriesId = categoriesMetropolitaines.map(category => category.id);
+
+  const categories = categoriesId.map(categoryId => allEventsCategoryLille.find(category => category.id === categoryId));
+  const firstCategory = categories[0];
+
+
+  const CategoryIconElt = firstCategory?.iconElt ?? null;
+
   return imageLoaded && (
     <Pressable 
       style={style.culturalEventsCard}
@@ -56,11 +72,26 @@ export const CityEventCardItem = ({
           source={{uri: imageSrc}}
         />
       </View>
-      <View style={style.culturalEventsCardCategory}>
-        <Text styles={style.culturalEventsCardCategoryTitle} weight="300">
-          {categoriesMetropolitaines[0].id !== 28 
-            ? categoriesMetropolitaines[0].label['fr']
-            : 'Autre'}
+      <View 
+        style={style.culturalEventsCardCategory}
+      >
+        { CategoryIconElt && (
+          <View>
+            <CategoryIconElt
+              color={'#0D89CE'} 
+              size={18} 
+              strokeWidth={1} 
+              // style={style.categoryIcon}
+              />
+          </View>
+      )}
+        <Text 
+          styles={{
+            fontSize: 12,
+            lineHeight: 18,
+          }} 
+        >
+          {formatTitle(firstCategory?.title ?? '')}
         </Text>
       </View>
       <View style={style.culturalEventsCardDetails}>
@@ -75,7 +106,13 @@ export const CityEventCardItem = ({
         <View style={style.culturalEventsCardDetailsDate}>
           <Calendar size={12} color={'black'} strokeWidth={1}/>
           <Text styles={style.culturalEventsCardDetailsDateTitle} weight="300">
-            {`Du ${getFormatedDateFromTimestamp(firstTiming.begin)} au ${getFormatedDateFromTimestamp(lastTiming.end)}`}
+            {formatDate({
+              inputDateStart: new Date(nextTiming.begin), 
+              inputDateEnd: new Date(nextTiming.end),
+              selectedItemDate: {id: 3, label: 'week', value: 'week'},
+              timings,
+              startDate: moment.utc().add(1, 'hour').toDate(),
+            })}
           </Text>
         </View>
       </View>
@@ -135,6 +172,7 @@ export const CityEventCardLargeItem = memo(({
   const today = new Date();
   const firstTimingDate = new Date(firstTiming.begin);
 
+
   return  (
     <Pressable 
       style={style.card}
@@ -153,21 +191,23 @@ export const CityEventCardLargeItem = memo(({
             <Text 
               styles={style.cardTitle}
               weight="700"
+              numberOfLines={3}
             >
               {title['fr'] ?? ''}
             </Text>
             <Text 
+              weight="500"
               styles={style.cardDate}
             >
                {
                 nextTiming &&
                 formatDate({
-                  inputDate: new Date(nextTiming.begin), 
+                  inputDateStart: new Date(nextTiming.begin), 
+                  inputDateEnd: new Date(nextTiming.end),
                   selectedItemDate, 
                   timings: timings,
                   title: title['fr'],
                   startDate,
-                  
                 })
                }
             </Text>
@@ -222,7 +262,6 @@ export const CityEventCardLargeItem = memo(({
   )
 }, (prevProps, nextProps) => { // and here is what i didn't notice before.
   return prevProps.event.uid === nextProps.event.uid;});
-
 
 export const CityEventCardLargeEmptyItem = () => {
 

@@ -132,30 +132,29 @@ export const CityEventListFilterItem = ({
 
   const handleConfirm = (item: string) => {
     if (item === 'today') {
-      const now    = moment.tz("Europe/Paris").add(1, 'hours');
-      const endOfDay = moment.tz("Europe/Paris").endOf('day').add(1, 'hours');
+      const now = moment.utc().add(1, 'hour');
+      const endOfDay = moment.utc().add(1, 'hour').endOf('day');
 
       setStartDate(now.toDate());
       setEndDate(endOfDay.toDate());
     }
     if (item === 'tomorrow') {
-      console.log('tomorrow :');
-      const tomorrow = moment.tz("Europe/Paris").add(1, 'days');
-      const tomorrowEndOfDay = moment(tomorrow).endOf('day').add(1, 'hours');
+      const tomorrow = moment.utc().add(1, 'day').startOf('day');
+      const tomorrowEndOfDay = moment.utc().add(1, 'day').endOf('day');
 
       setStartDate(tomorrow.toDate());
       setEndDate(tomorrowEndOfDay.toDate());
     }
     if (item === 'weekend') {
-      const saturday = moment.tz("Europe/Paris").isoWeekday(6);
-      const sundayEndOfDay = moment(saturday).add(1, 'days').endOf('day').add(1, 'hours');
+      const saturday = moment.utc().isoWeekday(6).startOf('day');
+      const sundayEndOfDay = moment.utc().isoWeekday(7).endOf('day');
       
       setStartDate(saturday.toDate());
       setEndDate(sundayEndOfDay.toDate());
     }
     if (item === 'week') {
-      const today = moment.tz("Europe/Paris").add(1, 'hours');
-      const sundayEndOfDay = moment(today).add(7, 'days').endOf('day').add(1, 'hours');
+      const today = moment.utc().add(1, 'hours');
+      const sundayEndOfDay = moment.utc().isoWeekday(7).endOf('day');
 
       setStartDate(today.toDate());
       setEndDate(sundayEndOfDay.toDate());

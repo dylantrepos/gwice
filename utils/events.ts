@@ -302,15 +302,17 @@ const findClosestDate = (timings: Timing[], startDate: Date): Date | null => {
 }
 
 type FormatDateProps = {
-  inputDate: Date;
+  inputDateStart: Date;
+  inputDateEnd: Date;
   selectedItemDate: FilterDateItem;
   timings: Timing[] | null;
-  title: string;
+  title?: string;
   startDate: Date;
 }
 
 export const formatDate = ({
-  inputDate,
+  inputDateStart,
+  inputDateEnd,
   selectedItemDate,
   timings,
   title,
@@ -331,6 +333,10 @@ export const formatDate = ({
   if (selectedItemDate.value === 'choose' && timings) {
       const closestDate = findClosestDate(timings, startDate);
       if (closestDate) {
+        if (isBefore(inputDateStart, now) && isAfter(inputDateEnd, now)) {
+          return `En ce moment jusqu'à ${format(inputDateEnd, 'HH:mm')}`;
+        }
+        
         if (isAfter(closestDate, now) && isBefore(closestDate, endOfToday)) {
           return `Dans ${formatDistanceToNow(closestDate, { locale: fr })}`;
         } else if (isAfter(closestDate, endOfToday) && isBefore(closestDate, endOfTomorrow)) {
@@ -340,11 +346,15 @@ export const formatDate = ({
       }
   }
 
-  if (isAfter(inputDate, now) && isBefore(inputDate, endOfToday)) {
-    return `Dans ${formatDistanceToNow(inputDate, { locale: fr })}`;
-  } else if (isAfter(inputDate, endOfToday) && isBefore(inputDate, endOfTomorrow)) {
-    return `Demain à ${format(inputDate, 'HH:mm')}`;
+  if (isBefore(inputDateStart, now) && isAfter(inputDateEnd, now)) {
+    return `En ce moment jusqu'à ${format(inputDateEnd, 'HH:mm')}`;
+  }
+
+  if (isAfter(inputDateStart, now) && isBefore(inputDateStart, endOfToday)) {
+    return `Dans ${formatDistanceToNow(inputDateStart, { locale: fr })}`;
+  } else if (isAfter(inputDateStart, endOfToday) && isBefore(inputDateStart, endOfTomorrow)) {
+    return `Demain à ${format(inputDateStart, 'HH:mm')}`;
   } else {
-    return format(inputDate, 'eeee dd MMMM à HH:mm', { locale: fr });
+    return format(inputDateStart, 'eeee dd MMMM à HH:mm', { locale: fr });
   }
 }

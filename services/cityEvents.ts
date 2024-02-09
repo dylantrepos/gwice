@@ -22,11 +22,6 @@ export const fetchCityEvents = async ({
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().general.currentCity.cityName;
 
-  console.log({
-    startDate,
-    endDate,
-  });
-
   const response = await axios.get(
     `${address}/events`, 
     {
@@ -43,8 +38,6 @@ export const fetchCityEvents = async ({
     },
   );
 
-  const test = response.data.events.find((event: any) => event.uid === 16608328);
-
   return response.data as CityEventCardRequest;
 }
 
@@ -57,10 +50,6 @@ export const fetchCityEventDetails = async ({
 }: FetchCityEventDetailsProps): Promise<CityEventDetailsRequest> => {
   const cityName = store.getState().general.currentCity.cityName;
   const address = `${SERVER_HOST}`;
-  const URL = `https://api.openagenda.com/v2/agendas/89904399/events?key=b139873be49e4eaf8802204829301bb2&includeLabels=true&detailed=1`;
-
-  console.log('[Request] fetchCityEventDetails : ', `${address}/event`);
-  console.log('[Request] fetchCityEventDetails Id : ', `${eventId}`);
 
   // console.log('[Request] fetchCulturalEvents : ', category);
   const response = await axios.get(`${address}/event`, {
@@ -72,8 +61,6 @@ export const fetchCityEventDetails = async ({
       eventId,
     }
   });
-
-  console.log('[Response] fetchLilleCulturalEvents - ', response.data);
 
   return response.data as CityEventDetailsRequest;
 }

@@ -3,7 +3,7 @@ import { RefreshControl, ScrollView, View } from "react-native"
 import style from './HomeView.style';
 import { CityBackgroundItem } from "../../components/CityBackgroundItem/CityBackgroundItem";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setRefetchHome } from "../../reducers/generalReducer";
 import { CityEventsListHorizontalItem } from "../../components/CityEvents/CityEventsListHorizontalItem/CityEventsListHorizontalItem";
@@ -19,7 +19,7 @@ export const HomeView = ({
   route
 }: HomeViewProps)  => {
   const [refreshing, setRefreshing] = useState(false);
-  const { currentCity, refetchHome } = useSelector((state: RootState) => state.general);
+  const { currentCity, refetchHome, currentHomeViewDate } = useSelector((state: RootState) => state.general);
   const dispatch = useDispatch();
 
   const onRefresh = useCallback(() => {
@@ -29,6 +29,10 @@ export const HomeView = ({
       setRefreshing(false);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    console.log('currentHomeViewDate :', currentHomeViewDate);
+  }, [currentHomeViewDate]);
 
   return (
     <SafeAreaView style={style.container}>

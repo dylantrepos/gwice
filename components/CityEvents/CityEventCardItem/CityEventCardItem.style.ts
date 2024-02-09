@@ -8,26 +8,44 @@ export default StyleSheet.create({
     // width: 400,
     // marginTop: 20,
     // marginLeft: 20,
-    borderColor: '#F6F6F6',
-    borderWidth: 1,
+    // borderColor: '#F6F6F6',
+    // borderWidth: 1,
     width: 300,
     // height: 240,
     borderRadius: 10,
-    overflow: "hidden",
   },
   culturalEventsCardImageContainer: {
-    height: 150,
+    height: 200,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#F6F6F6",
+    borderRadius: 10,
+    ...Platform.select({
+      ios: {
+        shadowOffset: {
+          width: 0,
+          height: 9,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 12.35,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   culturalEventsCardImage: {
+    borderRadius: 10,
     width: '100%',
     height: '100%',
   },
   culturalEventsCardCategory: {
     position: 'absolute',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 5,
     right: 5,
     top: 5,
     borderRadius: 100,
@@ -43,7 +61,7 @@ export default StyleSheet.create({
   },
   culturalEventsCardDetails: {
     // fontSize: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 10,
     display: 'flex',
   },
@@ -129,5 +147,6 @@ export default StyleSheet.create({
   cardDescriptionText: {
     color: '#fff',
     padding: 20,
+    paddingTop: 15,
   },
 });

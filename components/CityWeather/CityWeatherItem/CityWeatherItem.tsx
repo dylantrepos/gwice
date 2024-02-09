@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, ImageProps, ScrollView, Animated } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { weatherCodeIcons } from '../../../utils/weatherImgCode';
 import style from './CityWeatherItem.style';
@@ -13,9 +13,17 @@ import { CityWeatherDailyItem } from '../CityWeatherDailyItem/CityWeatherDailyIt
 import { animationDuration, dateOptions } from '../cityWeatherSettings';
 import { WarningScreenItem } from '../../WarningScreenItem/WarningScreenItem';
 import { useBackgroundColorLoading } from '../../../hooks/useBackgroundColorLoading';
+import { setCurrentHomeViewDate } from '../../../reducers/generalReducer';
+import moment from 'moment';
+import { FlatList } from 'react-native';
 
 export const CityWeatherItem = () => {
-  const { currentCity, weatherSettings, refetchHome } = useSelector((state: RootState) => state.general);
+  const { 
+    currentCity, 
+    currentHomeViewDate,
+    weatherSettings, 
+    refetchHome,
+  } = useSelector((state: RootState) => state.general);
   
   const {isLoading, data: weather, error} = useGetWeather(currentCity.cityName, weatherSettings, refetchHome);
   
@@ -25,13 +33,18 @@ export const CityWeatherItem = () => {
   const [currentDayCursor, setCurrentDayCursor] = useState(0);
   const [showElt, setShowElt] = useState<boolean>(true);
   const [itemWidth, setItemWidth] = useState(20);
+  const dispatch = useDispatch();
 
   const date = new Date();
-  const scrollViewRef = useRef<ScrollView>(null);
+  const scrollViewRef = useRef<FlatList>(null);
 
   const {backgroundColor} = useBackgroundColorLoading(isLoading);
 
   const onSwipeLeft = () => {
+    if (currentDayCursor + 1 < dailyWeather.length) {
+      const nextDate = moment(currentHomeViewDate).add(1, 'days').toDate();
+      dispatch(setCurrentHomeViewDate(nextDate.toISOString()));
+    }
       setCurrentDayCursor((old) => {
         if (old + 1 < dailyWeather.length) {
           setShowElt(false);
@@ -45,6 +58,10 @@ export const CityWeatherItem = () => {
   }
 
   const onSwipeRight = () => {
+    if (currentDayCursor - 1 >= 0) {
+      const dateBefore = moment(currentHomeViewDate).subtract(1, 'days').toDate();
+      dispatch(setCurrentHomeViewDate(dateBefore.toISOString()));
+    }
       setCurrentDayCursor((old) => {
         if (old - 1 >= 0) {
           setShowElt(false);
@@ -84,7 +101,7 @@ export const CityWeatherItem = () => {
     }
     if (scrollViewRef.current) {
       const scrollTo = currentDayCursor === 0 ? 0 : (itemWidth + 10) * weatherSettings.startDailyHour;
-      scrollViewRef.current.scrollTo({ x: scrollTo, animated: true });
+      scrollViewRef.current.scrollToOffset({ offset: scrollTo, animated: true });
     }
   }, [isLoading, weather, weatherSettings, currentDayCursor]);
 
@@ -129,7 +146,19 @@ export const CityWeatherItem = () => {
                 </WarningScreenItem> 
         }
       </Animated.View>
-      <ScrollView 
+      <FlatList
+        data={weatherHourly}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <CityWeatherHourlyItem 
+            weather={item} 
+            show={showElt}
+            styleProps={{
+              width: itemWidth,
+              height: '100%',
+            }}
+          />
+        )}
         horizontal={true}
         ref={scrollViewRef}
         showsHorizontalScrollIndicator={false}
@@ -142,19 +171,7 @@ export const CityWeatherItem = () => {
           height: 120,
         }}
         style={style.cityWeatherListSmall}
-      >
-        {(weatherHourly)?.map((weatherElt, index) => (
-          <CityWeatherHourlyItem 
-            key={`weather-sm-item-${index}`}
-            weather={weatherElt}
-            show={showElt}
-            styleProps={{
-              width: itemWidth,
-              height: '100%',
-            }}
-          />)
-        )}
-      </ScrollView>
+      />
     </View>
   )
 };
