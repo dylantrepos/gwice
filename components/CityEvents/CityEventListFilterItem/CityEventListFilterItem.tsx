@@ -1,4 +1,4 @@
-import { CalendarDays, ChevronDown, Euro, Filter, X } from "lucide-react-native";
+import { CalendarDays, ChevronDown, Euro, Filter, List, X } from "lucide-react-native";
 import { Modal, Pressable, ScrollView, View, Animated, Platform, Dimensions } from 'react-native';
 import { Text } from "../../Text/Text";
 import style from './CityEventListFilterItem.style';
@@ -10,20 +10,6 @@ import moment from 'moment-timezone';
 import { FilterDateItem, filterDate } from "../../../utils/events";
 
 
-
-const formatDate = (date: Date) => {
-  var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-
-  if (month.length < 2) 
-      month = '0' + month;
-  if (day.length < 2) 
-      day = '0' + day;
-
-  return [year, month, day].join('-');
-}
 
 type CityEventListFilterItemProps = {
   startDate: Date;
@@ -44,23 +30,202 @@ export const CityEventListFilterItem = ({
 }: CityEventListFilterItemProps) => {
   // Replace with your actual view
   const [isPopinVisible, setIsPopinVisible] = useState(false);
-  const [itemHeight, setItemHeight] = useState(0);
-  const [currSelectedItem, setCurrSelectedItem] = useState(filterDate[3]);
   const opacity = useRef(new Animated.Value(0)).current;
   const animatedValue = useRef(new Animated.Value(0)).current;
+
+
+  const handlePopin = () => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 500,
+      delay: 0,
+      useNativeDriver: false,
+    }).start();
+
+    setIsPopinVisible(true);
+  }
+
+  useEffect(() => {
+    console.log('[USE EFFECT] : ',{
+      startDate,
+      endDate,
+    });
+  }, [startDate, endDate]);
+
+  return (
+    <>
+      <FilterDateModal
+        animatedValue={animatedValue}
+        isPopinVisible={isPopinVisible}
+        setIsPopinVisible={setIsPopinVisible}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        selectedItemDate={selectedItemDate}
+        setSelectedItemDate={setSelectedItemDate}
+      />
+
+      <ScrollView
+        style={style.filterList}
+        horizontal
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          gap: 10,
+        }}
+        showsHorizontalScrollIndicator={false}
+      >
+        <Pressable
+          style={style.filter}
+          onPress={handlePopin}
+        >
+          <CalendarDays
+            size={22}
+            color="black"
+            strokeWidth={2}
+            style={style.filterIcon}
+          />
+          <Text 
+            styles={style.filterTitle}
+          >
+            {selectedItemDate.id !== 5
+              ? selectedItemDate.label
+              : moment.utc(startDate).format('DDMMYYYY').toString() !== moment.utc(endDate).format('DDMMYYYY').toString()
+                ? `${moment.utc(startDate).format('DD/MM/YYYY')} - ${moment.utc(endDate).format('DD/MM/YYYY')}`
+                : moment.utc(startDate).format('DD/MM/YYYY')
+            }
+          </Text>
+          <ChevronDown
+            size={22}
+            color="black"
+            strokeWidth={2}
+            style={style.filterIcon}
+          />
+        </Pressable>
+        <View
+          style={style.filter}
+        >
+          <Euro
+            size={22}
+            color="black"
+            strokeWidth={2}
+            style={style.filterIcon}
+          />
+          <Text 
+            styles={style.filterTitle}
+          >
+            Tous les prix
+          </Text>
+          <ChevronDown
+            size={22}
+            color="black"
+            strokeWidth={2}
+            style={style.filterIcon}
+          />
+        </View>
+        <View
+          style={style.filter}
+        >
+          <Filter
+            size={22}
+            color="black"
+            strokeWidth={2}
+            style={style.filterIcon}
+          />
+          <Text 
+            styles={style.filterTitle}
+          >
+            Trier par
+          </Text>
+          <ChevronDown
+            size={22}
+            color="black"
+            strokeWidth={2}
+            style={style.filterIcon}
+          />
+        </View>
+      </ScrollView>
+    </>
+  );
+}
+
+type FilterDateModalProps = {
+  animatedValue: Animated.Value;
+  isPopinVisible: boolean;
+  setIsPopinVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  startDate: Date;
+  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
+  endDate: Date;
+  setEndDate: React.Dispatch<React.SetStateAction<Date>>;
+  selectedItemDate: FilterDateItem;
+  setSelectedItemDate: React.Dispatch<React.SetStateAction<FilterDateItem>>;
+}
+
+export const FilterDateModal = ({
+  animatedValue,
+  isPopinVisible,
+  setIsPopinVisible,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  selectedItemDate,
+  setSelectedItemDate
+}: FilterDateModalProps) => {
+  // Replace with your actual view
+  const [currSelectedItem, setCurrSelectedItem] = useState(filterDate[3]);
+  const opacity = useRef(new Animated.Value(0)).current;
   const [currAnimValue, setCurrAnimValue] = useState(0);
+  const [currStartDate, setCurrStartDate] = useState(startDate);
+  const [currEndDate, setCurrEndDate] = useState(endDate);
 
 
   useEffect(() => {
-    console.log('currSelectedItem :', currSelectedItem);
-    console.log('selectedItemDate :', selectedItemDate);
     const listener = animatedValue.addListener(({ value }) => setCurrAnimValue(value));
+    if (currSelectedItem.value === 'choose') {
+      if (
+        (moment(currStartDate).format('DDMMYYYY').toString() === moment.utc(startDate).format('DDMMYYYY').toString() && moment(currEndDate).format('DDMMYYYY').toString() === moment.utc(endDate).format('DDMMYYYY').toString())) {
+          console.log('yes : ', {
+            currStartDate,
+            startDate,
+            currEndDate,
+            endDate,
+          });
+          Animated.sequence([
+            Animated.timing(animatedValue, {
+              toValue: 1,
+              duration: 150,
+              useNativeDriver: false,
+            }),
+            Animated.timing(animatedValue, {
+              toValue: 0,
+              duration: 150,
+              useNativeDriver: false,
+            }),
+          ]).start();
 
-    console.log({
-      currSelectedItem: currSelectedItem.id,
-      selectedItemDate: selectedItemDate.id,
-      currAnimValue
-    })
+          return;
+        }
+      else {
+
+        if (currAnimValue === 0) {
+          Animated.sequence([
+            Animated.timing(animatedValue, {
+              toValue: 0,
+              duration: 150,
+              useNativeDriver: false,
+            }),
+            Animated.timing(animatedValue, {
+              toValue: 1,
+              duration: 150,
+              useNativeDriver: false,
+            }),
+          ]).start();
+        }
+
+        return;
+      }
+    }
     
     if (currSelectedItem.id === selectedItemDate.id) {
       if(currAnimValue === 0) return;
@@ -97,7 +262,7 @@ export const CityEventListFilterItem = ({
     return () => {
       animatedValue.removeListener(listener);
     };
-  }, [currSelectedItem, selectedItemDate]);
+  }, [currSelectedItem, currStartDate, currEndDate, isPopinVisible]);
 
   const backgroundColor = animatedValue.interpolate({
     inputRange: [0, 1],
@@ -106,18 +271,6 @@ export const CityEventListFilterItem = ({
 
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-
-
-  const handlePopin = () => {
-    Animated.timing(opacity, {
-      toValue: 1,
-      duration: 500,
-      delay: 0,
-      useNativeDriver: false,
-    }).start();
-
-    setIsPopinVisible(true);
-  }
 
   const handleClose = () => {
     Animated.timing(opacity, {
@@ -134,6 +287,7 @@ export const CityEventListFilterItem = ({
     if (item === 'today') {
       const now = moment.utc().add(1, 'hour');
       const endOfDay = moment.utc().add(1, 'hour').endOf('day');
+      
 
       setStartDate(now.toDate());
       setEndDate(endOfDay.toDate());
@@ -159,19 +313,27 @@ export const CityEventListFilterItem = ({
       setStartDate(today.toDate());
       setEndDate(sundayEndOfDay.toDate());
     }
-    setCurrSelectedItem(selectedItemDate);
+    if (item === 'choose') {
+
+      const start = moment(currStartDate).utc().add(1, 'hour').startOf('day');
+      const end = moment(currEndDate).utc().add(1, 'hour').endOf('day');
+
+      setStartDate(start.toDate());
+      setEndDate(end.toDate());
+    }
+    setSelectedItemDate(currSelectedItem);
 
     handleClose();
   }
 
   useEffect(() => {
-    if (startDate > endDate) {
-      setEndDate(startDate);
+    if (currStartDate > currEndDate) {
+      setCurrEndDate(currStartDate);
     }
-  }, [startDate]);
+    console.log('currStartDate :', currStartDate);
+  }, [currStartDate]);
 
   return (
-    <>
      <Modal
         animationType="slide"
         transparent={true}
@@ -242,23 +404,24 @@ export const CityEventListFilterItem = ({
                     item.value !== 'choose' && <Pressable
                       key={index}
                       onPress={() => {
-                        setSelectedItemDate(item);
+                        setCurrSelectedItem(item);
                       }}
                       style={[
                         style.item,
-                        selectedItemDate === item && style.selectedItem
+                        currSelectedItem === item && style.selectedItem
                       ]}
                     >
                       <Text 
                         styles={{
                         ...style.itemText,
-                        color: selectedItemDate === item ? '#3988FD' : 'black',
+                        color: currSelectedItem === item ? '#3988FD' : 'black',
                         }}
                       >
                         {item.label}
                       </Text>
                     </Pressable>
                   ))}
+
                   <Pressable
                     style={{
                       display: 'flex',
@@ -268,7 +431,7 @@ export const CityEventListFilterItem = ({
                       paddingHorizontal: 10,
                     }}
                     onPress={() => {
-                      setSelectedItemDate(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
+                      setCurrSelectedItem(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
                     }}
                   >
                     <Text 
@@ -280,11 +443,11 @@ export const CityEventListFilterItem = ({
                     <Pressable
                           onPress={() => {
                             setShowStartDatePicker(true);
-                            setSelectedItemDate(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
+                            setCurrSelectedItem(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
                           }}
                           style={[
                             style.item,
-                            selectedItemDate.value ===  'choose' && style.selectedItem
+                            currSelectedItem.value ===  'choose' && style.selectedItem
                           ]}
                         >
                           <Text 
@@ -293,7 +456,7 @@ export const CityEventListFilterItem = ({
                               color: '#3988FD',
                             }}
                           >
-                            {startDate.toLocaleDateString('fr-FR', { timeZone: 'UTC' })}
+                            {moment(currStartDate).utc().toDate().toLocaleDateString('fr-FR')}
                           </Text>
                           
                         </Pressable>
@@ -306,11 +469,11 @@ export const CityEventListFilterItem = ({
                     <Pressable
                       onPress={() => {
                         setShowEndDatePicker(true);
-                        setSelectedItemDate(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
+                        setCurrSelectedItem(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
                       }}
                       style={[
                         style.item,
-                        selectedItemDate.value ===  'choose' && style.selectedItem
+                        currSelectedItem.value ===  'choose' && style.selectedItem
                       ]}
                     >
                       <Text 
@@ -319,7 +482,7 @@ export const CityEventListFilterItem = ({
                           color: '#3988FD',
                         }}
                       >
-                        {endDate.toLocaleDateString('fr-FR', { timeZone: 'UTC' })}
+                         {moment(currEndDate).utc().toDate().toLocaleDateString('fr-FR')}
                       </Text>
                       
                     </Pressable>
@@ -362,22 +525,24 @@ export const CityEventListFilterItem = ({
                               }}
                               mode="date"
                               display="inline"
+                              minimumDate={currStartDate}
                               onChange={(event, selectedDate) => {
                                 const currentDate = selectedDate || startDate;
-                                setStartDate(currentDate);
+                                setCurrStartDate(currentDate);
                                 setShowStartDatePicker(false);
                               }}
-                            />
+                              />
                         </Pressable>
                     ) : (
-                          <DateTimePicker
-                            value={startDate}
-                            
+                      <DateTimePicker
+                        value={startDate}
+                      
+                        minimumDate={currStartDate}
                             mode="date"
                             display="default"
                             onChange={(event, selectedDate) => {
                               const currentDate = selectedDate || startDate;
-                              setStartDate(currentDate);
+                              setCurrStartDate(currentDate);
                               setShowStartDatePicker(false);
                             }}
                           />
@@ -419,28 +584,28 @@ export const CityEventListFilterItem = ({
                                 shadowOpacity: .5,
                                 shadowRadius: 6,
                               }}
-                              value={endDate}
+                              value={currEndDate}
                               mode="date"
                               display="inline"
                               testID="datePicker2"
-                              minimumDate={startDate}
+                              minimumDate={currStartDate}
                               onChange={(event, selectedDate) => {
-                                const currentDate = selectedDate || startDate;
-                                setEndDate(currentDate);
+                                const currentDate = selectedDate || currStartDate;
+                                setCurrEndDate(currentDate);
                                 setShowEndDatePicker(false);
                               }}
                             />
                         </Pressable>
                     ) : (
                           <DateTimePicker
-                            value={endDate}
+                            value={currEndDate}
                             mode="date"
                             display="default"
                             testID="datePicker2"
-                            minimumDate={startDate}
+                            minimumDate={currStartDate}
                             onChange={(event, selectedDate) => {
-                              const currentDate = selectedDate || startDate;
-                              setEndDate(currentDate);
+                              const currentDate = selectedDate || currStartDate;
+                              setCurrEndDate(currentDate);
                               setShowEndDatePicker(false);
                             }}
                           />
@@ -449,12 +614,13 @@ export const CityEventListFilterItem = ({
 
                   <Pressable
                     onPress={() => {
-                      if (currSelectedItem.value === 'choose') {
-                        console.log('choose');
-                        handleConfirm(selectedItemDate.value)
+                      if (currSelectedItem.value === 'choose'
+                        && moment.utc(currStartDate).format('DDMMYYYY').toString() !== moment.utc(startDate).format('DDMMYYYY').toString() && moment.utc(currEndDate).format('DDMMYYYY').toString() !== moment.utc(endDate).format('DDMMYYYY').toString()
+                      ) {
+                        handleConfirm(currSelectedItem.value)
                       } else if (currSelectedItem.id !== selectedItemDate.id) {
                         console.log('currSelectedItem.id !== selectedItemDate.id : ', currSelectedItem.id !== selectedItemDate.id);
-                        handleConfirm(selectedItemDate.value)
+                        handleConfirm(currSelectedItem.value)
                       }
                     }}
                   >
@@ -483,88 +649,5 @@ export const CityEventListFilterItem = ({
             </View>
           </Pressable>
       </Modal>
-
-
-
-      <ScrollView
-        style={style.filterList}
-        horizontal
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-          gap: 10,
-        }}
-        showsHorizontalScrollIndicator={false}
-      >
-        <Pressable
-          style={style.filter}
-          onPress={handlePopin}
-        >
-          <CalendarDays
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
-          />
-          <Text 
-            styles={style.filterTitle}
-          >
-            {currSelectedItem.id !== 5
-              ? currSelectedItem.label
-              : formatDate(startDate) !== formatDate(endDate) 
-                ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
-                : startDate.toLocaleDateString()
-            }
-          </Text>
-          <ChevronDown
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
-          />
-        </Pressable>
-        <View
-          style={style.filter}
-        >
-          <Euro
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
-          />
-          <Text 
-            styles={style.filterTitle}
-          >
-            Tous les prix
-          </Text>
-          <ChevronDown
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
-          />
-        </View>
-        <View
-          style={style.filter}
-        >
-          <Filter
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
-          />
-          <Text 
-            styles={style.filterTitle}
-          >
-            Trier par
-          </Text>
-          <ChevronDown
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
-          />
-        </View>
-      </ScrollView>
-    </>
   );
 }

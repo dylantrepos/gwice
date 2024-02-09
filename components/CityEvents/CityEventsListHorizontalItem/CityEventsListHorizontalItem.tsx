@@ -46,15 +46,9 @@ export const CityEventsListHorizontalItem = ({
       const now = moment.utc(1).toDate();
       const eventsListFinal = events.pages.map((page) => page.events).flat().filter((event) => {
         if (isBefore(event.nextTiming.begin, now) && isBefore(event.nextTiming.end, now)){
-          console.log('yes : ', event.title);
-          console.log('event.nextTiming.begin : ', event.nextTiming.begin);
-          console.log('event.nextTiming.end : ', event.nextTiming.end);
           return null;
         }
         else {
-          console.log('no : ', event.title);
-          console.log('event.nextTiming.begin : ', event.nextTiming.begin);
-          console.log('event.nextTiming.end : ', event.nextTiming.end);
           return event;
         }
       });
@@ -62,11 +56,7 @@ export const CityEventsListHorizontalItem = ({
     }
   }, [events]);
 
-  
-  console.log('Width screen : ', Dimensions.get('window').width);
-  console.log('CityEventCard : 300');
-  const scroll = (Dimensions.get('window').width - 300) + Dimensions.get('window').width;
-  console.log('Scroll : ', scroll);
+
 
   // 315 
 

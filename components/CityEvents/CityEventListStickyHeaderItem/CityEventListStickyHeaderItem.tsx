@@ -4,6 +4,7 @@ import { CityEventListCategoryListItem } from "../CityEventListCategoryListItem/
 import { FilterDateItem, eventsCategoryLille } from "../../../utils/events";
 import { CityEventListFilterItem } from "../CityEventListFilterItem/CityEventListFilterItem";
 import style from './CityEventListStickyHeaderItem.style';
+import { useEffect } from "react";
 
 type StickyHeaderProps = {
   filteredCategoryIdList: number[];
@@ -26,6 +27,7 @@ export const CityEventListStickyHeaderItem = ({
   selectedItemDate,
   setSelectedItemDate
 }: StickyHeaderProps) => {
+
   return (
     <View
     style={{
