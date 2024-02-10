@@ -7,6 +7,11 @@ export default StyleSheet.create({
     overflow: 'hidden',
     // width: 84,
   },
+  cityWeatherHourlyEmptyContainer: { 
+    borderRadius: 10,
+    overflow: 'hidden',
+    // width: 84,
+  },
   cityWeatherHourlyContainerAnimated: { 
     backgroundColor: 'white',
     alignItems: 'center',

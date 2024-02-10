@@ -18,7 +18,7 @@ export const CityBackgroundItem = () => {
         source={image.homeImage}
       >
       </ImageBackground>
-      <Text styles={style.cityName} weight='500'>
+      <Text styles={style.cityName} weight='300'>
         { cityName }
       </Text>
       <CityWeatherItem />

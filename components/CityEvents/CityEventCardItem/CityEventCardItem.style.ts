@@ -2,17 +2,15 @@ import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   culturalEventsCard: {
-    flex: 1,
-    // backgroundColor: "red",
-    // width: "100%",
-    // width: 400,
-    // marginTop: 20,
-    // marginLeft: 20,
-    // borderColor: '#F6F6F6',
-    // borderWidth: 1,
+    // flex: 1,
     width: 300,
-    // height: 240,
     borderRadius: 10,
+  },
+  cardEmptyContainer: {
+    borderRadius: 10,
+    flex: 1,
+    height: 200,
+    width: 300,
   },
   culturalEventsCardImageContainer: {
     height: 200,
@@ -93,7 +91,7 @@ export default StyleSheet.create({
     height: 450,
   },
 
-  cardEmptyContainer: {
+  cardLargeEmptyContainer: {
     borderRadius: 10,
     overflow: 'hidden',
     position: 'relative',

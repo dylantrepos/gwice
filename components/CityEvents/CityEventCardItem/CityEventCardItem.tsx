@@ -270,6 +270,21 @@ export const CityEventCardLargeEmptyItem = () => {
   return (
     <Animated.View 
       style={{
+        ...style.cardLargeEmptyContainer,
+        backgroundColor,
+      }}
+    >
+    </Animated.View>
+  )
+};
+
+export const CityEventCardEmptyItem = () => {
+
+  const { backgroundColor } = useBackgroundColorLoading(true)
+  
+  return (
+    <Animated.View 
+      style={{
         ...style.cardEmptyContainer,
         backgroundColor,
       }}

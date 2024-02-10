@@ -513,7 +513,7 @@ export const FilterDateModal = ({
                               value={startDate}
                               style={{
                                 borderRadius: 10,
-                                backgroundColor: 'white',
+                                // backgroundColor: 'white',
                                 padding: 10,
                                 shadowColor: '#000',
                                 shadowOffset: {

@@ -1,9 +1,10 @@
-import { View, Image, Text, Animated, StyleProp, StyleSheetProperties, ViewStyle} from 'react-native';
+import { View, Image, Text, Animated, StyleProp, StyleSheetProperties, ViewStyle, Dimensions} from 'react-native';
 import { weatherCodeIcons } from '../../../utils/weatherImgCode';
 import style from './CityWeatherHourlyItem.style';
 import { OpenMeteoDataHourly} from '../../../types/Weather';
 import { useEffect, useRef } from 'react';
 import { animationOptions } from '../cityWeatherSettings';
+import { useBackgroundColorLoading } from '../../../hooks/useBackgroundColorLoading';
 
 type Props = {
   weather: OpenMeteoDataHourly;
@@ -57,3 +58,22 @@ export const CityWeatherHourlyItem = ({
     </View>
   );
 }
+
+
+export const CityWeatherHourlyEmptyItem = () => {
+
+
+  const { backgroundColor } = useBackgroundColorLoading(true)
+  
+  return (
+    <Animated.View 
+      style={{
+        ...style.cityWeatherHourlyEmptyContainer,
+        height: '100%',
+        width: ((Dimensions.get('window').width - 40) - (3 * 10)) / 4,
+        backgroundColor,
+      }}
+    >
+    </Animated.View>
+  )
+};

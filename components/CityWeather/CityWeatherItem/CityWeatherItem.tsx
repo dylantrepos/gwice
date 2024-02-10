@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, ImageProps, ScrollView, Animated } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
@@ -7,7 +7,7 @@ import style from './CityWeatherItem.style';
 import useGetWeather from '../../../hooks/useGetWeather';
 import { OpenMeteoDataForecast, OpenMeteoDataHourly } from '../../../types/Weather';
 import { useSwipe } from '../../../hooks/useSwap';
-import { CityWeatherHourlyItem } from '../CityWeatherHourlyItem/CityWeatherHourlyItem';
+import { CityWeatherHourlyEmptyItem, CityWeatherHourlyItem } from '../CityWeatherHourlyItem/CityWeatherHourlyItem';
 import { CityWeatherCurrentItem } from '../CityWeatherCurrentItem/CityWeatherCurrentItem';
 import { CityWeatherDailyItem } from '../CityWeatherDailyItem/CityWeatherDailyItem';
 import { animationDuration, dateOptions } from '../cityWeatherSettings';
@@ -16,6 +16,12 @@ import { useBackgroundColorLoading } from '../../../hooks/useBackgroundColorLoad
 import { setCurrentHomeViewDate } from '../../../reducers/generalReducer';
 import moment from 'moment';
 import { FlatList } from 'react-native';
+import { CityEventCardEmptyItem } from '../../CityEvents/CityEventCardItem/CityEventCardItem';
+
+type CityWeatherItemRenderProps = {
+  item: any;
+  index: number;
+}
 
 export const CityWeatherItem = () => {
   const { 
@@ -33,6 +39,7 @@ export const CityWeatherItem = () => {
   const [currentDayCursor, setCurrentDayCursor] = useState(0);
   const [showElt, setShowElt] = useState<boolean>(true);
   const [itemWidth, setItemWidth] = useState(20);
+  const fakeWaitingData = Array(4).fill(0).map((_, index) => index);
   const dispatch = useDispatch();
 
   const date = new Date();
@@ -105,6 +112,21 @@ export const CityWeatherItem = () => {
     }
   }, [isLoading, weather, weatherSettings, currentDayCursor]);
 
+
+  const CityWeatherItemRender = useCallback(({item, index}: CityWeatherItemRenderProps) => {
+
+    return !isLoading && weatherHourly?.length > 0 
+        ? <CityWeatherHourlyItem 
+            weather={item} 
+            show={showElt}
+            styleProps={{
+              width: itemWidth,
+              height: '100%',
+            }}
+          />
+        : <CityWeatherHourlyEmptyItem />
+  }, [weatherHourly])
+
   return (
     <View
       style={style.cityWeatherItem}
@@ -147,18 +169,9 @@ export const CityWeatherItem = () => {
         }
       </Animated.View>
       <FlatList
-        data={weatherHourly}
+        data={!isLoading ? weatherHourly : fakeWaitingData}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <CityWeatherHourlyItem 
-            weather={item} 
-            show={showElt}
-            styleProps={{
-              width: itemWidth,
-              height: '100%',
-            }}
-          />
-        )}
+        renderItem={CityWeatherItemRender}
         horizontal={true}
         ref={scrollViewRef}
         showsHorizontalScrollIndicator={false}

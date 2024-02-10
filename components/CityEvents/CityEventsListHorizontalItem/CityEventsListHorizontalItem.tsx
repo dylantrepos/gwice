@@ -2,15 +2,21 @@ import { ChevronRight } from "lucide-react-native";
 import style from './CityEventsListHorizontalItem.style';
 import { Text } from "../../Text/Text";
 import { Dimensions, FlatList, Pressable, ScrollView, View } from "react-native";
-import { CityEventCardItem } from "../CityEventCardItem/CityEventCardItem";
+import { CityEventCardEmptyItem, CityEventCardItem, CityEventCardLargeEmptyItem } from "../CityEventCardItem/CityEventCardItem";
 import { useGetCityEvents } from "../../../hooks/useGetCityEvents";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { WarningScreenItem } from "../../WarningScreenItem/WarningScreenItem";
 import { formatTitle } from "../../../utils/events";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import { endOfDay, isBefore } from 'date-fns';
+
+type CityEventsListHorizontalItemRenderProps = {
+  item: any;
+  index: number;
+}
+
 
 type Props = {
   navigation: any;
@@ -31,6 +37,7 @@ export const CityEventsListHorizontalItem = ({
     refetchCityEventHome
   } = useSelector((state: RootState) => state.general);
   const [eventList, setEventList] = useState<any[]>([]);
+  const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
 
   const {
     isLoading, 
@@ -57,7 +64,29 @@ export const CityEventsListHorizontalItem = ({
   }, [events]);
 
 
-
+  const CityEventsListHorizontalItemRender = useCallback(({item, index}: CityEventsListHorizontalItemRenderProps) => {
+    // check if the item is the sticky header
+    if (item.nextTiming) {
+      const nextTimingStart = new Date(item.nextTiming.begin);
+      const nextTimingEnd = new Date(item.nextTiming.end);
+      const now = new Date();
+  
+      if (isBefore(nextTimingStart, now) && isBefore(nextTimingEnd, now)) {
+  
+        // Wrong next timing
+        return null;
+      } 
+    }
+  
+    return eventList?.length > 0 
+        ? <CityEventCardItem 
+            navigation={navigation}
+            route={route}
+            event={item}
+          />
+        : <CityEventCardEmptyItem />
+  }, [eventList])
+  
   // 315 
 
 
@@ -71,15 +100,9 @@ export const CityEventsListHorizontalItem = ({
         <ChevronRight size={20} color={'black'}/>
       </Pressable>
       <FlatList
-        data={eventList}   
+        data={(!isLoading ? eventList : fakeWaitingData)}   
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <CityEventCardItem 
-            navigation={navigation}
-            route={route}
-            event={item}
-          />
-        )}     
+        renderItem={CityEventsListHorizontalItemRender}     
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         style={style.culturalEventsCardsContainer}

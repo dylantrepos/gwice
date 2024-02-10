@@ -3,6 +3,7 @@ import { Platform, StyleSheet } from "react-native";
 export default StyleSheet.create({
   culturalEvents: {
     marginBottom: 20,
+    height: 'auto',
   },
   culturalEventsTitleContainer: {
     flexDirection: "row",
