@@ -4,11 +4,10 @@ import { Text } from "../../Text/Text";
 import style from './CityEventListFilterItem.style';
 import { useEffect, useRef, useState } from "react";
 import { BlurView } from 'expo-blur';
-import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { City } from '../../../cities/types/City';
 import moment from 'moment-timezone';
 import { FilterDateItem, filterDate } from "../../../utils/events";
-
 
 
 type CityEventListFilterItemProps = {
@@ -44,13 +43,6 @@ export const CityEventListFilterItem = ({
 
     setIsPopinVisible(true);
   }
-
-  useEffect(() => {
-    console.log('[USE EFFECT] : ',{
-      startDate,
-      endDate,
-    });
-  }, [startDate, endDate]);
 
   return (
     <>
@@ -271,6 +263,7 @@ export const FilterDateModal = ({
 
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState<'start' | 'end' | undefined>();
 
   const handleClose = () => {
     Animated.timing(opacity, {
@@ -444,6 +437,7 @@ export const FilterDateModal = ({
                           onPress={() => {
                             setShowStartDatePicker(true);
                             setCurrSelectedItem(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
+                            setShowDatePicker('start');
                           }}
                           style={[
                             style.item,
@@ -470,6 +464,7 @@ export const FilterDateModal = ({
                       onPress={() => {
                         setShowEndDatePicker(true);
                         setCurrSelectedItem(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
+                        setShowDatePicker('end');
                       }}
                       style={[
                         style.item,
@@ -488,129 +483,19 @@ export const FilterDateModal = ({
                     </Pressable>
                   </Pressable>
 
-                  { showStartDatePicker && (
-                     Platform.OS === 'ios' ? (
-                        <Pressable
-                          onPress={() => {
-                            setShowStartDatePicker(false);
-                          }}
-                          style={{
-                            position: 'absolute',
-                            // top: 0,
-                            height: Dimensions.get('screen').height,
-                            bottom: -30,
-                            justifyContent: 'center',
-                            alignContent: 'center',
-                            left: -20,
-                            right: -20,
-                            zIndex: 1000,
-                            backgroundColor: 'rgba(0,0,0,0.5)',
-                            paddingHorizontal: 5,
-                            flex: 1,
-                          }}
-                        >
-                            <DateTimePicker
-                              value={startDate}
-                              style={{
-                                borderRadius: 10,
-                                // backgroundColor: 'white',
-                                padding: 10,
-                                shadowColor: '#000',
-                                shadowOffset: {
-                                  width: 0,
-                                  height: 5,
-                                },
-                                shadowOpacity: .5,
-                                shadowRadius: 6,
-                              }}
-                              mode="date"
-                              display="inline"
-                              minimumDate={currStartDate}
-                              onChange={(event, selectedDate) => {
-                                const currentDate = selectedDate || startDate;
-                                setCurrStartDate(currentDate);
-                                setShowStartDatePicker(false);
-                              }}
-                              />
-                        </Pressable>
-                    ) : (
-                      <DateTimePicker
-                        value={startDate}
-                      
-                        minimumDate={currStartDate}
-                            mode="date"
-                            display="default"
-                            onChange={(event, selectedDate) => {
-                              const currentDate = selectedDate || startDate;
-                              setCurrStartDate(currentDate);
-                              setShowStartDatePicker(false);
-                            }}
-                          />
-                        )
-                    )}
-
-                  { showEndDatePicker && (
-                     Platform.OS === 'ios' ? (
-                        <Pressable
-                          onPress={() => {
-                            setShowEndDatePicker(false);
-                          }}
-                          style={{
-                            position: 'absolute',
-                            // top: 0,
-                            height: Dimensions.get('screen').height,
-                            bottom: -30,
-                            justifyContent: 'center',
-                            alignContent: 'center',
-                            left: -20,
-                            right: -20,
-                            zIndex: 1000,
-                            backgroundColor: 'rgba(0,0,0,0.5)',
-                            paddingHorizontal: 5,
-                            flex: 1,
-                          }}
-                        >
-                            <DateTimePicker
-                             
-                              style={{
-                                borderRadius: 10,
-                                backgroundColor: 'white',
-                                padding: 10,
-                                shadowColor: '#000',
-                                shadowOffset: {
-                                  width: 0,
-                                  height: 5,
-                                },
-                                shadowOpacity: .5,
-                                shadowRadius: 6,
-                              }}
-                              value={currEndDate}
-                              mode="date"
-                              display="inline"
-                              testID="datePicker2"
-                              minimumDate={currStartDate}
-                              onChange={(event, selectedDate) => {
-                                const currentDate = selectedDate || currStartDate;
-                                setCurrEndDate(currentDate);
-                                setShowEndDatePicker(false);
-                              }}
-                            />
-                        </Pressable>
-                    ) : (
-                          <DateTimePicker
-                            value={currEndDate}
-                            mode="date"
-                            display="default"
-                            testID="datePicker2"
-                            minimumDate={currStartDate}
-                            onChange={(event, selectedDate) => {
-                              const currentDate = selectedDate || currStartDate;
-                              setCurrEndDate(currentDate);
-                              setShowEndDatePicker(false);
-                            }}
-                          />
-                        )
-                    )}
+                  { showDatePicker && (
+                    <DateTimePickerModal
+                      setShowDatePicker={() => setShowDatePicker(undefined)}
+                      handleOnChange={(event, selectedDate) => {
+                        const currentDate = selectedDate || currStartDate;
+                        if (showDatePicker === 'start') setCurrStartDate(currentDate);
+                        if (showDatePicker === 'end') setCurrEndDate(currentDate);
+                        setShowDatePicker(undefined);
+                      }}
+                      datePickerValue={showDatePicker === 'start' ? currStartDate : currEndDate}
+                      minimumDate={showDatePicker === 'start' ? new Date() : currStartDate}
+                    />
+                  )}
 
                   <Pressable
                     onPress={() => {
@@ -650,4 +535,77 @@ export const FilterDateModal = ({
           </Pressable>
       </Modal>
   );
+}
+
+type DateTimePickerModalProps = {
+  setShowDatePicker: React.Dispatch<React.SetStateAction<boolean>>;
+  handleOnChange: (event: DateTimePickerEvent, date?: Date | undefined) => void;
+  datePickerValue: Date;
+  minimumDate?: Date;
+}
+
+const DateTimePickerModal = ({
+  setShowDatePicker,
+  handleOnChange,
+  datePickerValue,
+  minimumDate,
+}: DateTimePickerModalProps) => {
+  return (
+    Platform.OS === 'ios' ? (
+       <Pressable
+         onPress={() => {
+           setShowDatePicker(false);
+         }}
+         style={{
+           position: 'absolute',
+           height: Dimensions.get('screen').height,
+           bottom: -30,
+           justifyContent: 'center',
+           alignContent: 'center',
+           left: -20,
+           right: -20,
+           zIndex: 1000,
+           backgroundColor: 'rgba(0,0,0,0.5)',
+           paddingHorizontal: 5,
+           flex: 1,
+         }}
+       >
+           <DateTimePicker
+             style={{
+               borderRadius: 10,
+               backgroundColor: 'white',
+               padding: 10,
+               shadowColor: '#000',
+               shadowOffset: {
+                 width: 0,
+                 height: 5,
+               },
+               shadowOpacity: .5,
+               shadowRadius: 6,
+             }}
+             value={datePickerValue}
+             mode="date"
+             display="inline"
+             minimumDate={minimumDate}
+             onChange={handleOnChange}
+             themeVariant="light"
+           />
+       </Pressable>
+   ) : (
+         <DateTimePicker
+           value={datePickerValue}
+           positiveButton={{
+             label: 'Valider', 
+           }}
+           negativeButton={{
+             label: '', 
+             textColor: 'red'
+           }}
+           mode="date"
+           display="default"
+           minimumDate={minimumDate}
+           onChange={handleOnChange}
+         />
+       )
+   )
 }
