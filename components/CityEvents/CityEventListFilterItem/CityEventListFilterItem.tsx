@@ -8,6 +8,7 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import { City } from '../../../cities/types/City';
 import moment from 'moment-timezone';
 import { FilterDateItem, filterDate } from "../../../utils/events";
+import { DateTimePickerModalItem } from "../../DateTimePickerModalItem/DateTimePickerModalItem";
 
 
 type CityEventListFilterItemProps = {
@@ -166,23 +167,17 @@ export const FilterDateModal = ({
 }: FilterDateModalProps) => {
   // Replace with your actual view
   const [currSelectedItem, setCurrSelectedItem] = useState(filterDate[3]);
-  const opacity = useRef(new Animated.Value(0)).current;
   const [currAnimValue, setCurrAnimValue] = useState(0);
   const [currStartDate, setCurrStartDate] = useState(startDate);
   const [currEndDate, setCurrEndDate] = useState(endDate);
-
+  const [showDatePicker, setShowDatePicker] = useState<'start' | 'end' | undefined>();
+  const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const listener = animatedValue.addListener(({ value }) => setCurrAnimValue(value));
     if (currSelectedItem.value === 'choose') {
       if (
         (moment(currStartDate).format('DDMMYYYY').toString() === moment.utc(startDate).format('DDMMYYYY').toString() && moment(currEndDate).format('DDMMYYYY').toString() === moment.utc(endDate).format('DDMMYYYY').toString())) {
-          console.log('yes : ', {
-            currStartDate,
-            startDate,
-            currEndDate,
-            endDate,
-          });
           Animated.sequence([
             Animated.timing(animatedValue, {
               toValue: 1,
@@ -199,7 +194,6 @@ export const FilterDateModal = ({
           return;
         }
       else {
-
         if (currAnimValue === 0) {
           Animated.sequence([
             Animated.timing(animatedValue, {
@@ -218,38 +212,28 @@ export const FilterDateModal = ({
         return;
       }
     }
+
+    const animateValue = (toValue1: number, toValue2: number) => {
+      if (currAnimValue === toValue2) return;
     
-    if (currSelectedItem.id === selectedItemDate.id) {
-      if(currAnimValue === 0) return;
-
       Animated.sequence([
         Animated.timing(animatedValue, {
-          toValue: 1,
-          duration: 150,
+          toValue: toValue1,
+          duration: 0,
           useNativeDriver: false,
         }),
         Animated.timing(animatedValue, {
-          toValue: 0,
-          duration: 150,
-          useNativeDriver: false,
-        }),
-      ]).start();
-    } else {
-      if (currAnimValue === 1) return;
-
-      Animated.sequence([
-        Animated.timing(animatedValue, {
-          toValue: 0,
-          duration: 150,
-          useNativeDriver: false,
-        }),
-        Animated.timing(animatedValue, {
-          toValue: 1,
+          toValue: toValue2,
           duration: 150,
           useNativeDriver: false,
         }),
       ]).start();
     }
+    
+    animateValue(
+      currSelectedItem.id === selectedItemDate.id ? 1 : 0, 
+      currSelectedItem.id === selectedItemDate.id ? 0 : 1
+    );
 
     return () => {
       animatedValue.removeListener(listener);
@@ -260,10 +244,6 @@ export const FilterDateModal = ({
     inputRange: [0, 1],
     outputRange: ['lightgrey', '#3988FD'],
   });
-
-  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
-  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState<'start' | 'end' | undefined>();
 
   const handleClose = () => {
     Animated.timing(opacity, {
@@ -277,43 +257,39 @@ export const FilterDateModal = ({
   }
 
   const handleConfirm = (item: string) => {
-    if (item === 'today') {
-      const now = moment.utc().add(1, 'hour');
-      const endOfDay = moment.utc().add(1, 'hour').endOf('day');
-      
-
-      setStartDate(now.toDate());
-      setEndDate(endOfDay.toDate());
+    switch (item) {
+      case 'today':
+        const now = moment.utc().add(1, 'hour');
+        const endOfDay = moment.utc().add(1, 'hour').endOf('day');
+        setStartDate(now.toDate());
+        setEndDate(endOfDay.toDate());
+        break;
+      case 'tomorrow':
+        const tomorrow = moment.utc().add(1, 'day').startOf('day');
+        const tomorrowEndOfDay = moment.utc().add(1, 'day').endOf('day');
+        setStartDate(tomorrow.toDate());
+        setEndDate(tomorrowEndOfDay.toDate());
+        break;
+      case 'weekend':
+        const saturday = moment.utc().isoWeekday(6).startOf('day');
+        const sundayEndOfDay = moment.utc().isoWeekday(7).endOf('day');
+        setStartDate(saturday.toDate());
+        setEndDate(sundayEndOfDay.toDate());
+        break;
+      case 'week':
+        const today = moment.utc().add(1, 'hours');
+        const weekEndDay = moment.utc().isoWeekday(7).endOf('day');
+        setStartDate(today.toDate());
+        setEndDate(weekEndDay.toDate());
+        break;
+      case 'choose':
+        const start = moment(currStartDate).utc().add(1, 'hour').startOf('day');
+        const end = moment(currEndDate).utc().add(1, 'hour').endOf('day');
+        setStartDate(start.toDate());
+        setEndDate(end.toDate());
+        break;
     }
-    if (item === 'tomorrow') {
-      const tomorrow = moment.utc().add(1, 'day').startOf('day');
-      const tomorrowEndOfDay = moment.utc().add(1, 'day').endOf('day');
-
-      setStartDate(tomorrow.toDate());
-      setEndDate(tomorrowEndOfDay.toDate());
-    }
-    if (item === 'weekend') {
-      const saturday = moment.utc().isoWeekday(6).startOf('day');
-      const sundayEndOfDay = moment.utc().isoWeekday(7).endOf('day');
-      
-      setStartDate(saturday.toDate());
-      setEndDate(sundayEndOfDay.toDate());
-    }
-    if (item === 'week') {
-      const today = moment.utc().add(1, 'hours');
-      const sundayEndOfDay = moment.utc().isoWeekday(7).endOf('day');
-
-      setStartDate(today.toDate());
-      setEndDate(sundayEndOfDay.toDate());
-    }
-    if (item === 'choose') {
-
-      const start = moment(currStartDate).utc().add(1, 'hour').startOf('day');
-      const end = moment(currEndDate).utc().add(1, 'hour').endOf('day');
-
-      setStartDate(start.toDate());
-      setEndDate(end.toDate());
-    }
+    
     setSelectedItemDate(currSelectedItem);
 
     handleClose();
@@ -323,7 +299,6 @@ export const FilterDateModal = ({
     if (currStartDate > currEndDate) {
       setCurrEndDate(currStartDate);
     }
-    console.log('currStartDate :', currStartDate);
   }, [currStartDate]);
 
   return (
@@ -435,7 +410,6 @@ export const FilterDateModal = ({
                     >Du</Text>
                     <Pressable
                           onPress={() => {
-                            setShowStartDatePicker(true);
                             setCurrSelectedItem(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
                             setShowDatePicker('start');
                           }}
@@ -450,7 +424,7 @@ export const FilterDateModal = ({
                               color: '#3988FD',
                             }}
                           >
-                            {moment(currStartDate).utc().toDate().toLocaleDateString('fr-FR')}
+                            {moment.utc(currStartDate).format('DD/MM/YYYY').toString()}
                           </Text>
                           
                         </Pressable>
@@ -462,7 +436,6 @@ export const FilterDateModal = ({
                     >au</Text>
                     <Pressable
                       onPress={() => {
-                        setShowEndDatePicker(true);
                         setCurrSelectedItem(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
                         setShowDatePicker('end');
                       }}
@@ -477,14 +450,14 @@ export const FilterDateModal = ({
                           color: '#3988FD',
                         }}
                       >
-                         {moment(currEndDate).utc().toDate().toLocaleDateString('fr-FR')}
+                          {moment.utc(currEndDate).format('DD/MM/YYYY').toString()}
                       </Text>
                       
                     </Pressable>
                   </Pressable>
 
                   { showDatePicker && (
-                    <DateTimePickerModal
+                    <DateTimePickerModalItem
                       setShowDatePicker={() => setShowDatePicker(undefined)}
                       handleOnChange={(event, selectedDate) => {
                         const currentDate = selectedDate || currStartDate;
@@ -504,7 +477,6 @@ export const FilterDateModal = ({
                       ) {
                         handleConfirm(currSelectedItem.value)
                       } else if (currSelectedItem.id !== selectedItemDate.id) {
-                        console.log('currSelectedItem.id !== selectedItemDate.id : ', currSelectedItem.id !== selectedItemDate.id);
                         handleConfirm(currSelectedItem.value)
                       }
                     }}
@@ -535,77 +507,4 @@ export const FilterDateModal = ({
           </Pressable>
       </Modal>
   );
-}
-
-type DateTimePickerModalProps = {
-  setShowDatePicker: React.Dispatch<React.SetStateAction<boolean>>;
-  handleOnChange: (event: DateTimePickerEvent, date?: Date | undefined) => void;
-  datePickerValue: Date;
-  minimumDate?: Date;
-}
-
-const DateTimePickerModal = ({
-  setShowDatePicker,
-  handleOnChange,
-  datePickerValue,
-  minimumDate,
-}: DateTimePickerModalProps) => {
-  return (
-    Platform.OS === 'ios' ? (
-       <Pressable
-         onPress={() => {
-           setShowDatePicker(false);
-         }}
-         style={{
-           position: 'absolute',
-           height: Dimensions.get('screen').height,
-           bottom: -30,
-           justifyContent: 'center',
-           alignContent: 'center',
-           left: -20,
-           right: -20,
-           zIndex: 1000,
-           backgroundColor: 'rgba(0,0,0,0.5)',
-           paddingHorizontal: 5,
-           flex: 1,
-         }}
-       >
-           <DateTimePicker
-             style={{
-               borderRadius: 10,
-               backgroundColor: 'white',
-               padding: 10,
-               shadowColor: '#000',
-               shadowOffset: {
-                 width: 0,
-                 height: 5,
-               },
-               shadowOpacity: .5,
-               shadowRadius: 6,
-             }}
-             value={datePickerValue}
-             mode="date"
-             display="inline"
-             minimumDate={minimumDate}
-             onChange={handleOnChange}
-             themeVariant="light"
-           />
-       </Pressable>
-   ) : (
-         <DateTimePicker
-           value={datePickerValue}
-           positiveButton={{
-             label: 'Valider', 
-           }}
-           negativeButton={{
-             label: '', 
-             textColor: 'red'
-           }}
-           mode="date"
-           display="default"
-           minimumDate={minimumDate}
-           onChange={handleOnChange}
-         />
-       )
-   )
 }
