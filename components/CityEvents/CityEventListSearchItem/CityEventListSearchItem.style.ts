@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   searchEventTitle: {
     fontSize: 16,
-    color: '#7D7D7D',
+    color: '#A0A0A0',
     lineHeight: 22,
   },
 });

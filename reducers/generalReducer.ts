@@ -4,6 +4,7 @@ import { City } from "../cities/types/city";
 import { WeatherSettings } from "../types/Weather";
 import { AppDispatch } from "../store/store";
 import moment from "moment";
+import { set } from "date-fns";
 
 type State = {
   currentCity: City;
@@ -11,6 +12,10 @@ type State = {
   weatherSettings: WeatherSettings;
   refetchHome: boolean;
   refetchCityEventHome: boolean;
+  cityEventDateRange: {
+    startDate: Date;
+    endDate: Date;
+  };
 }
 
 const initialState: State = {
@@ -21,6 +26,10 @@ const initialState: State = {
   },
   refetchHome: false,
   refetchCityEventHome: false,
+  cityEventDateRange: {
+    startDate: moment.utc(1).toDate(),
+    endDate: moment.utc(1).toDate()
+  }
 };
 
 const generalSlice = createSlice({
@@ -44,6 +53,9 @@ const generalSlice = createSlice({
       console.log('setRefetchCityEventHome :', action.payload);
       state.refetchCityEventHome = action.payload;
     },
+    setCityEventDateRange: (state, action: PayloadAction<{startDate: Date, endDate: Date}>) => {
+      state.cityEventDateRange = action.payload;
+    }
   }
 });
 
@@ -52,7 +64,8 @@ export const {
   setCurrentHomeViewDate,
   setWeatherSettings,
   setRefetchHome,
-  setRefetchCityEventHome
+  setRefetchCityEventHome,
+  setCityEventDateRange
 } = generalSlice.actions;
 
 export default generalSlice.reducer;

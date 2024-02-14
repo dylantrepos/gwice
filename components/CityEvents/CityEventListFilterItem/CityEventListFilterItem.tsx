@@ -9,6 +9,8 @@ import { City } from '../../../cities/types/City';
 import moment from 'moment-timezone';
 import { FilterDateItem, filterDate } from "../../../utils/events";
 import { DateTimePickerModalItem } from "../../DateTimePickerModalItem/DateTimePickerModalItem";
+import { useDispatch } from "react-redux";
+import { setCityEventDateRange } from "../../../reducers/generalReducer";
 
 
 type CityEventListFilterItemProps = {
@@ -172,6 +174,7 @@ export const FilterDateModal = ({
   const [currEndDate, setCurrEndDate] = useState(endDate);
   const [showDatePicker, setShowDatePicker] = useState<'start' | 'end' | undefined>();
   const opacity = useRef(new Animated.Value(0)).current;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const listener = animatedValue.addListener(({ value }) => setCurrAnimValue(value));
@@ -261,30 +264,50 @@ export const FilterDateModal = ({
       case 'today':
         const now = moment.utc().add(1, 'hour');
         const endOfDay = moment.utc().add(1, 'hour').endOf('day');
+        dispatch(setCityEventDateRange({
+          startDate: now.toDate(),
+          endDate: endOfDay.toDate(),
+        }));
         setStartDate(now.toDate());
         setEndDate(endOfDay.toDate());
         break;
       case 'tomorrow':
         const tomorrow = moment.utc().add(1, 'day').startOf('day');
         const tomorrowEndOfDay = moment.utc().add(1, 'day').endOf('day');
+        dispatch(setCityEventDateRange({
+          startDate: tomorrow.toDate(),
+          endDate: tomorrowEndOfDay.toDate(),
+        }));
         setStartDate(tomorrow.toDate());
         setEndDate(tomorrowEndOfDay.toDate());
         break;
       case 'weekend':
         const saturday = moment.utc().isoWeekday(6).startOf('day');
         const sundayEndOfDay = moment.utc().isoWeekday(7).endOf('day');
+        dispatch(setCityEventDateRange({
+          startDate: saturday.toDate(),
+          endDate: sundayEndOfDay.toDate(),
+        }));
         setStartDate(saturday.toDate());
         setEndDate(sundayEndOfDay.toDate());
         break;
       case 'week':
         const today = moment.utc().add(1, 'hours');
         const weekEndDay = moment.utc().isoWeekday(7).endOf('day');
+        dispatch(setCityEventDateRange({
+          startDate: today.toDate(),
+          endDate: weekEndDay.toDate(),
+        }));
         setStartDate(today.toDate());
         setEndDate(weekEndDay.toDate());
         break;
       case 'choose':
         const start = moment(currStartDate).utc().add(1, 'hour').startOf('day');
         const end = moment(currEndDate).utc().add(1, 'hour').endOf('day');
+        dispatch(setCityEventDateRange({
+          startDate: start.toDate(),
+          endDate: end.toDate(),
+        }));
         setStartDate(start.toDate());
         setEndDate(end.toDate());
         break;
