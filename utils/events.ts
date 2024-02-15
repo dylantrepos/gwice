@@ -234,6 +234,11 @@ export type FilterDateItem = {
 
 export const filterDate: FilterDateItem[] = [
   {
+    id: 0,
+    label: 'Toujours',
+    value: 'always',
+  },
+  {
     id: 1,
     label: 'Aujourd\'hui',
     value: 'today',

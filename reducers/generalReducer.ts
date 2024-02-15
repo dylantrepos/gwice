@@ -13,8 +13,8 @@ type State = {
   refetchHome: boolean;
   refetchCityEventHome: boolean;
   cityEventDateRange: {
-    startDate: Date;
-    endDate: Date;
+    startDate: Date | null;
+    endDate: Date | null;
   };
 }
 
@@ -53,7 +53,7 @@ const generalSlice = createSlice({
       console.log('setRefetchCityEventHome :', action.payload);
       state.refetchCityEventHome = action.payload;
     },
-    setCityEventDateRange: (state, action: PayloadAction<{startDate: Date, endDate: Date}>) => {
+    setCityEventDateRange: (state, action: PayloadAction<{startDate: Date | null, endDate: Date | null}>) => {
       state.cityEventDateRange = action.payload;
     }
   }

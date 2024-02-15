@@ -9,8 +9,8 @@ type FetchLilleCulturalEvents = {
   nextEventPageIds?: (number | string)[] | null;
   startDate?: Date | null;
   endDate?: Date | null;
+  search?: string | null;
 }
-
 
 
 export const fetchCityEvents = async ({
@@ -18,6 +18,7 @@ export const fetchCityEvents = async ({
   nextEventPageIds = null,
   startDate = null,
   endDate = null,
+  search = null,
 }: FetchLilleCulturalEvents): Promise<CityEventCardRequest> => {
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().general.currentCity.cityName;
@@ -34,6 +35,7 @@ export const fetchCityEvents = async ({
         nextEventPageIds,
         startDate: startDate ?? null,
         endDate: endDate ?? null,
+        search: (search && search.length > 0) ? search : null,
       }
     },
   );

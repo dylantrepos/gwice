@@ -265,8 +265,8 @@ export const FilterDateModal = ({
         const now = moment.utc().add(1, 'hour');
         const endOfDay = moment.utc().add(1, 'hour').endOf('day');
         dispatch(setCityEventDateRange({
-          startDate: now.toDate(),
-          endDate: endOfDay.toDate(),
+          startDate: now?.toDate() ?? null,
+          endDate: endOfDay?.toDate() ?? null,
         }));
         setStartDate(now.toDate());
         setEndDate(endOfDay.toDate());

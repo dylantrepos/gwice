@@ -39,7 +39,6 @@ const HeaderList = ({
     <CityEventListPromoteItem 
       navigation={navigation}
     />
-    <CityEventListSearchItem />
   </View>)
 }
 
@@ -64,6 +63,7 @@ export const CityEventHomeView = ({
   const [headerHeight, setHeaderHeight] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [selectedItemDate, setSelectedItemDate] = useState(filterDate[3]);
+  const [searchInput, setSearchInput] = useState('');
   const dispatch = useDispatch();
   const flatListRef = useRef<VirtualizedList<CityEventCard> | null>(null);
   const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
@@ -81,6 +81,11 @@ export const CityEventHomeView = ({
       setRefreshing(false);
     }, 1000);
   }, []);
+
+  const handleSearchInput = (text: string) => {
+    setSearchInput(text);
+    console.log('searchInput : ', text);
+  }
 
   const CityHomeEventRender = useCallback(({item, index}: CityEventCardLargeItemProps) => {
     // check if the item is the sticky header
@@ -126,7 +131,8 @@ export const CityEventHomeView = ({
     refetchCityEventHome: refreshing, 
     categoryIdList: filteredCategoryIdList,
     startDate,
-    endDate
+    endDate,
+    search: searchInput,
   });
 
   const fetchMoreData = () => {
@@ -174,6 +180,8 @@ export const CityEventHomeView = ({
                 setEndDate={setEndDate}
                 selectedItemDate={selectedItemDate}
                 setSelectedItemDate={setSelectedItemDate}
+                searchInput={searchInput}
+                handleSearchInput={handleSearchInput}
                 />, 
               ...(!isLoading ? eventList : fakeWaitingData)
             ]}
