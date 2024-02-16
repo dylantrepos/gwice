@@ -26,20 +26,19 @@ export default StyleSheet.create({
     fontSize: 18,
     paddingTop: 10,
   },
+
+  // Search
   searchEvent: {
-    backgroundColor: '#E9E9E9',
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    gap: 10,
-    marginTop: 20,
-    marginHorizontal: 20,
+    backgroundColor: '#f5f5f5',
+    margin: 20,
+    marginBottom: 10,
     borderRadius: 100,
-    width: '90%',
-    maxWidth: 400,
-    alignSelf: 'center',
+    gap: 10,
+    overflow: 'hidden',
   },
   searchEventIcon: {
 
@@ -49,4 +48,16 @@ export default StyleSheet.create({
     color: '#A0A0A0',
     lineHeight: 22,
   },
+  searchResetIcon: {
+    backgroundColor: '#f5f5f5',
+    position: 'absolute',
+    right: 0,
+    width: 50,
+    height: 40,
+    borderTopEndRadius: 100,
+    borderBottomEndRadius: 100,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },  
 });

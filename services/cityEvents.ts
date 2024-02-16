@@ -23,6 +23,8 @@ export const fetchCityEvents = async ({
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().general.currentCity.cityName;
 
+  console.log('[fetchCityEvents] : ', {startDate, endDate});
+
   const response = await axios.get(
     `${address}/events`, 
     {

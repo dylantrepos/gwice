@@ -12,10 +12,6 @@ type State = {
   weatherSettings: WeatherSettings;
   refetchHome: boolean;
   refetchCityEventHome: boolean;
-  cityEventDateRange: {
-    startDate: Date | null;
-    endDate: Date | null;
-  };
 }
 
 const initialState: State = {
@@ -26,10 +22,6 @@ const initialState: State = {
   },
   refetchHome: false,
   refetchCityEventHome: false,
-  cityEventDateRange: {
-    startDate: moment.utc(1).toDate(),
-    endDate: moment.utc(1).toDate()
-  }
 };
 
 const generalSlice = createSlice({
@@ -53,9 +45,6 @@ const generalSlice = createSlice({
       console.log('setRefetchCityEventHome :', action.payload);
       state.refetchCityEventHome = action.payload;
     },
-    setCityEventDateRange: (state, action: PayloadAction<{startDate: Date | null, endDate: Date | null}>) => {
-      state.cityEventDateRange = action.payload;
-    }
   }
 });
 
@@ -65,7 +54,6 @@ export const {
   setWeatherSettings,
   setRefetchHome,
   setRefetchCityEventHome,
-  setCityEventDateRange
 } = generalSlice.actions;
 
 export default generalSlice.reducer;

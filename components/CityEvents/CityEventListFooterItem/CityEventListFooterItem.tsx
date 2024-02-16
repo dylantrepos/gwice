@@ -17,6 +17,7 @@ export const CityEventListFooterItem = ({
         paddingHorizontal: 20,
         paddingVertical: 40,
         width: '100%',
+        height: 600,
       }}
     >
       <Text

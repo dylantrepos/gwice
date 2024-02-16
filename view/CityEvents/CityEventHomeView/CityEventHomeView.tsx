@@ -16,7 +16,7 @@ import { CityEventListStickyHeaderItem } from "../../../components/CityEvents/Ci
 import { CityEventListFooterItem } from "../../../components/CityEvents/CityEventListFooterItem/CityEventListFooterItem";
 import moment from 'moment-timezone';
 import { FilterDateItem, filterDate } from "../../../utils/events";
-import { endOfDay, isBefore, isAfter } from 'date-fns';
+import { endOfDay, isBefore, isAfter, set } from 'date-fns';
 
 
 type HeaderListProps = {
@@ -73,6 +73,7 @@ export const CityEventHomeView = ({
 
   const [startDate, setStartDate] = useState(today.toDate());
   const [endDate, setEndDate] = useState(sundayEndOfDay.toDate());
+  const [isSearchInputFocused, setIsSearchInputFocused] = useState(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -142,6 +143,12 @@ export const CityEventHomeView = ({
   }
 
   useEffect(() => {
+    console.log('[CityEventHomerView] :', {startDate, endDate});
+  }, [startDate, endDate]
+  )
+
+
+  useEffect(() => {
     setEventList([]);
     if (flatListRef.current && scrollPosition > headerHeight) {
       flatListRef.current.scrollToOffset({ animated: false, offset: headerHeight });
@@ -167,6 +174,7 @@ export const CityEventHomeView = ({
             maxToRenderPerBatch={10}
             windowSize={21}
             ref={flatListRef}
+            keyboardShouldPersistTaps="always"
             onScroll={(event) => {
               setScrollPosition(event.nativeEvent.contentOffset.y);
             }}
@@ -182,6 +190,8 @@ export const CityEventHomeView = ({
                 setSelectedItemDate={setSelectedItemDate}
                 searchInput={searchInput}
                 handleSearchInput={handleSearchInput}
+                isSearchInputFocused={isSearchInputFocused}
+                setIsSearchInputFocused={setIsSearchInputFocused}
                 />, 
               ...(!isLoading ? eventList : fakeWaitingData)
             ]}
