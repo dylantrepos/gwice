@@ -5,13 +5,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useCallback, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setRefetchHome } from "../../../reducers/generalReducer";
-import { Text } from "../../../components/Text/Text";
-import { CityEventCardRequest, CityEventDetails, CityEventDetailsRequest } from "../../../types/Events";
+import { TextItem } from "../../../components/TextItem/TextItem";
+import { CityEventDetails, CityEventDetailsRequest } from "../../../modules/CityEvents/types/Events";
 import { BadgeEuro, Calendar, ChevronLeft, MapPin, X } from "lucide-react-native";
 import PanPinchView from "react-native-pan-pinch-view";
 import { getFormatedDateFromTimestamp } from "../../../utils/utils";
 import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
-import { useGetCityEventDetails } from "../../../hooks/useGetCityEvents";
+import { useGetCityEventDetails } from "../../../modules/CityEvents/hooks/useGetCityEvents";
 
 
 type Props = {
@@ -141,22 +141,22 @@ export const CityEventView = ({
                 </PanPinchView>
               </View>
           </Modal>
-          { title && <Text 
+          { title && <TextItem 
             styles={style.title}
             weight="600"
           >
             {title['fr']}
-          </Text> }
+          </TextItem> }
           <View style={style.infosContainer}>
             <View style={style.infoContainer}>
               <Calendar size={20} color={'black'}/>
-              <Text 
+              <TextItem 
                 styles={style.date}
               >
                {getFormatedDateFromTimestamp(firstTiming.begin) === getFormatedDateFromTimestamp(lastTiming.end) 
               ? `${getFormatedDateFromTimestamp(firstTiming.begin)}` 
               : firstTimingDate < today ? `Jusqu'au ${getFormatedDateFromTimestamp(lastTiming.end)}` : `Du ${getFormatedDateFromTimestamp(firstTiming.begin)} au ${getFormatedDateFromTimestamp(lastTiming.end)}`}
-              </Text>
+              </TextItem>
             </View>
             <View style={style.infoContainer}>
               <MapPin size={20} color={'black'}/>
@@ -165,58 +165,58 @@ export const CityEventView = ({
                   Linking.openURL(locationMapUrl);
                 }}
               >
-                <Text 
+                <TextItem 
                   styles={style.date}
                 >
                   {`${location.name}\n${location.address}`}
-                </Text>
+                </TextItem>
               </Pressable>
             </View>
             { (conditionsPrice ?? null) && 
               <View style={style.infoContainer}>
                 <BadgeEuro size={20} color={'black'}/>
-                <Text 
+                <TextItem 
                   styles={style.date}
                 >
                   { conditions['fr'] ? `${conditions['fr']}` : 'Non spécifié' }
-                </Text>
+                </TextItem>
               </View>
             }
           </View>
-          <Text 
+          <TextItem 
             styles={style.description}
           >
             {longDescription['fr']}
-          </Text> 
+          </TextItem> 
           { siteLink && <Pressable 
             style={style.link}
             onPress={() => {
               Linking.openURL(siteLink);
             }}
           >
-            <Text 
+            <TextItem 
               styles={style.linkText}
               weight="500"
             >
               Plus d'infos 
-            </Text>
-            <Text styles={style.linkUrl}>
+            </TextItem>
+            <TextItem styles={style.linkUrl}>
               { siteLink }
-            </Text>
+            </TextItem>
           </Pressable> }
           {/* { contact?.email && <View>
-            <Text 
+            <TextItem 
               styles={style.linkText}
               weight="500">
               Email : {contact.email}
-              </Text>
+              </TextItem>
             </View>}
           { contact?.phone && <View>
-            <Text 
+            <TextItem 
               styles={style.linkText}
               weight="500">
               Téléphone : {contact.email}
-              </Text>
+              </TextItem>
             </View>} */}
           {/* { page && <Pressable 
             style={style.link}
@@ -224,15 +224,15 @@ export const CityEventView = ({
               Linking.openURL(page);
             }}
           >
-            <Text 
+            <TextItem 
               styles={style.linkText}
               weight="500"
             >
               Source 
-            </Text>
-            <Text styles={style.linkUrl}>
+            </TextItem>
+            <TextItem styles={style.linkUrl}>
               {page}
-            </Text>
+            </TextItem>
           </Pressable> } */}
               </ScrollView>      
     </SafeAreaView>

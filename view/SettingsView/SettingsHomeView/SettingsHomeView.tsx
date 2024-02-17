@@ -1,7 +1,8 @@
 import style from './SettingsHomeView.style';
-import { Pressable, Text, View } from "react-native"
+import { Pressable, View } from "react-native"
 import { Sun } from 'lucide-react-native'
 import { SettingsLayout } from "../../../layouts/SettingsLayout";
+import { TextItem } from '../../../components/TextItem/TextItem';
 
 type SettingsHomeViewProps = {
   navigation: any;
@@ -22,7 +23,7 @@ const SettingsNavButton = ({title, navigation, icons}: SettingsNavButtonProps) =
     >
       <View style={style.settingsScreenButtonTextIcon}>
         {icons ?? null}
-        <Text style={style.settingsScreenButtonText}>{title}</Text>
+        <TextItem style={style.settingsScreenButtonText}>{title}</TextItem>
       </View>
     </Pressable>
   )

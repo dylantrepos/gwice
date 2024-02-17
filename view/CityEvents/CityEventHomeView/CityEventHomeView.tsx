@@ -1,22 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setRefetchCityEventHome } from "../../../reducers/generalReducer";
-import { Dimensions, View, VirtualizedList } from "react-native";
+import { View, VirtualizedList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import style from './CityEventHomeView.style';
-import { Text } from "../../../components/Text/Text";
-import { CityEventCard } from "../../../types/Events";
+import { CityEventCard } from "../../../modules/CityEvents/types/Events";
 import { GestureHandlerRootView, RefreshControl } from "react-native-gesture-handler";
-import { useGetCityEvents } from "../../../hooks/useGetCityEvents";
-import { CityEventCardLargeEmptyItem, CityEventCardLargeItem } from '../../../components/CityEvents/CityEventCardItem/CityEventCardItem';
 import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
-import { CityEventListPromoteItem } from "../../../components/CityEvents/CityEventListPromoteItem/CityEventListPromoteItem";
-import { CityEventListSearchItem } from '../../../components/CityEvents/CityEventListSearchItem/CityEventListSearchItem';
-import { CityEventListStickyHeaderItem } from "../../../components/CityEvents/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem";
-import { CityEventListFooterItem } from "../../../components/CityEvents/CityEventListFooterItem/CityEventListFooterItem";
 import moment from 'moment-timezone';
-import { FilterDateItem, filterDate } from "../../../utils/events";
-import { endOfDay, isBefore, isAfter, set } from 'date-fns';
+import { filterDate } from "../../../utils/events";
+import { endOfDay, isBefore } from 'date-fns';
+import { CityEventListPromoteItem } from "../../../modules/CityEvents/components/CityEventListPromoteItem/CityEventListPromoteItem";
+import { CityEventCardLargeEmptyItem, CityEventCardLargeItem } from "../../../modules/CityEvents/components/CityEventCardItem/CityEventCardItem";
+import { useGetCityEvents } from "../../../modules/CityEvents/hooks/useGetCityEvents";
+import { CityEventListStickyHeaderItem } from "../../../modules/CityEvents/components/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem";
+import { CityEventListFooterItem } from "../../../modules/CityEvents/components/CityEventListFooterItem/CityEventListFooterItem";
 
 
 type HeaderListProps = {

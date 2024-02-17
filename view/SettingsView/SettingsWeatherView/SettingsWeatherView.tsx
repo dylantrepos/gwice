@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, Animated, Easing } from 'react-native';
+import { View, Pressable, Animated, Easing } from 'react-native';
 import style from './SettingsWeatherView.style';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
@@ -7,6 +7,7 @@ import { setWeatherSettings } from '../../../reducers/generalReducer';
 import { SettingsLayout } from '../../../layouts/SettingsLayout';
 import { useNavigation } from '@react-navigation/native';
 import { Plus, Minus } from 'lucide-react-native';
+import { TextItem } from '../../../components/TextItem/TextItem';
 
 const animationOptions = (value: number) => ({
   toValue: value, 
@@ -41,7 +42,7 @@ export const SettingsWeatherView = ({
   return (
     <SettingsLayout title={'Weather'}>
       <View style={style.weatherInputContainer}>
-        <Text style={style.weatherInputDescription}>Start daily hour at</Text>
+        <TextItem style={style.weatherInputDescription}>Start daily hour at</TextItem>
         <View style={style.weatherInputRadioContainer}>
           <Pressable  
             style={style.weatherInputRadio}
@@ -53,7 +54,7 @@ export const SettingsWeatherView = ({
           >
             <Minus color={'#0D89CE'} size={45} strokeWidth={1}/>
           </Pressable>
-          <Text style={style.weatherInputText}>{currStartDailyHour}</Text>
+          <TextItem style={style.weatherInputText}>{currStartDailyHour}</TextItem>
           <Pressable 
             style={style.weatherInputRadio}
             onPress={() => {
@@ -83,7 +84,7 @@ export const SettingsWeatherView = ({
           onPress={handleSaveSettings}
           style={style.closeButton}
         >
-          <Text style={style.closeButtonText}>Save settings</Text>
+          <TextItem style={style.closeButtonText}>Save settings</TextItem>
         </Pressable>
     </Animated.View>
     </SettingsLayout>

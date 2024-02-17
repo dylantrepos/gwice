@@ -1,5 +1,6 @@
-import { ActivityIndicator, Text, View } from "react-native"
+import { ActivityIndicator, View } from "react-native"
 import { PropsWithChildren } from 'react';
+import { TextItem } from "../TextItem/TextItem";
 
 type Props = {
   type: 'error' | 'unavailable' | 'loader';
@@ -21,14 +22,14 @@ export const WarningScreenItem = ({
         />
       )}
       { type === 'error' && (
-        <Text>
+        <TextItem>
           { children || defaultErrorMessage }
-        </Text>
+        </TextItem>
       )}
       { type === 'unavailable' && (
-        <Text>
+        <TextItem>
           { children || defaultUnavailableMessage }
-        </Text>
+        </TextItem>
       )}
     </View>
   )

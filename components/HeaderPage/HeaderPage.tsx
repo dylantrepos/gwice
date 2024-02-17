@@ -1,7 +1,7 @@
 import { Pressable, TextProps, TextStyle, View, ViewStyle } from 'react-native';
 import { PropsWithChildren } from "react";
 import { ChevronLeft } from "lucide-react-native";
-import { Text } from "../Text/Text";
+import { TextItem } from "../TextItem/TextItem";
 import style from './HeaderPage.style';
 
 type Props = TextProps & {
@@ -33,14 +33,14 @@ export const HeaderPage = ({
           <ChevronLeft color={iconColor} size={iconSize}/>
       </Pressable>
       )}
-      <Text 
+      <TextItem 
         styles={{
           ...style.headerTitle,
           ...titleStyles ?? ''
         }}
         >
           { title }
-      </Text>
+      </TextItem>
     </View>
   );
 }
