@@ -25,6 +25,7 @@ type UseGetCityEventsProps = {
   categoryIdList?: number[];
   startDate?: Date | null;
   endDate?: Date | null;
+  key: string;
 }
 
 export const useGetCityEvents = ({
@@ -32,6 +33,7 @@ export const useGetCityEvents = ({
   categoryIdList = [],
   startDate = null,
   endDate = null,
+  key
 }: UseGetCityEventsProps): UseGetCityEvents => {
   const { searchValue } = useSelector((state: RootState) => state.eventReducer);  
 
@@ -46,7 +48,7 @@ export const useGetCityEvents = ({
     isRefetching,
   } = useInfiniteQuery(
     [
-      `cityEvents`, 
+      key, 
       refetchCityEventHome, 
       categoryIdList, 
       startDate, 
@@ -81,8 +83,6 @@ export const useGetCityEvents = ({
     isFetchingNextPage,
     isRefetching,
   };
-
-
 };
 
 

@@ -120,6 +120,7 @@ export const CityEventHomeView = ({
     categoryIdList: filteredCategoryIdList,
     startDate,
     endDate,
+    key: 'cityEventHome'
   });
 
   const fetchMoreData = () => {

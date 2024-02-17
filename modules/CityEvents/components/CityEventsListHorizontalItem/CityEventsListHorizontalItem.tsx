@@ -7,23 +7,11 @@ import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import { isBefore } from 'date-fns';
 import { RootState } from "../../../../store/store";
-import { useGetCityEvents } from "../../hooks/useGetCityEvents";
 import { formatTitle } from "../../utils/events";
 import { TextItem } from "../../../../components/TextItem/TextItem";
-
-type CityEventsListHorizontalItemRenderProps = {
-  item: any;
-  index: number;
-}
-
-
-type Props = {
-  navigation: any;
-  route: any;
-  title: string;
-  handleNavigation: () => void;
-  categoryIdList?: number[];
-}
+import { useInfiniteQuery } from "react-query";
+import { fetchCityEvents } from "../../services/cityEvents";
+import { CityEventsListHorizontalItemRenderProps, Props } from "./CityEventsListHorizontalItem.type";
 
 export const CityEventsListHorizontalItem = ({
   navigation, 
@@ -32,20 +20,31 @@ export const CityEventsListHorizontalItem = ({
   handleNavigation,
   categoryIdList
 }: Props) => {
-  const { 
-    refetchCityEventHome
-  } = useSelector((state: RootState) => state.generalReducer);
+  const { refetchCityEventHome } = useSelector((state: RootState) => state.generalReducer);
   const [eventList, setEventList] = useState<any[]>([]);
   const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
 
-  const {
+  const { 
     isLoading, 
-    events, 
-    isError
-  } = useGetCityEvents({
-    refetchCityEventHome, 
-    categoryIdList,
-  });
+    data: events, 
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery(
+    ['CityEventsListHorizontalItem', refetchCityEventHome], 
+    ({pageParam: nextEventPageIds = null}) => fetchCityEvents({ 
+        categoryIdList, 
+        nextEventPageIds,
+    }),
+    {
+      refetchOnWindowFocus: false,
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.after) {
+          return lastPage.after;
+        }
+        return undefined;
+      },
+    }
+  );
 
   useEffect(() => {
     if (!isLoading && events) {
@@ -62,7 +61,6 @@ export const CityEventsListHorizontalItem = ({
     }
   }, [events]);
 
-
   const CityEventsListHorizontalItemRender = useCallback(({item, index}: CityEventsListHorizontalItemRenderProps) => {
     // check if the item is the sticky header
     if (item.nextTiming) {
@@ -71,8 +69,6 @@ export const CityEventsListHorizontalItem = ({
       const now = new Date();
   
       if (isBefore(nextTimingStart, now) && isBefore(nextTimingEnd, now)) {
-  
-        // Wrong next timing
         return null;
       } 
     }
@@ -85,9 +81,6 @@ export const CityEventsListHorizontalItem = ({
           />
         : <CityEventCardEmptyItem />
   }, [eventList])
-  
-  // 315 
-
 
   return (
     <View style={style.culturalEvents}>
@@ -109,7 +102,7 @@ export const CityEventsListHorizontalItem = ({
         decelerationRate="fast"
         alwaysBounceHorizontal={false}
         snapToInterval={315}
-        
+        onEndReached={() => hasNextPage ? fetchNextPage() : null}
         contentContainerStyle={{
           columnGap: 15,
           paddingRight: 30,

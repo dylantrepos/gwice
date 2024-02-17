@@ -5,7 +5,7 @@ import { store } from '../../../store/store';
 
 
 type FetchLilleCulturalEvents = {
-  categoryIdList: number[];
+  categoryIdList?: number[];
   nextEventPageIds?: (number | string)[] | null;
   startDate?: Date | null;
   endDate?: Date | null;
