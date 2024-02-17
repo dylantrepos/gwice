@@ -3,7 +3,7 @@ import { ImageBackground, Keyboard, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { CityEventCard } from '../../types/Events';
 import { TextItem } from '../../../../components/TextItem/TextItem';
-import { HeaderPage } from '../../../../components/HeaderPage/HeaderPage';
+import { HeaderItem } from '../../../../components/HeaderItem/HeaderItem';
 
 type Props = {
   navigation: any;
@@ -37,13 +37,6 @@ export const CityEventListPromoteItem = ({
             uri: 'https://lilleaddict.fr/wp-content/uploads/2024/02/gand-festival-lumieres-1024x900.jpeg'
           }} 
         >
-          <HeaderPage
-            title={'Événements'}
-            // navigation={navigation}
-            styles={style.header}
-            titleStyles={style.headerTitle}
-            // iconColor="white"
-          />
           <LinearGradient 
             colors={['transparent', 'rgba(0,0,0,1)']}
             style={style.promoteEventInfos}

@@ -10,7 +10,7 @@ import { TextItem } from "../../../../components/TextItem/TextItem";
 import { SearchBarItem } from '../../../../components/SearchBarItem/SearchBarItem';
 import { RootState } from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSearchValue } from '../../../../reducers/eventReducer';
+import { setIsSearchInputFocused, setSearchValue } from '../../../../reducers/eventReducer';
 
 type StickyHeaderProps = {
   filteredCategoryIdList: number[];
@@ -40,6 +40,10 @@ export const CityEventListStickyHeaderItem = ({
     dispatch(setSearchValue(newSearchValue));
   }
 
+  const handleUpdateIsSearchInputFocused = (isFocused: boolean) => {
+    dispatch(setIsSearchInputFocused(isFocused));
+  }
+
   return (
     <View
       style={{
@@ -50,36 +54,20 @@ export const CityEventListStickyHeaderItem = ({
         placeholder="Rechercher un événement"
         searchValue={searchValue}
         handleSubmitSearchValue={handleSubmitSearchValue}
+        handleIsFocused={handleUpdateIsSearchInputFocused}
       />
-    {/* <View
-      style={style.categoryTitleContainer}
-    >
-    { filteredCategoryIdList.length > 0 && (
-      <Pressable
-        onPress={() => handleSetFilteredCategoryIdList([])}
-        style={style.categoryContainerFilterButton}
-      >
-        <TextItem
-          styles={style.categoryContainerFilterText} 
-          weight="500"
-        >
-          Tout supprimer
-        </TextItem>
-      </Pressable>
-    )}
-    </View> */}
-    <CityEventListCategoryListItem 
-      categories={eventsCategoryLille}
-      categoriesSelected={filteredCategoryIdList}
-      filteredCategoryIdList={handleSetFilteredCategoryIdList}
-    />
-    <CityEventListFilterItem
-      startDate={startDate}
-      setStartDate={setStartDate}
-      endDate={endDate}
-      setEndDate={setEndDate}
-      selectedItemDate={selectedItemDate}
-      setSelectedItemDate={setSelectedItemDate}
-    />
-  </View>)
+      <CityEventListCategoryListItem 
+        categories={eventsCategoryLille}
+        categoriesSelected={filteredCategoryIdList}
+        filteredCategoryIdList={handleSetFilteredCategoryIdList}
+      />
+      <CityEventListFilterItem
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        selectedItemDate={selectedItemDate}
+        setSelectedItemDate={setSelectedItemDate}
+      />
+    </View>)
 }

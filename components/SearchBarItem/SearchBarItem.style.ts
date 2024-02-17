@@ -4,7 +4,7 @@ export default StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingLeft: 20,
     paddingVertical: 10,
     backgroundColor: '#f5f5f5',
     margin: 20,
@@ -12,13 +12,13 @@ export default StyleSheet.create({
     borderRadius: 100,
     gap: 10,
     overflow: 'hidden',
-    paddingRight: 50
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
     paddingTop: 0,
     paddingBottom: 0, 
+    paddingRight: 50
 
   },
   searchTitle: {

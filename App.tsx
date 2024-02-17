@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home, Settings } from 'lucide-react-native'
-import { SafeAreaView, StyleProp, Text, TextStyle, View, ViewStyle } from 'react-native';
+import { Pressable, SafeAreaView, StyleProp, Text, TextStyle, View, ViewStyle } from 'react-native';
 
 // Views
 import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
@@ -48,11 +48,11 @@ const HomeScreens = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Home" 
+      initialRouteName="Home"
     >
       <HomeStack.Screen 
         name="Home" 
-        component={HomeView} 
+        component={HomeView}
       />
       <HomeStack.Screen 
         name="CulturalEvent" 
@@ -134,16 +134,11 @@ export default function App() {
               tabBarHideOnKeyboard: true,
               tabBarVisibilityAnimationConfig: {
                 show: {
-                  animation: 'timing',
-                  config: {
-                    duration: 200,
-                  }
+                  animation: 'spring',
+
                 },
                 hide: {
-                  animation: 'timing',
-                  config: {
-                    duration: 0,
-                  }
+                  animation: 'spring',
                 }
               }
             }}

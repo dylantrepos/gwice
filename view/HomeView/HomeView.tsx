@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRefetchHome } from "../../reducers/generalReducer";
 import { RootState } from "../../store/store";
 import { CityEventsListHorizontalItem } from "../../modules/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem";
+import { HeaderItem } from "../../components/HeaderItem/HeaderItem";
 
 type HomeViewProps = {
   navigation: any;
@@ -37,6 +38,11 @@ export const HomeView = ({
   return (
     <SafeAreaView style={style.container}>
       <StatusBar style="auto" />
+        <HeaderItem
+          withSearch={true}
+          withBackgroundTransparent={true}
+          iconColor="white"
+        />
         <ScrollView 
           style={style.scrollView}
           refreshControl={

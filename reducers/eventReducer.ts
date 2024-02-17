@@ -1,17 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { CityLille } from "../cities/CityLille";
-import { City } from "../cities/types/city";
-import { AppDispatch } from "../store/store";
-import moment from "moment";
 import { set } from "date-fns";
-import { WeatherSettings } from "../modules/CityWeather/types/Weather";
 
 type State = {
   searchValue: string;
+  isSearchInputFocused: boolean;
 }
 
 const initialState: State = {
   searchValue: '',
+  isSearchInputFocused: false,
 };
 
 const eventSlice = createSlice({
@@ -21,11 +18,15 @@ const eventSlice = createSlice({
     setSearchValue: (state, action: PayloadAction<string>) => {
       state.searchValue = action.payload;
     },
+    setIsSearchInputFocused: (state, action: PayloadAction<boolean>) => {
+      state.isSearchInputFocused = action.payload;
+    },
   }
 });
 
 export const { 
   setSearchValue,
+  setIsSearchInputFocused
 } = eventSlice.actions;
 
 export default eventSlice.reducer;

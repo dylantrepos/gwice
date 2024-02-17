@@ -3,7 +3,7 @@ import style from './PageHeaderLayout.style';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { HeaderPage } from '../components/HeaderPage/HeaderPage';
+import { HeaderItem } from '../components/HeaderItem/HeaderItem';
 
 
 type Props = {
@@ -21,7 +21,7 @@ export const PageHeaderLayout = ({
       style={style.pageHeaderLayout}
     >
       <StatusBar style="auto" />
-      <HeaderPage 
+      <HeaderItem 
         title={title}
         navigation={navigation}
       />

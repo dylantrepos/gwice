@@ -1,12 +1,13 @@
 import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  header: {
+  headerContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
     position: 'relative',
+    paddingVertical: 15,
+    zIndex: 1,
   },
   headerChevron: {
     width: 70,
@@ -14,16 +15,21 @@ export default StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center',
     height: 50,
-    position: 'absolute',
-    zIndex: 1,
   },
   headerTitle: {
-    paddingVertical: 20,
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: '500',
-    width: '100%',
-    lineHeight: 32,
-    color: '#0D89CE',
+    height: 50,
+    flex: 1,
+    lineHeight: 24,
+    verticalAlign: 'middle',
     textAlign: 'center',
   },  
+  iconRight: {
+    width: 70,
+    display: 'flex',
+    justifyContent: 'center', 
+    alignItems: 'center',
+    height: 50,
+  }
 });

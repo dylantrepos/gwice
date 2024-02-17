@@ -10,6 +10,7 @@ type SearchBarItemProps = {
   searchValue: string;
   placeholder?: string;
   handleSubmitSearchValue: (searchValue: string) => void;
+  handleIsFocused?: (isFocused: boolean) => void;
 };
 
 const DefaultLeftIcon = () => (
@@ -24,7 +25,8 @@ export const SearchBarItem = ({
   leftIcon = <DefaultLeftIcon />,
   placeholder = '',
   searchValue,
-  handleSubmitSearchValue
+  handleSubmitSearchValue,
+  handleIsFocused,
 }: SearchBarItemProps) => {
   const [currSearchValue, setCurrSearchValue] = useState<string>(searchValue);
   const [isFocused, setIsFocused] = useState(false);
@@ -72,6 +74,11 @@ export const SearchBarItem = ({
     };
   }, []);
 
+  useEffect(() => {
+    console.log('[Searchbar] isFocused : ', isFocused);
+    handleIsFocused?.(isFocused);
+  }, [isFocused]);
+
   return (
     <View
       style={style.searchContainer}
@@ -91,25 +98,28 @@ export const SearchBarItem = ({
         onBlur={() => setIsFocused(false)}
         ref={inputRef}
       />
-      <Animated.View
-        style={{
-          ...style.searchIconReset,
-          transform: [{
-            translateX: slideAnim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [100, 0]
-            })
-          }]
-        }}
-      >
-        <Pressable onPress={clearSearchValue}>
+      {currSearchValue.length > 0 && (
+        <Pressable 
+          onPress={clearSearchValue}
+          style={style.searchIconReset}
+        >
+          <Animated.View
+          style={{
+            transform: [{
+              translateX: slideAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [100, 0]
+              })
+            }]
+          }}
+        >
           <X
             size={22}
             color="black"
             strokeWidth={2}
           />
-        </Pressable>
-      </Animated.View>
+          </Animated.View>
+        </Pressable>)}
     </View>
     )
 }

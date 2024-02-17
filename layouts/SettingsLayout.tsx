@@ -4,7 +4,7 @@ import style from './SettingsLayout.style';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from 'lucide-react-native';
-import { HeaderPage } from '../components/HeaderPage/HeaderPage';
+import { HeaderItem } from '../components/HeaderItem/HeaderItem';
 
 
 type Props = {
@@ -21,7 +21,7 @@ export const SettingsLayout = ({
     <SafeAreaView 
       style={style.settingsLayout}
     >
-      <HeaderPage 
+      <HeaderItem 
         title={title}
         navigation={navigation}
       />

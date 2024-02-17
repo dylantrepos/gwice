@@ -3,6 +3,8 @@ import { Pressable, View } from "react-native"
 import { Sun } from 'lucide-react-native'
 import { SettingsLayout } from "../../../layouts/SettingsLayout";
 import { TextItem } from '../../../components/TextItem/TextItem';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 
 type SettingsHomeViewProps = {
   navigation: any;
@@ -42,16 +44,22 @@ const settingsNavList = [
 export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps) => {
 
   return (
-    <SettingsLayout title={route.name}>
-      { settingsNavList.map((settingsElt, index) => 
-            <SettingsNavButton 
-              key={`settingsNavList-${index}`}
-              title={settingsElt.title}
-              navigation={navigation}
-              icons={settingsElt.icons}
-            />
-      )}
-    </SettingsLayout>
+    <SafeAreaView
+      style={style.settingsLayout}
+    >
+      <HeaderItem 
+        title={route.name}
+        navigation={navigation}
+      />
+    { settingsNavList.map((settingsElt, index) => 
+          <SettingsNavButton 
+            key={`settingsNavList-${index}`}
+            title={settingsElt.title}
+            navigation={navigation}
+            icons={settingsElt.icons}
+          />
+    )}
+    </SafeAreaView>
   )
 }
 

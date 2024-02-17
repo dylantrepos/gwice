@@ -16,6 +16,7 @@ import { useGetCityEvents } from "../../../modules/CityEvents/hooks/useGetCityEv
 import { CityEventListStickyHeaderItem } from "../../../modules/CityEvents/components/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem";
 import { CityEventListFooterItem } from "../../../modules/CityEvents/components/CityEventListFooterItem/CityEventListFooterItem";
 import { RootState } from "../../../store/store";
+import { HeaderItem } from "../../../components/HeaderItem/HeaderItem";
 
 
 type HeaderListProps = {
@@ -62,6 +63,7 @@ export const CityEventHomeView = ({
   const [headerHeight, setHeaderHeight] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [selectedItemDate, setSelectedItemDate] = useState(filterDate[0]);
+  const { isSearchInputFocused } = useSelector((state: RootState) => state.eventReducer);
   const dispatch = useDispatch();
   const flatListRef = useRef<VirtualizedList<CityEventCard> | null>(null);
   const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
@@ -147,7 +149,7 @@ export const CityEventHomeView = ({
   useEffect(() => {
     setEventList([]);
     if (flatListRef.current && scrollPosition < headerHeight) {
-      flatListRef.current.scrollToOffset({ animated: false, offset: headerHeight });
+      flatListRef.current.scrollToOffset({ animated: true, offset: headerHeight });
     }
     if (flatListRef.current && scrollPosition > headerHeight) {
       flatListRef.current.scrollToOffset({ animated: false, offset: headerHeight });
@@ -161,12 +163,37 @@ export const CityEventHomeView = ({
     }
   }, [events]);
 
+
+  useEffect(() => {
+    console.log('[CityEventHomeView] isSearchInputFocused : ', isSearchInputFocused);
+    if (isSearchInputFocused) {
+      console.log('flatListRef.current : ', flatListRef.current !== null);
+      console.log('scrollPosition  : ', scrollPosition );
+      console.log('headerHeight : ', headerHeight);
+
+      if (flatListRef.current && scrollPosition < headerHeight) {
+        console.log('coucou');
+        flatListRef.current.scrollToOffset({ animated: true, offset: headerHeight });
+      }
+      else if (flatListRef.current && scrollPosition > headerHeight) {
+        flatListRef.current.scrollToOffset({ animated: false, offset: headerHeight });
+      }
+    }
+  }, [isSearchInputFocused]);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={style.cityEventHomeContainer}>
         <SafeAreaView
           style={style.cityEventHomeContainerSafeArea}
         >
+          <HeaderItem
+            title={'Événements'}
+            titleColor="white"
+            iconColor="white"
+            navigation={navigation}
+            withBackgroundTransparent={true}
+          />
           <VirtualizedList
             removeClippedSubviews={false}
             contentContainerStyle={{ minHeight: '100%' }}
