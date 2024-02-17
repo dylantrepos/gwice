@@ -1,13 +1,13 @@
 import moment from "moment";
 
 export const getDateRange = (period: string) => {
-  let start: moment.Moment | null = moment.utc().add(1, 'hour').startOf('day');
-  let end: moment.Moment | null = moment.utc().add(1, 'hour').endOf('day');
+  let start: moment.Moment = moment.utc().add(1, 'hour').startOf('day');
+  let end: moment.Moment = moment.utc().add(1, 'hour').endOf('day');
 
   switch (period) {
     case 'always':
-      start = null;
-      end = null;
+      start = moment.utc().add(1, 'hour');
+      end = moment.utc().add(10, 'year').endOf('day');
       break;
     case 'today':
       start = moment.utc().add(1, 'hour');
@@ -28,7 +28,7 @@ export const getDateRange = (period: string) => {
   }
 
   return {
-    start: start?.toDate() ?? null,
-    end: end?.toDate() ?? null
+    start: start.toDate(),
+    end: end.toDate()
   };
 }

@@ -19,7 +19,7 @@ export const HomeView = ({
   route
 }: HomeViewProps)  => {
   const [refreshing, setRefreshing] = useState(false);
-  const { currentCity, refetchHome, currentHomeViewDate } = useSelector((state: RootState) => state.general);
+  const { currentCity, refetchHome, currentHomeViewDate } = useSelector((state: RootState) => state.generalReducer);
   const dispatch = useDispatch();
 
   const onRefresh = useCallback(() => {

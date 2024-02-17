@@ -137,15 +137,15 @@ export default function App() {
                   animation: 'timing',
                   config: {
                     duration: 200,
-                  },
+                  }
                 },
                 hide: {
                   animation: 'timing',
                   config: {
                     duration: 0,
-                  },
-                },
-              },
+                  }
+                }
+              }
             }}
           >
             <Tab.Screen 

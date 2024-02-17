@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setRefetchCityEventHome } from "../../../reducers/generalReducer";
-import { View, VirtualizedList } from "react-native";
+import { Keyboard, View, VirtualizedList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import style from './CityEventHomeView.style';
 import { CityEventCard } from "../../../modules/CityEvents/types/Events";
@@ -15,6 +15,7 @@ import { CityEventCardLargeEmptyItem, CityEventCardLargeItem } from "../../../mo
 import { useGetCityEvents } from "../../../modules/CityEvents/hooks/useGetCityEvents";
 import { CityEventListStickyHeaderItem } from "../../../modules/CityEvents/components/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem";
 import { CityEventListFooterItem } from "../../../modules/CityEvents/components/CityEventListFooterItem/CityEventListFooterItem";
+import { RootState } from "../../../store/store";
 
 
 type HeaderListProps = {
@@ -60,18 +61,16 @@ export const CityEventHomeView = ({
   const [filteredCategoryIdList, setFilteredCategoryIdList] = useState<number[]>([]);
   const [headerHeight, setHeaderHeight] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [selectedItemDate, setSelectedItemDate] = useState(filterDate[3]);
-  const [searchInput, setSearchInput] = useState('');
+  const [selectedItemDate, setSelectedItemDate] = useState(filterDate[0]);
   const dispatch = useDispatch();
   const flatListRef = useRef<VirtualizedList<CityEventCard> | null>(null);
   const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
 
   const today = moment.tz("Europe/Paris").add(1, 'hours');
-  const sundayEndOfDay = moment(today).add(7, 'days').endOf('day').add(1, 'hours');
+  const sundayEndOfDay = moment(today).add(10, 'year').endOf('day');
 
   const [startDate, setStartDate] = useState(today.toDate());
   const [endDate, setEndDate] = useState(sundayEndOfDay.toDate());
-  const [isSearchInputFocused, setIsSearchInputFocused] = useState(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -81,10 +80,6 @@ export const CityEventHomeView = ({
     }, 1000);
   }, []);
 
-  const handleSearchInput = (text: string) => {
-    setSearchInput(text);
-    console.log('searchInput : ', text);
-  }
 
   const CityHomeEventRender = useCallback(({item, index}: CityEventCardLargeItemProps) => {
     // check if the item is the sticky header
@@ -92,14 +87,8 @@ export const CityEventHomeView = ({
       const nextTimingStart = new Date(item.nextTiming.begin);
       const nextTimingEnd = new Date(item.nextTiming.end);
       const now = new Date();
-      const endOfToday = endOfDay(now);
-
-      const dateInFrance1 = moment().tz('Europe/Paris').format();
-      const dateInFrance2 = moment().tz('Europe/Paris').toDate().toISOString();
 
       if (isBefore(nextTimingStart, now) && isBefore(nextTimingEnd, now)) {
-
-        // Wrong next timing
         return null;
       } 
     }
@@ -131,7 +120,6 @@ export const CityEventHomeView = ({
     categoryIdList: filteredCategoryIdList,
     startDate,
     endDate,
-    search: searchInput,
   });
 
   const fetchMoreData = () => {
@@ -141,13 +129,25 @@ export const CityEventHomeView = ({
   }
 
   useEffect(() => {
-    console.log('[CityEventHomerView] :', {startDate, endDate});
-  }, [startDate, endDate]
-  )
-
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        if (flatListRef.current && scrollPosition < headerHeight) {
+          flatListRef.current.scrollToOffset({ animated: false, offset: headerHeight });
+        }
+      }
+    );
+  
+    return () => {
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   useEffect(() => {
     setEventList([]);
+    if (flatListRef.current && scrollPosition < headerHeight) {
+      flatListRef.current.scrollToOffset({ animated: false, offset: headerHeight });
+    }
     if (flatListRef.current && scrollPosition > headerHeight) {
       flatListRef.current.scrollToOffset({ animated: false, offset: headerHeight });
     }
@@ -172,9 +172,12 @@ export const CityEventHomeView = ({
             maxToRenderPerBatch={10}
             windowSize={21}
             ref={flatListRef}
-            keyboardShouldPersistTaps="always"
+            keyboardShouldPersistTaps="handled"
             onScroll={(event) => {
               setScrollPosition(event.nativeEvent.contentOffset.y);
+              // if (Keyboard.isVisible()) {
+              //   Keyboard.dismiss();
+              // }
             }}
             data={[
               <CityEventListStickyHeaderItem 
@@ -186,10 +189,6 @@ export const CityEventHomeView = ({
                 setEndDate={setEndDate}
                 selectedItemDate={selectedItemDate}
                 setSelectedItemDate={setSelectedItemDate}
-                searchInput={searchInput}
-                handleSearchInput={handleSearchInput}
-                isSearchInputFocused={isSearchInputFocused}
-                setIsSearchInputFocused={setIsSearchInputFocused}
                 />, 
               ...(!isLoading ? eventList : fakeWaitingData)
             ]}

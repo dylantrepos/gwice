@@ -34,7 +34,7 @@ export const CityEventsListHorizontalItem = ({
 }: Props) => {
   const { 
     refetchCityEventHome
-  } = useSelector((state: RootState) => state.general);
+  } = useSelector((state: RootState) => state.generalReducer);
   const [eventList, setEventList] = useState<any[]>([]);
   const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
 

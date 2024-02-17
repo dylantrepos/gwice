@@ -21,7 +21,7 @@ export const fetchCityEvents = async ({
   search = null,
 }: FetchLilleCulturalEvents): Promise<CityEventCardRequest> => {
   const address = `${SERVER_HOST}`;
-  const cityName = store.getState().general.currentCity.cityName;
+  const cityName = store.getState().generalReducer.currentCity.cityName;
 
   console.log('[fetchCityEvents] : ', {startDate, endDate});
 
@@ -52,7 +52,7 @@ type FetchCityEventDetailsProps = {
 export const fetchCityEventDetails = async ({
   eventId,
 }: FetchCityEventDetailsProps): Promise<CityEventDetailsRequest> => {
-  const cityName = store.getState().general.currentCity.cityName;
+  const cityName = store.getState().generalReducer.currentCity.cityName;
   const address = `${SERVER_HOST}`;
 
   // console.log('[Request] fetchCulturalEvents : ', category);

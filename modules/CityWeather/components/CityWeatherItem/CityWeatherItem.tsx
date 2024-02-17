@@ -28,7 +28,7 @@ export const CityWeatherItem = () => {
     currentHomeViewDate,
     weatherSettings, 
     refetchHome,
-  } = useSelector((state: RootState) => state.general);
+  } = useSelector((state: RootState) => state.generalReducer);
   
   const {isLoading, data: weather, error} = useGetWeather(currentCity.cityName, weatherSettings, refetchHome);
   

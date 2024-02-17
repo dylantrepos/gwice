@@ -37,7 +37,7 @@ export const CityEventCardItem = ({
 
   if (!categoriesMetropolitaines) return null;
 
-  const { currentHomeViewDate } = useSelector((state: RootState) => state.general);
+  const { currentHomeViewDate } = useSelector((state: RootState) => state.generalReducer);
 
   const [imageLoaded, setImageLoaded] = useState(false);
   const imageSrc = `${image.base}${image.filename}`;

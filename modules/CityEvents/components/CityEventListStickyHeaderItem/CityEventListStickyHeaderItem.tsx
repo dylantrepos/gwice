@@ -7,6 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import { Search, X } from "lucide-react-native";
 import { FilterDateItem, eventsCategoryLille } from "../../utils/events";
 import { TextItem } from "../../../../components/TextItem/TextItem";
+import { SearchBarItem } from '../../../../components/SearchBarItem/SearchBarItem';
+import { RootState } from '../../../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchValue } from '../../../../reducers/eventReducer';
 
 type StickyHeaderProps = {
   filteredCategoryIdList: number[];
@@ -17,10 +21,6 @@ type StickyHeaderProps = {
   setEndDate: React.Dispatch<React.SetStateAction<Date>>;
   selectedItemDate: FilterDateItem;
   setSelectedItemDate: React.Dispatch<React.SetStateAction<FilterDateItem>>;
-  searchInput: string;
-  handleSearchInput: (text: string) => void;
-  isSearchInputFocused: boolean;
-  setIsSearchInputFocused: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const CityEventListStickyHeaderItem = ({
@@ -32,122 +32,26 @@ export const CityEventListStickyHeaderItem = ({
   setEndDate,
   selectedItemDate,
   setSelectedItemDate,
-  searchInput,
-  handleSearchInput,
-  isSearchInputFocused,
-  setIsSearchInputFocused
 }: StickyHeaderProps) => {
-  const [searchValue, setSearchValue] = useState<string>('');
-  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
-  const [isFocused, setIsFocused] = useState(false);
-  const [currSearchValue, setCurrSearchValue] = useState<string>('');
-  const slideAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
-  const inputRef =  useRef<TextInput | null>(null);
-
-  // const updateSearchValue = (newInput: string) => {
-  //   setSearchValue(newInput);
+  const { searchValue } = useSelector((state: RootState) => state.eventReducer);  
+  const dispatch = useDispatch();
   
-  //   if (timerId) {
-  //     clearTimeout(timerId);
-  //   }
-  
-  //   setTimerId(
-  //     setTimeout(() => {
-  //       handleSearchInput(newInput);
-  //       // Call your search function here
-  //       // For example: performSearch(newInput);
-  //     }, 300)
-  //   );
-  // };
-
-  const handleUpdateSearchValue = (newInput: string) => {
-    setCurrSearchValue(newInput);
+  const handleSubmitSearchValue = (newSearchValue: string) => {
+    dispatch(setSearchValue(newSearchValue));
   }
-
-  const clearSearchValue = () => {
-    setCurrSearchValue('');
-
-    console.log('Keyboard.isVisible : ', Keyboard.isVisible());
-    if (!Keyboard.isVisible()) {
-      handleSearchInput('');
-    }
-    // inputRef.current?.focus();
-  };
-
-  const handleSubmitSearchInput = () => {
-    console.log('curr : ', currSearchValue);
-    handleSearchInput(currSearchValue);
-    Keyboard.dismiss();
-  }
-
-  useEffect(() => {
-    Animated.timing(
-      slideAnim,
-      {
-        toValue: (currSearchValue.length > 0) ? 1 : 0, 
-        duration: 150, 
-        useNativeDriver: true,
-      }
-    ).start();
-  }, [currSearchValue, isFocused]);
 
   return (
     <View
-    style={{
-      backgroundColor: 'white',
-    }}
-  >
-    <View
-      style={style.searchEvent}
+      style={{
+        backgroundColor: 'white',
+      }}
     >
-      <Search
-        size={22}
-        color="black"
-        strokeWidth={2}
-        style={style.searchEventIcon}
-      />
-      <TextInput
-        style={{
-          flex: 1,
-          fontSize: 16,
-          paddingTop: 0,
-          paddingBottom: 0
-        }}
-        blurOnSubmit={false}
+      <SearchBarItem
         placeholder="Rechercher un événement"
-        placeholderTextColor="#A0A0A0"
-        inputMode="search"
-        multiline={false}
-        value={currSearchValue}
-        onChangeText={handleUpdateSearchValue}
-        onSubmitEditing={handleSubmitSearchInput}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        ref={inputRef}
+        searchValue={searchValue}
+        handleSubmitSearchValue={handleSubmitSearchValue}
       />
-      <Animated.View
-        style={{
-          ...style.searchResetIcon,
-          transform: [{
-            translateX: slideAnim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [100, 0] // replace -100 with the actual out position
-            })
-          }]
-        }}
-      >
-        <Pressable 
-          onPress={clearSearchValue}
-        >
-          <X
-            size={22}
-            color="black"
-            strokeWidth={2}
-          />
-        </Pressable>
-      </Animated.View>
-    </View>
-    <View
+    {/* <View
       style={style.categoryTitleContainer}
     >
     { filteredCategoryIdList.length > 0 && (
@@ -163,7 +67,7 @@ export const CityEventListStickyHeaderItem = ({
         </TextItem>
       </Pressable>
     )}
-    </View>
+    </View> */}
     <CityEventListCategoryListItem 
       categories={eventsCategoryLille}
       categoriesSelected={filteredCategoryIdList}

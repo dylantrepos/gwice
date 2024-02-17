@@ -1,5 +1,5 @@
 import style from './CityEventListPromoteItem.style';
-import { ImageBackground, Pressable } from "react-native";
+import { ImageBackground, Keyboard, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { CityEventCard } from '../../types/Events';
 import { TextItem } from '../../../../components/TextItem/TextItem';
@@ -20,6 +20,9 @@ export const CityEventListPromoteItem = ({
 }: PromoteEventProps) => {
 
   const handlePressPromoteEvent = () => {
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
     console.log('Promote pressed!');
   }
 

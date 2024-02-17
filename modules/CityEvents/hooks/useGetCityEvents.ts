@@ -1,7 +1,8 @@
 import { InfiniteData, useInfiniteQuery, useQuery } from 'react-query';
-import { AllEvents, CityEventCard, CityEventCardRequest, CityEventDetails, CityEventDetailsRequest, EventsCategory, WhenQuery } from '../types/Events';
+import { CityEventCardRequest, CityEventDetailsRequest } from '../types/Events';
 import { fetchCityEventDetails, fetchCityEvents } from '../services/cityEvents';
-import { Search } from 'lucide-react-native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 /*
  * Get City Events 
@@ -24,7 +25,6 @@ type UseGetCityEventsProps = {
   categoryIdList?: number[];
   startDate?: Date | null;
   endDate?: Date | null;
-  search?: string | null;
 }
 
 export const useGetCityEvents = ({
@@ -32,8 +32,8 @@ export const useGetCityEvents = ({
   categoryIdList = [],
   startDate = null,
   endDate = null,
-  search = null,
 }: UseGetCityEventsProps): UseGetCityEvents => {
+  const { searchValue } = useSelector((state: RootState) => state.eventReducer);  
 
   const { 
     isLoading, 
@@ -51,14 +51,14 @@ export const useGetCityEvents = ({
       categoryIdList, 
       startDate, 
       endDate,
-      search,
+      searchValue,
     ], 
     ({pageParam: nextEventPageIds = null}) => fetchCityEvents({ 
         categoryIdList, 
         nextEventPageIds,
         startDate,
         endDate,
-        search,
+        search: searchValue,
     }),
     {
       refetchOnWindowFocus: false,

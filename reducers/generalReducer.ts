@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { CityLille } from "../cities/CityLille";
 import { City } from "../cities/types/city";
-import { WeatherSettings } from "../modules/CityEvents/types/Weather";
 import { AppDispatch } from "../store/store";
 import moment from "moment";
 import { set } from "date-fns";
+import { WeatherSettings } from "../modules/CityWeather/types/Weather";
 
 type State = {
   currentCity: City;

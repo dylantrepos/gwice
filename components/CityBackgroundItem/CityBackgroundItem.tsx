@@ -9,7 +9,7 @@ import { TextItem } from '../TextItem/TextItem';
 
 export const CityBackgroundItem = () => {
 
-  const { image, cityName } = useSelector((state: RootState) => state.general.currentCity);  
+  const { image, cityName } = useSelector((state: RootState) => state.generalReducer.currentCity);  
 
   return (
     <View style={style.container}>

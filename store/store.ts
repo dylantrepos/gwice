@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import general from "../reducers/generalReducer";
+import generalReducer from "../reducers/generalReducer";
+import eventReducer from "../reducers/eventReducer";
 
 export const store = configureStore({
   reducer: {
-    general
+    generalReducer,
+    eventReducer
   },
 })
 

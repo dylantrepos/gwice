@@ -19,7 +19,7 @@ const animationOptions = (value: number) => ({
 export const SettingsWeatherView = ({
 
 }) => {
-  const startDailyHour = store.getState().general.weatherSettings.startDailyHour;
+  const startDailyHour = store.getState().generalReducer.weatherSettings.startDailyHour;
   const [currStartDailyHour, setCurrStartDailyHour] = useState(startDailyHour);
   const dispatch = useDispatch();
   const navigate = useNavigation();
