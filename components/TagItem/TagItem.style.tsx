@@ -1,4 +1,5 @@
 import { Platform, StyleSheet } from "react-native";
+import palette from "../../assets/palette";
 
 export default StyleSheet.create({
   tagContainer: {
@@ -14,3 +15,14 @@ export default StyleSheet.create({
     borderWidth: 1,
   }
 });
+
+export const themeStyle = {
+  background: {
+    light: palette.grayLighter,
+    dark: palette.blackLighter,
+  },
+  border: {
+    light: palette.grayLight,
+    dark: palette.grayLight,
+  },
+}

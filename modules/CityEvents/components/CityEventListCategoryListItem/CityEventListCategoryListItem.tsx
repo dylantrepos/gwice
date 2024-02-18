@@ -91,13 +91,14 @@ export const CityEventListCategoryListItem = ({
                   </View>
               )}
               <TextItem 
-                styles={{
+                style={{
                   ...style.categoryName,
                   paddingHorizontal: 15,
                   paddingVertical: 5,
                   lineHeight: 23,
                 }}
-                weight="500"
+                size="md"
+                weight="regular"
               >
                   {formatTitle(title)}
               </TextItem>

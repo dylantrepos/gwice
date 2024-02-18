@@ -91,17 +91,6 @@ export const CityEventsListHorizontalItem = ({
         handleNavigation={handleNavigation}
         rightIcon={ChevronRight}
       />
-      {/* <Pressable 
-        style={style.culturalEventsTitleContainer}
-        onPress={handleNavigation}
-      >
-        <TextItem styles={style.culturalEventsTitle} weight="500">{formatTitle(title)}</TextItem>
-        <IconItem 
-          IconElt={ChevronRight}
-          size="sm"
-          stroke="light"
-        />
-      </Pressable> */}
       <FlatList
         data={(!isLoading ? eventList : fakeWaitingData)}   
         keyExtractor={(item, index) => index.toString()}

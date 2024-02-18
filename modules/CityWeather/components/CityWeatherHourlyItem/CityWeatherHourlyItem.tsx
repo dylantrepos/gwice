@@ -1,6 +1,6 @@
 import { View, Image, Animated, ViewStyle, Dimensions} from 'react-native';
 import { weatherCodeIcons } from '../../utils/weatherImgCode';
-import style from './CityWeatherHourlyItem.style';
+import style, { themeStyle } from './CityWeatherHourlyItem.style';
 import { OpenMeteoDataHourly} from '../../types/Weather';
 import { useEffect, useRef } from 'react';
 import { animationOptions } from '../cityWeatherSettings';
@@ -9,7 +9,6 @@ import { TextItem } from '../../../../components/TextItem/TextItem';
 import { ViewItem } from '../../../../components/ViewItem/ViewItem';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
-import { THEME } from '../../../../assets/palette';
 
 type Props = {
   weather: OpenMeteoDataHourly;
@@ -57,12 +56,22 @@ export const CityWeatherHourlyItem = ({
         opacity: opacity
         }}
       >
-        <TextItem style={style.cityWeatherHourlyTextHour}>{hour}</TextItem>
+        <TextItem
+          weight="regular"
+          size="md"
+        >
+          {hour}
+        </TextItem>
         <Image source={imageSource} style={style.cityWeatherHourlyImage} />
-        <TextItem style={style.cityWeatherHourlyTemperature}>{temperature}</TextItem>
+        <TextItem 
+          weight="light"
+          size="md"
+        >
+          {temperature}
+        </TextItem>
         <View style={{
           ...style.halfBottomBorder,
-          borderColor: THEME.cityWeatherHourlyItem.halfBorderColor[theme] as string,
+          borderColor: themeStyle.halfBottomBorderColor[theme] as string,
         }} />
       </ViewItem.Animated>
     </View>

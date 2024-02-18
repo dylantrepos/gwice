@@ -1,4 +1,5 @@
 import { Platform, StyleSheet } from "react-native";
+import palette from "../../../../assets/palette";
 
 export default StyleSheet.create({
   cityWeatherHourlyContainer: { 
@@ -36,17 +37,16 @@ export default StyleSheet.create({
     height: 50,
     marginBottom: 5,
   },
-  cityWeatherHourlyTemperature: {
-    fontSize: 14,
-    fontWeight: '400',
-  },
   cityWeatherHourlyTextDate: {
     fontSize: 12,
     fontWeight: '500',
     color: '#878787',
   },
-  cityWeatherHourlyTextHour: {
-    fontSize: 14,
-    fontWeight: '600',
-  }
 });
+
+export const themeStyle = {
+  halfBottomBorderColor: {
+    light: palette.grayAnother,
+    dark: palette.grayDark,
+  },
+}

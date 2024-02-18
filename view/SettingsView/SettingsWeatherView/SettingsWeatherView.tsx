@@ -42,7 +42,13 @@ export const SettingsWeatherView = ({
   return (
     <SettingsLayout title={'Weather'}>
       <View style={style.weatherInputContainer}>
-        <TextItem style={style.weatherInputDescription}>Start daily hour at</TextItem>
+        <TextItem 
+          weight="regular"
+          size="md"
+          style={style.weatherInputDescription}
+        >
+          Start daily hour at
+        </TextItem>
         <View style={style.weatherInputRadioContainer}>
           <Pressable  
             style={style.weatherInputRadio}
@@ -54,7 +60,12 @@ export const SettingsWeatherView = ({
           >
             <Minus color={'#0D89CE'} size={45} strokeWidth={1}/>
           </Pressable>
-          <TextItem style={style.weatherInputText}>{currStartDailyHour}</TextItem>
+          <TextItem 
+            weight="regular"
+            style={style.weatherInputText}
+          >
+            {currStartDailyHour}
+          </TextItem>
           <Pressable 
             style={style.weatherInputRadio}
             onPress={() => {
@@ -84,7 +95,13 @@ export const SettingsWeatherView = ({
           onPress={handleSaveSettings}
           style={style.closeButton}
         >
-          <TextItem style={style.closeButtonText}>Save settings</TextItem>
+          <TextItem 
+            weight="bold"
+            size="lg"
+            style={style.closeButtonText}
+          >
+            Save settings
+          </TextItem>
         </Pressable>
     </Animated.View>
     </SettingsLayout>

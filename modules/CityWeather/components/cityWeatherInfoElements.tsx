@@ -12,7 +12,12 @@ export const cityWeatherInfoElements = {
     title: 'Date',
     component: (date: string, fadeAnim: Animated.Value) => (
       <CityWeatherInfoDetail fadeAnim={fadeAnim}>
-        <TextItem weight='500' styles={style.cityWeatherDate}>{ date }</TextItem>
+        <TextItem 
+          weight="regular"
+          size="md"
+        >
+          { date }
+        </TextItem>
       </CityWeatherInfoDetail>
     ),
   },
@@ -25,7 +30,9 @@ export const cityWeatherInfoElements = {
           size={'sm'}
           stroke={'light'}
         />
-        <TextItem styles={style.cityWeatherInfoDetailText}>{ windSpeed }</TextItem>
+        <TextItem>
+          { windSpeed }
+        </TextItem>
       </CityWeatherInfoDetail>
     ),
   },
@@ -38,7 +45,7 @@ export const cityWeatherInfoElements = {
           size={'sm'}
           stroke={'light'}
         />
-        <TextItem styles={style.cityWeatherInfoDetailText}>{ precipitation }</TextItem>
+        <TextItem>{ precipitation }</TextItem>
       </CityWeatherInfoDetail>
     ),
   },
@@ -51,9 +58,9 @@ export const cityWeatherInfoElements = {
           size={'sm'}
           stroke={'light'}
         />
-        <TextItem styles={style.cityWeatherTempMin}>{min}</TextItem>
+        <TextItem style={style.cityWeatherTempMin}>{min}</TextItem>
         <TextItem>|</TextItem>
-        <TextItem styles={style.cityWeatherTempMax}>{max}</TextItem>
+        <TextItem style={style.cityWeatherTempMax}>{max}</TextItem>
       </CityWeatherInfoDetail>
     ),
   },
@@ -66,7 +73,7 @@ export const cityWeatherInfoElements = {
           size={'sm'}
           stroke={'light'}
         />
-        <TextItem styles={style.cityWeatherInfoDetailText}>{ temperature }</TextItem>
+        <TextItem>{ temperature }</TextItem>
       </CityWeatherInfoDetail>
     ),
   }, 

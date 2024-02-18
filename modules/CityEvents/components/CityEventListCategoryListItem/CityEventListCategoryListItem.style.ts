@@ -27,7 +27,6 @@ export default StyleSheet.create({
   categoryIcon: {
   },
   categoryName: {
-    fontSize: 16,
     textAlign: 'center',
   },
 });

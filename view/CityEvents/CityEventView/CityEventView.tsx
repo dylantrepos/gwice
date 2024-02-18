@@ -142,8 +142,9 @@ export const CityEventView = ({
               </View>
           </Modal>
           { title && <TextItem 
-            styles={style.title}
-            weight="600"
+            weight="bold"
+            size="lg"
+            style={style.title}
           >
             {title['fr']}
           </TextItem> }
@@ -151,7 +152,8 @@ export const CityEventView = ({
             <View style={style.infoContainer}>
               <Calendar size={20} color={'black'}/>
               <TextItem 
-                styles={style.date}
+                size="md"
+                style={style.date}
               >
                {getFormatedDateFromTimestamp(firstTiming.begin) === getFormatedDateFromTimestamp(lastTiming.end) 
               ? `${getFormatedDateFromTimestamp(firstTiming.begin)}` 
@@ -166,7 +168,8 @@ export const CityEventView = ({
                 }}
               >
                 <TextItem 
-                  styles={style.date}
+                  size="md"
+                  style={style.date}
                 >
                   {`${location.name}\n${location.address}`}
                 </TextItem>
@@ -176,7 +179,8 @@ export const CityEventView = ({
               <View style={style.infoContainer}>
                 <BadgeEuro size={20} color={'black'}/>
                 <TextItem 
-                  styles={style.date}
+                  size="md"
+                  style={style.date}
                 >
                   { conditions['fr'] ? `${conditions['fr']}` : 'Non spécifié' }
                 </TextItem>
@@ -184,7 +188,8 @@ export const CityEventView = ({
             }
           </View>
           <TextItem 
-            styles={style.description}
+            size="md"
+            style={style.description}
           >
             {longDescription['fr']}
           </TextItem> 
@@ -195,25 +200,28 @@ export const CityEventView = ({
             }}
           >
             <TextItem 
-              styles={style.linkText}
-              weight="500"
+              weight="regular"
+              size="md"
             >
               Plus d'infos 
             </TextItem>
-            <TextItem styles={style.linkUrl}>
+            <TextItem 
+              size="md"
+              style={style.linkUrl}
+            >
               { siteLink }
             </TextItem>
           </Pressable> }
           {/* { contact?.email && <View>
             <TextItem 
-              styles={style.linkText}
+              style={style.linkText}
               weight="500">
               Email : {contact.email}
               </TextItem>
             </View>}
           { contact?.phone && <View>
             <TextItem 
-              styles={style.linkText}
+              style={style.linkText}
               weight="500">
               Téléphone : {contact.email}
               </TextItem>
@@ -225,12 +233,12 @@ export const CityEventView = ({
             }}
           >
             <TextItem 
-              styles={style.linkText}
+              style={style.linkText}
               weight="500"
             >
               Source 
             </TextItem>
-            <TextItem styles={style.linkUrl}>
+            <TextItem style={style.linkUrl}>
               {page}
             </TextItem>
           </Pressable> } */}

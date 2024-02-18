@@ -36,11 +36,8 @@ export const TitleItem = ({
           />
         )}
         <TextItem 
-          // styles={style.culturalEventsTitle} 
-          weight="500"
-          styles={{
-            fontSize: size === 'md' ? 20 : 18,
-          }}
+          weight="regular"
+          size={size}
         >
           {formatTitle(title)}
         </TextItem>
@@ -70,7 +67,6 @@ TitleItem.Pressable = ({
 }: PressableProps) => {
   return (
     <Pressable
-      // style={style.culturalEventsTitleContainer}
       style={{
         ...styleTitleItem.titleItemContainer,
         ...style as ViewStyle,
@@ -88,11 +84,8 @@ TitleItem.Pressable = ({
           />
         )}
         <TextItem 
-          // styles={style.culturalEventsTitle} 
-          weight="500"
-          styles={{
-            fontSize: size === 'md' ? 20 : 18,
-          }}
+          weight="regular"
+          size={size}
         >
           {formatTitle(title)}
         </TextItem>

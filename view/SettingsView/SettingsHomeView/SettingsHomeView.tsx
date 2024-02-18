@@ -25,7 +25,12 @@ const SettingsNavButton = ({title, navigation, icons}: SettingsNavButtonProps) =
     >
       <View style={style.settingsScreenButtonTextIcon}>
         {icons ?? null}
-        <TextItem style={style.settingsScreenButtonText}>{title}</TextItem>
+        <TextItem
+          weight='regular'
+          size='lg'
+        >
+          {title}
+        </TextItem>
       </View>
     </Pressable>
   )

@@ -59,12 +59,15 @@ console.log('withBackgroundTransparent : ', withBackgroundTransparent);
         )}
       </View>
       <View style={style.headerTitle}>
-        {title && <TextItem 
-        styles={{
-          ...style.headerTitle,
-          color: titleColor
-        }}
-        >
+        {title && 
+          <TextItem 
+            size='lg'
+            weight='bold'
+            style={{
+              ...style.headerTitle,
+              color: titleColor
+            }}
+          >
           { title }
       </TextItem>}
       </View>

@@ -1,12 +1,8 @@
-import { View, ViewProps, ViewStyle } from 'react-native';
-import tagStyle from "./IconItem.style";
+import { ViewProps, ViewStyle } from 'react-native';
 import { PropsWithChildren } from "react";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { THEME } from '../../assets/palette';
-import { useBackgroundColorLoading } from '../../hooks/useBackgroundColorLoading';
-import { TextItem } from '../TextItem/TextItem';
-import { formatTitle } from '../../utils/events';
+import { themeStyle } from './IconItem.style';
 
 type Props = ViewProps & {
   IconElt?: any;
@@ -25,9 +21,9 @@ export const IconItem = ({
 
   return (
     <IconElt
-      color={THEME.icon.color[theme] as string} 
-      size={THEME.icon.size[size as 'sm' | 'md' | 'lg' | 'xl']} 
-      strokeWidth={THEME.icon.stroke[stroke as 'light' | 'strong']} 
+      color={themeStyle.color[theme] as string} 
+      size={themeStyle.size[size as 'sm' | 'md' | 'lg' | 'xl']} 
+      strokeWidth={themeStyle.stroke[stroke as 'light' | 'strong']} 
       style={{
         ...style as ViewStyle,
       }}

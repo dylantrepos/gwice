@@ -20,7 +20,7 @@ export const CityEventListFooterItem = ({
       }}
     >
       <TextItem
-          styles={{
+          style={{
             textAlign: 'center',
           }}
         >

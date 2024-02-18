@@ -23,8 +23,6 @@ export default StyleSheet.create({
     marginHorizontal: 20,
   },
   weatherInputDescription: {
-    fontSize: 16,
-    fontWeight: '500',
     flex: 1,
   },
   weatherInputRadioContainer: {
@@ -54,7 +52,6 @@ export default StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     backgroundColor: '#fff',
-    fontSize: 20,
   },
   weatherInputLine: {
     height: 1,
@@ -77,8 +74,6 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   closeButtonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
     textAlign: 'center',
     color: '#fff',
   },

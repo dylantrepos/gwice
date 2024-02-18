@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { StyleProp, TextStyle, ViewStyle } from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { THEME } from "../../assets/palette";
+import { themeStyle } from "./BottomNavigationItem.style";
 
 export type NavigatorProps = {
   name: string,
@@ -27,9 +27,9 @@ export const BottomNavigationItem = ({
   }
   const tabStyle = {
     container: {
-      backgroundColor: THEME.bottomNavigation.background[theme] as string,
+      backgroundColor: themeStyle.background[theme] as string,
       borderTopWidth: 1,
-      borderTopColor: THEME.bottomNavigation.border[theme] as string,
+      borderTopColor: themeStyle.border[theme] as string,
       elevation: 0,
       height: 60,
     } as StyleProp<ViewStyle>,

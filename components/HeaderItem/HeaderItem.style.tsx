@@ -17,8 +17,6 @@ export default StyleSheet.create({
     height: 50,
   },
   headerTitle: {
-    fontSize: 18,
-    fontWeight: '500',
     height: 50,
     flex: 1,
     lineHeight: 24,

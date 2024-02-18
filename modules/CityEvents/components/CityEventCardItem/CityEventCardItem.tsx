@@ -84,8 +84,8 @@ export const CityEventCardItem = ({
       />
       <View style={style.culturalEventsCardDetails}>
         <TextItem 
-          styles={style.culturalEventsCardDetailsTitle} 
-          weight="500" 
+          size="sm"
+          weight="regular"
           numberOfLines={2} 
           ellipsizeMode='tail'
         >
@@ -98,7 +98,11 @@ export const CityEventCardItem = ({
             size="sm"
             stroke="light"
           />
-          <TextItem styles={style.culturalEventsCardDetailsDateTitle} weight="300">
+          <TextItem 
+            style={style.culturalEventsCardDetailsDateTitle}
+            size="sm"
+            weight="light"
+          >
             {formatDate ({
               inputDateStart: new Date(nextTiming.begin), 
               inputDateEnd: new Date(nextTiming.end),
@@ -182,15 +186,20 @@ export const CityEventCardLargeItem = memo(({
             style={style.cardInfos}
           >
             <TextItem 
-              styles={style.cardTitle}
-              weight="700"
+              size="lg"
+              weight="bold"
               numberOfLines={3}
-            >
+              style={{
+                color: 'white',
+              }}
+              >
               {title['fr'] ?? ''}
             </TextItem>
             <TextItem 
-              weight="500"
-              styles={style.cardDate}
+              weight="regular"
+              style={{
+                color: 'white',
+              }}
             >
                {
                 nextTiming &&
@@ -231,7 +240,7 @@ export const CityEventCardLargeItem = memo(({
                         </View>
                     )}
                       <TextItem 
-                        styles={style.cardDescriptionCategory} 
+                        style={style.cardDescriptionCategory} 
                       >
                         {formatTitle(category?.title ?? '')}
                       </TextItem>
@@ -242,7 +251,7 @@ export const CityEventCardLargeItem = memo(({
             )}
             {description && 
               <TextItem 
-                styles={style.cardDescriptionText} 
+                style={style.cardDescriptionText} 
                 numberOfLines={3}
               >
                 {description['fr'] ?? ''}

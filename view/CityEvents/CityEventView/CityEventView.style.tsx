@@ -56,16 +56,13 @@ export default StyleSheet.create({
   },
   title: {
     paddingHorizontal: 20,
-    fontSize: 20,
   },
   date: {
-    fontSize: 16,
     marginTop: 5,
     marginRight: 10,
   },
   description: {
     paddingHorizontal: 20,
-    fontSize: 16,
     marginBottom: 10,
   },
   location: {
@@ -78,12 +75,7 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 10,
   },
-  linkText: {
-    fontSize: 16,
-
-  },
   linkUrl: {
-    fontSize: 14,
     color: 'blue',
   },
   accessContainer: {

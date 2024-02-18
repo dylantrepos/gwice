@@ -78,7 +78,7 @@ export const CityEventListFilterItem = ({
             style={style.filterIcon}
           />
           <TextItem 
-            styles={style.filterTitle}
+            style={style.filterTitle}
           >
             {selectedItemDate.id !== 5
               ? selectedItemDate.label
@@ -104,7 +104,7 @@ export const CityEventListFilterItem = ({
             style={style.filterIcon}
           />
           <TextItem 
-            styles={style.filterTitle}
+            style={style.filterTitle}
           >
             Tous les prix
           </TextItem>
@@ -125,7 +125,7 @@ export const CityEventListFilterItem = ({
             style={style.filterIcon}
           />
           <TextItem 
-            styles={style.filterTitle}
+            style={style.filterTitle}
           >
             Trier par
           </TextItem>
@@ -359,9 +359,9 @@ export const FilterDateModal = ({
             >
               <View>
                 <TextItem 
-                  weight="600"
-                  styles={{
-                    fontSize: 18,
+                  size="lg"
+                  weight="bold"
+                  style={{
                     marginLeft: 10,
                   }}
                 >Choisir la période</TextItem>
@@ -386,7 +386,7 @@ export const FilterDateModal = ({
                       ]}
                     >
                       <TextItem 
-                        styles={{
+                        style={{
                         ...style.itemText,
                         color: currSelectedItem === item ? '#3988FD' : 'black',
                         }}
@@ -409,10 +409,8 @@ export const FilterDateModal = ({
                     }}
                   >
                     <TextItem 
-                      weight="400"
-                      styles={{
-                        fontSize: 14,
-                      }}
+                      weight="light"
+                      size="md"
                     >Du</TextItem>
                     <Pressable
                           onPress={() => {
@@ -425,7 +423,7 @@ export const FilterDateModal = ({
                           ]}
                         >
                           <TextItem 
-                            styles={{
+                            style={{
                               ...style.itemText,
                               color: '#3988FD',
                             }}
@@ -435,10 +433,8 @@ export const FilterDateModal = ({
                           
                         </Pressable>
                     <TextItem
-                      weight="400"
-                      styles={{
-                        fontSize: 14,
-                      }}  
+                      weight="light"
+                      size="md"
                     >au</TextItem>
                     <Pressable
                       onPress={() => {
@@ -451,7 +447,7 @@ export const FilterDateModal = ({
                       ]}
                     >
                       <TextItem 
-                        styles={{
+                        style={{
                           ...style.itemText,
                           color: '#3988FD',
                         }}
@@ -500,8 +496,8 @@ export const FilterDateModal = ({
                       }}
                     >
                       <TextItem 
-                        weight="600"
-                        styles={{
+                        weight="bold"
+                        style={{
                           color: 'white',
                         }}
                       >Valider</TextItem>

@@ -1,35 +1,39 @@
 import { TextProps, Text, TextStyle } from 'react-native';
-import style from "./TextItem.style";
+import styleTextItem, { themeStyle } from "./TextItem.style";
 import { PropsWithChildren } from "react";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { THEME } from '../../assets/palette';
 
 type Props = TextProps & {
-  weight?: TextStyle['fontWeight'];
+  size?: keyof typeof themeStyle.size;
+  weight?: keyof typeof themeStyle.weight;
+  numberOfLines?: number;
+  ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip';
   italic?: boolean;
-  styles?: TextStyle;
+  style?: TextStyle;
 }
 
 export const TextItem = ({
-  weight = '400',
+  weight = 'light',
   italic = false,
+  size,
   numberOfLines,
   ellipsizeMode,
-  styles,
+  style,
   children
 }: PropsWithChildren<Props>) => {
 
   const { theme } = useSelector((state: RootState) => state.generalReducer);
+  const font = `Poppins_${themeStyle.weight[weight as keyof typeof themeStyle.weight]}${italic ? '_Italic' : ''}`;
 
   return (
     <Text 
       style={{
-        fontFamily: `Poppins_${weight}${italic ? '_Italic' : ''}`,
-        ...style.text, 
-        color: THEME.text[theme] as string,
-        ...styles, 
-      }}
+        fontFamily: font,
+        color: themeStyle.color[theme] as string,
+        fontSize: themeStyle.size[size as keyof typeof themeStyle.size],
+        ...style as TextStyle, 
+      } as TextStyle} 
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
     >

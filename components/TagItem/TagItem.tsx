@@ -1,10 +1,8 @@
 import { View, ViewProps, ViewStyle } from 'react-native';
-import tagStyle from "./TagItem.style";
-import { PropsWithChildren } from "react";
+import tagStyle, { themeStyle } from "./TagItem.style";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { THEME } from '../../assets/palette';
-import { useBackgroundColorLoading } from '../../hooks/useBackgroundColorLoading';
 import { TextItem } from '../TextItem/TextItem';
 import { formatTitle } from '../../utils/events';
 import { IconItem } from '../IconItem/IconItem';
@@ -20,15 +18,15 @@ export const TagItem = ({
   IconElt,
   style,
 }: Props) => {
-  const { theme } = useSelector((state: RootState) => state.generalReducer);
+  const { theme } = useSelector((state: RootState) => state.generalReducer)
 
   return (
     <View 
       style={{
         ...style as ViewStyle, 
         ...tagStyle.tagContainer,
-        backgroundColor: THEME.tag.background[theme] as string,
-        borderColor: THEME.tag.border[theme] as string,
+        backgroundColor: themeStyle.background[theme] as string,
+        borderColor: themeStyle.border[theme] as string,
       }}
     >
       { IconElt && (
@@ -39,10 +37,7 @@ export const TagItem = ({
         />
       )}
       <TextItem
-        styles={{
-          fontSize: 12,
-          lineHeight: 18,
-        }} 
+        size='sm'
       >
         {formatTitle(title)}
       </TextItem>

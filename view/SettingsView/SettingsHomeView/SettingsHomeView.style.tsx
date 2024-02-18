@@ -19,10 +19,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  settingsScreenButtonText: {
-    fontSize: 20,
-    fontWeight: '400',
-  },
   settingsScreenButtonIcon: {
   },
   cityWeatherCurrent: {

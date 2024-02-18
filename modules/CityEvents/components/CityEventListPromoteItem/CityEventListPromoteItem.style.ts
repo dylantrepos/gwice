@@ -33,7 +33,6 @@ export default StyleSheet.create({
   promoteEventDate: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: 20,
   },
   promoteEventButton: {
     borderWidth: 1,
@@ -45,7 +44,6 @@ export default StyleSheet.create({
   },
   promoteEventButtonText: {
     color: '#fff',
-    lineHeight: 20,
     textAlign: 'center',
   },
 });

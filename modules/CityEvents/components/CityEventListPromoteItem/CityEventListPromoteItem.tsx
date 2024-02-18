@@ -42,7 +42,8 @@ export const CityEventListPromoteItem = ({
             style={style.promoteEventInfos}
           >
             <TextItem
-              styles={style.promoteEventDate}
+              size="lg"
+              style={style.promoteEventDate}
             >
               Du 31 jan. au 4 fév.
             </TextItem>
@@ -50,7 +51,7 @@ export const CityEventListPromoteItem = ({
               style={style.promoteEventButton}
             >
               <TextItem
-                styles={style.promoteEventButtonText}
+                style={style.promoteEventButtonText}
               >
                 Appuyez pour découvrir
               </TextItem>

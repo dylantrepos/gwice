@@ -1,5 +1,5 @@
 import { Animated, View, ViewProps, ViewStyle } from 'react-native';
-import style from "./ViewItem.style";
+import style, { themeStyle } from "./ViewItem.style";
 import { PropsWithChildren } from "react";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -19,12 +19,11 @@ export const ViewItem = ({
   children
 }: PropsWithChildren<Props>) => {
   const { theme } = useSelector((state: RootState) => state.generalReducer);
-  const {backgroundColor} = useBackgroundColorLoading(isLoading);
 
   return (
     <View 
       style={{
-        backgroundColor: isLoading ? backgroundColor : THEME.view[theme] as string,
+        backgroundColor: themeStyle[theme] as string,
         ...style as ViewStyle, 
       }}
     >
@@ -44,7 +43,7 @@ ViewItem.Animated = ({
   return (
     <Animated.View 
       style={{
-        backgroundColor: isLoading ? backgroundColor : THEME.view[theme] as string,
+        backgroundColor: isLoading ? backgroundColor : themeStyle[theme] as string,
         ...style as ViewStyle, 
       }}
     >

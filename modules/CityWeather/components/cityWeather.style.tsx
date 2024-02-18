@@ -43,10 +43,6 @@ export default StyleSheet.create({
     gap: 5,
     // backgroundColor: 'blue',
   },
-  cityWeatherDate: {
-    fontSize: 15,
-    // marginBottom: 5,
-  },
   cityWeatherInfoDetail: {
     display: 'flex',
     flexDirection: 'row',
@@ -55,13 +51,8 @@ export default StyleSheet.create({
   },
   cityWeatherTempMin: {
     color: '#3988FD',
-    lineHeight: 20,
   },
   cityWeatherTempMax: {
     color: '#FD3939',
-    lineHeight: 20,
   },
-  cityWeatherInfoDetailText: {
-    lineHeight: 20,
-  }
 });

@@ -44,15 +44,7 @@ export const THEME = {
     light: palette.white,
     dark: palette.blackLighter,
   },
-  text: {
-    light: palette.black,
-    dark: palette.white,
-  },
-  view: {
-    light: palette.white,
-    dark: palette.black,
-  },
-  
+
   // Spacing
   spacing: {
     s: 8,
@@ -68,72 +60,6 @@ export const THEME = {
     lg: 20,
     xl: 24,
     xxl: 32,
-  },
-
-  /*
-   * COMPONENTS 
-   */
-
-  // Bottom Navigation
-  bottomNavigation: {
-    background: {
-      light: palette.white,
-      dark: palette.black,
-    },
-    border: {
-      light: palette.grayLight,
-      dark: palette.grayDark,
-    },
-    icon: {
-      color: {
-        light: palette.grayLight,
-        dark: palette.grayLight,
-      },
-      size: {
-        sm: 18,
-        md: 26,
-        lg: 34,
-        xl: 42,
-      },
-    },
-  },
-
-  // Tag
-  tag: {
-    background: {
-      light: palette.grayLighter,
-      dark: palette.blackLighter,
-    },
-    border: {
-      light: palette.grayLight,
-      dark: palette.grayLight,
-    },
-  },
-
-  // Icon 
-  icon: {
-    color: {
-      light: palette.black,
-      dark: palette.white,
-    },
-    size: {
-      sm: 18,
-      md: 26,
-      lg: 34,
-      xl: 42,
-    },
-    stroke: {
-      light: 1,
-      strong: 2,
-    }
-  },
-
-  // Hourly Weather
-  cityWeatherHourlyItem: {
-    halfBorderColor: {
-      light: palette.grayAnother,
-      dark: palette.grayDark,
-    },
   },
 }
 

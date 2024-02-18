@@ -63,9 +63,6 @@ export default StyleSheet.create({
     paddingVertical: 10,
     display: 'flex',
   },
-  culturalEventsCardDetailsTitle: {
-    fontSize: 12,
-  },
   culturalEventsCardDetailsDate: {
     display: 'flex',
     flexDirection: 'row',
@@ -73,8 +70,6 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   culturalEventsCardDetailsDateTitle: {
-    fontSize: 12,
-    lineHeight: 16,
     textAlignVertical: 'center',
   },
 
@@ -108,13 +103,6 @@ export default StyleSheet.create({
     // width: '100%',
     padding: 20,
     paddingBottom: 60,
-  },
-  cardTitle: {
-    color: '#fff',
-    fontSize: 20,
-  },
-  cardDate: {
-    color: '#fff',
   },
   cardDescription: {
     justifyContent: 'flex-end',
