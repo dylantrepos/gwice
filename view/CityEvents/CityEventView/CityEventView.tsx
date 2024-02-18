@@ -3,7 +3,7 @@ import { RefreshControl, ScrollView, View, Image, Pressable, Linking, TouchableO
 import style from './CityEventView.style';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCallback, useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setRefetchHome } from "../../../reducers/generalReducer";
 import { TextItem } from "../../../components/TextItem/TextItem";
 import { CityEventDetails, CityEventDetailsRequest } from "../../../modules/CityEvents/types/Events";
@@ -12,6 +12,9 @@ import PanPinchView from "react-native-pan-pinch-view";
 import { getFormatedDateFromTimestamp } from "../../../utils/utils";
 import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
 import { useGetCityEventDetails } from "../../../modules/CityEvents/hooks/useGetCityEvents";
+import { RootState } from "../../../store/store";
+import { THEME } from "../../../assets/palette";
+import { IconItem } from "../../../components/IconItem/IconItem";
 
 
 type Props = {
@@ -26,6 +29,7 @@ export const CityEventView = ({
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
 
   const handleOpenModal = (open: boolean = true) => {
     setModalVisible(open);
@@ -94,7 +98,10 @@ export const CityEventView = ({
     <SafeAreaView style={style.container}>
       <StatusBar style="auto" />
           <ScrollView 
-                style={style.scrollView}
+                style={{
+                  ...style.scrollView,
+                  backgroundColor: THEME.background[theme] as string,
+                }}
                 refreshControl={
                   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
@@ -150,7 +157,10 @@ export const CityEventView = ({
           </TextItem> }
           <View style={style.infosContainer}>
             <View style={style.infoContainer}>
-              <Calendar size={20} color={'black'}/>
+              <IconItem
+                IconElt={Calendar}
+                size="md"
+              />
               <TextItem 
                 size="md"
                 style={style.date}
@@ -161,7 +171,10 @@ export const CityEventView = ({
               </TextItem>
             </View>
             <View style={style.infoContainer}>
-              <MapPin size={20} color={'black'}/>
+              <IconItem
+                IconElt={MapPin}
+                size="md"
+              />
               <Pressable
                 onPress={() => {
                   Linking.openURL(locationMapUrl);

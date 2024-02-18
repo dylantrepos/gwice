@@ -32,6 +32,5 @@ export default StyleSheet.create({
   },
   settingsLayout: {
     flex: 1,
-    backgroundColor: '#fff',
   },
 });

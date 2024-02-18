@@ -1,13 +1,15 @@
 import { CalendarDays, ChevronDown, Euro, Filter } from "lucide-react-native";
 import { Modal, Pressable, ScrollView, View, Animated, Platform } from 'react-native';
-import style from './CityEventListFilterItem.style';
+import style, { themeStyle } from './CityEventListFilterItem.style';
 import { useEffect, useRef, useState } from "react";
 import { BlurView } from 'expo-blur';
 import moment from 'moment-timezone';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FilterDateItem, filterDate } from "../../utils/events";
 import { TextItem } from "../../../../components/TextItem/TextItem";
 import { DateTimePickerModalItem } from "../../../../components/DateTimePickerModalItem/DateTimePickerModalItem";
+import { IconItem } from "../../../../components/IconItem/IconItem";
+import { RootState } from "../../../../store/store";
 
 
 type CityEventListFilterItemProps = {
@@ -31,6 +33,7 @@ export const CityEventListFilterItem = ({
   const [isPopinVisible, setIsPopinVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
   const animatedValue = useRef(new Animated.Value(0)).current;
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
 
 
   const handlePopin = () => {
@@ -68,14 +71,16 @@ export const CityEventListFilterItem = ({
         showsHorizontalScrollIndicator={false}
       >
         <Pressable
-          style={style.filter}
+          style={{
+            ...style.filter,
+            backgroundColor: themeStyle.filterBackgroundColor[theme] as string,
+          }}
           onPress={handlePopin}
         >
-          <CalendarDays
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
+          <IconItem
+            size="md"
+            stroke="light"
+            IconElt={CalendarDays}
           />
           <TextItem 
             style={style.filterTitle}
@@ -87,53 +92,54 @@ export const CityEventListFilterItem = ({
                 : moment.utc(startDate).format('DD/MM/YYYY')
             }
           </TextItem>
-          <ChevronDown
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
+          <IconItem
+            size="md"
+            stroke="light"
+            IconElt={ChevronDown}
           />
         </Pressable>
         <View
-          style={style.filter}
+          style={{
+            ...style.filter,
+            backgroundColor: themeStyle.filterBackgroundColor[theme] as string,
+          }}
         >
-          <Euro
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
+          <IconItem
+            size="md"
+            stroke="light"
+            IconElt={Euro}
           />
           <TextItem 
             style={style.filterTitle}
           >
             Tous les prix
           </TextItem>
-          <ChevronDown
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
+          <IconItem
+            size="md"
+            stroke="light"
+            IconElt={ChevronDown}
           />
         </View>
         <View
-          style={style.filter}
+          style={{
+            ...style.filter,
+            backgroundColor: themeStyle.filterBackgroundColor[theme] as string,
+          }}
         >
-          <Filter
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
+          <IconItem
+            size="md"
+            stroke="light"
+            IconElt={Euro}
           />
           <TextItem 
             style={style.filterTitle}
           >
             Trier par
           </TextItem>
-          <ChevronDown
-            size={22}
-            color="black"
-            strokeWidth={2}
-            style={style.filterIcon}
+          <IconItem
+            size="md"
+            stroke="light"
+            IconElt={ChevronDown}
           />
         </View>
       </ScrollView>

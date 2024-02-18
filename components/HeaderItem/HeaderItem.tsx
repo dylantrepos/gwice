@@ -4,29 +4,38 @@ import { ChevronLeft, Search } from "lucide-react-native";
 import { TextItem } from "../TextItem/TextItem";
 import style from './HeaderItem.style';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import palette from '../../assets/palette';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { IconItem } from '../IconItem/IconItem';
 
 type Props = TextProps & {
   title?: string;
   titleColor?: string;
   withBackgroundTransparent?: boolean;
+  absolute?: boolean;
   navigation?: any;
   withBackNavigation?: boolean;
   withSearch?: boolean;
   iconColor?: string;
   iconSize?: number;
+  sticky?: boolean;
 }
 
 export const HeaderItem = ({
   title = '',
-  titleColor = '#0D89CE',
+  titleColor = palette.black,
   navigation,
+  absolute = true,
   withBackgroundTransparent = false,
   withBackNavigation = true,
   withSearch = true,
   iconColor = 'black',
   iconSize = 24,
+  sticky = false
 }: PropsWithChildren<Props>) => {
   const insets = useSafeAreaInsets();
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
 
   /**
    * ! Faire un layout commun pour toutes les pages
@@ -44,8 +53,8 @@ console.log('withBackgroundTransparent : ', withBackgroundTransparent);
       style={{
         ...style.headerContainer,
         backgroundColor: withBackgroundTransparent ? 'transparent' : 'white',
-        position: withBackgroundTransparent ? 'absolute' : 'relative',
-        top: withBackgroundTransparent ? insets.top : 0
+        position: absolute ? 'absolute' : 'relative',
+        // top: withBackgroundTransparent ? insets.top : 0
       }}
     >
       <View style={style.headerChevron}>
@@ -54,7 +63,10 @@ console.log('withBackgroundTransparent : ', withBackgroundTransparent);
             onPress={() => navigation.goBack()}
             style={style.headerChevron}
           >
-            <ChevronLeft color={iconColor} size={iconSize}/>
+            <IconItem
+              IconElt={ChevronLeft}
+              size="md"
+            />
         </Pressable>
         )}
       </View>
@@ -65,7 +77,6 @@ console.log('withBackgroundTransparent : ', withBackgroundTransparent);
             weight='bold'
             style={{
               ...style.headerTitle,
-              color: titleColor
             }}
           >
           { title }
@@ -75,10 +86,9 @@ console.log('withBackgroundTransparent : ', withBackgroundTransparent);
         <Pressable
           style={style.iconRight}
         >
-          <Search
-            color={iconColor} 
-            size={iconSize}
-            strokeWidth={2}
+          <IconItem
+            IconElt={Search}
+            size="md"
           />
         </Pressable>
       )}

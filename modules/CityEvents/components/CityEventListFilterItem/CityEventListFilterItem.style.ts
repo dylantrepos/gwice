@@ -1,4 +1,5 @@
 import { Platform, StyleSheet } from "react-native";
+import palette from "../../../../assets/palette";
 
 export default StyleSheet.create({
   filterList: {
@@ -8,7 +9,6 @@ export default StyleSheet.create({
     paddingVertical: 10,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: 'white'
   },
   filter: {
     // color: '#fff',
@@ -36,13 +36,20 @@ export default StyleSheet.create({
     borderColor: 'transparent',
   },
   selectedItem: {
-    borderColor: '#3988FD',
+    borderColor: palette.blue,
     borderWidth: 1,
   },
   itemText: {
     color: 'black',
   },
   selectedItemText: {
-    color: '#3988FD',
+    color: palette.blue,
   },
 });
+
+export const themeStyle = {
+  filterBackgroundColor: {
+    light: palette.white,
+    dark: palette.grayDark,
+  },
+}

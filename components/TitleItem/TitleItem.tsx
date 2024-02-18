@@ -4,13 +4,24 @@ import { TextItem } from '../TextItem/TextItem';
 import { formatTitle } from '../../utils/events';
 import { IconItem } from '../IconItem/IconItem';
 
+type Size = 'sm' | 'md' | 'lg' | 'xl';
+
 type Props = ViewProps & {
   title: string;
   leftIcon?: any;
   rightIcon?: any;
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   style?: ViewStyle;
 }
+
+const sizeAvailable: Size[] = [
+  'sm',
+  'md',
+  'lg',
+  'xl',
+]
+
+const getIconSize = (size: Size) => sizeAvailable.includes(size) ? sizeAvailable[sizeAvailable.findIndex(sizeElt => sizeElt === size) - 2] : 'md';
 
 export const TitleItem = ({
   leftIcon,
@@ -19,6 +30,7 @@ export const TitleItem = ({
   style,
   title,
 }: Props) => {
+
 
   return (
     <View
@@ -31,7 +43,7 @@ export const TitleItem = ({
         {leftIcon && (
           <IconItem
             IconElt={leftIcon}
-            size={size}
+            size={getIconSize(size)}
             stroke="light"
           />
         )}
@@ -45,7 +57,7 @@ export const TitleItem = ({
       {rightIcon && (
         <IconItem
           IconElt={rightIcon} 
-          size={size}
+          size={getIconSize(size)}
           stroke="light"
         />
       )}
@@ -79,7 +91,7 @@ TitleItem.Pressable = ({
         {leftIcon && (
           <IconItem
             IconElt={leftIcon}
-            size={size}
+            size={getIconSize(size)}
             stroke="light"
           />
         )}
@@ -93,7 +105,7 @@ TitleItem.Pressable = ({
       {rightIcon && (
         <IconItem
           IconElt={rightIcon} 
-          size={size}
+          size={getIconSize(size)}
           stroke="light"
         />
       )}

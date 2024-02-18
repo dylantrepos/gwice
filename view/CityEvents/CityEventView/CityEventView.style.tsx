@@ -3,7 +3,6 @@ import { Platform, StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   scrollView: {
     paddingBottom: 40,
@@ -31,7 +30,6 @@ export default StyleSheet.create({
     }),
   },
   infosContainer: {
-    backgroundColor: '#F6F6F6',
     paddingLeft: 10,
     paddingRight: 20,
     paddingVertical: 10,

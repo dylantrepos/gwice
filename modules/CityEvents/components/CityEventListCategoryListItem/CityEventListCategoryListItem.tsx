@@ -1,9 +1,12 @@
 import { useEffect, useRef } from "react";
 import { Animated, FlatList, Pressable, View, Platform } from 'react-native';
-import style from './CityEventListCategoryListItem.style';
+import style, { themeStyle } from './CityEventListCategoryListItem.style';
 import { ListCategoryItem } from "../../types/Events";
 import { formatTitle } from "../../utils/events";
 import { TextItem } from "../../../../components/TextItem/TextItem";
+import { IconItem } from "../../../../components/IconItem/IconItem";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store/store";
 
 type CategoryListItemProps = {
   categories: ListCategoryItem[];
@@ -16,6 +19,7 @@ export const CityEventListCategoryListItem = ({
   categoriesSelected,
   filteredCategoryIdList
 }: CategoryListItemProps) => {
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
 
   const handleToggleCategory = (categoryId: number) => {
     const index = categoriesSelected.indexOf(categoryId);
@@ -82,12 +86,22 @@ export const CityEventListCategoryListItem = ({
                       }),
                     }}
                     >
-                    <IconElt 
+                    <IconItem
+                      color={
+                        categoriesSelected.includes(id) 
+                        ? themeStyle.categoryBackgroundIncludeColor[theme] 
+                        : themeStyle.categoryBackgroundExcludeColor[theme]}
+                      size="xl"
+                      stroke="light"
+                      IconElt={IconElt}
+                      style={style.categoryIcon}
+                    />
+                    {/* <IconElt 
                       color={categoriesSelected.includes(id) ? 'white' : 'black'} 
                       size={34} 
                       strokeWidth={1} 
                       style={style.categoryIcon}
-                      />
+                      /> */}
                   </View>
               )}
               <TextItem 

@@ -225,26 +225,11 @@ export const CityEventCardLargeItem = memo(({
                 {lastThreeCategories.map((category, index) => {
                   const CategoryIconElt = category?.iconElt ?? null;
                   return (
-                    <View 
+                    <TagItem 
                       key={index}
-                      style={style.cardDescriptionCategoryContainer}
-                    >
-                      { CategoryIconElt && (
-                        <View>
-                          <CategoryIconElt
-                            color={'#0D89CE'} 
-                            size={22} 
-                            strokeWidth={1} 
-                            // style={style.categoryIcon}
-                            />
-                        </View>
-                    )}
-                      <TextItem 
-                        style={style.cardDescriptionCategory} 
-                      >
-                        {formatTitle(category?.title ?? '')}
-                      </TextItem>
-                    </View>
+                      title={category?.title ?? ''}
+                      IconElt={CategoryIconElt}
+                    />
                   )
                 })}
               </View>

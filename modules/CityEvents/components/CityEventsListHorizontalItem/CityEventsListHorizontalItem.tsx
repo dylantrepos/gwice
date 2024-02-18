@@ -88,6 +88,7 @@ export const CityEventsListHorizontalItem = ({
     <View style={style.culturalEvents}>
       <TitleItem.Pressable
         title={title}
+        size="xl"
         handleNavigation={handleNavigation}
         rightIcon={ChevronRight}
       />

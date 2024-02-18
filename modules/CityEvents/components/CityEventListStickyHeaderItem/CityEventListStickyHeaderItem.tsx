@@ -11,6 +11,7 @@ import { SearchBarItem } from '../../../../components/SearchBarItem/SearchBarIte
 import { RootState } from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsSearchInputFocused, setSearchValue } from '../../../../reducers/eventReducer';
+import { THEME } from '../../../../assets/palette';
 
 type StickyHeaderProps = {
   filteredCategoryIdList: number[];
@@ -34,6 +35,7 @@ export const CityEventListStickyHeaderItem = ({
   setSelectedItemDate,
 }: StickyHeaderProps) => {
   const { searchValue } = useSelector((state: RootState) => state.eventReducer);  
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
   const dispatch = useDispatch();
   
   const handleSubmitSearchValue = (newSearchValue: string) => {
@@ -47,7 +49,7 @@ export const CityEventListStickyHeaderItem = ({
   return (
     <View
       style={{
-        backgroundColor: 'white',
+        backgroundColor: THEME.background[theme] as string,
       }}
     >
       <SearchBarItem

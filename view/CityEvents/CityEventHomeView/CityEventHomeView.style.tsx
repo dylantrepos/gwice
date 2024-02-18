@@ -9,7 +9,6 @@ export default StyleSheet.create({
   },
   cityEventHomeContainerSafeArea: {
     flex: 1,
-    backgroundColor: '#fff',
     position: 'relative',
   },
   scrollView: {

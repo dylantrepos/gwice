@@ -1,10 +1,13 @@
 import style from './SettingsHomeView.style';
 import { Pressable, View } from "react-native"
-import { Sun } from 'lucide-react-native'
-import { SettingsLayout } from "../../../layouts/SettingsLayout";
+import { Settings, Sun } from 'lucide-react-native'
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { THEME } from '../../../assets/palette';
+import { IconItem } from '../../../components/IconItem/IconItem';
 
 type SettingsHomeViewProps = {
   navigation: any;
@@ -14,7 +17,7 @@ type SettingsHomeViewProps = {
 type SettingsNavButtonProps = {
   title: string;
   navigation: any;
-  icons?: React.ReactNode;
+  icons?: any;
 };
 
 const SettingsNavButton = ({title, navigation, icons}: SettingsNavButtonProps) => {
@@ -24,7 +27,12 @@ const SettingsNavButton = ({title, navigation, icons}: SettingsNavButtonProps) =
       onPress={() => {navigation.push(title)}}
     >
       <View style={style.settingsScreenButtonTextIcon}>
-        {icons ?? null}
+        {icons && (
+          <IconItem
+            IconElt={icons}
+            size="md"
+          />
+        )}
         <TextItem
           weight='regular'
           size='lg'
@@ -39,31 +47,43 @@ const SettingsNavButton = ({title, navigation, icons}: SettingsNavButtonProps) =
 const settingsNavList = [
   {
     title: 'Weather',
-    icons: <Sun color={'black'} />
+    icons: Sun
   },
   {
-    title: 'Other',
+    title: 'General',
+    icons: Settings
   }
 ]
 
 export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps) => {
 
+  const { theme } = useSelector((state: RootState) => state.generalReducer); 
+
   return (
     <SafeAreaView
       style={style.settingsLayout}
     >
-      <HeaderItem 
-        title={route.name}
-        navigation={navigation}
-      />
-    { settingsNavList.map((settingsElt, index) => 
-          <SettingsNavButton 
-            key={`settingsNavList-${index}`}
-            title={settingsElt.title}
-            navigation={navigation}
-            icons={settingsElt.icons}
-          />
-    )}
+      <View
+        style={{
+          backgroundColor: THEME.background[theme] as string,
+          flex: 1,
+        }}
+      >
+        <HeaderItem 
+          title={route.name}
+          navigation={navigation}
+          withBackgroundTransparent={true}
+          absolute={false}
+        />
+      { settingsNavList.map((settingsElt, index) => 
+            <SettingsNavButton 
+              key={`settingsNavList-${index}`}
+              title={settingsElt.title}
+              navigation={navigation}
+              icons={settingsElt.icons}
+            />
+      )}
+      </View>
     </SafeAreaView>
   )
 }

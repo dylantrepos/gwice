@@ -1,8 +1,8 @@
 import { Platform, StyleSheet } from "react-native";
+import palette from "../../../../assets/palette";
 
 export default StyleSheet.create({
   categoryContainer: {
-    backgroundColor: 'white',
     flexDirection: 'row',
   },
   categoryTitleContainer: {
@@ -30,3 +30,18 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export const themeStyle = {
+  categoryBackgroundIncludeColor: {
+    light: palette.white,
+    dark: palette.white,
+  },
+  categoryBackgroundExcludeColor: {
+    light: palette.black,
+    dark: palette.white,
+  },
+  categoryTextColor: {
+    light: palette.black,
+    dark: palette.white,
+  },
+}
