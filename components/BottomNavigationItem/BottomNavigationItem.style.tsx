@@ -6,7 +6,7 @@ export const themeStyle = {
     dark: palette.black,
   },
   border: {
-    light: palette.grayLight,
+    light: palette.grayLighter,
     dark: palette.grayDark,
   },
   icon: {

@@ -5,6 +5,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   scrollView: {
+    gap: 20,
   },
   text: {
     color:'red'

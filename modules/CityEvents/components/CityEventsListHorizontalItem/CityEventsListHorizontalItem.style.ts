@@ -2,7 +2,7 @@ import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   culturalEvents: {
-    // marginBottom: 20,
+    marginBottom: 50,
     height: 'auto',
   },
   culturalEventsTitleContainer: {

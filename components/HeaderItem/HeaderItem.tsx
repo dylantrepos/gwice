@@ -20,6 +20,7 @@ type Props = TextProps & {
   iconColor?: string;
   iconSize?: number;
   sticky?: boolean;
+  stickToTop?: boolean;
 }
 
 export const HeaderItem = ({
@@ -32,29 +33,19 @@ export const HeaderItem = ({
   withSearch = true,
   iconColor = 'black',
   iconSize = 24,
-  sticky = false
+  sticky = false,
+  stickToTop = false,
 }: PropsWithChildren<Props>) => {
   const insets = useSafeAreaInsets();
   const { theme } = useSelector((state: RootState) => state.generalReducer);
 
-  /**
-   * ! Faire un layout commun pour toutes les pages
-   * ! -> avec un header en params
-   * ! + safeareaview
-   * ! + statusbar
-   * ! Pour avoir le header qui se fixe au scroll + background / text color qui change
-   * ! + Faire des variable pour les coulers pour le dark/light mode
-   */
-
-
-console.log('withBackgroundTransparent : ', withBackgroundTransparent);
   return (
     <View 
       style={{
         ...style.headerContainer,
         backgroundColor: withBackgroundTransparent ? 'transparent' : 'white',
         position: absolute ? 'absolute' : 'relative',
-        // top: withBackgroundTransparent ? insets.top : 0
+        top: stickToTop ? insets.top : 0
       }}
     >
       <View style={style.headerChevron}>
@@ -65,6 +56,7 @@ console.log('withBackgroundTransparent : ', withBackgroundTransparent);
           >
             <IconItem
               IconElt={ChevronLeft}
+              color={iconColor}
               size="md"
             />
         </Pressable>
@@ -73,10 +65,11 @@ console.log('withBackgroundTransparent : ', withBackgroundTransparent);
       <View style={style.headerTitle}>
         {title && 
           <TextItem 
-            size='lg'
-            weight='bold'
+            size='xl'
+            weight="regular"
             style={{
               ...style.headerTitle,
+              color: titleColor
             }}
           >
           { title }
@@ -89,6 +82,7 @@ console.log('withBackgroundTransparent : ', withBackgroundTransparent);
           <IconItem
             IconElt={Search}
             size="md"
+            color={iconColor}
           />
         </Pressable>
       )}

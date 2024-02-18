@@ -44,11 +44,12 @@ export const HomeView = ({
       }}
     >
       <StatusBar style="auto" />
-        <HeaderItem
-          withSearch={true}
-          withBackgroundTransparent={true}
-          iconColor="white"
-        />
+      <HeaderItem
+            withSearch={true}
+            withBackgroundTransparent={true}
+            iconColor="white"
+            stickToTop={true}
+          />
         <ScrollView 
           style={{
             ...style.scrollView,
@@ -59,16 +60,6 @@ export const HomeView = ({
           }
         > 
           <CityBackgroundItem />
-          <Pressable
-            onPress={() => {
-              dispatch(setTheme(theme === 'light' ? 'dark' : 'light'))
-              console.log('switch theme')
-            }}
-          >
-            <TextItem>
-              Switch
-            </TextItem>
-          </Pressable>
           <CityEventsListHorizontalItem
             navigation={navigation} 
             route={route} 

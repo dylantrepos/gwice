@@ -38,12 +38,12 @@ const HeaderList = ({
     }}
   >
     <HeaderItem
-              title={'Événements'}
-              titleColor="white"
-              iconColor="white"
-              navigation={navigation}
-              withBackgroundTransparent={true}
-            />
+      title={'Événements'}
+      titleColor="white"
+      iconColor="white"
+      navigation={navigation}
+      withBackgroundTransparent={true}
+    />
     <CityEventListPromoteItem 
       navigation={navigation}
     />

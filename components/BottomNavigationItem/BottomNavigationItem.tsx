@@ -84,68 +84,6 @@ export const BottomNavigationItem = ({
             {tab.screens}
           </Tab.Screen>
         ))}
-        {/* <Tab.Screen 
-          name={name}
-          options={{ 
-            headerShown: false,
-            tabBarLabel: () => null,
-            tabBarIcon: ({ focused, color, size }) => 
-              {icon}
-            ,
-          }}
-          listeners={({ navigation }) => ({
-            tabPress: event => {
-              event.preventDefault();
-              navigation.navigate(name, { screen: screenName });
-            },
-          })}
-        >
-          {screens}
-        </Tab.Screen>
-
-        <Tab.Screen 
-          name="Home-tab" 
-          options={{ 
-            headerShown: false,
-            tabBarLabel: () => null,
-            tabBarIcon: ({ focused, color, size }) => 
-              <Home 
-                color={focused ? '#0D89CE' : 'gray'}
-                height={iconSize.height}
-                width={iconSize.width}
-              />
-            ,
-          }}
-          listeners={({ navigation }) => ({
-            tabPress: event => {
-              event.preventDefault();
-              navigation.navigate('Home-tab', { screen: 'Home' });
-            },
-          })}
-        >
-          {HomeScreens}
-        </Tab.Screen>
-        <Tab.Screen 
-          name="Settings-tab" 
-          options={{ 
-            headerShown: false,
-            tabBarLabel: () => null,
-            tabBarIcon: ({ focused, color, size }) => 
-              <Settings 
-                color={focused ? '#0D89CE' : 'gray'} 
-                height={iconSize.height}
-                width={iconSize.width}
-              />
-          }}
-          listeners={({ navigation }) => ({
-            tabPress: event => {
-              event.preventDefault();
-              navigation.navigate('Settings-tab', { screen: 'Settings' });
-            },
-          })}
-        >
-          {SettingsScreens}
-        </Tab.Screen> */}
       </Tab.Navigator>
     </NavigationContainer>
   )
