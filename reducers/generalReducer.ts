@@ -5,8 +5,10 @@ import { AppDispatch } from "../store/store";
 import moment from "moment";
 import { set } from "date-fns";
 import { WeatherSettings } from "../modules/CityWeather/types/Weather";
+import { Theme } from "../assets/palette";
 
 type State = {
+  theme: Theme;
   currentCity: City;
   currentHomeViewDate: string;
   weatherSettings: WeatherSettings;
@@ -15,6 +17,7 @@ type State = {
 }
 
 const initialState: State = {
+  theme: 'light',
   currentCity: CityLille,
   currentHomeViewDate: moment.utc(1).toISOString(),
   weatherSettings: {
@@ -28,6 +31,9 @@ const generalSlice = createSlice({
   name: 'general',
   initialState,
   reducers: {
+    setTheme: (state, action: PayloadAction<Theme>) => {
+      state.theme = action.payload;
+    },
     setCurrentCity: (state, action: PayloadAction<{cityName: City}>) => {
       state.currentCity = action.payload.cityName;
     },
@@ -49,6 +55,7 @@ const generalSlice = createSlice({
 });
 
 export const { 
+  setTheme,
   setCurrentCity,
   setCurrentHomeViewDate,
   setWeatherSettings,
