@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { HomeView } from './view/HomeView/HomeView';
 import { StatusBar } from 'expo-status-bar';
-import { Provider } from 'react-redux'; // Import Provider
-import { store } from './store/store';
+import { Provider, useSelector } from 'react-redux'; // Import Provider
+import { RootState, store } from './store/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -17,6 +17,7 @@ import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsH
 
 import { Poppins_100Thin, Poppins_100Thin_Italic, Poppins_200ExtraLight, Poppins_200ExtraLight_Italic, Poppins_300Light, Poppins_300Light_Italic, Poppins_400Regular, Poppins_400Regular_Italic, Poppins_500Medium, Poppins_500Medium_Italic, Poppins_600SemiBold, Poppins_600SemiBold_Italic, Poppins_700Bold, Poppins_700Bold_Italic, Poppins_800ExtraBold, Poppins_800ExtraBold_Italic, Poppins_900Black, Poppins_900Black_Italic, useFonts } from "@expo-google-fonts/poppins";
 import { WarningScreenItem } from './components/WarningScreenItem/WarningScreenItem';
+import { BottomNavigationItem } from './components/BottomNavigationItem/BottomNavigationItem';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -71,6 +72,7 @@ const HomeScreens = () => {
 export default function App() {
   const queryClient = new QueryClient();
   const Tab = createBottomTabNavigator();
+
   const iconSize = {
     height: 26,
     width: 26,
@@ -124,26 +126,23 @@ export default function App() {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <StatusBar style='light' />
-        <NavigationContainer>
-          <Tab.Navigator 
-            screenOptions={{
-              tabBarActiveTintColor: '#0D89CE',
-              tabBarInactiveTintColor: 'gray',
-              tabBarStyle: tabStyle.container,
-              tabBarLabelStyle: tabStyle.label,
-              tabBarHideOnKeyboard: true,
-              tabBarVisibilityAnimationConfig: {
-                show: {
-                  animation: 'spring',
-
-                },
-                hide: {
-                  animation: 'spring',
-                }
-              }
-            }}
-          >
-            <Tab.Screen 
+        <BottomNavigationItem 
+          navigatorTabs={[
+            {
+              name: 'Home-tab',
+              screenName: 'Home',
+              icon: Home,
+              screens: HomeScreens,
+            },
+            {
+              name: 'Settings-tab',
+              screenName: 'Settings',
+              icon: Settings,
+              screens: SettingsScreens,
+            },
+          ]}
+        />
+         <Tab.Screen 
               name="Home-tab" 
               options={{ 
                 headerShown: false,
@@ -158,42 +157,13 @@ export default function App() {
               }}
               listeners={({ navigation }) => ({
                 tabPress: event => {
-                  // prevent the default action
                   event.preventDefault();
-            
-                  // navigate to the desired screen
                   navigation.navigate('Home-tab', { screen: 'Home' });
                 },
               })}
             >
               {HomeScreens}
             </Tab.Screen>
-            <Tab.Screen 
-              name="Settings-tab" 
-              options={{ 
-                headerShown: false,
-                tabBarLabel: () => null,
-                tabBarIcon: ({ focused, color, size }) => 
-                  <Settings 
-                    color={focused ? '#0D89CE' : 'gray'} 
-                    height={iconSize.height}
-                    width={iconSize.width}
-                  />
-              }}
-              listeners={({ navigation }) => ({
-                tabPress: event => {
-                  // prevent the default action
-                  event.preventDefault();
-            
-                  // navigate to the desired screen
-                  navigation.navigate('Settings-tab', { screen: 'Settings' });
-                },
-              })}
-            >
-              {SettingsScreens}
-            </Tab.Screen>
-          </Tab.Navigator>
-        </NavigationContainer>
       </QueryClientProvider>
     </Provider>
   );
