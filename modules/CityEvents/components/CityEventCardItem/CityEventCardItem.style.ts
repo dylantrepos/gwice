@@ -75,6 +75,7 @@ export default StyleSheet.create({
   culturalEventsCardDetailsDateTitle: {
     fontSize: 12,
     lineHeight: 16,
+    textAlignVertical: 'center',
   },
 
   // Event Card Large

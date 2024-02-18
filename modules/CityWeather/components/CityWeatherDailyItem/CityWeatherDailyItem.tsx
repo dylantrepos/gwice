@@ -6,6 +6,7 @@ import { animationBounceOptions, animationDurationStaggIn, animationDurationStag
 import { getAnimatedWeatherArray, getFormatedDate } from '../../utils/utils';
 import { useEffect, useRef } from 'react';
 import { cityWeatherInfoElements } from '../cityWeatherInfoElements';
+import { ViewItem } from '../../../../components/ViewItem/ViewItem';
 
 type Props = {
   weather: OpenMeteoDataDaily;
@@ -56,7 +57,7 @@ export const CityWeatherDailyItem = ({
   }, []);
 
   return (
-    <View style={style.cityWeather}> 
+    <ViewItem style={style.cityWeather}> 
       <Animated.View 
         style={{
           ...style.cityAnimated,
@@ -77,6 +78,6 @@ export const CityWeatherDailyItem = ({
         {precipitationItem.component(precipitation, fadePrecipitation)}
         {windSpeedItem.component(windSpeed, fadeWind)}
       </View> 
-    </View>
+    </ViewItem>
   )
 };

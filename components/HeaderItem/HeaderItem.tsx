@@ -28,6 +28,15 @@ export const HeaderItem = ({
 }: PropsWithChildren<Props>) => {
   const insets = useSafeAreaInsets();
 
+  /**
+   * ! Faire un layout commun pour toutes les pages
+   * ! -> avec un header en params
+   * ! + safeareaview
+   * ! + statusbar
+   * ! Pour avoir le header qui se fixe au scroll + background / text color qui change
+   * ! + Faire des variable pour les coulers pour le dark/light mode
+   */
+
 
 console.log('withBackgroundTransparent : ', withBackgroundTransparent);
   return (

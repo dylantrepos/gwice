@@ -2,7 +2,7 @@ import { Platform, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   cityWeatherHourlyContainer: { 
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     borderRadius: 10,
     overflow: 'hidden',
     // width: 84,
@@ -13,7 +13,6 @@ export default StyleSheet.create({
     // width: 84,
   },
   cityWeatherHourlyContainerAnimated: { 
-    backgroundColor: 'white',
     alignItems: 'center',
     // minHeight: 120,
     columnGap: 10,
@@ -22,9 +21,9 @@ export default StyleSheet.create({
   },
   halfBottomBorder: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 10,
     left: 0,
-    height: '60%',
+    height: '50%',
     width: '100%',
     // backgroundColor: '#F6F6F6',
     borderRadius: 10,
@@ -49,6 +48,5 @@ export default StyleSheet.create({
   cityWeatherHourlyTextHour: {
     fontSize: 14,
     fontWeight: '600',
-    // color: '#878787',
   }
 });

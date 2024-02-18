@@ -5,7 +5,8 @@ export default StyleSheet.create({
     width: '90%',
   },
   cityWeatherLargeContainer: {
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
+    overflow: 'hidden',
     backgroundColor: 'white',
     borderRadius: 10,
     minWidth: 300,

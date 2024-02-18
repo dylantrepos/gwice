@@ -1,14 +1,16 @@
 import { StatusBar } from "expo-status-bar"
-import { RefreshControl, ScrollView, View } from "react-native"
+import { Pressable, RefreshControl, ScrollView, View } from "react-native"
 import style from './HomeView.style';
 import { CityBackgroundItem } from "../../components/CityBackgroundItem/CityBackgroundItem";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { setRefetchHome } from "../../reducers/generalReducer";
+import { setRefetchHome, setTheme } from "../../reducers/generalReducer";
 import { RootState } from "../../store/store";
 import { CityEventsListHorizontalItem } from "../../modules/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem";
 import { HeaderItem } from "../../components/HeaderItem/HeaderItem";
+import { THEME } from "../../assets/palette";
+import { TextItem } from "../../components/TextItem/TextItem";
 
 type HomeViewProps = {
   navigation: any;
@@ -20,7 +22,7 @@ export const HomeView = ({
   route
 }: HomeViewProps)  => {
   const [refreshing, setRefreshing] = useState(false);
-  const { currentCity, refetchHome, currentHomeViewDate } = useSelector((state: RootState) => state.generalReducer);
+  const { theme, currentCity, refetchHome, currentHomeViewDate } = useSelector((state: RootState) => state.generalReducer);
   const dispatch = useDispatch();
 
   const onRefresh = useCallback(() => {
@@ -36,7 +38,11 @@ export const HomeView = ({
   }, [currentHomeViewDate]);
 
   return (
-    <SafeAreaView style={style.container}>
+    <SafeAreaView 
+      style={{
+        ...style.container,
+      }}
+    >
       <StatusBar style="auto" />
         <HeaderItem
           withSearch={true}
@@ -44,12 +50,25 @@ export const HomeView = ({
           iconColor="white"
         />
         <ScrollView 
-          style={style.scrollView}
+          style={{
+            ...style.scrollView,
+            backgroundColor: THEME.background[theme] as string,
+          }}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         > 
           <CityBackgroundItem />
+          <Pressable
+            onPress={() => {
+              dispatch(setTheme(theme === 'light' ? 'dark' : 'light'))
+              console.log('switch theme')
+            }}
+          >
+            <TextItem>
+              Switch
+            </TextItem>
+          </Pressable>
           <CityEventsListHorizontalItem
             navigation={navigation} 
             route={route} 

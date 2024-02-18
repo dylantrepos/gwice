@@ -6,6 +6,7 @@ import { getAnimatedWeatherArray } from '../../utils/utils';
 import { capitalizeFirstLetter } from '../../../../utils/utils';
 import { useEffect, useRef } from 'react';
 import { cityWeatherInfoElements } from '../cityWeatherInfoElements';
+import { ViewItem } from '../../../../components/ViewItem/ViewItem';
 
 type Props = {
   imageSource: ImageProps;
@@ -59,7 +60,7 @@ export const CityWeatherCurrentItem = ({
   }, []);
 
   return (
-    <View style={{
+    <ViewItem style={{
       ...style.cityWeather,
       height: 150,
     }}>
@@ -83,6 +84,6 @@ export const CityWeatherCurrentItem = ({
         {precipitationItem.component(precipitation, fadePrecipitation)}
         {windSpeedItem.component(windSpeed, fadeWind)}
       </View> 
-    </View>
+    </ViewItem>
   )
 };

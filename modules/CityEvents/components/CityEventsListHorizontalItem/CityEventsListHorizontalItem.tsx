@@ -12,6 +12,8 @@ import { TextItem } from "../../../../components/TextItem/TextItem";
 import { useInfiniteQuery } from "react-query";
 import { fetchCityEvents } from "../../services/cityEvents";
 import { CityEventsListHorizontalItemRenderProps, Props } from "./CityEventsListHorizontalItem.type";
+import { IconItem } from "../../../../components/IconItem/IconItem";
+import { TitleItem } from "../../../../components/TitleItem/TitleItem";
 
 export const CityEventsListHorizontalItem = ({
   navigation, 
@@ -84,13 +86,22 @@ export const CityEventsListHorizontalItem = ({
 
   return (
     <View style={style.culturalEvents}>
-      <Pressable 
+      <TitleItem.Pressable
+        title={title}
+        handleNavigation={handleNavigation}
+        rightIcon={ChevronRight}
+      />
+      {/* <Pressable 
         style={style.culturalEventsTitleContainer}
         onPress={handleNavigation}
       >
         <TextItem styles={style.culturalEventsTitle} weight="500">{formatTitle(title)}</TextItem>
-        <ChevronRight size={20} color={'black'}/>
-      </Pressable>
+        <IconItem 
+          IconElt={ChevronRight}
+          size="sm"
+          stroke="light"
+        />
+      </Pressable> */}
       <FlatList
         data={(!isLoading ? eventList : fakeWaitingData)}   
         keyExtractor={(item, index) => index.toString()}

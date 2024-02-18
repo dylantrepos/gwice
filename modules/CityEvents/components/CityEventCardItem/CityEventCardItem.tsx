@@ -12,6 +12,8 @@ import { FilterDateItem, allEventsCategoryLille, formatTitle } from "../../utils
 import { TextItem } from "../../../../components/TextItem/TextItem";
 import { formatDate } from "../../../../utils/events";
 import { useBackgroundColorLoading } from "../../../../hooks/useBackgroundColorLoading";
+import { TagItem } from "../../../../components/TagItem/TagItem";
+import { IconItem } from "../../../../components/IconItem/IconItem";
 
 type Props = {
   navigation: any;
@@ -72,28 +74,14 @@ export const CityEventCardItem = ({
           source={{uri: imageSrc}}
         />
       </View>
-      <View 
-        style={style.culturalEventsCardCategory}
-      >
-        { CategoryIconElt && (
-          <View>
-            <CategoryIconElt
-              color={'#0D89CE'} 
-              size={18} 
-              strokeWidth={1} 
-              // style={style.categoryIcon}
-              />
-          </View>
-      )}
-        <TextItem
-          styles={{
-            fontSize: 12,
-            lineHeight: 18,
-          }} 
-        >
-          {formatTitle(firstCategory?.title ?? '')}
-        </TextItem>
-      </View>
+      <TagItem 
+        title={firstCategory?.title ?? ''}
+        IconElt={CategoryIconElt}
+        style={{
+          position: 'absolute',
+          top: 5,
+        }}
+      />
       <View style={style.culturalEventsCardDetails}>
         <TextItem 
           styles={style.culturalEventsCardDetailsTitle} 
@@ -104,7 +92,12 @@ export const CityEventCardItem = ({
           { title['fr'] ?? '' }
         </TextItem>
         <View style={style.culturalEventsCardDetailsDate}>
-          <Calendar size={12} color={'black'} strokeWidth={1}/>
+          {/* <Calendar size={12} color={'black'} strokeWidth={1}/> */}
+          <IconItem 
+            IconElt={Calendar}
+            size="sm"
+            stroke="light"
+          />
           <TextItem styles={style.culturalEventsCardDetailsDateTitle} weight="300">
             {formatDate ({
               inputDateStart: new Date(nextTiming.begin), 
