@@ -23,6 +23,7 @@ type Props = TextProps & {
   stickToTop?: boolean;
 }
 
+
 export const HeaderItem = ({
   title = '',
   titleColor = palette.black,

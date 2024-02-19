@@ -3,10 +3,12 @@ import styleTextItem, { themeStyle } from "./TextItem.style";
 import { PropsWithChildren } from "react";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import palette from '../../assets/palette';
 
 type Props = TextProps & {
   size?: keyof typeof themeStyle.size;
   weight?: keyof typeof themeStyle.weight;
+  color?: string;
   numberOfLines?: number;
   ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip';
   italic?: boolean;
@@ -16,6 +18,7 @@ type Props = TextProps & {
 export const TextItem = ({
   weight = 'light',
   italic = false,
+  color = palette.black,
   size,
   numberOfLines,
   ellipsizeMode,
@@ -30,7 +33,7 @@ export const TextItem = ({
     <Text 
       style={{
         fontFamily: font,
-        color: themeStyle.color[theme] as string,
+        color: color ?? themeStyle.color[theme] as string,
         fontSize: themeStyle.size[size as keyof typeof themeStyle.size],
         ...style as TextStyle, 
       } as TextStyle} 

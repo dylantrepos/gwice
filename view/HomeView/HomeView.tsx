@@ -11,6 +11,8 @@ import { CityEventsListHorizontalItem } from "../../modules/CityEvents/component
 import { HeaderItem } from "../../components/HeaderItem/HeaderItem";
 import { THEME } from "../../assets/palette";
 import { TextItem } from "../../components/TextItem/TextItem";
+import { HeaderItem2 } from "../../components/HeaderItem/HeaderItem2";
+import { Search } from "lucide-react-native";
 
 type HomeViewProps = {
   navigation: any;
@@ -44,12 +46,21 @@ export const HomeView = ({
       }}
     >
       <StatusBar style="auto" />
-      <HeaderItem
-            withSearch={true}
-            withBackgroundTransparent={true}
-            iconColor="white"
-            stickToTop={true}
-          />
+      <View>
+        {/* <HeaderItem
+          withSearch={true}
+          withBackgroundTransparent={true}
+          iconColor="white"
+          stickToTop={true}
+        /> */}
+        {/* <HeaderItem2
+          title="Accueil"
+          leftIcon={Search}
+          rightIcon={Search}
+          withBackNavigation={true}
+          // isAbsolute={true}
+          // withTransparentBackground={true}
+        /> */}
         <ScrollView 
           style={{
             ...style.scrollView,
@@ -67,6 +78,7 @@ export const HomeView = ({
             handleNavigation={() => navigation.push('HomeCulturalEvent')}
           />
         </ScrollView>      
+      </View>
     </SafeAreaView>
   )
 }

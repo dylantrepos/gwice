@@ -3,7 +3,9 @@ import style from './PageHeaderLayout.style';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { HeaderItem } from '../components/HeaderItem/HeaderItem';
+import { HeaderItem2 } from '../components/HeaderItem/HeaderItem2';
+import { View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 type Props = {
@@ -17,16 +19,22 @@ export const PageHeaderLayout = ({
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView 
-      style={style.pageHeaderLayout}
-    >
-      <StatusBar style="auto" />
-      <HeaderItem 
-        title={title}
-        navigation={navigation}
-      />
-        { children }
-    </SafeAreaView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={{
+        flex: 1,
+      }}>
+        <StatusBar style="auto" />
+        <SafeAreaView
+          style={{
+          }}
+        >
+          <HeaderItem2
+            title={title}
+          />
+          { children }  
+        </SafeAreaView>
+      </View>
+    </GestureHandlerRootView>
   );
 };
 

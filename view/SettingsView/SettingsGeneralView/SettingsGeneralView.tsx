@@ -8,7 +8,7 @@ import { SettingsLayout } from '../../../layouts/SettingsLayout';
 import { useNavigation } from '@react-navigation/native';
 import { Plus, Minus } from 'lucide-react-native';
 import { TextItem } from '../../../components/TextItem/TextItem';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
+import { HeaderItem } from '../../../components/HeaderItem/HeaderItem2';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import palette, { THEME } from '../../../assets/palette';
 import { GestureHandlerRootView, Switch } from 'react-native-gesture-handler';

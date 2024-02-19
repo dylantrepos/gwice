@@ -6,7 +6,7 @@ import { RootState, store } from './store/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Home, Settings } from 'lucide-react-native'
+import { ChevronLeft, Home, Search, Settings } from 'lucide-react-native'
 import { Pressable, SafeAreaView, StyleProp, Text, TextStyle, View, ViewStyle } from 'react-native';
 
 // Views
@@ -19,6 +19,8 @@ import { Poppins_100Thin, Poppins_100Thin_Italic, Poppins_200ExtraLight, Poppins
 import { WarningScreenItem } from './components/WarningScreenItem/WarningScreenItem';
 import { BottomNavigationItem } from './components/BottomNavigationItem/BottomNavigationItem';
 import { SettingsGeneralView } from './view/SettingsView/SettingsGeneralView/SettingsGeneralView';
+import { IconItem } from './components/IconItem/IconItem';
+import { TextItem } from './components/TextItem/TextItem';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -52,7 +54,32 @@ const HomeScreens = () => {
   return (
     <HomeStack.Navigator
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+        // headerTransparent: true,
+        headerTitleAlign: 'center',
+        headerBackButtonMenuEnabled: false,
+        headerTitle: params => (
+          <TextItem
+            size='xl'
+            weight='regular'
+          >{params.children}</TextItem>
+        ),
+        headerLeft: () => (
+          <Pressable onPress={() => {}}>
+            <IconItem 
+              IconElt={ChevronLeft}
+              size='md'
+            />
+          </Pressable>
+        ),
+        headerRight: () => (
+          <Pressable onPress={() => {}}>
+            <IconItem 
+              IconElt={Search}
+              size='md'
+            />
+          </Pressable>
+        ),
       }}
       initialRouteName="Home"
     >

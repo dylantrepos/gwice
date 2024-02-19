@@ -3,7 +3,7 @@ import { ImageBackground, Keyboard, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { CityEventCard } from '../../types/Events';
 import { TextItem } from '../../../../components/TextItem/TextItem';
-import { HeaderItem } from '../../../../components/HeaderItem/HeaderItem';
+import { HeaderItem } from '../../../../components/HeaderItem/HeaderItem2';
 
 type Props = {
   navigation: any;

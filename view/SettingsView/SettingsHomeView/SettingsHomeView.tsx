@@ -3,7 +3,7 @@ import { Pressable, View } from "react-native"
 import { Settings, Sun } from 'lucide-react-native'
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
+import { HeaderItem } from '../../../components/HeaderItem/HeaderItem2';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { THEME } from '../../../assets/palette';

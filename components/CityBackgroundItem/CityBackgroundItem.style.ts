@@ -13,6 +13,7 @@ export default StyleSheet.create({
     // height: 400,
     height: '95%',
     position: 'absolute',
+    zIndex: -1,
     width: '100%',
     top: 0,
   },
