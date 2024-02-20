@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Pressable, Animated, Easing, ScrollView } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import style from './SettingsGeneralView.style';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
@@ -9,6 +10,7 @@ import { TextItem } from '../../../components/TextItem/TextItem';
 import palette from '../../../assets/palette';
 import { Switch } from 'react-native-gesture-handler';
 import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
+import { setLanguage } from '../../../reducers/userReducer';
 
 const animationOptions = (value: number) => ({
   toValue: value, 
@@ -20,27 +22,11 @@ const animationOptions = (value: number) => ({
 export const SettingsGeneralView = ({
 
 }) => {
-  const startDailyHour = store.getState().generalReducer.weatherSettings.startDailyHour;
   const { theme } = store.getState().generalReducer;
-  const [currStartDailyHour, setCurrStartDailyHour] = useState(startDailyHour);
+  const { language } = store.getState().userReducer;
   const [isDarkMode, setIsDarkMode] = useState(theme === 'dark'); 
-  const navigation = useNavigation();
+  const [selectedLanguage, setSelectedLanguage] = useState(language);
   const dispatch = useDispatch();
-  const position = useRef(new Animated.Value(1)).current;
-
-  const handleSaveSettings = () => { 
-    dispatch(setWeatherSettings({
-      startDailyHour: currStartDailyHour
-    }));
-    navigation.goBack();
-  };
-  
-  const animate = (value: number) => 
-    Animated.timing(position, animationOptions(value)).start();
-  
-  useEffect(() => {
-    animate(currStartDailyHour !== startDailyHour ? 0 : 1)
-  }, [currStartDailyHour]);
 
   useEffect(() => {
     console.log('theme :', theme);
@@ -50,6 +36,12 @@ export const SettingsGeneralView = ({
     setIsDarkMode(!isDarkMode);
     dispatch(setTheme(isDarkMode ? 'light' : 'dark'));
   }
+
+  const handleSetLanguage = (language: string) => {
+    setSelectedLanguage(language);
+    dispatch(setLanguage(language));
+  }
+
   
   return (
     <PageHeaderLayout
@@ -81,6 +73,18 @@ export const SettingsGeneralView = ({
             />
           </View>
         </Pressable>
+        <View style={style.option}>
+          <TextItem>Changer la langue</TextItem>
+          <Picker
+            selectedValue={selectedLanguage}
+            style={{height: 50, width: 150}}
+            onValueChange={(itemValue, itemIndex) =>
+              handleSetLanguage(itemValue)
+            }>
+            <Picker.Item label="English" value="en" />
+            <Picker.Item label="Français" value="fr" />
+          </Picker>
+        </View>
       </ScrollView>
     </PageHeaderLayout>
   );
