@@ -3,11 +3,12 @@ import { Pressable, View } from "react-native"
 import { Settings, Sun } from 'lucide-react-native'
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem2';
+import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { THEME } from '../../../assets/palette';
 import { IconItem } from '../../../components/IconItem/IconItem';
+import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
 
 type SettingsHomeViewProps = {
   navigation: any;
@@ -60,21 +61,12 @@ export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps) =
   const { theme } = useSelector((state: RootState) => state.generalReducer); 
 
   return (
-    <SafeAreaView
-      style={style.settingsLayout}
+    <PageHeaderLayout
+      headerTitle="Paramètres"
+      headerWithBackNavigation={false}
+      headerWithTransparentBackground={false}
+      headerIsAbsolute={false}
     >
-      <View
-        style={{
-          backgroundColor: THEME.background[theme] as string,
-          flex: 1,
-        }}
-      >
-        <HeaderItem 
-          title={route.name}
-          navigation={navigation}
-          withBackgroundTransparent={true}
-          absolute={false}
-        />
       { settingsNavList.map((settingsElt, index) => 
             <SettingsNavButton 
               key={`settingsNavList-${index}`}
@@ -83,8 +75,7 @@ export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps) =
               icons={settingsElt.icons}
             />
       )}
-      </View>
-    </SafeAreaView>
+    </PageHeaderLayout>
   )
 }
 

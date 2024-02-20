@@ -8,9 +8,10 @@ import { SettingsLayout } from '../../../layouts/SettingsLayout';
 import { useNavigation } from '@react-navigation/native';
 import { Plus, Minus } from 'lucide-react-native';
 import { TextItem } from '../../../components/TextItem/TextItem';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem2';
+import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { THEME } from '../../../assets/palette';
+import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
 
 const animationOptions = (value: number) => ({
   toValue: value, 
@@ -44,24 +45,13 @@ export const SettingsWeatherView = ({
   }, [currStartDailyHour]);
   
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
+    <PageHeaderLayout
+      headerTitle="Paramètres"
+      headerWithBackNavigation={false}
+      headerWithTransparentBackground={false}
+      headerIsAbsolute={false}
     >
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: THEME.background[theme] as string,
-        }}
-      >
-        <HeaderItem
-          title="Weather settings"
-          navigation={navigation}
-          withBackgroundTransparent={true}
-          absolute={false}
-        />
-        <View style={style.weatherInputContainer}>
+      <View style={style.weatherInputContainer}>
           <TextItem 
             weight="regular"
             size="md"
@@ -100,17 +90,17 @@ export const SettingsWeatherView = ({
         </View>
         <View style={style.weatherInputLine} />
         <Animated.View
-        style={[
-          style.closeButtonAnim,
-          {transform: [
-            {
-              translateY: position.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 100],
-              }),
-            },
-          ],}
-        ]}>
+          style={[
+            style.closeButtonAnim,
+            {transform: [
+              {
+                translateY: position.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 100],
+                }),
+              },
+            ],}
+          ]}>
         <Pressable
             onPress={handleSaveSettings}
             style={style.closeButton}
@@ -124,8 +114,7 @@ export const SettingsWeatherView = ({
             </TextItem>
           </Pressable>
         </Animated.View>
-    </View>
-  </SafeAreaView>
+    </PageHeaderLayout>
   );
 };
 

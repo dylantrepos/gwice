@@ -13,6 +13,7 @@ import { THEME } from "../../assets/palette";
 import { TextItem } from "../../components/TextItem/TextItem";
 import { HeaderItem2 } from "../../components/HeaderItem/HeaderItem2";
 import { Search } from "lucide-react-native";
+import { PageHeaderLayout } from "../../layouts/PageHeaderLayout";
 
 type HomeViewProps = {
   navigation: any;
@@ -40,28 +41,13 @@ export const HomeView = ({
   }, [currentHomeViewDate]);
 
   return (
-    <SafeAreaView 
-      style={{
-        ...style.container,
-      }}
+    <PageHeaderLayout 
+      headerTitle="Accueil"
+      headerWithBackNavigation={false}
+      headerWithTransparentBackground={true}
+      headerTitleColor="white"
     >
-      <StatusBar style="auto" />
-      <View>
-        {/* <HeaderItem
-          withSearch={true}
-          withBackgroundTransparent={true}
-          iconColor="white"
-          stickToTop={true}
-        /> */}
-        {/* <HeaderItem2
-          title="Accueil"
-          leftIcon={Search}
-          rightIcon={Search}
-          withBackNavigation={true}
-          // isAbsolute={true}
-          // withTransparentBackground={true}
-        /> */}
-        <ScrollView 
+       <ScrollView 
           style={{
             ...style.scrollView,
             backgroundColor: THEME.background[theme] as string,
@@ -77,8 +63,47 @@ export const HomeView = ({
             title={'Événements culturels'}
             handleNavigation={() => navigation.push('HomeCulturalEvent')}
           />
-        </ScrollView>      
-      </View>
-    </SafeAreaView>
+        </ScrollView>    
+    </PageHeaderLayout>
+    // <SafeAreaView 
+    //   style={{
+    //     ...style.container,
+    //   }}
+    // >
+    //   <StatusBar style="auto" />
+    //   <View>
+    //     {/* <HeaderItem
+    //       withSearch={true}
+    //       withBackgroundTransparent={true}
+    //       iconColor="white"
+    //       stickToTop={true}
+    //     /> */}
+    //     <HeaderItem2
+    //       title="Accueil"
+    //       leftIcon={Search}
+    //       rightIcon={Search}
+    //       withBackNavigation={true}
+    //       // isAbsolute={true}
+    //       // withTransparentBackground={true}
+    //     />
+    //     <ScrollView 
+    //       style={{
+    //         ...style.scrollView,
+    //         backgroundColor: THEME.background[theme] as string,
+    //       }}
+    //       refreshControl={
+    //         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    //       }
+    //     > 
+    //       <CityBackgroundItem />
+    //       <CityEventsListHorizontalItem
+    //         navigation={navigation} 
+    //         route={route} 
+    //         title={'Événements culturels'}
+    //         handleNavigation={() => navigation.push('HomeCulturalEvent')}
+    //       />
+    //     </ScrollView>      
+    //   </View>
+    // </SafeAreaView>
   )
 }

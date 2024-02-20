@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Pressable, Animated, Easing } from 'react-native';
+import { View, Pressable, Animated, Easing, ScrollView } from 'react-native';
 import style from './SettingsGeneralView.style';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
@@ -8,10 +8,11 @@ import { SettingsLayout } from '../../../layouts/SettingsLayout';
 import { useNavigation } from '@react-navigation/native';
 import { Plus, Minus } from 'lucide-react-native';
 import { TextItem } from '../../../components/TextItem/TextItem';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem2';
+import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import palette, { THEME } from '../../../assets/palette';
 import { GestureHandlerRootView, Switch } from 'react-native-gesture-handler';
+import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
 
 const animationOptions = (value: number) => ({
   toValue: value, 
@@ -55,53 +56,37 @@ export const SettingsGeneralView = ({
   }
   
   return (
-    <GestureHandlerRootView
-      style={{
-        flex: 1,
-      }}
+    <PageHeaderLayout
+      headerTitle="Paramètres généraux"
+      headerWithBackNavigation={true}
+      headerWithTransparentBackground={false}
+      headerIsAbsolute={false}
     >
-        <SafeAreaView
-          style={{
-            flex: 1,
-          }}
+      <ScrollView>
+        <Pressable 
+          style={style.option}
+          onPress={handleSetDarkMode}
         >
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: THEME.background[theme] as string,
-            }}
+          <TextItem 
+            weight="regular"
+            size="md"
+            style={style.optionTitle}
           >
-            <HeaderItem
-              title="General settings"
-              navigation={navigation}
-              withBackgroundTransparent={true}
-              absolute={false} 
+            Activer le mode sombre
+          </TextItem>
+          <View 
+            style={style.optionInput}
+          >
+            <Switch
+              value={isDarkMode}
+              onValueChange={handleSetDarkMode}
+              trackColor={{ false: '#767577', true: palette.blue }}
+              thumbColor={theme === 'dark' ? '#f4f3f4' : '#f4f3f4'}
             />
-            <Pressable 
-              style={style.option}
-              onPress={handleSetDarkMode}
-            >
-              <TextItem 
-                weight="regular"
-                size="md"
-                style={style.optionTitle}
-              >
-                Activate dark mode
-              </TextItem>
-              <View 
-                style={style.optionInput}
-              >
-                <Switch
-                  value={isDarkMode}
-                  onValueChange={handleSetDarkMode}
-                  trackColor={{ false: '#767577', true: palette.blue }}
-                  thumbColor={theme === 'dark' ? '#f4f3f4' : '#f4f3f4'}
-                />
-              </View>
-            </Pressable>
-        </View>
-      </SafeAreaView>
-    </GestureHandlerRootView>
+          </View>
+        </Pressable>
+      </ScrollView>
+    </PageHeaderLayout>
   );
 };
 

@@ -1,9 +1,21 @@
 import { Platform, StyleSheet } from "react-native";
+import palette from "../assets/palette";
 
 export default StyleSheet.create({
-  pageHeaderLayout: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
   
 });
+
+export const themeStyle = { 
+  headerBackgroundColor: {
+    light: palette.white,
+    dark: palette.black,
+  },
+  pageBackgroundColor: {
+    light: palette.white,
+    dark: palette.black,
+  },
+  headerTitleColor: {
+    light: palette.black,
+    dark: palette.white,
+  },
+}  

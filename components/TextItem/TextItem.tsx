@@ -18,7 +18,7 @@ type Props = TextProps & {
 export const TextItem = ({
   weight = 'light',
   italic = false,
-  color = palette.black,
+  color,
   size,
   numberOfLines,
   ellipsizeMode,

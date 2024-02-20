@@ -54,32 +54,7 @@ const HomeScreens = () => {
   return (
     <HomeStack.Navigator
       screenOptions={{
-        headerShown: true,
-        // headerTransparent: true,
-        headerTitleAlign: 'center',
-        headerBackButtonMenuEnabled: false,
-        headerTitle: params => (
-          <TextItem
-            size='xl'
-            weight='regular'
-          >{params.children}</TextItem>
-        ),
-        headerLeft: () => (
-          <Pressable onPress={() => {}}>
-            <IconItem 
-              IconElt={ChevronLeft}
-              size='md'
-            />
-          </Pressable>
-        ),
-        headerRight: () => (
-          <Pressable onPress={() => {}}>
-            <IconItem 
-              IconElt={Search}
-              size='md'
-            />
-          </Pressable>
-        ),
+        headerShown: false,
       }}
       initialRouteName="Home"
     >
