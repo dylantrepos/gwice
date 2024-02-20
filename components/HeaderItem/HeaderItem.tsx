@@ -1,4 +1,4 @@
-import { Pressable, TextProps, TextStyle, View, ViewStyle } from 'react-native';
+import { Pressable, TextProps, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
 import { PropsWithChildren } from "react";
 import { ChevronLeft, Search } from "lucide-react-native";
 import { TextItem } from "../TextItem/TextItem";
@@ -8,85 +8,123 @@ import palette from '../../assets/palette';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { IconItem } from '../IconItem/IconItem';
+import {themeStyle as iconThemeStyle} from '../IconItem/IconItem.style';
+import { useNavigation } from '@react-navigation/native';
 
-type Props = TextProps & {
-  title?: string;
-  titleColor?: string;
-  withBackgroundTransparent?: boolean;
-  absolute?: boolean;
-  navigation?: any;
-  withBackNavigation?: boolean;
-  withSearch?: boolean;
-  iconColor?: string;
-  iconSize?: number;
-  sticky?: boolean;
-  stickToTop?: boolean;
+export type HeaderProps = ViewProps & {
+  headerTitle?: string;
+  headerTitleColor?: string;
+  headerLeftIcon?: any;
+  headerRightIcon?: any;
+  headerHandleLeftIconPress?: () => void;
+  headerHandleRightIconPress?: () => void;
+  headerIconSize?: keyof typeof iconThemeStyle.size;
+  headerIconColor?: string | null;
+  headerIconStroke?: keyof typeof iconThemeStyle.stroke;
+  headerBackground?: string;
+  headerWithTransparentBackground?: boolean;
+  headerWithBackNavigation?: boolean;
+  headerStyle?: ViewStyle;
 }
 
-
 export const HeaderItem = ({
-  title = '',
-  titleColor = palette.black,
-  navigation,
-  absolute = true,
-  withBackgroundTransparent = false,
-  withBackNavigation = true,
-  withSearch = true,
-  iconColor = 'black',
-  iconSize = 24,
-  sticky = false,
-  stickToTop = false,
-}: PropsWithChildren<Props>) => {
+  headerTitle = '',
+  headerTitleColor = palette.black,
+  headerLeftIcon = null,
+  headerRightIcon = null,
+  headerHandleLeftIconPress = () => {},
+  headerHandleRightIconPress = () => {},
+  headerIconSize = 'md',
+  headerIconColor = null,
+  headerIconStroke = 'strong',
+  headerBackground,
+  headerWithTransparentBackground = false,
+  headerWithBackNavigation = false,
+  headerStyle,
+}: PropsWithChildren<HeaderProps>) => {
   const insets = useSafeAreaInsets();
-  const { theme } = useSelector((state: RootState) => state.generalReducer);
+  const navigate = useNavigation();
 
   return (
-    <View 
+    <View
       style={{
-        ...style.headerContainer,
-        backgroundColor: withBackgroundTransparent ? 'transparent' : 'white',
-        position: absolute ? 'absolute' : 'relative',
-        top: stickToTop ? insets.top : 0
+        flex: 1,
+        top: insets.top,
+        zIndex: 100,
+        height: 70,
+        width: '100%',
+        backgroundColor: headerWithTransparentBackground ? 'transparent' : headerBackground,
+        position: 'absolute',
+        flexDirection: 'row',
+        ...headerStyle as ViewStyle,
       }}
     >
-      <View style={style.headerChevron}>
-        { (withBackNavigation && navigation) && (
-          <Pressable 
-            onPress={() => navigation.goBack()}
-            style={style.headerChevron}
+      <View
+        style={{
+          flex: 1,
+        }}
+        >
+        { (headerWithBackNavigation && navigate.canGoBack()) && (
+          <Pressable
+          onPress={() => navigate.goBack()}
+          style={style.headerIcon}
           >
-            <IconItem
+            <IconItem 
               IconElt={ChevronLeft}
-              color={iconColor}
-              size="md"
+              size={headerIconSize}
+              color={headerIconColor}
+              stroke={headerIconStroke}
             />
-        </Pressable>
+          </Pressable>
+        )}
+        { !headerWithBackNavigation && headerLeftIcon && (
+          <Pressable
+            onPress={headerHandleLeftIconPress}
+            style={style.headerIcon}
+          >
+            <IconItem 
+              IconElt={headerLeftIcon}
+              size={headerIconSize}
+              color={headerIconColor}
+              stroke={headerIconStroke}
+            />
+          </Pressable>
         )}
       </View>
-      <View style={style.headerTitle}>
-        {title && 
-          <TextItem 
-            size='xl'
-            weight="regular"
-            style={{
-              ...style.headerTitle,
-              color: titleColor
-            }}
-          >
-          { title }
-      </TextItem>}
-      </View>
-      {withSearch && (
-        <Pressable
-          style={style.iconRight}
+      <View
+        style={{  
+          flex: 3,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <TextItem
+          weight="regular"
+          size="xxl"
+          color={headerTitleColor}
         >
-          <IconItem
-            IconElt={Search}
-            size="md"
-            color={iconColor}
-          />
-        </Pressable>
-      )}
+          { headerTitle }
+        </TextItem>
+      </View>
+      <View
+        style={{
+          flex: 1,
+        }}
+      >
+        { headerRightIcon && (
+          <Pressable
+            onPress={headerHandleRightIconPress}
+            style={style.headerIcon}
+          >
+            <IconItem 
+              IconElt={headerRightIcon}
+              size={headerIconSize}
+              color={headerIconColor}
+              stroke={headerIconStroke}
+            />
+          </Pressable>
+        )}
+      </View>
     </View>
   );
 }

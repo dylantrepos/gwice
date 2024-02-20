@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { HeaderItem2, HeaderProps } from '../components/HeaderItem/HeaderItem2';
+import { HeaderItem, HeaderProps } from '../components/HeaderItem/HeaderItem';
 import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import palette from '../assets/palette';
@@ -50,7 +50,7 @@ export const PageHeaderLayout = ({
             flex: 1,
           }}
         >
-          <HeaderItem2
+          <HeaderItem
             headerTitle={headerTitle}
             headerTitleColor={headerTitleColor ?? themeStyle.headerTitleColor[theme]}
             headerLeftIcon={headerLeftIcon}
@@ -58,7 +58,7 @@ export const PageHeaderLayout = ({
             headerHandleLeftIconPress={headerHandleLeftIconPress}
             headerHandleRightIconPress={headerHandleRightIconPress}
             headerIconSize={headerIconSize}
-            headerIconColor={headerIconColor}
+            headerIconColor={headerIconColor ?? themeStyle.headerIconColor[theme]}
             headerIconStroke={headerIconStroke}
             headerWithTransparentBackground={headerWithTransparentBackground}
             headerWithBackNavigation={headerWithBackNavigation}

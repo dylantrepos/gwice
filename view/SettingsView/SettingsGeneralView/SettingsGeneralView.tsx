@@ -4,14 +4,10 @@ import style from './SettingsGeneralView.style';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
 import { setTheme, setWeatherSettings } from '../../../reducers/generalReducer';
-import { SettingsLayout } from '../../../layouts/SettingsLayout';
 import { useNavigation } from '@react-navigation/native';
-import { Plus, Minus } from 'lucide-react-native';
 import { TextItem } from '../../../components/TextItem/TextItem';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import palette, { THEME } from '../../../assets/palette';
-import { GestureHandlerRootView, Switch } from 'react-native-gesture-handler';
+import palette from '../../../assets/palette';
+import { Switch } from 'react-native-gesture-handler';
 import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
 
 const animationOptions = (value: number) => ({

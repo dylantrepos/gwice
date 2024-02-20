@@ -4,13 +4,9 @@ import style from './SettingsWeatherView.style';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
 import { setWeatherSettings } from '../../../reducers/generalReducer';
-import { SettingsLayout } from '../../../layouts/SettingsLayout';
 import { useNavigation } from '@react-navigation/native';
 import { Plus, Minus } from 'lucide-react-native';
 import { TextItem } from '../../../components/TextItem/TextItem';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { THEME } from '../../../assets/palette';
 import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
 
 const animationOptions = (value: number) => ({
@@ -46,8 +42,8 @@ export const SettingsWeatherView = ({
   
   return (
     <PageHeaderLayout
-      headerTitle="Paramètres"
-      headerWithBackNavigation={false}
+      headerTitle="Paramètres météo"
+      headerWithBackNavigation={true}
       headerWithTransparentBackground={false}
       headerIsAbsolute={false}
     >

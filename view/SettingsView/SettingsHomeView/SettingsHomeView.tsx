@@ -2,11 +2,8 @@ import style from './SettingsHomeView.style';
 import { Pressable, View } from "react-native"
 import { Settings, Sun } from 'lucide-react-native'
 import { TextItem } from '../../../components/TextItem/TextItem';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import { THEME } from '../../../assets/palette';
 import { IconItem } from '../../../components/IconItem/IconItem';
 import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
 

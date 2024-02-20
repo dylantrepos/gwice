@@ -1,33 +1,11 @@
 import { Platform, StyleSheet } from "react-native";
+import palette from "../../assets/palette";
 
 export default StyleSheet.create({
-  headerContainer: {
-    display: 'flex',
-    flexDirection: 'row',
+  headerIcon: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
-    paddingVertical: 15,
-    zIndex: 1,
-  },
-  headerChevron: {
-    width: 70,
-    display: 'flex',
-    justifyContent: 'center', 
-    alignItems: 'center',
-    height: 50,
-  },
-  headerTitle: {
-    height: 50,
-    flex: 1,
-    lineHeight: 24,
-    verticalAlign: 'middle',
-    textAlign: 'center',
-  },  
-  iconRight: {
-    width: 70,
-    display: 'flex',
-    justifyContent: 'center', 
-    alignItems: 'center',
-    height: 50,
   }
 });

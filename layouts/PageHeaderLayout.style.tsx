@@ -18,4 +18,8 @@ export const themeStyle = {
     light: palette.black,
     dark: palette.white,
   },
+  headerIconColor: {
+    light: palette.black,
+    dark: palette.white,
+  },
 }  

@@ -9,15 +9,15 @@ import { GestureHandlerRootView, RefreshControl } from "react-native-gesture-han
 import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
 import moment from 'moment-timezone';
 import { filterDate } from "../../../utils/events";
-import { endOfDay, isBefore } from 'date-fns';
+import { isBefore } from 'date-fns';
 import { CityEventListPromoteItem } from "../../../modules/CityEvents/components/CityEventListPromoteItem/CityEventListPromoteItem";
 import { CityEventCardLargeEmptyItem, CityEventCardLargeItem } from "../../../modules/CityEvents/components/CityEventCardItem/CityEventCardItem";
 import { useGetCityEvents } from "../../../modules/CityEvents/hooks/useGetCityEvents";
 import { CityEventListStickyHeaderItem } from "../../../modules/CityEvents/components/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem";
 import { CityEventListFooterItem } from "../../../modules/CityEvents/components/CityEventListFooterItem/CityEventListFooterItem";
 import { RootState } from "../../../store/store";
-import { HeaderItem } from "../../../components/HeaderItem/HeaderItem";
 import { THEME } from "../../../assets/palette";
+import { PageHeaderLayout } from "../../../layouts/PageHeaderLayout";
 
 
 type HeaderListProps = {
@@ -37,13 +37,6 @@ const HeaderList = ({
       handleHeaderHeight(height);
     }}
   >
-    <HeaderItem
-      title={'Événements'}
-      titleColor="white"
-      iconColor="white"
-      navigation={navigation}
-      withBackgroundTransparent={true}
-    />
     <CityEventListPromoteItem 
       navigation={navigation}
     />
@@ -191,95 +184,81 @@ export const CityEventHomeView = ({
   }, [isSearchInputFocused]);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <View style={style.cityEventHomeContainer}>
-        <SafeAreaView
-          style={{
-            ...style.cityEventHomeContainerSafeArea,
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: THEME.background[theme] as string,
-            }}
-          >
-
-            
-            <VirtualizedList
-              removeClippedSubviews={false}
-              contentContainerStyle={{ minHeight: '100%' }}
-              maxToRenderPerBatch={10}
-              windowSize={21}
-              ref={flatListRef}
-              keyboardShouldPersistTaps="handled"
-              onScroll={(event) => {
-                setScrollPosition(event.nativeEvent.contentOffset.y);
-                // if (Keyboard.isVisible()) {
-                //   Keyboard.dismiss();
-                // }
-              }}
-              data={[
-                <CityEventListStickyHeaderItem 
-                  filteredCategoryIdList={filteredCategoryIdList}
-                  handleSetFilteredCategoryIdList={setFilteredCategoryIdList}
-                  startDate={startDate}
-                  setStartDate={setStartDate}
-                  endDate={endDate}
-                  setEndDate={setEndDate}
-                  selectedItemDate={selectedItemDate}
-                  setSelectedItemDate={setSelectedItemDate}
-                  />, 
-                ...(!isLoading ? eventList : fakeWaitingData)
-              ]}
-              initialNumToRender={1}
-              showsVerticalScrollIndicator={false}
-              getItem={(data, index) => data[index]}
-              getItemCount={(data) => data?.length}
-              getItemLayout={(data, index) => (
-                {length: 450, offset: 450 * index, index}
-              )}
-              stickyHeaderHiddenOnScroll={true}
-              stickyHeaderIndices={[1]}
-              refreshControl={
-                <RefreshControl 
-                  refreshing={refreshing} onRefresh={onRefresh} 
-                />
-              }
-              onEndReachedThreshold={5}
-              onEndReached={fetchMoreData}
-              ListHeaderComponent={
-                <HeaderList 
-                  navigation={navigation} 
-                  handleHeaderHeight={setHeaderHeight}
-                />
-              }
-              
-              ListEmptyComponent={
-                <WarningScreenItem 
-                  type={isLoading ? 'loader' : 'error'} 
-                />
-              }
-              renderItem={CityHomeEventRender}
-              ListFooterComponent={() => {
-                return (isLoading || isFetching || isFetchingNextPage || isRefetching) 
-                  ? <>
-                      <CityEventCardLargeEmptyItem />
-                      <CityEventCardLargeEmptyItem />
-                      <CityEventCardLargeEmptyItem />
-                    </>
-                  : (
-                    <CityEventListFooterItem 
-                      isLoading={isLoading}
-                      eventLength={eventList.length}
-                    />
-                  )
-              }}
-              keyExtractor={(item, index) => `${(item as CityEventCard)?.uid?.toString()}-${index}` ?? `${item}-header-${index}`}
-              extraData={selectedItemDate}
-            />
-          </View>
-        </SafeAreaView>
-      </View>
-    </GestureHandlerRootView>
+    <PageHeaderLayout
+      headerWithTransparentBackground={true}
+    >
+      <VirtualizedList
+        removeClippedSubviews={false}
+        contentContainerStyle={{ minHeight: '100%' }}
+        maxToRenderPerBatch={10}
+        windowSize={21}
+        ref={flatListRef}
+        keyboardShouldPersistTaps="handled"
+        onScroll={(event) => {
+          setScrollPosition(event.nativeEvent.contentOffset.y);
+          // if (Keyboard.isVisible()) {
+          //   Keyboard.dismiss();
+          // }
+        }}
+        data={[
+          <CityEventListStickyHeaderItem 
+            filteredCategoryIdList={filteredCategoryIdList}
+            handleSetFilteredCategoryIdList={setFilteredCategoryIdList}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            selectedItemDate={selectedItemDate}
+            setSelectedItemDate={setSelectedItemDate}
+            />, 
+          ...(!isLoading ? eventList : fakeWaitingData)
+        ]}
+        initialNumToRender={1}
+        showsVerticalScrollIndicator={false}
+        getItem={(data, index) => data[index]}
+        getItemCount={(data) => data?.length}
+        getItemLayout={(data, index) => (
+          {length: 450, offset: 450 * index, index}
+        )}
+        stickyHeaderHiddenOnScroll={true}
+        stickyHeaderIndices={[1]}
+        refreshControl={
+          <RefreshControl 
+            refreshing={refreshing} onRefresh={onRefresh} 
+          />
+        }
+        onEndReachedThreshold={5}
+        onEndReached={fetchMoreData}
+        ListHeaderComponent={
+          <HeaderList 
+            navigation={navigation} 
+            handleHeaderHeight={setHeaderHeight}
+          />
+        }
+        
+        ListEmptyComponent={
+          <WarningScreenItem 
+            type={isLoading ? 'loader' : 'error'} 
+          />
+        }
+        renderItem={CityHomeEventRender}
+        ListFooterComponent={() => {
+          return (isLoading || isFetching || isFetchingNextPage || isRefetching) 
+            ? <>
+                <CityEventCardLargeEmptyItem />
+                <CityEventCardLargeEmptyItem />
+                <CityEventCardLargeEmptyItem />
+              </>
+            : (
+              <CityEventListFooterItem 
+                isLoading={isLoading}
+                eventLength={eventList.length}
+              />
+            )
+        }}
+        keyExtractor={(item, index) => `${(item as CityEventCard)?.uid?.toString()}-${index}` ?? `${item}-header-${index}`}
+        extraData={selectedItemDate}
+      />
+    </PageHeaderLayout>
   )
 };

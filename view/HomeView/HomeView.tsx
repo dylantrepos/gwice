@@ -1,18 +1,12 @@
-import { StatusBar } from "expo-status-bar"
-import { Pressable, RefreshControl, ScrollView, View } from "react-native"
+import { RefreshControl, ScrollView } from "react-native"
 import style from './HomeView.style';
 import { CityBackgroundItem } from "../../components/CityBackgroundItem/CityBackgroundItem";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { setRefetchHome, setTheme } from "../../reducers/generalReducer";
+import { setRefetchHome } from "../../reducers/generalReducer";
 import { RootState } from "../../store/store";
 import { CityEventsListHorizontalItem } from "../../modules/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem";
-import { HeaderItem } from "../../components/HeaderItem/HeaderItem";
 import { THEME } from "../../assets/palette";
-import { TextItem } from "../../components/TextItem/TextItem";
-import { HeaderItem2 } from "../../components/HeaderItem/HeaderItem2";
-import { Search } from "lucide-react-native";
 import { PageHeaderLayout } from "../../layouts/PageHeaderLayout";
 
 type HomeViewProps = {
@@ -78,7 +72,7 @@ export const HomeView = ({
     //       iconColor="white"
     //       stickToTop={true}
     //     /> */}
-    //     <HeaderItem2
+    //     <HeaderItem
     //       title="Accueil"
     //       leftIcon={Search}
     //       rightIcon={Search}

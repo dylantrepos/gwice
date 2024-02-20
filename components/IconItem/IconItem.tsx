@@ -7,7 +7,7 @@ import { themeStyle } from './IconItem.style';
 type Props = ViewProps & {
   IconElt?: any;
   size: 'sm' | 'md' | 'lg' | 'xl';
-  color?: string;
+  color?: string | null;
   stroke?: 'light' | 'strong';
   style?: ViewStyle;
 }
