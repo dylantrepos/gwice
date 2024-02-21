@@ -1,0 +1,36 @@
+{
+  "language": "French",
+  "screens": {
+    "home": {
+      "title": "Accueil",
+      "text": {
+        "event": "Événements"
+      }
+    },
+    "settingsHome": {
+      "title": "Paramètres",
+      "text": {
+        "general": "Général",
+        "weather": "Météo"
+      }
+    },
+    "settingsGeneral": {
+      "title": "Général",
+      "text": {
+        "language": "Langue",
+        "darkMode": "Activer le mode sombre"
+      }
+    },
+    "settingsWeather": {
+      "title": "Météo",
+      "text": {
+        "dailyStartHour": "Heure de début quotidienne",
+        "save": "Enregistrer les modifications"
+      }
+    }
+  },
+  "languages": {
+    "english": "Anglais",
+    "french": "Français"
+  }
+}

@@ -8,6 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Plus, Minus } from 'lucide-react-native';
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const animationOptions = (value: number) => ({
   toValue: value, 
@@ -25,6 +27,7 @@ export const SettingsWeatherView = ({
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const position = useRef(new Animated.Value(1)).current;
+  const { t } = useTranslation();
 
   const handleSaveSettings = () => { 
     dispatch(setWeatherSettings({
@@ -42,7 +45,7 @@ export const SettingsWeatherView = ({
   
   return (
     <PageHeaderLayout
-      headerTitle="Paramètres météo"
+      headerTitle={t('screens.settingsWeather.title')}
       headerWithBackNavigation={true}
       headerWithTransparentBackground={false}
       headerIsAbsolute={false}
@@ -53,7 +56,7 @@ export const SettingsWeatherView = ({
             size="md"
             style={style.weatherInputDescription}
           >
-            Start daily hour at
+            {t('screens.settingsWeather.text.dailyStartHour')}
           </TextItem>
           <View style={style.weatherInputRadioContainer}>
             <Pressable  
@@ -106,7 +109,7 @@ export const SettingsWeatherView = ({
               size="lg"
               style={style.closeButtonText}
             >
-              Save settings
+              {t('screens.settingsWeather.text.save')}
             </TextItem>
           </Pressable>
         </Animated.View>

@@ -10,7 +10,7 @@ import { TextItem } from '../../../components/TextItem/TextItem';
 import palette from '../../../assets/palette';
 import { Switch } from 'react-native-gesture-handler';
 import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
-import { setLanguage } from '../../../reducers/userReducer';
+import { useTranslation } from 'react-i18next';
 
 const animationOptions = (value: number) => ({
   toValue: value, 
@@ -23,10 +23,9 @@ export const SettingsGeneralView = ({
 
 }) => {
   const { theme } = store.getState().generalReducer;
-  const { language } = store.getState().userReducer;
   const [isDarkMode, setIsDarkMode] = useState(theme === 'dark'); 
-  const [selectedLanguage, setSelectedLanguage] = useState(language);
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     console.log('theme :', theme);
@@ -38,14 +37,13 @@ export const SettingsGeneralView = ({
   }
 
   const handleSetLanguage = (language: string) => {
-    setSelectedLanguage(language);
-    dispatch(setLanguage(language));
+    i18n.changeLanguage(language)
   }
 
   
   return (
     <PageHeaderLayout
-      headerTitle="Paramètres généraux"
+      headerTitle={t('screens.settingsGeneral.title')}
       headerWithBackNavigation={true}
       headerWithTransparentBackground={false}
       headerIsAbsolute={false}
@@ -60,7 +58,7 @@ export const SettingsGeneralView = ({
             size="md"
             style={style.optionTitle}
           >
-            Activer le mode sombre
+            {t('screens.settingsGeneral.text.darkMode')}
           </TextItem>
           <View 
             style={style.optionInput}
@@ -74,15 +72,15 @@ export const SettingsGeneralView = ({
           </View>
         </Pressable>
         <View style={style.option}>
-          <TextItem>Changer la langue</TextItem>
+          <TextItem>{t('screens.settingsGeneral.text.language')}</TextItem>
           <Picker
-            selectedValue={selectedLanguage}
+            selectedValue={i18n.language}
             style={{height: 50, width: 150}}
             onValueChange={(itemValue, itemIndex) =>
               handleSetLanguage(itemValue)
             }>
-            <Picker.Item label="English" value="en" />
-            <Picker.Item label="Français" value="fr" />
+            <Picker.Item label={t('languages.french')} value="fr" />
+            <Picker.Item label={t('languages.english')} value="en" />
           </Picker>
         </View>
       </ScrollView>

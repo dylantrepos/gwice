@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { IconItem } from '../../../components/IconItem/IconItem';
 import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 type SettingsHomeViewProps = {
   navigation: any;
@@ -15,14 +17,17 @@ type SettingsHomeViewProps = {
 type SettingsNavButtonProps = {
   title: string;
   navigation: any;
+  id: string;
   icons?: any;
 };
 
-const SettingsNavButton = ({title, navigation, icons}: SettingsNavButtonProps) => {
+const SettingsNavButton = ({title, navigation, icons, id}: SettingsNavButtonProps) => {
+  const { t } = useTranslation();
+
   return (
     <Pressable 
       style={style.settingsScreenButton}
-      onPress={() => {navigation.push(title)}}
+      onPress={() => {navigation.push(id)}}
     >
       <View style={style.settingsScreenButtonTextIcon}>
         {icons && (
@@ -44,12 +49,14 @@ const SettingsNavButton = ({title, navigation, icons}: SettingsNavButtonProps) =
 
 const settingsNavList = [
   {
-    title: 'Weather',
-    icons: Sun
+    id: 'General',
+    title: t('screens.settingsHome.text.general'),
+    icons: Settings
   },
   {
-    title: 'General',
-    icons: Settings
+    id: 'Weather',
+    title: t('screens.settingsHome.text.weather'),
+    icons: Sun
   }
 ]
 
@@ -59,19 +66,23 @@ export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps) =
 
   return (
     <PageHeaderLayout
-      headerTitle="Paramètres"
+      headerTitle={t('screens.settingsHome.title')}
       headerWithBackNavigation={false}
       headerWithTransparentBackground={false}
       headerIsAbsolute={false}
     >
-      { settingsNavList.map((settingsElt, index) => 
-            <SettingsNavButton 
-              key={`settingsNavList-${index}`}
-              title={settingsElt.title}
-              navigation={navigation}
-              icons={settingsElt.icons}
-            />
-      )}
+      <SettingsNavButton 
+        title={t('screens.settingsHome.text.general')}
+        navigation={navigation}
+        id={'General'}
+        icons={Settings}
+      />
+      <SettingsNavButton 
+        title={t('screens.settingsHome.text.weather')}
+        navigation={navigation}
+        id={'Weather'}
+        icons={Sun}
+      />
     </PageHeaderLayout>
   )
 }

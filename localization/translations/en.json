@@ -1,0 +1,36 @@
+{
+  "language": "English",
+  "screens": {
+    "home": {
+      "title": "Home",
+      "text": {
+        "event": "Events"
+      }
+    },
+    "settingsHome": {
+      "title": "Settings",
+      "text": {
+        "general": "General",
+        "weather": "Weather"
+      }
+    },
+    "settingsGeneral": {
+      "title": "General",
+      "text": {
+        "language": "Language",
+        "darkMode": "Dark mode"
+      }
+    },
+    "settingsWeather": {
+      "title": "Weather",
+      "text": {
+        "dailyStartHour": "Daily start hour",
+        "save": "Save"
+      }
+    }
+  },
+  "languages": {
+    "english": "English",
+    "french": "French"
+  }
+}

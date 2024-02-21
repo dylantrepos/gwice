@@ -8,7 +8,7 @@ import { RootState } from "../../store/store";
 import { CityEventsListHorizontalItem } from "../../modules/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem";
 import { THEME } from "../../assets/palette";
 import { PageHeaderLayout } from "../../layouts/PageHeaderLayout";
-import { translate } from "../../translate/translate";
+import { useTranslation } from "react-i18next";
 
 type HomeViewProps = {
   navigation: any;
@@ -21,7 +21,8 @@ export const HomeView = ({
 }: HomeViewProps)  => {
   const [refreshing, setRefreshing] = useState(false);
   const { theme, currentCity, refetchHome, currentHomeViewDate } = useSelector((state: RootState) => state.generalReducer);
-  const { language } = useSelector((state: RootState) => state.userReducer);
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
 
   const onRefresh = useCallback(() => {
@@ -56,7 +57,7 @@ export const HomeView = ({
           <CityEventsListHorizontalItem
             navigation={navigation} 
             route={route} 
-            title={translate.eventsTitle[language]}
+            title={t("screens.home.text.event")}
             handleNavigation={() => navigation.push('HomeCulturalEvent')}
           />
         </ScrollView>    
