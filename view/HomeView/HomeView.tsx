@@ -39,7 +39,7 @@ export const HomeView = ({
 
   return (
     <PageHeaderLayout 
-      headerTitle="Accueil"
+      headerTitle={t("screens.home.title")}
       headerWithBackNavigation={false}
       headerWithTransparentBackground={true}
       headerTitleColor="white"

@@ -336,5 +336,6 @@ export type EventsCategory =
     title: string;
     iconName: string;
     iconElt?: LucideIcon | undefined;
+    translationKey?: string;
   };
   

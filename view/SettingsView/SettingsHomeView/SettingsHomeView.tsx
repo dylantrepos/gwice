@@ -22,7 +22,6 @@ type SettingsNavButtonProps = {
 };
 
 const SettingsNavButton = ({title, navigation, icons, id}: SettingsNavButtonProps) => {
-  const { t } = useTranslation();
 
   return (
     <Pressable 
@@ -47,22 +46,9 @@ const SettingsNavButton = ({title, navigation, icons, id}: SettingsNavButtonProp
   )
 }
 
-const settingsNavList = [
-  {
-    id: 'General',
-    title: t('screens.settingsHome.text.general'),
-    icons: Settings
-  },
-  {
-    id: 'Weather',
-    title: t('screens.settingsHome.text.weather'),
-    icons: Sun
-  }
-]
 
 export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps) => {
-
-  const { theme } = useSelector((state: RootState) => state.generalReducer); 
+  const { t } = useTranslation();
 
   return (
     <PageHeaderLayout

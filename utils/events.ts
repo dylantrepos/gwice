@@ -232,39 +232,6 @@ export type FilterDateItem = {
   value: string;
 }
 
-export const filterDate: FilterDateItem[] = [
-  {
-    id: 0,
-    label: 'Toujours',
-    value: 'always',
-  },
-  {
-    id: 1,
-    label: 'Aujourd\'hui',
-    value: 'today',
-  },
-  {
-    id: 2,
-    label: 'Demain',
-    value: 'tomorrow',
-  },
-  {
-    id: 3,
-    label: 'Ce weekend',
-    value: 'weekend',
-  },
-  {
-    id: 4,
-    label: 'Cette semaine',
-    value: 'week',
-  },
-  {
-    id: 5,
-    label: 'Choisir une date',
-    value: 'choose',
-  },
-]
-
 export const formatTitle = (title: string) => {
   const titleUpdate = title.split('-')[0];
   return titleUpdate[0].toUpperCase() + titleUpdate.slice(1);

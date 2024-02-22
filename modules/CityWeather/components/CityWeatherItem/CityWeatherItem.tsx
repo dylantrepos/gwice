@@ -16,6 +16,7 @@ import { setCurrentHomeViewDate } from '../../../../reducers/generalReducer';
 import moment from 'moment';
 import { FlatList } from 'react-native';
 import { WarningScreenItem } from '../../../../components/WarningScreenItem/WarningScreenItem';
+import { useTranslation } from 'react-i18next';
 
 type CityWeatherItemRenderProps = {
   item: any;
@@ -40,6 +41,7 @@ export const CityWeatherItem = () => {
   const [itemWidth, setItemWidth] = useState(20);
   const fakeWaitingData = Array(4).fill(0).map((_, index) => index);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const date = new Date();
   const scrollViewRef = useRef<FlatList>(null);
@@ -82,8 +84,7 @@ export const CityWeatherItem = () => {
   
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 50);
 
-
-  const currentDateText = date.toLocaleDateString('fr-FR', dateOptions);
+  const currentDateText = date.toLocaleDateString(t('dateLocale'), dateOptions);
 
   const updateHourlyWeather = () => {
     if (!isLoading && weather) {

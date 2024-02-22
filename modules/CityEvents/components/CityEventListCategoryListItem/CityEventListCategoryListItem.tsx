@@ -7,6 +7,7 @@ import { TextItem } from "../../../../components/TextItem/TextItem";
 import { IconItem } from "../../../../components/IconItem/IconItem";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
+import { useTranslation } from "react-i18next";
 
 type CategoryListItemProps = {
   categories: ListCategoryItem[];
@@ -20,6 +21,7 @@ export const CityEventListCategoryListItem = ({
   filteredCategoryIdList
 }: CategoryListItemProps) => {
   const { theme } = useSelector((state: RootState) => state.generalReducer);
+  const { t } = useTranslation();
 
   const handleToggleCategory = (categoryId: number) => {
     const index = categoriesSelected.indexOf(categoryId);
@@ -56,7 +58,7 @@ export const CityEventListCategoryListItem = ({
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item, index) => item.title + index}
         renderItem={({item}) => {
-          const { title, id, iconElt: IconElt } = item;
+          const { title, id, iconElt: IconElt, translationKey } = item;
 
           return (
             <Pressable 
@@ -114,7 +116,7 @@ export const CityEventListCategoryListItem = ({
                 size="md"
                 weight="regular"
               >
-                  {formatTitle(title)}
+                  {formatTitle(t(translationKey ?? ''))}
               </TextItem>
             </Pressable>
           )

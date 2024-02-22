@@ -10,6 +10,7 @@ import { TextItem } from "../../../../components/TextItem/TextItem";
 import { DateTimePickerModalItem } from "../../../../components/DateTimePickerModalItem/DateTimePickerModalItem";
 import { IconItem } from "../../../../components/IconItem/IconItem";
 import { RootState } from "../../../../store/store";
+import { useTranslation } from "react-i18next";
 
 
 type CityEventListFilterItemProps = {
@@ -34,6 +35,7 @@ export const CityEventListFilterItem = ({
   const opacity = useRef(new Animated.Value(0)).current;
   const animatedValue = useRef(new Animated.Value(0)).current;
   const { theme } = useSelector((state: RootState) => state.generalReducer);
+  const { t } = useTranslation();
 
 
   const handlePopin = () => {
@@ -86,7 +88,7 @@ export const CityEventListFilterItem = ({
             style={style.filterTitle}
           >
             {selectedItemDate.id !== 5
-              ? selectedItemDate.label
+              ? t(selectedItemDate.translationKey)
               : moment.utc(startDate).format('DDMMYYYY').toString() !== moment.utc(endDate).format('DDMMYYYY').toString()
                 ? `${moment.utc(startDate).format('DD/MM/YYYY')} - ${moment.utc(endDate).format('DD/MM/YYYY')}`
                 : moment.utc(startDate).format('DD/MM/YYYY')
@@ -178,6 +180,7 @@ export const FilterDateModal = ({
   const [showDatePicker, setShowDatePicker] = useState<'start' | 'end' | undefined>();
   const opacity = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const listener = animatedValue.addListener(({ value }) => setCurrAnimValue(value));
@@ -312,6 +315,7 @@ export const FilterDateModal = ({
       setCurrEndDate(currStartDate);
     }
   }, [currStartDate]);
+  
 
   return (
      <Modal
@@ -370,7 +374,7 @@ export const FilterDateModal = ({
                   style={{
                     marginLeft: 10,
                   }}
-                >Choisir la période</TextItem>
+                >{t('screens.events.text.periodTitleChoose')}</TextItem>
 
                 <View
                   style={{
@@ -397,7 +401,7 @@ export const FilterDateModal = ({
                         color: currSelectedItem === item ? '#3988FD' : 'black',
                         }}
                       >
-                        {item.label}
+                        {t(item.translationKey)}
                       </TextItem>
                     </Pressable>
                   ))}
@@ -417,7 +421,7 @@ export const FilterDateModal = ({
                     <TextItem 
                       weight="light"
                       size="md"
-                    >Du</TextItem>
+                    >{t('screens.events.text.periodTitleFrom')}</TextItem>
                     <Pressable
                           onPress={() => {
                             setCurrSelectedItem(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
@@ -441,7 +445,7 @@ export const FilterDateModal = ({
                     <TextItem
                       weight="light"
                       size="md"
-                    >au</TextItem>
+                    >{t('screens.events.text.periodTitleTo')}</TextItem>
                     <Pressable
                       onPress={() => {
                         setCurrSelectedItem(filterDate.find(item => item.value === 'choose') ?? filterDate[0]);
@@ -506,7 +510,7 @@ export const FilterDateModal = ({
                         style={{
                           color: 'white',
                         }}
-                      >Valider</TextItem>
+                      >{t('button.confirm')}</TextItem>
                     </Animated.View>
                   </Pressable>
                 </View>

@@ -36,7 +36,6 @@ export const PageHeaderLayout = ({
   const navigation = useNavigation();
   const { theme } = useSelector((state: RootState) => state.generalReducer);
   const HEIGHT_HEADER = 70;
-  console.log('headerIsAbsolute :', headerIsAbsolute);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

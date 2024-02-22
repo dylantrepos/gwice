@@ -1,10 +1,63 @@
 {
   "language": "French",
+  "dateLocale": "fr-FR",
+  "languages": {
+    "english": "Anglais",
+    "french": "Français"
+  },
+  "button": {
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "search": "Rechercher",
+    "close": "Fermer",
+    "confirm": "Valider"
+  },
+  "eventsCategory": {
+    "workshop": "atelier",
+    "sale": "braderie-brocante",
+    "ceremony": "ceremonie",
+    "cinema": "cinema",
+    "conference": "conference-rencontre",
+    "municipalCouncil": "conseil-municipal",
+    "dance": "danse",
+    "sustainableDevelopment": "developpement-durable",
+    "employment": "emploi",
+    "exhibition": "exposition",
+    "festival": "fete-festival",
+    "training": "formation",
+    "lecture": "lecture",
+    "fashion": "mode",
+    "music": "musique",
+    "publicMeeting": "reunion-publique",
+    "health": "sante",
+    "show": "spectacle",
+    "sport": "sport",
+    "theatre": "theatre",
+    "visit": "visite-balade",
+    "none": "aucune",
+    "seeMore": "voir plus"
+  },
   "screens": {
     "home": {
       "title": "Accueil",
       "text": {
         "event": "Événements"
+      }
+    },
+    "events": {
+      "title": "Événements",
+      "text": {
+        "pushToFindCTA": "Appuyez pour découvrir",
+        "searchBarPlaceholder": "Rechercher un événement...",
+        "noEvents": "Aucun événement à venir",
+        "periodTitleChoose": "Choisissez une période",
+        "periodTitleToday": "Aujourd'hui",
+        "periodTitleTomorrow": "Demain",
+        "periodTitleWeek": "Cette semaine",
+        "periodTitleWeekend": "Ce week-end",
+        "periodTitleAlways": "Toujours",
+        "periodTitleFrom": "Du",
+        "periodTitleTo": "Au"
       }
     },
     "settingsHome": {
@@ -24,13 +77,8 @@
     "settingsWeather": {
       "title": "Météo",
       "text": {
-        "dailyStartHour": "Heure de début quotidienne",
-        "save": "Enregistrer les modifications"
+        "dailyStartHour": "Heure de début quotidienne"
       }
     }
-  },
-  "languages": {
-    "english": "Anglais",
-    "french": "Français"
   }
 }

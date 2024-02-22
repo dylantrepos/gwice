@@ -1,7 +1,7 @@
-import { EventsCategory, ListCategoryItem, Timing } from '../modules/CityEvents/types/Events';
 import { Award, BadgePercent, Bike, BookHeart, Briefcase, Brush, ChevronRight, Clapperboard, Drama, Guitar, HeartPulse, Hotel, Leaf, LucideIcon, MapPin, MessageSquareText, Mic2, Palette, PartyPopper, Popcorn, School, School2, Shirt, Sparkle, Theater, Ticket } from "lucide-react-native";
 import { format, formatDistanceToNow, isAfter, isBefore, endOfDay, addDays, isWithinInterval, endOfWeek, startOfWeek, isWeekend } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { EventsCategory, ListCategoryItem, Timing } from "../types/Events";
 
 export const eventsCategory: Record<EventsCategory, number> = {
   "atelier": 3,
@@ -33,61 +33,71 @@ export const eventsCategoryLille: ListCategoryItem[] = [
     title: "fete-festival",
     id: 13,
     iconName: 'guitar',
-    iconElt: PartyPopper
+    iconElt: PartyPopper,
+    translationKey: "eventsCategory.festival"
   },
   {
     title: "visite-balade",
     id: 23,
     iconName: 'guitar',
-    iconElt: MapPin
+    iconElt: MapPin,
+    translationKey: "eventsCategory.visit"
   },
   {
     title: "musique",
     id: 17,
     iconName: 'guitar',
-    iconElt: Guitar
+    iconElt: Guitar,
+    translationKey: "eventsCategory.music"
   },
   {
     title: "sport",
     id: 21,
     iconName: 'guitar',
-    iconElt: Bike
+    iconElt: Bike,
+    translationKey: "eventsCategory.sport"
   },
   {
     title: "cinema",
     id: 6,
     iconName: 'guitar',
-    iconElt: Clapperboard
+    iconElt: Clapperboard,
+    translationKey: "eventsCategory.cinema"
   },
   {
     title: "atelier",
     id: 3,
     iconName: 'guitar',
-    iconElt: Palette
+    iconElt: Palette,
+    translationKey: "eventsCategory.workshop"
   },
   {
     title: "braderie-brocante",
     id: 4,
     iconName: 'guitar',
-    iconElt: BadgePercent
+    iconElt: BadgePercent,
+    translationKey: "eventsCategory.sale"
   },
   {
     title: "spectacle",
     id: 20,
     iconName: 'guitar',
-    iconElt: Theater
+    iconElt: Theater,
+    translationKey: "eventsCategory.show"
   },
   {
     title: "exposition",
     id: 12,
     iconName: 'guitar',
-    iconElt: Brush
+    iconElt: Brush,
+    translationKey: "eventsCategory.exhibition"
   },
   {
     title: "voir plus",
     id: 28,
     iconName: 'guitar',
-    iconElt: ChevronRight
+    iconElt: ChevronRight,
+    translationKey: "eventsCategory.seeMore",
   },
 ];
 
@@ -230,6 +240,7 @@ export type FilterDateItem = {
   id: number;
   label: string;
   value: string;
+  translationKey: string;
 }
 
 export const filterDate: FilterDateItem[] = [
@@ -237,31 +248,37 @@ export const filterDate: FilterDateItem[] = [
     id: 0,
     label: 'Toujours',
     value: 'always',
+    translationKey: 'screens.events.text.periodTitleAlways'
   },
   {
     id: 1,
     label: 'Aujourd\'hui',
     value: 'today',
+    translationKey: 'screens.events.text.periodTitleToday'
   },
   {
     id: 2,
     label: 'Demain',
     value: 'tomorrow',
+    translationKey: 'screens.events.text.periodTitleTomorrow'
   },
   {
     id: 3,
     label: 'Ce weekend',
     value: 'weekend',
+    translationKey: 'screens.events.text.periodTitleWeekend'
   },
   {
     id: 4,
     label: 'Cette semaine',
     value: 'week',
+    translationKey: 'screens.events.text.periodTitleWeek'
   },
   {
     id: 5,
     label: 'Choisir une date',
     value: 'choose',
+    translationKey: ''
   },
 ]
 

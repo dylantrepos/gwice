@@ -7,6 +7,7 @@ import { getAnimatedWeatherArray, getFormatedDate } from '../../utils/utils';
 import { useEffect, useRef } from 'react';
 import { cityWeatherInfoElements } from '../cityWeatherInfoElements';
 import { ViewItem } from '../../../../components/ViewItem/ViewItem';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   weather: OpenMeteoDataDaily;
@@ -19,6 +20,7 @@ export const CityWeatherDailyItem = ({
 }: Props) => {
   const { temperatureMin, temperatureMax, windSpeed, precipitation, time } = weather;
   const { windSpeedItem, precipitationItem, temperatureMinMaxItem, dateItem } = cityWeatherInfoElements;
+  const { t } = useTranslation();
   
   const fade = useRef(new Animated.Value(0)).current;
   const fadeDate = useRef(new Animated.Value(0)).current;
@@ -73,7 +75,7 @@ export const CityWeatherDailyItem = ({
         />
       </Animated.View>
       <View style={style.cityWeatherInfo}>
-        {dateItem.component(getFormatedDate(time), fadeDate)}
+        {dateItem.component(getFormatedDate(time, t('dateLocale')), fadeDate)}
         {temperatureMinMaxItem.component(temperatureMin, temperatureMax, fadeTemperature)}
         {precipitationItem.component(precipitation, fadePrecipitation)}
         {windSpeedItem.component(windSpeed, fadeWind)}

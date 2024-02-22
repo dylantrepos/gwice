@@ -1,10 +1,63 @@
 {
   "language": "English",
+  "dateLocale": "en-GB",
+  "languages": {
+    "english": "English",
+    "french": "French"
+  },
+  "button": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "search": "Search",
+    "close": "Close",
+    "confirm": "Confirm"
+  },
+  "eventsCategory": {
+    "workshop": "Workshop",
+    "sale": "Sale",
+    "ceremony": "Ceremony",
+    "cinema": "Cinema",
+    "conference": "Conference",
+    "municipalCouncil": "Municipal council",
+    "dance": "Dance",
+    "sustainableDevelopment": "Sustainable development",
+    "employment": "Employment",
+    "exhibition": "Exhibition",
+    "festival": "Festival",
+    "training": "Training",
+    "lecture": "Lecture",
+    "fashion": "Fashion",
+    "music": "Music",
+    "publicMeeting": "Public meeting",
+    "health": "Health",
+    "show": "Show",
+    "sport": "Sport",
+    "theatre": "Theatre",
+    "visit": "Visit",
+    "none": "None",
+    "seeMore": "See more"
+  },
   "screens": {
     "home": {
       "title": "Home",
       "text": {
         "event": "Events"
+      }
+    },
+    "events": {
+      "title": "Events",
+      "text": {
+        "pushToFindCTA": "Push to find out events",
+        "searchBarPlaceholder": "Search events...",
+        "noEvents": "No events found",
+        "periodTitleChoose": "Choose a period",
+        "periodTitleToday": "Today",
+        "periodTitleTomorrow": "Tomorrow",
+        "periodTitleWeek": "This week",
+        "periodTitleWeekend": "This weekend",
+        "periodTitleAlways": "Always",
+        "periodTitleFrom": "From",
+        "periodTitleTo": "To"
       }
     },
     "settingsHome": {
@@ -24,13 +77,8 @@
     "settingsWeather": {
       "title": "Weather",
       "text": {
-        "dailyStartHour": "Daily start hour",
-        "save": "Save"
+        "dailyStartHour": "Daily start hour"
       }
     }
-  },
-  "languages": {
-    "english": "English",
-    "french": "French"
   }
 }

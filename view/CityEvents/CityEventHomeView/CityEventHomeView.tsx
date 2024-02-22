@@ -8,7 +8,6 @@ import { CityEventCard } from "../../../modules/CityEvents/types/Events";
 import { GestureHandlerRootView, RefreshControl } from "react-native-gesture-handler";
 import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
 import moment from 'moment-timezone';
-import { filterDate } from "../../../utils/events";
 import { isBefore } from 'date-fns';
 import { CityEventListPromoteItem } from "../../../modules/CityEvents/components/CityEventListPromoteItem/CityEventListPromoteItem";
 import { CityEventCardLargeEmptyItem, CityEventCardLargeItem } from "../../../modules/CityEvents/components/CityEventCardItem/CityEventCardItem";
@@ -18,6 +17,7 @@ import { CityEventListFooterItem } from "../../../modules/CityEvents/components/
 import { RootState } from "../../../store/store";
 import { THEME } from "../../../assets/palette";
 import { PageHeaderLayout } from "../../../layouts/PageHeaderLayout";
+import { filterDate } from "../../../modules/CityEvents/utils/events";
 
 
 type HeaderListProps = {
@@ -169,12 +169,8 @@ export const CityEventHomeView = ({
   useEffect(() => {
     console.log('[CityEventHomeView] isSearchInputFocused : ', isSearchInputFocused);
     if (isSearchInputFocused) {
-      console.log('flatListRef.current : ', flatListRef.current !== null);
-      console.log('scrollPosition  : ', scrollPosition );
-      console.log('headerHeight : ', headerHeight);
 
       if (flatListRef.current && scrollPosition < headerHeight) {
-        console.log('coucou');
         flatListRef.current.scrollToOffset({ animated: true, offset: headerHeight });
       }
       else if (flatListRef.current && scrollPosition > headerHeight) {

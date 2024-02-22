@@ -27,10 +27,6 @@ export const SettingsGeneralView = ({
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
 
-  useEffect(() => {
-    console.log('theme :', theme);
-  }, [theme]);
-
   const handleSetDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     dispatch(setTheme(isDarkMode ? 'light' : 'dark'));

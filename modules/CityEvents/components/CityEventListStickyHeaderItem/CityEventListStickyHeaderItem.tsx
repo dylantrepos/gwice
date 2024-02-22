@@ -12,6 +12,7 @@ import { RootState } from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsSearchInputFocused, setSearchValue } from '../../../../reducers/eventReducer';
 import { THEME } from '../../../../assets/palette';
+import { useTranslation } from 'react-i18next';
 
 type StickyHeaderProps = {
   filteredCategoryIdList: number[];
@@ -37,6 +38,7 @@ export const CityEventListStickyHeaderItem = ({
   const { searchValue } = useSelector((state: RootState) => state.eventReducer);  
   const { theme } = useSelector((state: RootState) => state.generalReducer);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   
   const handleSubmitSearchValue = (newSearchValue: string) => {
     dispatch(setSearchValue(newSearchValue));
@@ -53,7 +55,7 @@ export const CityEventListStickyHeaderItem = ({
       }}
     >
       <SearchBarItem
-        placeholder="Rechercher un événement"
+        placeholder={t('screens.events.text.searchBarPlaceholder')}
         searchValue={searchValue}
         handleSubmitSearchValue={handleSubmitSearchValue}
         handleIsFocused={handleUpdateIsSearchInputFocused}
