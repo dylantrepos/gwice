@@ -17,7 +17,7 @@ import { CityEventListFooterItem } from "../../../modules/CityEvents/components/
 import { RootState } from "../../../store/store";
 import { THEME } from "../../../assets/palette";
 import { PageHeaderLayout } from "../../../layouts/PageHeaderLayout";
-import { filterDate } from "../../../modules/CityEvents/utils/events";
+import { filterDate } from "../../../modules/CityEvents/utils/date";
 
 
 type HeaderListProps = {

@@ -37,6 +37,16 @@
     "none": "None",
     "seeMore": "See more"
   },
+  "period": {
+    "choose": "Choose a period",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "week": "This week",
+    "weekend": "This weekend",
+    "always": "Always",
+    "from": "From",
+    "to": "To"
+  },
   "screens": {
     "home": {
       "title": "Home",
@@ -49,15 +59,7 @@
       "text": {
         "pushToFindCTA": "Push to find out events",
         "searchBarPlaceholder": "Search events...",
-        "noEvents": "No events found",
-        "periodTitleChoose": "Choose a period",
-        "periodTitleToday": "Today",
-        "periodTitleTomorrow": "Tomorrow",
-        "periodTitleWeek": "This week",
-        "periodTitleWeekend": "This weekend",
-        "periodTitleAlways": "Always",
-        "periodTitleFrom": "From",
-        "periodTitleTo": "To"
+        "noEvents": "No events found"
       }
     },
     "settingsHome": {

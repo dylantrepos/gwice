@@ -334,8 +334,7 @@ export type EventsCategory =
   export type ListCategoryItem = {
     id: number;
     title: string;
-    iconName: string;
-    iconElt?: LucideIcon | undefined;
-    translationKey?: string;
+    iconElt: LucideIcon | undefined;
+    translationKey: string;
   };
   
