@@ -5,7 +5,7 @@ import { CityEventListCategoryListItem } from "../CityEventListCategoryListItem/
 import { CityEventListFilterItem } from "../CityEventListFilterItem/CityEventListFilterItem";
 import { useEffect, useRef, useState } from "react";
 import { Search, X } from "lucide-react-native";
-import { FilterDateItem, eventsCategoryLille } from "../../utils/events";
+import { eventsCategoryLille } from "../../utils/events";
 import { TextItem } from "../../../../components/TextItem/TextItem";
 import { SearchBarItem } from '../../../../components/SearchBarItem/SearchBarItem';
 import { RootState } from '../../../../store/store';
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsSearchInputFocused, setSearchValue } from '../../../../reducers/eventReducer';
 import { THEME } from '../../../../assets/palette';
 import { useTranslation } from 'react-i18next';
+import { FilterDateItem } from '../../utils/date';
 
 type StickyHeaderProps = {
   filteredCategoryIdList: number[];

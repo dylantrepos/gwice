@@ -5,12 +5,13 @@ import { useEffect, useRef, useState } from "react";
 import { BlurView } from 'expo-blur';
 import moment from 'moment-timezone';
 import { useDispatch, useSelector } from "react-redux";
-import { FilterDateItem, filterDate } from "../../utils/events";
 import { TextItem } from "../../../../components/TextItem/TextItem";
 import { DateTimePickerModalItem } from "../../../../components/DateTimePickerModalItem/DateTimePickerModalItem";
 import { IconItem } from "../../../../components/IconItem/IconItem";
 import { RootState } from "../../../../store/store";
 import { useTranslation } from "react-i18next";
+import { FilterDateItem, filterDate } from "../../utils/date";
+import { useGetPeriod } from "../../hooks/useGetPeriod";
 
 
 type CityEventListFilterItemProps = {
@@ -181,6 +182,7 @@ export const FilterDateModal = ({
   const opacity = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { currentPeriod, updatePeriod, allPeriods } = useGetPeriod({ period: 'always' });
 
   useEffect(() => {
     const listener = animatedValue.addListener(({ value }) => setCurrAnimValue(value));
@@ -384,7 +386,28 @@ export const FilterDateModal = ({
                     paddingTop: 10,
                   }}
                 >
-                  {filterDate.map((item, index) => (
+                  {allPeriods.map((item, index) => (
+                     <Pressable
+                      key={index}
+                      onPress={() => {
+                        updatePeriod(item);
+                      }}
+                      style={[
+                        style.item,
+                        currentPeriod.title === item && style.selectedItem
+                      ]}
+                    >
+                      <TextItem 
+                        style={{
+                        ...style.itemText,
+                        color: currentPeriod.title === item ? '#3988FD' : 'black',
+                        }}
+                      >
+                        {t(`period.${item}`)}
+                      </TextItem>
+                    </Pressable>
+                  ))}
+                  {/* {filterDate.map((item, index) => (
                     item.value !== 'choose' && <Pressable
                       key={index}
                       onPress={() => {
@@ -404,7 +427,7 @@ export const FilterDateModal = ({
                         {t(item.translationKey)}
                       </TextItem>
                     </Pressable>
-                  ))}
+                  ))} */}
 
                   <Pressable
                     style={{
