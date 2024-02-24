@@ -1,66 +1,41 @@
 import moment from "moment";
 import { SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { fetchPeriodsAvailable } from "../../../services/date";
+import { setPeriods } from "../../../reducers/eventReducer";
+import { PERIODS } from '../../../types/Date';
 
-type UseGetPeriodProps = {
-  period?: string;
-};
 
 type UseGetPeriod = {
-  currentPeriod: {
-    start: Date;
-    end: Date;
-    title: string;
-  };
-  allPeriods: string[];
-  updatePeriod: (period: string) => void;
+  currentPeriod: PERIODS;
+  periodsAvailable: PERIODS[];
+  updatePeriod: (period: PERIODS) => void;
 };
 
-type Period = {
-    start: Date;
-    end: Date;
-    title: string;
-};
 
-const Periods: Record<string, Period> = {
-  'always': {
-    start: moment.utc().add(1, 'hour').toDate(),
-    end: moment.utc().add(5, 'year').endOf('day').toDate(),
-    title: 'always',
-  },
-  'today': {
-    start: moment.utc().add(1, 'hour').toDate(),
-    end: moment.utc().add(1, 'hour').endOf('day').toDate(),
-    title: 'today',
-  },
-  'tomorrow': {
-    start: moment.utc().add(1, 'day').startOf('day').toDate(),
-    end: moment.utc().add(1, 'day').endOf('day').toDate(),
-    title: 'tomorrow',
-  },
-  'weekend': {
-    start: moment.utc().isoWeekday(6).startOf('day').toDate(),
-    end: moment.utc().isoWeekday(7).endOf('day').toDate(),
-    title: 'weekend',
-  },
-  'week': {
-    start: moment.utc().add(1, 'hours').toDate(),
-    end: moment.utc().isoWeekday(7).endOf('day').toDate(),
-    title: 'week',
-  },
-};
-
-export const useGetPeriod = ({
-  period = 'always'
-}: UseGetPeriodProps): UseGetPeriod  => {
+export const useGetPeriod = (
+  period: PERIODS = PERIODS.ALWAYS): UseGetPeriod => {
   const { t } = useTranslation();
-  
-  const [currentPeriod, setCurrentPeriod] = useState<Period>(Periods[period as string ?? 'always']);
+  const { periods } = useSelector((state: RootState) => state.eventReducer); 
+  const [periodsAvailable, setPeriodsAvailable] = useState<PERIODS[]>(periods);
+  const [currentPeriod, setCurrentPeriod] = useState<PERIODS>(period);
+  const dispatch = useDispatch();
 
-  const updatePeriod = (period: string) => {
-    const periodObj = Periods[period as string];
-    setCurrentPeriod(periodObj ?? Periods['always']);
+  if (periods.length === 0) {
+    const getPeriods = async () => {
+      const fetchPeriod = await fetchPeriodsAvailable();
+      setPeriodsAvailable(fetchPeriod);
+      dispatch(setPeriods(fetchPeriod));
+    }
+    getPeriods();
   }
 
-  return { currentPeriod, updatePeriod, allPeriods: Object.keys(Periods)};
+
+  const updatePeriod = (period: PERIODS) => {
+    setCurrentPeriod(period ?? PERIODS.ALWAYS);
+  }
+
+  return { currentPeriod, updatePeriod, periodsAvailable};
 }

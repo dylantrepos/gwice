@@ -12,6 +12,7 @@ import { RootState } from "../../../../store/store";
 import { useTranslation } from "react-i18next";
 import { FilterDateItem, filterDate } from "../../utils/date";
 import { useGetPeriod } from "../../hooks/useGetPeriod";
+import { PERIODS } from "../../../../types/Date";
 
 
 type CityEventListFilterItemProps = {
@@ -182,7 +183,7 @@ export const FilterDateModal = ({
   const opacity = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { currentPeriod, updatePeriod, allPeriods } = useGetPeriod({ period: 'always' });
+  const { currentPeriod, updatePeriod, periodsAvailable } = useGetPeriod();
 
   useEffect(() => {
     const listener = animatedValue.addListener(({ value }) => setCurrAnimValue(value));
@@ -376,7 +377,7 @@ export const FilterDateModal = ({
                   style={{
                     marginLeft: 10,
                   }}
-                >{t('screens.events.text.periodTitleChoose')}</TextItem>
+                >{t('period.choose')}</TextItem>
 
                 <View
                   style={{
@@ -386,21 +387,21 @@ export const FilterDateModal = ({
                     paddingTop: 10,
                   }}
                 >
-                  {allPeriods.map((item, index) => (
+                  {periodsAvailable?.map((item: PERIODS, index: number) => (
                      <Pressable
-                      key={index}
+                      key={`${item}-${index}`}
                       onPress={() => {
                         updatePeriod(item);
                       }}
                       style={[
                         style.item,
-                        currentPeriod.title === item && style.selectedItem
+                        currentPeriod === item && style.selectedItem
                       ]}
                     >
                       <TextItem 
                         style={{
                         ...style.itemText,
-                        color: currentPeriod.title === item ? '#3988FD' : 'black',
+                        color: currentPeriod === item ? '#3988FD' : 'black',
                         }}
                       >
                         {t(`period.${item}`)}
