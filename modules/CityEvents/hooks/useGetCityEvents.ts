@@ -37,7 +37,7 @@ export const useGetCityEvents = ({
   endDate = null,
   key
 }: UseGetCityEventsProps): UseGetCityEvents => {
-  const { searchValue, currentPeriod } = useSelector((state: RootState) => state.eventReducer);  
+  const { searchValue, currentPeriod, customPeriod } = useSelector((state: RootState) => state.eventReducer);  
 
   useEffect(() => {
     console.log('curr : ', currentPeriod);
@@ -69,6 +69,7 @@ export const useGetCityEvents = ({
         startDate,
         endDate,
         search: searchValue,
+        customPeriod
     }),
     {
       refetchOnWindowFocus: false,

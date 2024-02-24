@@ -1,13 +1,18 @@
 import { SERVER_HOST } from '@env';
 import axios from 'axios';
 import { CityEventCardRequest, CityEventDetailsRequest } from '../types/Events';
-import { store } from '../../../store/store';
+import { RootState, store } from '../../../store/store';
+import { useSelector } from 'react-redux';
 
 
 type FetchLilleCulturalEvents = {
   categoryIdList?: number[];
   nextEventPageIds?: (number | string)[] | null;
   currentPeriod?: string | null;
+  customPeriod?: {
+    startDate: Date;
+    endDate: Date;
+  } | null;
   startDate?: Date | null;
   endDate?: Date | null;
   search?: string | null;
@@ -18,13 +23,13 @@ export const fetchCityEvents = async ({
   categoryIdList = [],
   nextEventPageIds = null,
   currentPeriod = null,
+  customPeriod = null,
   startDate = null,
   endDate = null,
   search = null,
 }: FetchLilleCulturalEvents): Promise<CityEventCardRequest> => {
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().generalReducer.currentCity.cityName;
-  console.log('[fetchCityEvents] period : ', currentPeriod);
   
   const response = await axios.get(
     `${address}/events`, 
@@ -36,9 +41,9 @@ export const fetchCityEvents = async ({
         cityName,
         categoryIdList: categoryIdList.join(','),
         nextEventPageIds,
-        period: currentPeriod ?? null,
-        startDate: startDate ?? null,
-        endDate: endDate ?? null,
+        period: currentPeriod !== 'custom' ? currentPeriod : null,
+        startDate: customPeriod?.startDate ?? null,
+        endDate: customPeriod?.endDate ?? null,
         search: (search && search.length > 0) ? search : null,
       }
     },

@@ -10,4 +10,10 @@ export enum PERIODS {
   TOMORROW = 'tomorrow',
   WEEKEND = 'weekend',
   WEEK = 'week',
+  CUSTOM = 'custom',
+}
+
+export type PickDateRange = {
+  startDate: string;
+  endDate: string;
 }

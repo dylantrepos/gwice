@@ -1,46 +1,24 @@
-import { CalendarDays, ChevronDown, Euro, Filter } from "lucide-react-native";
-import { Modal, Pressable, ScrollView, View, Animated, Platform } from 'react-native';
+import { CalendarDays, ChevronDown, Euro } from "lucide-react-native";
+import { Pressable, ScrollView, View, Animated } from 'react-native';
 import style, { themeStyle } from './CityEventListFilterItem.style';
 import { useEffect, useRef, useState } from "react";
-import { BlurView } from 'expo-blur';
 import moment from 'moment-timezone';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { TextItem } from "../../../../components/TextItem/TextItem";
-import { DateTimePickerModalItem } from "../../../../components/DateTimePickerModalItem/DateTimePickerModalItem";
 import { IconItem } from "../../../../components/IconItem/IconItem";
 import { RootState } from "../../../../store/store";
 import { useTranslation } from "react-i18next";
-import { FilterDateItem, filterDate } from "../../utils/date";
-import { useGetPeriod } from "../../hooks/useGetPeriod";
+
 import { PERIODS } from "../../../../types/Date";
 import { FilterDateModal } from "../CityEventPeriodModal/CityEventPeriodModal";
 
-
-type CityEventListFilterItemProps = {
-  startDate: Date;
-  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
-  endDate: Date;
-  setEndDate: React.Dispatch<React.SetStateAction<Date>>;
-  selectedItemDate: FilterDateItem;
-  setSelectedItemDate: React.Dispatch<React.SetStateAction<FilterDateItem>>;
-}
-
-export const CityEventListFilterItem = ({
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-  selectedItemDate,
-  setSelectedItemDate
-}: CityEventListFilterItemProps) => {
+export const CityEventListFilterItem = () => {
   // Replace with your actual view
   const [isPopinVisible, setIsPopinVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
-  const animatedValue = useRef(new Animated.Value(0)).current;
   const { theme } = useSelector((state: RootState) => state.generalReducer);
-  const { currentPeriod } = useGetPeriod();
+  const { currentPeriod, customPeriod } = useSelector((state: RootState) => state.eventReducer);
   const { t } = useTranslation();
-
 
   const handlePopin = () => {
     Animated.timing(opacity, {
@@ -56,15 +34,8 @@ export const CityEventListFilterItem = ({
   return (
     <>
       <FilterDateModal
-        animatedValue={animatedValue}
         isPopinVisible={isPopinVisible}
         setIsPopinVisible={setIsPopinVisible}
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-        selectedItemDate={selectedItemDate}
-        setSelectedItemDate={setSelectedItemDate}
       />
 
       <ScrollView
@@ -91,11 +62,11 @@ export const CityEventListFilterItem = ({
           <TextItem 
             style={style.filterTitle}
           >
-            {selectedItemDate.id !== 5
+            {currentPeriod !== PERIODS.CUSTOM
               ? t(`period.${currentPeriod}`)
-              : moment.utc(startDate).format('DDMMYYYY').toString() !== moment.utc(endDate).format('DDMMYYYY').toString()
-                ? `${moment.utc(startDate).format('DD/MM/YYYY')} - ${moment.utc(endDate).format('DD/MM/YYYY')}`
-                : moment.utc(startDate).format('DD/MM/YYYY')
+              : customPeriod?.endDate !== customPeriod?.startDate
+                ? `${moment.utc(customPeriod?.startDate).format('DD/MM/YYYY')} - ${moment.utc(customPeriod?.endDate).format('DD/MM/YYYY')}`
+                : moment.utc(customPeriod?.startDate).format('DD/MM/YYYY')
             }
           </TextItem>
           <IconItem

@@ -8,6 +8,7 @@ export const palette = {
   grayAnother: '#F6F6F6',
   grayDark: '#2F2F2F',
   blueLight: '#3988FD',
+  blueLight50: '#3988FD50',
   blue: '#0D89CE',
   red: '#FD3939',
 };

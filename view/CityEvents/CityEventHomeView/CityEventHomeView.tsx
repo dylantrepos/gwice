@@ -64,7 +64,7 @@ export const CityEventHomeView = ({
   const [headerHeight, setHeaderHeight] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [selectedItemDate, setSelectedItemDate] = useState(filterDate[0]);
-  const { isSearchInputFocused } = useSelector((state: RootState) => state.eventReducer);
+  const { isSearchInputFocused, currentPeriod, customPeriod } = useSelector((state: RootState) => state.eventReducer);
   const dispatch = useDispatch();
   const flatListRef = useRef<VirtualizedList<CityEventCard> | null>(null);
   const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
@@ -155,7 +155,7 @@ export const CityEventHomeView = ({
     if (flatListRef.current && scrollPosition > headerHeight) {
       flatListRef.current.scrollToOffset({ animated: false, offset: headerHeight });
     }
-  }, [filteredCategoryIdList, startDate, endDate, selectedItemDate]);
+  }, [filteredCategoryIdList, currentPeriod, customPeriod]);
 
   useEffect(() => {
     if (!isLoading && events) {
@@ -190,9 +190,6 @@ export const CityEventHomeView = ({
         keyboardShouldPersistTaps="handled"
         onScroll={(event) => {
           setScrollPosition(event.nativeEvent.contentOffset.y);
-          // if (Keyboard.isVisible()) {
-          //   Keyboard.dismiss();
-          // }
         }}
         data={[
           <CityEventListStickyHeaderItem 

@@ -7,13 +7,17 @@ type State = {
   isSearchInputFocused: boolean;
   periods: PERIODS[];
   currentPeriod: string;
+  customPeriod?: {
+    startDate: string;
+    endDate: string;
+  };
 }
 
 const initialState: State = {
   searchValue: '',
   isSearchInputFocused: false,
   periods: [],
-  currentPeriod: PERIODS.ALWAYS
+  currentPeriod: PERIODS.ALWAYS,
 };
 
 const eventSlice = createSlice({
@@ -32,6 +36,10 @@ const eventSlice = createSlice({
     setCurrentPeriod: (state, action: PayloadAction<string>) => {
       state.currentPeriod = action.payload;
     },
+    setCustomPeriod: (state, action: PayloadAction<{startDate: string, endDate: string}>) => {
+      console.log('action.payload', action.payload);
+      state.customPeriod = action.payload;
+    }
   }
 });
 
@@ -39,7 +47,8 @@ export const {
   setSearchValue,
   setIsSearchInputFocused,
   setPeriods,
-  setCurrentPeriod
+  setCurrentPeriod,
+  setCustomPeriod
 } = eventSlice.actions;
 
 export default eventSlice.reducer;
