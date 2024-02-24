@@ -6,12 +6,14 @@ type State = {
   searchValue: string;
   isSearchInputFocused: boolean;
   periods: PERIODS[];
+  currentPeriod: string;
 }
 
 const initialState: State = {
   searchValue: '',
   isSearchInputFocused: false,
-  periods: []
+  periods: [],
+  currentPeriod: PERIODS.ALWAYS
 };
 
 const eventSlice = createSlice({
@@ -26,14 +28,18 @@ const eventSlice = createSlice({
     },
     setPeriods: (state, action: PayloadAction<PERIODS[]>) => {
       state.periods = action.payload;
-    }
+    },
+    setCurrentPeriod: (state, action: PayloadAction<string>) => {
+      state.currentPeriod = action.payload;
+    },
   }
 });
 
 export const { 
   setSearchValue,
   setIsSearchInputFocused,
-  setPeriods
+  setPeriods,
+  setCurrentPeriod
 } = eventSlice.actions;
 
 export default eventSlice.reducer;

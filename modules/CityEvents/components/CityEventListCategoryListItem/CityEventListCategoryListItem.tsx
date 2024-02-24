@@ -27,10 +27,8 @@ export const CityEventListCategoryListItem = ({
     const index = categoriesSelected.indexOf(categoryId);
     if (index === -1) {
       filteredCategoryIdList([...categoriesSelected, categoryId]);
-      console.log('categoriesSelected: added');
     } else {
       filteredCategoryIdList(categoriesSelected.filter((cat) => cat !== categoryId));
-      console.log('categoriesSelected: removed');
     }
   }
 

@@ -8,12 +8,13 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import { CityEventCard } from "../../types/Events";
 import { RootState } from "../../../../store/store";
-import { FilterDateItem, allEventsCategoryLille, formatTitle } from "../../utils/events";
+import { allEventsCategoryLille, formatTitle } from "../../utils/events";
 import { TextItem } from "../../../../components/TextItem/TextItem";
 import { formatDate } from "../../../../utils/events";
 import { useBackgroundColorLoading } from "../../../../hooks/useBackgroundColorLoading";
 import { TagItem } from "../../../../components/TagItem/TagItem";
 import { IconItem } from "../../../../components/IconItem/IconItem";
+import { FilterDateItem } from "../../utils/date";
 
 type Props = {
   navigation: any;
@@ -51,7 +52,6 @@ export const CityEventCardItem = ({
   }, []);
 
   const handlePress = () => {
-    console.log('Pressed!');
     navigation.push('CulturalEvent', {eventId});
   }
 
@@ -162,7 +162,6 @@ export const CityEventCardLargeItem = memo(({
   }, []);
 
   const handlePress = () => {
-    console.log('Pressed!');
     navigation.push('CulturalEvent', {eventId: uid});
   }
 

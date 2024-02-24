@@ -9,18 +9,17 @@ import { PERIODS } from '../../../types/Date';
 
 
 type UseGetPeriod = {
-  currentPeriod: PERIODS;
-  periodsAvailable: PERIODS[];
-  updatePeriod: (period: PERIODS) => void;
+  currentPeriod: string;
+  periodsAvailable: string[];
+  updatePeriod: (period: string) => void;
 };
 
 
 export const useGetPeriod = (
-  period: PERIODS = PERIODS.ALWAYS): UseGetPeriod => {
-  const { t } = useTranslation();
+  period: string = PERIODS.ALWAYS): UseGetPeriod => {
   const { periods } = useSelector((state: RootState) => state.eventReducer); 
   const [periodsAvailable, setPeriodsAvailable] = useState<PERIODS[]>(periods);
-  const [currentPeriod, setCurrentPeriod] = useState<PERIODS>(period);
+  const [currentPeriod, setCurrentPeriod] = useState<string>(period);
   const dispatch = useDispatch();
 
   if (periods.length === 0) {
@@ -33,7 +32,7 @@ export const useGetPeriod = (
   }
 
 
-  const updatePeriod = (period: PERIODS) => {
+  const updatePeriod = (period: string) => {
     setCurrentPeriod(period ?? PERIODS.ALWAYS);
   }
 

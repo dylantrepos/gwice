@@ -70,7 +70,6 @@ export const PageHeaderLayout = ({
             }}
             onLayout={(event) => {
               const {height} = event.nativeEvent.layout;
-              console.log('height :', height);
             }}
           />
           <View

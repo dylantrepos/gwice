@@ -1,4 +1,4 @@
-import i18n from 'i18next';
+import i18n, { ModuleType } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { en, fr } from "./translations";
 import AsyncStorage from "@react-native-async-storage/async-storage";

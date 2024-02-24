@@ -44,11 +44,9 @@ const generalSlice = createSlice({
       state.weatherSettings = action.payload;
     },
     setRefetchHome: (state, action: PayloadAction<boolean>) => {
-      console.log('setRefetchHome :', action.payload);
       state.refetchHome = action.payload;
     },
     setRefetchCityEventHome: (state, action: PayloadAction<boolean>) => {
-      console.log('setRefetchCityEventHome :', action.payload);
       state.refetchCityEventHome = action.payload;
     },
   }

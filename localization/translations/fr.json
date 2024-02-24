@@ -37,6 +37,16 @@
     "none": "aucune",
     "seeMore": "voir plus"
   },
+  "period": {
+    "choose": "Choix de la période",
+    "today": "Aujourd'hui",
+    "tomorrow": "Demain",
+    "week": "Cette semaine",
+    "weekend": "Ce week-end",
+    "always": "Toujours",
+    "from": "Du",
+    "to": "au"
+  },
   "screens": {
     "home": {
       "title": "Accueil",

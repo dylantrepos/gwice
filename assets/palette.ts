@@ -10,7 +10,6 @@ export const palette = {
   blueLight: '#3988FD',
   blue: '#0D89CE',
   red: '#FD3939',
-
 };
 
 export type Theme = 'light' | 'dark';

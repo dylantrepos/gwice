@@ -65,7 +65,6 @@ export const CityEventHomeView = ({
   const [scrollPosition, setScrollPosition] = useState(0);
   const [selectedItemDate, setSelectedItemDate] = useState(filterDate[0]);
   const { isSearchInputFocused } = useSelector((state: RootState) => state.eventReducer);
-  const { theme } = useSelector((state: RootState) => state.generalReducer);
   const dispatch = useDispatch();
   const flatListRef = useRef<VirtualizedList<CityEventCard> | null>(null);
   const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
@@ -167,7 +166,6 @@ export const CityEventHomeView = ({
 
 
   useEffect(() => {
-    console.log('[CityEventHomeView] isSearchInputFocused : ', isSearchInputFocused);
     if (isSearchInputFocused) {
 
       if (flatListRef.current && scrollPosition < headerHeight) {

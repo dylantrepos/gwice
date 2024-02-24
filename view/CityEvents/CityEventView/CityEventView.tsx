@@ -73,7 +73,6 @@ export const CityEventView = ({
     'categories-metropolitaines': category
   } = (events as CityEventDetailsRequest).events[0] as CityEventDetails;
 
-  console.log('CulturalEventsView.tsx: event: ', title);
 
   const imageSrc = `${image.base}${image.filename}`;
   const siteLink = links?.length > 0 ? links[0].link : null;

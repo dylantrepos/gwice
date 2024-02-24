@@ -33,9 +33,6 @@ export const HomeView = ({
     }, 1000);
   }, []);
 
-  useEffect(() => {
-    console.log('currentHomeViewDate :', currentHomeViewDate);
-  }, [currentHomeViewDate]);
 
   return (
     <PageHeaderLayout 

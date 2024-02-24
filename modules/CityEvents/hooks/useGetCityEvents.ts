@@ -3,6 +3,8 @@ import { CityEventCardRequest, CityEventDetailsRequest } from '../types/Events';
 import { fetchCityEventDetails, fetchCityEvents } from '../services/cityEvents';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
+import { useGetPeriod } from './useGetPeriod';
+import { useEffect } from 'react';
 
 /*
  * Get City Events 
@@ -35,7 +37,11 @@ export const useGetCityEvents = ({
   endDate = null,
   key
 }: UseGetCityEventsProps): UseGetCityEvents => {
-  const { searchValue } = useSelector((state: RootState) => state.eventReducer);  
+  const { searchValue, currentPeriod } = useSelector((state: RootState) => state.eventReducer);  
+
+  useEffect(() => {
+    console.log('curr : ', currentPeriod);
+  }, [currentPeriod])
 
   const { 
     isLoading, 
@@ -54,10 +60,12 @@ export const useGetCityEvents = ({
       startDate, 
       endDate,
       searchValue,
+      currentPeriod
     ], 
     ({pageParam: nextEventPageIds = null}) => fetchCityEvents({ 
         categoryIdList, 
         nextEventPageIds,
+        currentPeriod,
         startDate,
         endDate,
         search: searchValue,

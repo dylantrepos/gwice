@@ -63,7 +63,6 @@ export const SearchBarItem = ({
     const keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       () => {
-        console.log('Keyboard Hidden');
         setIsFocused(false);
         inputRef.current?.blur();
       }
@@ -75,7 +74,6 @@ export const SearchBarItem = ({
   }, []);
 
   useEffect(() => {
-    console.log('[Searchbar] isFocused : ', isFocused);
     handleIsFocused?.(isFocused);
   }, [isFocused]);
 
