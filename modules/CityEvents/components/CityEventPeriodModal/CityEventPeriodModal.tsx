@@ -2,18 +2,22 @@ import { Animated, Modal, Pressable, View } from 'react-native';
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { useGetPeriod } from "../../hooks/useGetPeriod";
 import { BlurView } from "expo-blur";
 import { TextItem } from '../../../../components/TextItem/TextItem';
-import { PickDateRange } from '../../../../types/Date';
+import { PERIODS, PickDateRange } from '../../../../types/Date';
 import { DateTimePickerModalItem } from '../../../../components/DateTimePickerModalItem/DateTimePickerModalItem';
-import style from './CityEventPeriodModal.style';
+import style, { themeStyle } from './CityEventPeriodModal.style';
 import palette from '../../../../assets/palette';
 import { RootState } from '../../../../store/store';
 import { setCurrentPeriod, setCustomPeriod } from '../../../../reducers/eventReducer';
 import { IconItem } from '../../../../components/IconItem/IconItem';
-import { CalendarDays, X } from 'lucide-react-native';
+import { CalendarDays, ChevronLeft, X } from 'lucide-react-native';
 import { BottomSheetItem } from '../../../../components/BottomSheetItem/BottomSheetItem';
+import { ButtonItem } from '../../../../components/ButtonItem/ButtonItem';
+import { Tab, Text, TabView } from '@rneui/themed';
+import { Button } from '@rneui/themed';
+
+
 
 type FilterDateModalProps = {
   isPopinVisible: boolean;
@@ -30,9 +34,10 @@ export const FilterDateModal = ({
   const opacity = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { periodsAvailable } = useGetPeriod();
   const { currentPeriod, customPeriod } = useSelector((state: RootState) => state.eventReducer);
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
   const [currSelectedItem, setCurrSelectedItem] = useState(currentPeriod);
+  const [selectedDates, setSelectedDates] = useState<{ startDate: string, endDate: string }>({ startDate: '', endDate: '' });
 
   const handleClose = () => {
     setTimeout(() => {
@@ -40,24 +45,20 @@ export const FilterDateModal = ({
     }, 5);
   }
 
+
   const handleUpdatePeriod = (item: string) => {
     setCurrSelectedItem(item);
   }
 
   const handleConfirm = () => {
-    if (currSelectedItem === 'custom') return;
     dispatch(setCurrentPeriod(currSelectedItem));
-    handleClose();
-  }
-
-
-  const handleConfirmDate = (dateRange: PickDateRange) => { 
-    setShowDatePicker(false);
-    dispatch(setCurrentPeriod('custom'));
-    dispatch(setCustomPeriod({
-      startDate: dateRange.startDate,
-      endDate: dateRange.endDate
-    }));
+    if (currSelectedItem === 'custom') {
+      setShowDatePicker(false);
+      dispatch(setCustomPeriod({
+        startDate: selectedDates?.startDate,
+        endDate: selectedDates?.endDate,
+      }));
+    } 
     handleClose();
   }
 
@@ -65,6 +66,7 @@ export const FilterDateModal = ({
      <BottomSheetItem
         title={t('period.choose')}
         visible={isPopinVisible}
+        setVisibility={setIsPopinVisible}
         handleConfirm={handleConfirm}
         handleClose={handleClose}
      >
@@ -76,7 +78,8 @@ export const FilterDateModal = ({
             paddingTop: 10,
           }}
         >
-          {periodsAvailable?.map((item: string, index: number) => (
+          {!showDatePicker ? <View>
+            {(Object.values(PERIODS))?.map((item: string, index: number) => (
             item !== 'custom' && (
               <Pressable
                 key={`${item}-${index}`}
@@ -91,7 +94,7 @@ export const FilterDateModal = ({
                 <TextItem 
                   style={{
                   ...style.itemText,
-                  color: currSelectedItem === item ? '#3988FD' : 'black',
+                  color: currSelectedItem === item ? palette.blueLight : themeStyle.textDefault[theme],
                   }}
                 >
                   {t(`period.${item}`)}
@@ -99,36 +102,31 @@ export const FilterDateModal = ({
               </Pressable>
             )
           ))}
-            <Pressable
-              onPress={() => {
-                setShowDatePicker(true);
+
+            <ButtonItem
+              title='Open calendar'
+              IconElt={CalendarDays}
+              type='transparent'
+              handlePress={() => {
+                setShowDatePicker(!showDatePicker);
                 handleUpdatePeriod('custom');
               }}
-              style={{
-                ...style.item,
-                display: 'flex',
-                flexDirection: 'row',
-                gap: 10,
-                alignItems: 'center',
-              }}
-            >
-              <IconItem
-                size="md"
-                stroke="light"
-                IconElt={CalendarDays}
-                color={currSelectedItem === 'custom' ? palette.blue : palette.black}
-              />
-              <TextItem 
-                size='md'
-              >
-                  Open calendar
-              </TextItem>
-            </Pressable>
-            <DateTimePickerModalItem
-              handleConfirmDate={handleConfirmDate}
-              handleCloseModal={() => setShowDatePicker(false)}
-              showDatePicker={showDatePicker}
             />
+          </View> 
+          : <View>
+              <DateTimePickerModalItem
+                selectedDates={selectedDates}
+                handleSelectedDates={setSelectedDates}
+              />
+              <ButtonItem
+                title={'Return to period'}
+                IconElt={ChevronLeft}
+                type='transparent'
+                handlePress={() => {
+                  setShowDatePicker(false);
+                }}
+              />
+            </View>}
         </View>
      </BottomSheetItem>
   );

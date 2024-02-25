@@ -16,7 +16,7 @@ export default StyleSheet.create({
     color: 'black',
   },
   selectedItemText: {
-    color: palette.blue,
+    color: 'red',
   },
 
 });
@@ -26,4 +26,8 @@ export const themeStyle = {
     light: palette.white,
     dark: palette.grayDark,
   },
+  textDefault: {
+    light: palette.black,
+    dark: palette.white,
+  }
 }

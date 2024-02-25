@@ -1,8 +1,9 @@
 import { SERVER_HOST } from '@env';
 import axios from 'axios';
 import { CityEventCardRequest, CityEventDetailsRequest } from '../types/Events';
-import { RootState, store } from '../../../store/store';
-import { useSelector } from 'react-redux';
+import { store } from '../../../store/store';
+import { PERIODS } from '../../../types/Date';
+import { getPeriod } from '../../../utils/date';
 
 
 type FetchLilleCulturalEvents = {
@@ -23,33 +24,42 @@ export const fetchCityEvents = async ({
   categoryIdList = [],
   nextEventPageIds = null,
   currentPeriod = null,
-  customPeriod = null,
   startDate = null,
   endDate = null,
   search = null,
-}: FetchLilleCulturalEvents): Promise<CityEventCardRequest> => {
+}: FetchLilleCulturalEvents): Promise<CityEventCardRequest | []> => {
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().generalReducer.currentCity.cityName;
-  
-  const response = await axios.get(
-    `${address}/events`, 
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      params: {
-        cityName,
-        categoryIdList: categoryIdList.join(','),
-        nextEventPageIds,
-        period: currentPeriod !== 'custom' ? currentPeriod : null,
-        startDate: customPeriod?.startDate ?? null,
-        endDate: customPeriod?.endDate ?? null,
-        search: (search && search.length > 0) ? search : null,
-      }
-    },
-  );
 
-  return response.data as CityEventCardRequest;
+  if (currentPeriod !== 'custom') {
+    const dateRange = getPeriod(currentPeriod as PERIODS);
+    startDate = dateRange.start;
+    endDate = dateRange.end;
+  }
+  
+  try {
+    const response = await axios.get(
+      `${address}/events`, 
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        params: {
+          cityName,
+          categoryIdList: categoryIdList.join(','),
+          nextEventPageIds,
+          startDate: startDate ?? null,
+          endDate: endDate ?? null,
+          search: (search && search.length > 0) ? search : null,
+        }
+      },
+    );
+  
+    return response.data as CityEventCardRequest;
+  } catch (error) {
+    console.error('Error while fetching city events', error);
+    return [];
+  }
 }
 
 type FetchCityEventDetailsProps = {

@@ -4,26 +4,15 @@ import palette from "../../assets/palette";
 export default StyleSheet.create({
   modalContentContainer: { 
     paddingHorizontal: 20, 
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingBottom: 30,
-    backgroundColor: 'white',
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: -3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
+  },
+  modalHeaderContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    // paddingHorizontal: 10,
+    paddingBottom: 10,
   },
   confirmButton: {
     backgroundColor: palette.blueLight,
@@ -38,6 +27,12 @@ export default StyleSheet.create({
 });
 
 export const themeStyle = {
-  light: palette.white,
-  dark: palette.black,
+  containerBackground: {
+    light: palette.white,
+    dark: palette.black,
+  },
+  handleIndicator: {
+    light: palette.black,
+    dark: palette.white,
+  },
 }

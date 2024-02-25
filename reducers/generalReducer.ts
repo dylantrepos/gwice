@@ -25,6 +25,7 @@ const initialState: State = {
   },
   refetchHome: false,
   refetchCityEventHome: false,
+  
 };
 
 const generalSlice = createSlice({

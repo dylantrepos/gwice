@@ -4,7 +4,6 @@ import { StatusBar } from 'expo-status-bar';
 import { Provider, useSelector } from 'react-redux'; // Import Provider
 import { RootState, store } from './store/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ChevronLeft, Home, Search, Settings } from 'lucide-react-native'
 import { Pressable, SafeAreaView, StyleProp, Text, TextStyle, View, ViewStyle } from 'react-native';
@@ -20,8 +19,8 @@ import { Poppins_100Thin, Poppins_100Thin_Italic, Poppins_200ExtraLight, Poppins
 import { WarningScreenItem } from './components/WarningScreenItem/WarningScreenItem';
 import { BottomNavigationItem } from './components/BottomNavigationItem/BottomNavigationItem';
 import { SettingsGeneralView } from './view/SettingsView/SettingsGeneralView/SettingsGeneralView';
-import { IconItem } from './components/IconItem/IconItem';
-import { TextItem } from './components/TextItem/TextItem';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -79,25 +78,6 @@ const HomeScreens = () => {
 
 export default function App() {
   const queryClient = new QueryClient();
-  const Tab = createBottomTabNavigator();
-
-  const iconSize = {
-    height: 26,
-    width: 26,
-  }
-  const tabStyle = {
-    container: {
-      backgroundColor: '#FFF',
-      borderTopWidth: 1,
-      borderTopColor: '#F6F6F6',
-      elevation: 0,
-      height: 60,
-    } as StyleProp<ViewStyle>,
-    label: {
-      fontSize: 20,
-      fontWeight: '400',
-    } as StyleProp<TextStyle>,
-  }
 
   const [fontsLoaded] = useFonts({
     Poppins_100: Poppins_100Thin,
@@ -131,48 +111,32 @@ export default function App() {
   };
 
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <StatusBar style='light' />
-        <BottomNavigationItem 
-          navigatorTabs={[
-            {
-              name: 'Home-tab',
-              screenName: 'Home',
-              icon: Home,
-              screens: HomeScreens,
-            },
-            {
-              name: 'Settings-tab',
-              screenName: 'Settings',
-              icon: Settings,
-              screens: SettingsScreens,
-            },
-          ]}
-        />
-         <Tab.Screen 
-              name="Home-tab" 
-              options={{ 
-                headerShown: false,
-                tabBarLabel: () => null,
-                tabBarIcon: ({ focused, color, size }) => 
-                  <Home 
-                    color={focused ? '#0D89CE' : 'gray'}
-                    height={iconSize.height}
-                    width={iconSize.width}
-                  />
-                ,
-              }}
-              listeners={({ navigation }) => ({
-                tabPress: event => {
-                  event.preventDefault();
-                  navigation.navigate('Home-tab', { screen: 'Home' });
+    <GestureHandlerRootView 
+      style={{ flex: 1 }}
+    >
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <StatusBar style='light' />
+          <BottomSheetModalProvider>
+            <BottomNavigationItem 
+              navigatorTabs={[
+                {
+                  name: 'Home-tab',
+                  screenName: 'Home',
+                  icon: Home,
+                  screens: HomeScreens,
                 },
-              })}
-            >
-              {HomeScreens}
-            </Tab.Screen>
-      </QueryClientProvider>
-    </Provider>
+                {
+                  name: 'Settings-tab',
+                  screenName: 'Settings',
+                  icon: Settings,
+                  screens: SettingsScreens,
+                },
+              ]}
+            />
+          </BottomSheetModalProvider>
+        </QueryClientProvider>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
