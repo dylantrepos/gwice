@@ -14,8 +14,8 @@ type FetchLilleCulturalEvents = {
     startDate: Date;
     endDate: Date;
   } | null;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate?: string | null;
+  endDate?: string | null;
   search?: string | null;
 }
 
@@ -27,15 +27,15 @@ export const fetchCityEvents = async ({
   startDate = null,
   endDate = null,
   search = null,
-}: FetchLilleCulturalEvents): Promise<CityEventCardRequest | []> => {
+}: FetchLilleCulturalEvents): Promise<CityEventCardRequest | undefined> => {
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().generalReducer.currentCity.cityName;
 
-  if (currentPeriod !== 'custom') {
-    const dateRange = getPeriod(currentPeriod as PERIODS);
-    startDate = dateRange.start;
-    endDate = dateRange.end;
-  }
+  console.log('data : ', {
+    endDate,
+    startDate,
+    currentPeriod
+  });
   
   try {
     const response = await axios.get(
@@ -58,7 +58,7 @@ export const fetchCityEvents = async ({
     return response.data as CityEventCardRequest;
   } catch (error) {
     console.error('Error while fetching city events', error);
-    return [];
+    return undefined;
   }
 }
 

@@ -2,22 +2,19 @@ import { Animated, Modal, Pressable, View } from 'react-native';
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { BlurView } from "expo-blur";
 import { TextItem } from '../../../../components/TextItem/TextItem';
-import { PERIODS, PickDateRange } from '../../../../types/Date';
+import { PERIODS } from '../../../../types/Date';
 import { DateTimePickerModalItem } from '../../../../components/DateTimePickerModalItem/DateTimePickerModalItem';
 import style, { themeStyle } from './CityEventPeriodModal.style';
 import palette from '../../../../assets/palette';
 import { RootState } from '../../../../store/store';
-import { setCurrentPeriod, setCustomPeriod } from '../../../../reducers/eventReducer';
-import { IconItem } from '../../../../components/IconItem/IconItem';
+import { setCurrentPeriod, setCustomPeriod, setEndDatePeriod, setStartDatePeriod } from '../../../../reducers/eventReducer';
 import { CalendarDays, ChevronLeft, X } from 'lucide-react-native';
 import { BottomSheetItem } from '../../../../components/BottomSheetItem/BottomSheetItem';
 import { ButtonItem } from '../../../../components/ButtonItem/ButtonItem';
-import { Tab, Text, TabView } from '@rneui/themed';
-import { Button } from '@rneui/themed';
-
-
+import { getFormattedDate, getPeriod } from '../../../../utils/date';
+import moment from 'moment';
+// import { getFormatedDate } from '../../../CityWeather/utils/utils';
 
 type FilterDateModalProps = {
   isPopinVisible: boolean;
@@ -31,10 +28,9 @@ export const FilterDateModal = ({
 }: FilterDateModalProps) => {
   // Replace with your actual view
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const opacity = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { currentPeriod, customPeriod } = useSelector((state: RootState) => state.eventReducer);
+  const { currentPeriod, startDate: storeStartDate, endDate: storeEndDate } = useSelector((state: RootState) => state.eventReducer);
   const { theme } = useSelector((state: RootState) => state.generalReducer);
   const [currSelectedItem, setCurrSelectedItem] = useState(currentPeriod);
   const [selectedDates, setSelectedDates] = useState<{ startDate: string, endDate: string }>({ startDate: '', endDate: '' });
@@ -52,13 +48,21 @@ export const FilterDateModal = ({
 
   const handleConfirm = () => {
     dispatch(setCurrentPeriod(currSelectedItem));
-    if (currSelectedItem === 'custom') {
+
+    if (showDatePicker) {
       setShowDatePicker(false);
-      dispatch(setCustomPeriod({
-        startDate: selectedDates?.startDate,
-        endDate: selectedDates?.endDate,
-      }));
-    } 
+      
+      dispatch(setStartDatePeriod(moment(selectedDates?.startDate).add(1, 'hour').toISOString()));
+      dispatch(setEndDatePeriod(moment(selectedDates?.endDate).add(1, 'hour').endOf('day').add(1, 'hour').toISOString()));
+    } else {
+      /**
+       * ! Manage custom date is reselected
+       */
+      const dateRange = getPeriod(currSelectedItem as PERIODS);
+      dispatch(setStartDatePeriod(dateRange.start.toISOString()));
+      dispatch(setEndDatePeriod(dateRange.end.toISOString()));
+    }
+    
     handleClose();
   }
 
@@ -102,11 +106,31 @@ export const FilterDateModal = ({
               </Pressable>
             )
           ))}
+            {currSelectedItem === 'custom' && (
+              <Pressable
+                onPress={() => {
+                  handleUpdatePeriod('custom');
+                }}
+                style={[
+                  style.item,
+                  currSelectedItem === 'custom' && style.selectedItem
+                ]}
+              >
+                <TextItem 
+                  style={{
+                  ...style.itemText,
+                  color: currSelectedItem === 'custom' ? palette.blueLight : themeStyle.textDefault[theme],
+                  }}
+                >
+                  {getFormattedDate(storeStartDate, storeEndDate) ?? 'error'}
+                </TextItem>
+              </Pressable>
+            )}
 
             <ButtonItem
               title='Open calendar'
               IconElt={CalendarDays}
-              type='transparent'
+              type='transparentPrimary'
               handlePress={() => {
                 setShowDatePicker(!showDatePicker);
                 handleUpdatePeriod('custom');
@@ -121,7 +145,7 @@ export const FilterDateModal = ({
               <ButtonItem
                 title={'Return to period'}
                 IconElt={ChevronLeft}
-                type='transparent'
+                type='transparentPrimary'
                 handlePress={() => {
                   setShowDatePicker(false);
                 }}

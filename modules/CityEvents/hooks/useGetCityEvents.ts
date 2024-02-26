@@ -3,8 +3,6 @@ import { CityEventCardRequest, CityEventDetailsRequest } from '../types/Events';
 import { fetchCityEventDetails, fetchCityEvents } from '../services/cityEvents';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import { useGetPeriod } from './useGetPeriod';
-import { useEffect } from 'react';
 
 /*
  * Get City Events 
@@ -13,7 +11,7 @@ import { useEffect } from 'react';
 type UseGetCityEvents = {
   isLoading: boolean;
   isError: boolean;
-  events: InfiniteData<CityEventCardRequest> | undefined;
+  events: InfiniteData<CityEventCardRequest | undefined> | undefined;
   category?: string;
   hasNextPage?: boolean;
   fetchNextPage: () => void;
@@ -25,8 +23,9 @@ type UseGetCityEvents = {
 type UseGetCityEventsProps = {
   refetchCityEventHome: boolean;
   categoryIdList?: number[];
-  startDate?: Date | null;
-  endDate?: Date | null;
+  search?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
   key: string;
 }
 
@@ -35,13 +34,9 @@ export const useGetCityEvents = ({
   categoryIdList = [],
   startDate = null,
   endDate = null,
+  search = null,
   key
 }: UseGetCityEventsProps): UseGetCityEvents => {
-  const { searchValue, currentPeriod, customPeriod } = useSelector((state: RootState) => state.eventReducer);  
-
-  useEffect(() => {
-    console.log('curr : ', currentPeriod);
-  }, [currentPeriod])
 
   const { 
     isLoading, 
@@ -59,22 +54,19 @@ export const useGetCityEvents = ({
       categoryIdList, 
       startDate, 
       endDate,
-      searchValue,
-      currentPeriod
+      search
     ], 
     ({pageParam: nextEventPageIds = null}) => fetchCityEvents({ 
         categoryIdList, 
         nextEventPageIds,
-        currentPeriod,
         startDate,
         endDate,
-        search: searchValue,
-        customPeriod
+        search,
     }),
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage, pages) => {
-        if (lastPage.after) {
+        if (lastPage?.after) {
           return lastPage.after;
         }
         return undefined;

@@ -11,13 +11,14 @@ import { useTranslation } from "react-i18next";
 
 import { PERIODS } from "../../../../types/Date";
 import { FilterDateModal } from "../CityEventPeriodModal/CityEventPeriodModal";
+import { getFormattedDate } from "../../../../utils/date";
 
 export const CityEventListFilterItem = () => {
   // Replace with your actual view
   const [isPopinVisible, setIsPopinVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
   const { theme } = useSelector((state: RootState) => state.generalReducer);
-  const { currentPeriod, customPeriod } = useSelector((state: RootState) => state.eventReducer);
+  const { currentPeriod, startDate, endDate } = useSelector((state: RootState) => state.eventReducer);
   const { t } = useTranslation();
 
   const handlePopin = () => {
@@ -64,9 +65,7 @@ export const CityEventListFilterItem = () => {
           >
             {currentPeriod !== PERIODS.CUSTOM
               ? t(`period.${currentPeriod}`)
-              : customPeriod?.endDate !== customPeriod?.startDate
-                ? `${moment.utc(customPeriod?.startDate).format('DD/MM/YYYY')} - ${moment.utc(customPeriod?.endDate).format('DD/MM/YYYY')}`
-                : moment.utc(customPeriod?.startDate).format('DD/MM/YYYY')
+              : getFormattedDate(startDate, endDate)
             }
           </TextItem>
           <IconItem

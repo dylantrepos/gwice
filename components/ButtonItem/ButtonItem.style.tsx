@@ -12,7 +12,6 @@ export default StyleSheet.create({
     gap: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
   },
 });
 
@@ -76,6 +75,16 @@ export const themeStyle = {
       text: {
         light: palette.black,
         dark: palette.white,
+      },
+    },
+    transparentPrimary: {
+      background: {
+        light: 'transparent',
+        dark: 'transparent',
+      },
+      text: {
+        light: palette.blueLight,
+        dark: palette.blueLight,
       },
     },
     confirm: {

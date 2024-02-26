@@ -18,10 +18,6 @@ import { FilterDateItem } from '../../utils/date';
 type StickyHeaderProps = {
   filteredCategoryIdList: number[];
   handleSetFilteredCategoryIdList: React.Dispatch<React.SetStateAction<number[]>>;
-  startDate: Date;
-  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
-  endDate: Date;
-  setEndDate: React.Dispatch<React.SetStateAction<Date>>;
   selectedItemDate: FilterDateItem;
   setSelectedItemDate: React.Dispatch<React.SetStateAction<FilterDateItem>>;
 };
@@ -29,10 +25,6 @@ type StickyHeaderProps = {
 export const CityEventListStickyHeaderItem = ({
   filteredCategoryIdList,
   handleSetFilteredCategoryIdList,
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
   selectedItemDate,
   setSelectedItemDate,
 }: StickyHeaderProps) => {
@@ -66,13 +58,6 @@ export const CityEventListStickyHeaderItem = ({
         categoriesSelected={filteredCategoryIdList}
         filteredCategoryIdList={handleSetFilteredCategoryIdList}
       />
-      <CityEventListFilterItem
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-        selectedItemDate={selectedItemDate}
-        setSelectedItemDate={setSelectedItemDate}
-      />
+      <CityEventListFilterItem />
     </View>)
 }

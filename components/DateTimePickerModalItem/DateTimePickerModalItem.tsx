@@ -20,7 +20,6 @@ export const DateTimePickerModalItem = ({
  
 
   const onDayPress = (day: any) => {
-    console.log('day', day);
     if (!selectedDates.startDate || (selectedDates.startDate && selectedDates.endDate)) {
       handleSelectedDates({ startDate: day.dateString, endDate: '' });
     } else if (!selectedDates.endDate) {
