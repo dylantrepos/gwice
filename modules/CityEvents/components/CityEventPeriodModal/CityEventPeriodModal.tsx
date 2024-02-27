@@ -30,7 +30,7 @@ export const FilterDateModal = ({
   const [showDatePicker, setShowDatePicker] = useState(false);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { currentPeriod, startDate: storeStartDate, endDate: storeEndDate } = useSelector((state: RootState) => state.eventReducer);
+  const { currentPeriod, customPeriod, startDate: storeStartDate, endDate: storeEndDate } = useSelector((state: RootState) => state.eventReducer);
   const { theme } = useSelector((state: RootState) => state.generalReducer);
   const [currSelectedItem, setCurrSelectedItem] = useState(currentPeriod);
   const [selectedDates, setSelectedDates] = useState<{ startDate: string, endDate: string }>({ startDate: '', endDate: '' });
@@ -51,16 +51,26 @@ export const FilterDateModal = ({
 
     if (showDatePicker) {
       setShowDatePicker(false);
+      const startCustom = moment(selectedDates?.startDate).add(1, 'hour').toISOString();
+      const endCustom = moment(selectedDates.endDate.length > 0 ? selectedDates.endDate : selectedDates.startDate).add(1, 'hour').endOf('day').add(1, 'hour').toISOString();
       
-      dispatch(setStartDatePeriod(moment(selectedDates?.startDate).add(1, 'hour').toISOString()));
-      dispatch(setEndDatePeriod(moment(selectedDates?.endDate).add(1, 'hour').endOf('day').add(1, 'hour').toISOString()));
+      dispatch(setStartDatePeriod(startCustom));
+      dispatch(setEndDatePeriod(endCustom));
+      dispatch(setCustomPeriod({
+        startDate: startCustom,
+        endDate: endCustom,
+      }));
     } else {
-      /**
-       * ! Manage custom date is reselected
-       */
-      const dateRange = getPeriod(currSelectedItem as PERIODS);
-      dispatch(setStartDatePeriod(dateRange.start.toISOString()));
-      dispatch(setEndDatePeriod(dateRange.end.toISOString()));
+      console.log('currentPeriod', currentPeriod);
+
+      if (currSelectedItem === 'custom' && customPeriod) {
+        dispatch(setStartDatePeriod(customPeriod.startDate));
+        dispatch(setEndDatePeriod(customPeriod.endDate));
+      } else {
+        const dateRange = getPeriod(currSelectedItem as PERIODS);
+        dispatch(setStartDatePeriod(dateRange.start.toISOString()));
+        dispatch(setEndDatePeriod(dateRange.end.toISOString()));
+      }
     }
     
     handleClose();
@@ -106,7 +116,7 @@ export const FilterDateModal = ({
               </Pressable>
             )
           ))}
-            {currSelectedItem === 'custom' && (
+            {customPeriod?.startDate && (
               <Pressable
                 onPress={() => {
                   handleUpdatePeriod('custom');
@@ -122,13 +132,13 @@ export const FilterDateModal = ({
                   color: currSelectedItem === 'custom' ? palette.blueLight : themeStyle.textDefault[theme],
                   }}
                 >
-                  {getFormattedDate(storeStartDate, storeEndDate) ?? 'error'}
+                  {getFormattedDate(customPeriod.startDate, customPeriod?.endDate) ?? 'error'}
                 </TextItem>
               </Pressable>
             )}
 
             <ButtonItem
-              title='Open calendar'
+              title={t('screens.events.text.openCalendar')}
               IconElt={CalendarDays}
               type='transparentPrimary'
               handlePress={() => {
@@ -143,7 +153,7 @@ export const FilterDateModal = ({
                 handleSelectedDates={setSelectedDates}
               />
               <ButtonItem
-                title={'Return to period'}
+                title={t('screens.events.text.returnPeriods')}
                 IconElt={ChevronLeft}
                 type='transparentPrimary'
                 handlePress={() => {

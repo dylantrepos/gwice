@@ -1,9 +1,7 @@
-import { Dimensions, Modal, Pressable, View } from "react-native";
-import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import palette from "../../assets/palette";
-import { Calendar } from "react-native-calendars";
-import { TextItem } from "../TextItem/TextItem";
-import { PickDateRange } from "../../types/Date";
+import { Calendar, LocaleConfig } from "react-native-calendars";
+import { CalendarTranslation } from "../../localization/translations/Calendar";
 
 type DateTimePickerModalItemProps = {
   selectedDates: { startDate: string, endDate: string };
@@ -16,8 +14,14 @@ export const DateTimePickerModalItem = ({
   handleSelectedDates,
   minimumDate,
 }: DateTimePickerModalItemProps) => {
+  const { t, i18n } = useTranslation();
 
- 
+  console.log('i18n', i18n.language);
+  CalendarTranslation.forEach((translation) => {
+    LocaleConfig.locales[translation.key] = translation;
+  });
+
+  LocaleConfig.defaultLocale = i18n.language;
 
   const onDayPress = (day: any) => {
     if (!selectedDates.startDate || (selectedDates.startDate && selectedDates.endDate)) {
@@ -34,12 +38,20 @@ export const DateTimePickerModalItem = ({
   const getMarkedDates = (startDate: string, endDate: string) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    const markedDates = startDate === endDate ? {
-      [startDate]: { color: palette.blueLight, textColor: 'white'}
+
+    const markedDates = !endDate || startDate === endDate ? {
+      [startDate]: { color: palette.blueLight, textColor: 'white' }
     } : {
       [startDate]: { startingDay: true, color: palette.blueLight, textColor: 'white' },
       [endDate]: { endingDay: true, color: palette.blueLight, textColor: 'white' }
     };
+
+    // const markedDates = startDate === endDate ? {
+    //   [startDate]: { color: palette.blueLight, textColor: 'white'}
+    // } : {
+    //   [startDate]: { startingDay: true, color: palette.blueLight, textColor: 'white' },
+    //   [endDate]: { endingDay: true, color: palette.blueLight, textColor: 'white' }
+    // };
   
     let iterDate = new Date(start.getTime() + 24 * 60 * 60 * 1000);
   

@@ -44,7 +44,6 @@ export const getPeriod = (dateRange: PERIODS): { start: Date; end: Date; title: 
 };
 
 export const getFormattedDate = (start: string, end: string): string => {
-  console.log('getFormattedDate : ', {start, end});
   const startDate = moment.utc(start).format('DD/MM/YYYY');
   const endDate = moment.utc(end).format('DD/MM/YYYY');
   return startDate !== endDate
