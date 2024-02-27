@@ -57,14 +57,14 @@ export const themeStyle = {
         dark: palette.white,
       },
     },
-    inactive: {
+    disabled: {
       background: {
         light: palette.grayLight,
         dark: palette.grayLight,
       },
       text: {
-        light: palette.grayLight,
-        dark: palette.grayLight,
+        light: palette.white,
+        dark: palette.white,
       },
     },
     transparent: {

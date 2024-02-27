@@ -30,12 +30,6 @@ export const fetchCityEvents = async ({
 }: FetchLilleCulturalEvents): Promise<CityEventCardRequest | undefined> => {
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().generalReducer.currentCity.cityName;
-
-  console.log('data : ', {
-    endDate,
-    startDate,
-    currentPeriod
-  });
   
   try {
     const response = await axios.get(

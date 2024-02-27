@@ -82,6 +82,7 @@ export const FilterDateModal = ({
         visible={isPopinVisible}
         setVisibility={setIsPopinVisible}
         handleConfirm={handleConfirm}
+        disableConfirm={showDatePicker && !selectedDates.startDate}
         handleClose={handleClose}
      >
        <View

@@ -23,6 +23,7 @@ type Props = ViewProps & {
   setVisibility: React.Dispatch<React.SetStateAction<boolean>>;
   confirmText?: string;
   handleConfirm: () => void;
+  disableConfirm?: boolean;
   handleClose: () => void;
 }
 
@@ -32,6 +33,7 @@ export const BottomSheetItem = ({
   setVisibility,
   confirmText,
   handleConfirm,
+  disableConfirm = false,
   children
 }: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
@@ -63,6 +65,7 @@ export const BottomSheetItem = ({
 	);
 
   const handleConfirmModal = () => {
+    if (disableConfirm) return;
     bottomSheetModalRef.current?.dismiss();
     handleConfirm();
   }
@@ -106,7 +109,7 @@ export const BottomSheetItem = ({
               <ButtonItem 
                 title={confirmText ?? t('button.confirm')}
                 handlePress={handleConfirmModal}
-                type='confirm'
+                type={disableConfirm ? 'disabled' : 'confirm'}
               />
             </BottomSheetView>
         </BottomSheetModal>
