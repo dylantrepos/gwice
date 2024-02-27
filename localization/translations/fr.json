@@ -60,14 +60,8 @@
         "pushToFindCTA": "Appuyez pour découvrir",
         "searchBarPlaceholder": "Rechercher un événement...",
         "noEvents": "Aucun événement à venir",
-        "periodTitleChoose": "Choisissez une période",
-        "periodTitleToday": "Aujourd'hui",
-        "periodTitleTomorrow": "Demain",
-        "periodTitleWeek": "Cette semaine",
-        "periodTitleWeekend": "Ce week-end",
-        "periodTitleAlways": "Toujours",
-        "periodTitleFrom": "Du",
-        "periodTitleTo": "Au"
+        "openCalendar": "Ouvrir le calendrier",
+        "returnPeriods": "Retourner aux périodes"
       }
     },
     "settingsHome": {

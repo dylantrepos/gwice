@@ -59,7 +59,9 @@
       "text": {
         "pushToFindCTA": "Push to find out events",
         "searchBarPlaceholder": "Search events...",
-        "noEvents": "No events found"
+        "noEvents": "No events found",
+        "openCalendar": "Open calendar",
+        "returnPeriods": "Return to the periods"
       }
     },
     "settingsHome": {
