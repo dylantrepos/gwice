@@ -1,54 +1,46 @@
 import { ChevronRight } from "lucide-react-native";
 import style from './CityEventsListHorizontalItem.style';
-import { FlatList, Pressable, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { CityEventCardEmptyItem, CityEventCardItem } from "../CityEventCardItem/CityEventCardItem";
 import { useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "react";
-import moment from "moment";
-import { isBefore } from 'date-fns';
 import { RootState } from "../../../../store/store";
-import { formatTitle } from "../../utils/events";
-import { TextItem } from "../../../../components/TextItem/TextItem";
 import { useInfiniteQuery } from "react-query";
 import { fetchCityEvents } from "../../services/cityEvents";
 import { CityEventsListHorizontalItemRenderProps, Props } from "./CityEventsListHorizontalItem.type";
-import { IconItem } from "../../../../components/IconItem/IconItem";
 import { TitleItem } from "../../../../components/TitleItem/TitleItem";
 import { CityEventCard } from "../../types/Events";
+import { useGetCityEvents } from "../../hooks/useGetCityEvents";
 
 export const CityEventsListHorizontalItem = ({
   navigation, 
   route,
   title,
   handleNavigation,
-  categoryIdList
 }: Props) => {
   const { refetchCityEventHome } = useSelector((state: RootState) => state.generalReducer);
-  const { currentPeriod } = useSelector((state: RootState) => state.eventReducer);
   const [eventList, setEventList] = useState<any[]>([]);
   const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
 
   const { 
+    currentPeriod, 
+    startDate,
+    endDate
+  } = useSelector((state: RootState) => state.eventReducer);
+
+  const {
     isLoading, 
-    data: events, 
+    events, 
+    isError,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteQuery(
-    ['CityEventsListHorizontalItem', refetchCityEventHome], 
-    ({pageParam: nextEventPageIds = null}) => fetchCityEvents({ 
-        categoryIdList, 
-        nextEventPageIds,
-    }),
-    {
-      refetchOnWindowFocus: false,
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage?.after) {
-          return lastPage.after;
-        }
-        return undefined;
-      },
-    }
-  );
+  } = useGetCityEvents({
+    refetchCityEventHome: refetchCityEventHome, 
+    categoryIdList: [],
+    startDate,
+    endDate,
+    key: 'cityEventHome'
+  });
 
   useEffect(() => {
     if (!isLoading && events) {

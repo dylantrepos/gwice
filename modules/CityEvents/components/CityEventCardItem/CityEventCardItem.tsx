@@ -15,6 +15,7 @@ import { useBackgroundColorLoading } from "../../../../hooks/useBackgroundColorL
 import { TagItem } from "../../../../components/TagItem/TagItem";
 import { IconItem } from "../../../../components/IconItem/IconItem";
 import { FilterDateItem } from "../../utils/date";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   navigation: any;
@@ -40,6 +41,7 @@ export const CityEventCardItem = ({
   } = event;
 
   if (!categoriesMetropolitaines) return null;
+  const { t } = useTranslation();
 
   const [imageLoaded, setImageLoaded] = useState(false);
   const imageSrc = `${image.base}${image.filename}`;
@@ -59,8 +61,8 @@ export const CityEventCardItem = ({
   const categories = categoriesId.map(categoryId => allEventsCategoryLille.find(category => category.id === categoryId));
   const firstCategory = categories[0];
 
-
   const CategoryIconElt = firstCategory?.iconElt ?? null;
+  console.log('CategoryIconElt', firstCategory);
 
   return imageLoaded && (
     <Pressable 
@@ -74,7 +76,7 @@ export const CityEventCardItem = ({
         />
       </View>
       <TagItem 
-        title={firstCategory?.title ?? ''}
+        title={t(firstCategory.translationKey) ?? ''}
         IconElt={CategoryIconElt}
         style={{
           position: 'absolute',
@@ -137,6 +139,8 @@ export const CityEventCardLargeItem = memo(({
   } = event;
 
   if (!categoriesMetropolitaines) return null;
+
+  const { t } = useTranslation();
 
   const categoriesId = categoriesMetropolitaines.map(category => category.id);
 
@@ -204,7 +208,7 @@ export const CityEventCardLargeItem = memo(({
                   return (
                     <TagItem 
                       key={index}
-                      title={category?.title ?? ''}
+                      title={t(category.translationKey) ?? ''}
                       IconElt={CategoryIconElt}
                     />
                   )

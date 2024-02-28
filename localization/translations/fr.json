@@ -40,7 +40,10 @@
   "period": {
     "choose": "Choix de la période",
     "today": "Aujourd'hui",
+    "in": "Dans",
+    "at": "à",
     "tomorrow": "Demain",
+    "tomorrowAt": "Demain à",
     "week": "Cette semaine",
     "weekend": "Ce week-end",
     "always": "Toujours",
