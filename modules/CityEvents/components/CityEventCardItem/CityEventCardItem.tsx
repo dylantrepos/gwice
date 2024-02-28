@@ -20,27 +20,26 @@ type Props = {
   navigation: any;
   route: any;
   event: CityEventCard;
+  period: string;
 }
 
 export const CityEventCardItem = ({
   navigation, 
   route,
-  event
+  event,
+  period
 }: Props) => {
   const { 
     uid: eventId,
     title, 
     image, 
     "categories-metropolitaines": categoriesMetropolitaines,
-    firstTiming,
-    lastTiming,
+    nextTiming,
     timings,
-    nextTiming
+    nextDate,
   } = event;
 
   if (!categoriesMetropolitaines) return null;
-
-  const { currentHomeViewDate } = useSelector((state: RootState) => state.generalReducer);
 
   const [imageLoaded, setImageLoaded] = useState(false);
   const imageSrc = `${image.base}${image.filename}`;
@@ -103,13 +102,7 @@ export const CityEventCardItem = ({
             size="sm"
             weight="light"
           >
-            {formatDate ({
-              inputDateStart: new Date(nextTiming.begin), 
-              inputDateEnd: new Date(nextTiming.end),
-              selectedItemDate: {id: 3, label: 'week', value: 'week'},
-              timings,
-              startDate: moment.utc().add(1, 'hour').toDate(),
-            })}
+            { nextTiming && formatDate({nextDate, period}) }
           </TextItem>
         </View>
       </View>
@@ -121,16 +114,15 @@ type CityEventCardLargeItemProps = {
   navigation: any;
   route: any;
   event: CityEventCard;
-  startDate: Date;
   selectedItemDate: FilterDateItem;
+  period: string;
 }
 
 export const CityEventCardLargeItem = memo(({
   navigation, 
   route,
   event,
-  startDate,
-  selectedItemDate
+  period
 }: CityEventCardLargeItemProps) => {
 
   const { 
@@ -138,9 +130,8 @@ export const CityEventCardLargeItem = memo(({
     title, 
     image, 
     "categories-metropolitaines": categoriesMetropolitaines,
-    firstTiming,
-    lastTiming,
     description,
+    nextDate,
     nextTiming,
     timings
   } = event;
@@ -164,9 +155,6 @@ export const CityEventCardLargeItem = memo(({
   const handlePress = () => {
     navigation.push('CulturalEvent', {eventId: uid});
   }
-
-  const today = new Date();
-  const firstTimingDate = new Date(firstTiming.begin);
 
 
   return  (
@@ -200,17 +188,7 @@ export const CityEventCardLargeItem = memo(({
                 color: 'white',
               }}
             >
-               {
-                nextTiming &&
-                formatDate({
-                  inputDateStart: new Date(nextTiming.begin), 
-                  inputDateEnd: new Date(nextTiming.end),
-                  selectedItemDate, 
-                  timings: timings,
-                  title: title['fr'],
-                  startDate,
-                })
-               }
+               { nextTiming && formatDate({nextDate, period}) }
             </TextItem>
           </LinearGradient>
           <LinearGradient

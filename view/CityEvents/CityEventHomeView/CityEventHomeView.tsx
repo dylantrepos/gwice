@@ -2,12 +2,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setRefetchCityEventHome } from "../../../reducers/generalReducer";
 import { Keyboard, View, VirtualizedList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import style from './CityEventHomeView.style';
 import { CityEventCard } from "../../../modules/CityEvents/types/Events";
-import { GestureHandlerRootView, RefreshControl } from "react-native-gesture-handler";
+import { RefreshControl } from "react-native-gesture-handler";
 import { WarningScreenItem } from "../../../components/WarningScreenItem/WarningScreenItem";
-import moment from 'moment-timezone';
 import { isBefore } from 'date-fns';
 import { CityEventListPromoteItem } from "../../../modules/CityEvents/components/CityEventListPromoteItem/CityEventListPromoteItem";
 import { CityEventCardLargeEmptyItem, CityEventCardLargeItem } from "../../../modules/CityEvents/components/CityEventCardItem/CityEventCardItem";
@@ -15,7 +12,6 @@ import { useGetCityEvents } from "../../../modules/CityEvents/hooks/useGetCityEv
 import { CityEventListStickyHeaderItem } from "../../../modules/CityEvents/components/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem";
 import { CityEventListFooterItem } from "../../../modules/CityEvents/components/CityEventListFooterItem/CityEventListFooterItem";
 import { RootState } from "../../../store/store";
-import { THEME } from "../../../assets/palette";
 import { PageHeaderLayout } from "../../../layouts/PageHeaderLayout";
 import { filterDate } from "../../../modules/CityEvents/utils/date";
 
@@ -75,11 +71,6 @@ export const CityEventHomeView = ({
   const flatListRef = useRef<VirtualizedList<CityEventCard> | null>(null);
   const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
 
-  const today = moment.tz("Europe/Paris").add(1, 'hours');
-  const sundayEndOfDay = moment(today).add(10, 'year').endOf('day');
-
-  // const [startDate, setStartDate] = useState(today.toDate());
-  // const [endDate, setEndDate] = useState(sundayEndOfDay.toDate());
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -92,6 +83,8 @@ export const CityEventHomeView = ({
 
   const CityHomeEventRender = useCallback(({item, index}: CityEventCardLargeItemProps) => {
     // check if the item is the sticky header
+    if (index === 0) return item;
+
     if (index > 0 && item.nextTiming) {
       const nextTimingStart = new Date(item.nextTiming.begin);
       const nextTimingEnd = new Date(item.nextTiming.end);
@@ -102,15 +95,13 @@ export const CityEventHomeView = ({
       } 
     }
 
-    return index === 0 
-      ? item 
-      : eventList?.length > 0 
+    return eventList?.length > 0 
         ? <CityEventCardLargeItem 
             navigation={navigation}
             route={route}
             event={item as CityEventCard}
-            startDate={startDate}
             selectedItemDate={selectedItemDate}
+            period={currentPeriod}
           />
         : <CityEventCardLargeEmptyItem />
   }, [eventList])
@@ -165,8 +156,10 @@ export const CityEventHomeView = ({
 
   useEffect(() => {
     if (!isLoading && events) {
-      const eventsListFinal = events.pages.map((page) => page.events).flat();
-      setEventList(eventsListFinal);
+      const eventsListFinal = events.pages.map((page) => page?.events).flat();
+      if (eventsListFinal && eventsListFinal.length > 0) {
+        setEventList(eventsListFinal as CityEventCard[]);
+      }
     }
   }, [events]);
 

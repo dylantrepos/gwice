@@ -1,46 +1,4 @@
 import { LucideIcon } from "lucide-react-native";
-
-export type CulturalEvent = {
-  id: string;
-  title: string | null;
-  date: {
-    start: string | null;
-    end: string | null;
-  }
-  description: string | null;
-  price: string | null;
-  image: string | null;
-  location: {
-    name: string | null;
-    address: string | null;
-  };
-  website: string | null; 
-  contact?: {
-    email: string | null;
-    phone: string | null;
-  };
-  access?: string | null | {
-    public?: string | null;
-    transport?: Record<string, string>
-  };
-  page: string | null; 
-}
-
-export type CulturalEvents = {
-  events: CulturalEvent[];
-}
-
-export type WhenQuery = 'today' | 'week' | 'weekend' | 'month' | 'default';
-
-interface ImageVariant {
-  filename: string;
-  size: {
-    width: number;
-    height: number;
-  };
-  type: string;
-}
-
 interface Image {
   filename: string;
   size: {
@@ -51,19 +9,13 @@ interface Image {
   base: string;
 }
 
-interface DateRange {
-  ar: string;
-  de: string;
-  en: string;
-  it: string;
-  fr: string;
-  es: string;
-}
-
-interface OriginAgenda {
-  uid: number;
-  image: string;
-  title: string;
+interface ImageVariant {
+  filename: string;
+  size: {
+    width: number;
+    height: number;
+  };
+  type: string;
 }
 
 interface Location {
@@ -75,7 +27,7 @@ interface Location {
 }
 
 
-export interface CategoryOption {
+interface CategoryOption {
   id: number;
   value: string;
   label: {
@@ -86,11 +38,48 @@ export interface CategoryOption {
   display: boolean;
 }
 
+interface Description { [key: string]: string }
+
 export interface CityEventDetailsRequest {
   total: number;
   events: CityEventDetails[];
   sort: string;
   after: string[];
+}
+
+interface Timing {
+  end: string;
+  begin: string;
+}
+
+interface Location {
+  city: string;
+}
+
+interface Title {
+  fr: string;
+}
+
+interface Category {
+  id: number;
+  label: {
+    fr: string;
+    en: string;
+  };
+}
+
+export interface CityEventCard {
+  image: Image;
+  uid: number;
+  lastTiming: Timing;
+  timings: Timing[];
+  firstTiming: Timing;
+  description: Description;
+  location: Location;
+  title: Title;
+  "categories-metropolitaines": Category[];
+  nextTiming: Timing;
+  nextDate: string;
 }
 
 export interface CityEventDetails {
@@ -227,114 +216,9 @@ export interface CityEventDetails {
   };
 }
 
-interface Category {
-  id: number;
-  label: {
-    fr: string;
-    en: string;
-  };
-}
-
-interface ImageVariant {
-  filename: string;
-  size: {
-    width: number;
-    height: number;
-  };
-  type: string;
-}
-
-interface Image {
-  filename: string;
-  size: {
-    width: number;
-    height: number;
-  };
-  variants: ImageVariant[];
-  base: string;
-}
-
-export interface Timing {
-  end: string;
-  begin: string;
-}
-
-interface Location {
-  city: string;
-}
-
-interface Title {
-  fr: string;
-}
-
-interface Category {
-  id: number;
-  label: {
-    fr: string;
-    en: string;
-  };
-}
-
-
-
-export interface CityEventCard {
-    image: Image;
-    uid: number;
-    firstTiming: Timing;
-    lastTiming: Timing;
-    location: Location;
-    title: Title;
-    description?: { [key: string]: string };
-    nextTiming: Timing;
-    timings: Timing[];
-    "categories-metropolitaines": Category[];
-};
-
 export interface CityEventCardRequest {
   total: number;
   events: CityEventCard[];
   sort: string;
   after: string[];
 }
-
-export type EventsCategory = 
-  "atelier" |
-  "braderie-brocante" |
-  "ceremonie" |
-  "cinema" |
-  "conference-rencontre" |
-  "conseil-municipal" |
-  "danse" |
-  "developpement-durable" |
-  "emploi" |
-  "exposition" |
-  "fete-festival" |
-  "formation" |
-  "lecture" |
-  "mode" |
-  "musique" |
-  "reunion-publique" |
-  "sante" |
-  "spectacle" |
-  "sport" |
-  "theatre" |
-  "visite-balade" |
-  "aucune";
-
-  export type AllEvents = {
-    title: string,
-    data: {
-      total: number,
-      events: CityEventDetails[],
-      sort: string,
-      after: string[],
-    }
-  }[];
-
-  export type ListCategoryItem = {
-    id: number;
-    title: string;
-    iconElt: LucideIcon | undefined;
-    translationKey: string;
-  };
-  
