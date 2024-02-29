@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import { TextItem } from "../../../../components/TextItem/TextItem";
+import { useTranslation } from "react-i18next";
 
 type CityEventListFooterItemProps = {
   isLoading: boolean;
@@ -10,6 +11,8 @@ export const CityEventListFooterItem = ({
   isLoading,
   eventLength
 }: CityEventListFooterItemProps) => {
+  const { t } = useTranslation();
+
   return (
     <View
       style={{
@@ -26,8 +29,8 @@ export const CityEventListFooterItem = ({
         >
           {
             eventLength === 0 
-            ? "Pas d'événements disponibles."
-            : "Pas d'autres événements pour cette période."
+            ? t('screens.events.text.noEventsAvailable')
+            : t('screens.events.text.noMoreEventsAvailable')
           }
         </TextItem>
     </View>

@@ -62,7 +62,6 @@ export const CityEventCardItem = ({
   const firstCategory = categories[0];
 
   const CategoryIconElt = firstCategory?.iconElt ?? null;
-  console.log('CategoryIconElt', firstCategory);
 
   return imageLoaded && (
     <Pressable 
@@ -228,7 +227,7 @@ export const CityEventCardLargeItem = memo(({
         </ImageBackground>}
     </Pressable>
   )
-}, (prevProps, nextProps) => { // and here is what i didn't notice before.
+}, (prevProps, nextProps) => { 
   return prevProps.event.uid === nextProps.event.uid;});
 
 export const CityEventCardLargeEmptyItem = () => {

@@ -1,7 +1,6 @@
 import { format, formatDistanceToNow, isBefore } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { fr, enGB } from 'date-fns/locale';
 import moment from 'moment';
-import { Translation, useTranslation } from 'react-i18next';
 import i18n from "i18next";
 
 export type FilterDateItem = {
@@ -26,10 +25,10 @@ export const formatDate = ({
 }: FormatDateProps): string => {
   
   if (period === 'today') {
-    return `Aujourd'hui à ${format(new Date(nextDate), 'HH:mm')}`;
+    return `${i18n.t('period.in')}${format(new Date(nextDate), 'HH:mm')}`;
   }
   if (period === 'tomorrow') {
-    return `Demain à ${format(new Date(nextDate), 'HH:mm')}`;
+    return `${i18n.t('period.tomorrowAt')} ${format(new Date(nextDate), 'HH:mm')}`;
   }
 
   const nextDateFormated = new Date(nextDate);
@@ -43,5 +42,10 @@ export const formatDate = ({
     return `${i18n.t('period.tomorrowAt')} ${format(nextDateFormated, 'HH:mm')}`;
   }
 
-  return format(new Date(nextDate), `eeee dd MMMM ${i18n.t('period.at')} HH:mm`, { locale: fr });
+  switch (i18n.language) {
+    case 'fr':
+      return format(new Date(nextDate), `PPPPp`, { locale: fr });
+    default:
+      return `${format(new Date(nextDate), `PPPP`, { locale: enGB })} at ${format(new Date(nextDate), `hh:mm aa`, { locale: enGB })}`
+  }
 }

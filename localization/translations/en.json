@@ -64,7 +64,9 @@
         "searchBarPlaceholder": "Search events...",
         "noEvents": "No events found",
         "openCalendar": "Open calendar",
-        "returnPeriods": "Return to the periods"
+        "returnPeriods": "Return to the periods",
+        "noEventsAvailable": "No events available for this period",
+        "noMoreEventsAvailable": "No more events available for this period"
       }
     },
     "settingsHome": {

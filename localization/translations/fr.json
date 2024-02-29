@@ -64,7 +64,9 @@
         "searchBarPlaceholder": "Rechercher un événement...",
         "noEvents": "Aucun événement à venir",
         "openCalendar": "Ouvrir le calendrier",
-        "returnPeriods": "Retourner aux périodes"
+        "returnPeriods": "Retourner aux périodes",
+        "noEventsAvailable": "Pas d'événements disponibles pour cette période",
+        "noMoreEventsAvailable": "Pas d'autres événements disponibles pour cette période"
       }
     },
     "settingsHome": {
