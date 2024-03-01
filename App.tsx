@@ -4,8 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import { Provider, useSelector } from 'react-redux'; // Import Provider
 import { RootState, store } from './store/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ChevronLeft, Home, Search, Settings } from 'lucide-react-native'
+import { NativeStackNavigationOptions, createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ChevronLeft, Home, Search, Settings, BadgeEuro } from 'lucide-react-native';
 import { Pressable, SafeAreaView, StyleProp, Text, TextStyle, View, ViewStyle } from 'react-native';
 import './localization/i18n';
 
@@ -21,40 +21,64 @@ import { BottomNavigationItem } from './components/BottomNavigationItem/BottomNa
 import { SettingsGeneralView } from './view/SettingsView/SettingsGeneralView/SettingsGeneralView';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { THEME } from './assets/palette';
+import { TextItem } from './components/TextItem/TextItem';
+import { useTranslation } from 'react-i18next';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 
+// const { theme } = useSelector((state: RootState) => state.generalReducer);
+
+const screenOptions: NativeStackNavigationOptions = {
+  headerShown: true,
+  headerTintColor: THEME.titleBackground['light'] as string,
+  headerTitleAlign: 'center',
+  headerBackTitleVisible: false,
+};
+
+
 const SettingsScreens = () => {
+  const { t } = useTranslation();
   return (
     <SettingStack.Navigator
       screenOptions={{
-        headerShown: false,
+        ...screenOptions,
       }}
       initialRouteName="Settings" 
     >
       <SettingStack.Screen 
         name="Settings" 
         component={SettingsHomeView} 
-        
+        options={{
+          title: t('screens.settingsHome.title'),
+        }}
       />
       <SettingStack.Screen 
         name="Weather" 
         component={SettingsWeatherView} 
+        options={{
+          title: t('screens.settingsWeather.title'),
+        }}
       />
       <SettingStack.Screen 
         name="General" 
         component={SettingsGeneralView} 
+        options={{
+          title: t('screens.settingsGeneral.title'),
+        }}
       />
     </SettingStack.Navigator>
   )
 }
 
 const HomeScreens = () => {
+  const { t } = useTranslation();
+  
   return (
     <HomeStack.Navigator
       screenOptions={{
-        headerShown: false,
+        ...screenOptions,
       }}
       initialRouteName="Home"
     >
@@ -65,12 +89,16 @@ const HomeScreens = () => {
       <HomeStack.Screen 
         name="CulturalEvent" 
         component={CityEventView} 
-        
+        options={{
+          title: t('screens.settingsHome.title'),
+        }}
       />
       <HomeStack.Screen 
         name="HomeCulturalEvent" 
         component={CityEventHomeView} 
-        
+        options={{
+          title: t('screens.settingsHome.title'),
+        }}
       />
     </HomeStack.Navigator>
   )
@@ -114,27 +142,30 @@ export default function App() {
     <GestureHandlerRootView 
       style={{ flex: 1 }}
     >
+      <StatusBar style={'dark'} />
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <StatusBar style='light' />
-          <BottomSheetModalProvider>
-            <BottomNavigationItem 
-              navigatorTabs={[
-                {
-                  name: 'Home-tab',
-                  screenName: 'Home',
-                  icon: Home,
-                  screens: HomeScreens,
-                },
-                {
-                  name: 'Settings-tab',
-                  screenName: 'Settings',
-                  icon: Settings,
-                  screens: SettingsScreens,
-                },
-              ]}
-            />
-          </BottomSheetModalProvider>
+          <SafeAreaView style={{flex: 1}}>
+            <BottomSheetModalProvider>
+            
+              <BottomNavigationItem 
+                navigatorTabs={[
+                  {
+                    name: 'Home-tab',
+                    screenName: 'Home',
+                    icon: Home,
+                    screens: HomeScreens,
+                  },
+                  {
+                    name: 'Settings-tab',
+                    screenName: 'Settings',
+                    icon: Settings,
+                    screens: SettingsScreens,
+                  },
+                ]}
+              />
+            </BottomSheetModalProvider>
+          </SafeAreaView>
         </QueryClientProvider>
       </Provider>
     </GestureHandlerRootView>
