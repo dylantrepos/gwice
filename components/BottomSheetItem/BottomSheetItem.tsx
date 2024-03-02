@@ -80,18 +80,18 @@ export const BottomSheetItem = ({
           animateOnMount={true}
           enableOverDrag={false}
           handleStyle={{
-            backgroundColor: themeStyle.containerBackground[theme] as string,
+            backgroundColor: themeStyle.containerBackground['light'] as string,
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
           }}
           handleIndicatorStyle={{
-            backgroundColor: themeStyle.handleIndicator[theme] as string,
+            backgroundColor: themeStyle.handleIndicator['light'] as string,
           }}
         >
           <BottomSheetView
             style={{
               ...style.modalContentContainer,
-              backgroundColor: themeStyle.containerBackground[theme] as string,
+              backgroundColor: themeStyle.containerBackground['light'] as string,
             }}
           >
             <View

@@ -26,10 +26,10 @@ export const PageHeaderLayout = ({
   headerIconSize = 'md',
   headerIconColor = null,
   headerIconStroke = 'strong',
-  headerWithTransparentBackground = false,
   headerWithBackNavigation = false,
   headerIsAbsolute = true,
   headerStyle,
+  headerBackground,
   pageBackground,
   children
 }: PropsWithChildren<Props>) => {
@@ -42,45 +42,21 @@ export const PageHeaderLayout = ({
       <View style={{
         flex: 1,
       }}>
-        <StatusBar style="auto" />
-        <SafeAreaView
+        <View
           style={{
-            paddingTop: headerIsAbsolute ? 0 : HEIGHT_HEADER,
+            // paddingTop: headerIsAbsolute ? 0 : HEIGHT_HEADER,
             flex: 1,
           }}
         >
-          <HeaderItem
-            headerTitle={headerTitle}
-            headerTitleColor={headerTitleColor ?? themeStyle.headerTitleColor[theme]}
-            headerLeftIcon={headerLeftIcon}
-            headerRightIcon={headerRightIcon}
-            headerHandleLeftIconPress={headerHandleLeftIconPress}
-            headerHandleRightIconPress={headerHandleRightIconPress}
-            headerIconSize={headerIconSize}
-            headerIconColor={headerIconColor ?? themeStyle.headerIconColor[theme]}
-            headerIconStroke={headerIconStroke}
-            headerWithTransparentBackground={headerWithTransparentBackground}
-            headerWithBackNavigation={headerWithBackNavigation}
-            headerBackground={themeStyle.pageBackgroundColor[theme]}
-            headerStyle={{
-              height: HEIGHT_HEADER,
-            }}
-            style={{
-              ...headerStyle,
-            }}
-            onLayout={(event) => {
-              const {height} = event.nativeEvent.layout;
-            }}
-          />
           <View
             style={{
-              backgroundColor: pageBackground ?? themeStyle.pageBackgroundColor[theme],
+              backgroundColor: pageBackground ?? themeStyle.pageBackgroundColor['light'],
               flex: 1,
             }}
           >
             { children }  
           </View>
-        </SafeAreaView>
+        </View>
       </View>
     </GestureHandlerRootView>
   );

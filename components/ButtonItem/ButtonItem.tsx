@@ -35,15 +35,15 @@ export const ButtonItem = ({
       style={{
         ...style as ViewStyle, 
         ...buttonStyle.buttonContainer,
-        backgroundColor: themeStyle.type[type].background[theme] as string,
+        backgroundColor: themeStyle.type[type].background['light'] as string,
       }}
       onPress={handlePress}
     >
-      { IconElt && <IconItem IconElt={IconElt} size="md" color={themeStyle.type[type].text[theme] as string} /> }
+      { IconElt && <IconItem IconElt={IconElt} size="md" color={themeStyle.type[type].text['light'] as string} /> }
       <TextItem
         size={size}
         weight={weight}
-        color={themeStyle.type[type].text[theme] as string}
+        color={themeStyle.type[type].text['light'] as string}
       >
         {formatTitle(title)}
       </TextItem>

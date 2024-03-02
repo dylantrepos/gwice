@@ -11,39 +11,66 @@ export const palette = {
   blueLight: '#3988FD',
   blueLight50: '#3988FD50',
   blue: '#0D89CE',
-  red: '#FD3939',
-};
+  red: '#FD3939'
+}
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark'
 
-export type TestTheme = {
+export interface TestTheme {
   background: {
-    light: Theme;
-    dark: Theme;
-  },
+    light: Theme
+    dark: Theme
+  }
   text: {
-    light: Theme;
-    dark: Theme;
-  },
+    light: Theme
+    dark: Theme
+  }
   spacing: {
-    s: number;
-    m: number;
-    l: number;
-    xl: number;
-  },
+    s: number
+    m: number
+    l: number
+    xl: number
+  }
   textSize: {
-    sm: number;
-    md: number;
-    lg: number;
-    xl: number;
-    xxl: number;
-  },
+    sm: number
+    md: number
+    lg: number
+    xl: number
+    xxl: number
+  }
 }
 
 export const THEME = {
   background: {
     light: palette.white,
-    dark: palette.blackLighter,
+    dark: palette.blackLighter
+  },
+  header: {
+    leftButtonBackground: {
+      light: palette.white,
+      dark: palette.black
+    },
+    leftButtonIcon: {
+      light: palette.black,
+      dark: palette.white
+    }
+  },
+  headerBackground: {
+    light: palette.white,
+    dark: palette.black
+  },
+
+  titleBackground: {
+    light: palette.black,
+    dark: palette.white
+  },
+  text: {
+    light: palette.black,
+    dark: palette.white
+  },
+  textScrolled: {
+    light: palette.black,
+    dark: palette.white
   },
 
   // Spacing
@@ -51,18 +78,17 @@ export const THEME = {
     s: 8,
     m: 16,
     l: 24,
-    xl: 40,
+    xl: 40
   },
 
-  //Size
+  // Size
   textSize: {
     sm: 12,
     md: 16,
     lg: 20,
     xl: 24,
-    xxl: 32,
-  },
+    xxl: 32
+  }
 }
 
-
-export default palette;
+export default palette

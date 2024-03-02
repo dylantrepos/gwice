@@ -1,29 +1,52 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { HomeView } from './view/HomeView/HomeView';
+import {
+  createNativeStackNavigator,
+  type NativeStackNavigationOptions
+} from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { Provider, useSelector } from 'react-redux'; // Import Provider
-import { RootState, store } from './store/store';
+import { Home, Settings } from 'lucide-react-native';
+import { SafeAreaView, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { NativeStackNavigationOptions, createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ChevronLeft, Home, Search, Settings, BadgeEuro } from 'lucide-react-native';
-import { Pressable, SafeAreaView, StyleProp, Text, TextStyle, View, ViewStyle } from 'react-native';
+import { Provider } from 'react-redux';
 import './localization/i18n';
+import { store } from './store/store';
+import { HomeView } from './view/HomeView/HomeView';
 
 // Views
-import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
-import { CityEventView } from './view/CityEvents/CityEventView/CityEventView';
 import { CityEventHomeView } from './view/CityEvents/CityEventHomeView/CityEventHomeView';
+import { CityEventView } from './view/CityEvents/CityEventView/CityEventView';
 import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsHomeView';
+import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
 
-import { Poppins_100Thin, Poppins_100Thin_Italic, Poppins_200ExtraLight, Poppins_200ExtraLight_Italic, Poppins_300Light, Poppins_300Light_Italic, Poppins_400Regular, Poppins_400Regular_Italic, Poppins_500Medium, Poppins_500Medium_Italic, Poppins_600SemiBold, Poppins_600SemiBold_Italic, Poppins_700Bold, Poppins_700Bold_Italic, Poppins_800ExtraBold, Poppins_800ExtraBold_Italic, Poppins_900Black, Poppins_900Black_Italic, useFonts } from "@expo-google-fonts/poppins";
-import { WarningScreenItem } from './components/WarningScreenItem/WarningScreenItem';
-import { BottomNavigationItem } from './components/BottomNavigationItem/BottomNavigationItem';
-import { SettingsGeneralView } from './view/SettingsView/SettingsGeneralView/SettingsGeneralView';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {
+  Poppins_100Thin,
+  Poppins_100Thin_Italic,
+  Poppins_200ExtraLight,
+  Poppins_200ExtraLight_Italic,
+  Poppins_300Light,
+  Poppins_300Light_Italic,
+  Poppins_400Regular,
+  Poppins_400Regular_Italic,
+  Poppins_500Medium,
+  Poppins_500Medium_Italic,
+  Poppins_600SemiBold,
+  Poppins_600SemiBold_Italic,
+  Poppins_700Bold,
+  Poppins_700Bold_Italic,
+  Poppins_800ExtraBold,
+  Poppins_800ExtraBold_Italic,
+  Poppins_900Black,
+  Poppins_900Black_Italic,
+  useFonts
+} from '@expo-google-fonts/poppins';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { THEME } from './assets/palette';
-import { TextItem } from './components/TextItem/TextItem';
+import { type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { THEME } from './assets/palette';
+import { BottomNavigationItem } from './components/BottomNavigationItem/BottomNavigationItem';
+import { HeaderLeftItem } from './components/HeaderItem2/HeaderItem';
+import { WarningScreenItem } from './components/WarningScreenItem/WarningScreenItem';
+import { SettingsGeneralView } from './view/SettingsView/SettingsGeneralView/SettingsGeneralView';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -32,79 +55,78 @@ const HomeStack = createNativeStackNavigator();
 
 const screenOptions: NativeStackNavigationOptions = {
   headerShown: true,
-  headerTintColor: THEME.titleBackground['light'] as string,
+  headerTintColor: THEME.titleBackground.light,
   headerTitleAlign: 'center',
-  headerBackTitleVisible: false,
+  headerBackTitleVisible: false
 };
 
-
-const SettingsScreens = () => {
+const SettingsScreens = (): ReactElement => {
   const { t } = useTranslation();
   return (
     <SettingStack.Navigator
       screenOptions={{
-        ...screenOptions,
+        ...screenOptions
       }}
-      initialRouteName="Settings" 
+      initialRouteName="Settings"
     >
-      <SettingStack.Screen 
-        name="Settings" 
-        component={SettingsHomeView} 
+      <SettingStack.Screen
+        name="Settings"
+        component={SettingsHomeView}
         options={{
-          title: t('screens.settingsHome.title'),
+          title: t('screens.settingsHome.title')
         }}
       />
-      <SettingStack.Screen 
-        name="Weather" 
-        component={SettingsWeatherView} 
+      <SettingStack.Screen
+        name="Weather"
+        component={SettingsWeatherView}
         options={{
-          title: t('screens.settingsWeather.title'),
+          title: t('screens.settingsWeather.title')
         }}
       />
-      <SettingStack.Screen 
-        name="General" 
-        component={SettingsGeneralView} 
+      <SettingStack.Screen
+        name="General"
+        component={SettingsGeneralView}
         options={{
-          title: t('screens.settingsGeneral.title'),
+          title: t('screens.settingsGeneral.title')
         }}
       />
     </SettingStack.Navigator>
-  )
-}
+  );
+};
 
-const HomeScreens = () => {
+const HomeScreens = (): ReactElement => {
   const { t } = useTranslation();
-  
+
   return (
     <HomeStack.Navigator
       screenOptions={{
-        ...screenOptions,
+        ...screenOptions
       }}
       initialRouteName="Home"
     >
-      <HomeStack.Screen 
-        name="Home" 
-        component={HomeView}
-      />
-      <HomeStack.Screen 
-        name="CulturalEvent" 
-        component={CityEventView} 
+      <HomeStack.Screen name="Home" component={HomeView} />
+      <HomeStack.Screen
+        name="CulturalEvent"
+        component={CityEventView}
         options={{
-          title: t('screens.settingsHome.title'),
+          headerTitle: '',
+          headerTransparent: true,
+          headerLeft: HeaderLeftItem
         }}
       />
-      <HomeStack.Screen 
-        name="HomeCulturalEvent" 
-        component={CityEventHomeView} 
+      <HomeStack.Screen
+        name="HomeCulturalEvent"
+        component={CityEventHomeView}
         options={{
-          title: t('screens.settingsHome.title'),
+          title: t('screens.events.title')
         }}
       />
     </HomeStack.Navigator>
-  )
-}
+  );
+};
 
-export default function App() {
+// eslint-disable-next-line @typescript-eslint/space-before-function-paren
+export default function App(): ReactElement {
   const queryClient = new QueryClient();
 
   const [fontsLoaded] = useFonts({
@@ -125,43 +147,40 @@ export default function App() {
     Poppins_800Bold: Poppins_800ExtraBold,
     Poppins_800_Italic: Poppins_800ExtraBold_Italic,
     Poppins_900: Poppins_900Black,
-    Poppins_900_Italic: Poppins_900Black_Italic,
+    Poppins_900_Italic: Poppins_900Black_Italic
   });
 
   if (!fontsLoaded) {
     return (
       <SafeAreaView>
         <View>
-          <WarningScreenItem type='loader' />
+          <WarningScreenItem type="loader" />
         </View>
       </SafeAreaView>
     );
-  };
+  }
 
   return (
-    <GestureHandlerRootView 
-      style={{ flex: 1 }}
-    >
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style={'dark'} />
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <SafeAreaView style={{flex: 1}}>
+          <SafeAreaView style={{ flex: 1 }}>
             <BottomSheetModalProvider>
-            
-              <BottomNavigationItem 
+              <BottomNavigationItem
                 navigatorTabs={[
                   {
                     name: 'Home-tab',
                     screenName: 'Home',
                     icon: Home,
-                    screens: HomeScreens,
+                    screens: HomeScreens
                   },
                   {
                     name: 'Settings-tab',
                     screenName: 'Settings',
                     icon: Settings,
-                    screens: SettingsScreens,
-                  },
+                    screens: SettingsScreens
+                  }
                 ]}
               />
             </BottomSheetModalProvider>

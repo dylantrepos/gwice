@@ -38,12 +38,7 @@ export const SettingsGeneralView = ({
 
   
   return (
-    <PageHeaderLayout
-      headerTitle={t('screens.settingsGeneral.title')}
-      headerWithBackNavigation={true}
-      headerWithTransparentBackground={false}
-      headerIsAbsolute={false}
-    >
+    <View>
       <ScrollView>
         <Pressable 
           style={style.option}
@@ -80,7 +75,7 @@ export const SettingsGeneralView = ({
           </Picker>
         </View>
       </ScrollView>
-    </PageHeaderLayout>
+    </View>
   );
 };
 

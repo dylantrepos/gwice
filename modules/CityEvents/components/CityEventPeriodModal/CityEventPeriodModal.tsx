@@ -109,7 +109,7 @@ export const FilterDateModal = ({
                 <TextItem 
                   style={{
                   ...style.itemText,
-                  color: currSelectedItem === item ? palette.blueLight : themeStyle.textDefault[theme],
+                  color: currSelectedItem === item ? palette.blueLight : themeStyle.textDefault['light'],
                   }}
                 >
                   {t(`period.${item}`)}
@@ -130,7 +130,7 @@ export const FilterDateModal = ({
                 <TextItem 
                   style={{
                   ...style.itemText,
-                  color: currSelectedItem === 'custom' ? palette.blueLight : themeStyle.textDefault[theme],
+                  color: currSelectedItem === 'custom' ? palette.blueLight : themeStyle.textDefault['light'],
                   }}
                 >
                   {getFormattedDate(customPeriod.startDate, customPeriod?.endDate) ?? 'error'}

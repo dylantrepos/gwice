@@ -1,29 +1,28 @@
-import { RefreshControl, ScrollView } from "react-native"
-import style from './HomeView.style';
-import { CityBackgroundItem } from "../../components/CityBackgroundItem/CityBackgroundItem";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Animated, RefreshControl, ScrollView, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { setRefetchHome } from "../../reducers/generalReducer";
-import { RootState } from "../../store/store";
-import { CityEventsListHorizontalItem } from "../../modules/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem";
-import { THEME } from "../../assets/palette";
-import { PageHeaderLayout } from "../../layouts/PageHeaderLayout";
-import { useTranslation } from "react-i18next";
+import { THEME } from '../../assets/palette';
+import { CityBackgroundItem } from '../../components/CityBackgroundItem/CityBackgroundItem';
+import { CityEventsListHorizontalItem } from '../../modules/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
+import { setRefetchHome } from '../../reducers/generalReducer';
+import { type RootState } from '../../store/store';
+import style from './HomeView.style';
 
-type HomeViewProps = {
+interface HomeViewProps {
   navigation: any;
   route: any;
-};
+}
 
-export const HomeView = ({
-  navigation,
-  route
-}: HomeViewProps)  => {
+export const HomeView = ({ navigation, route }: HomeViewProps) => {
   const [refreshing, setRefreshing] = useState(false);
-  const { theme, currentCity, refetchHome, currentHomeViewDate } = useSelector((state: RootState) => state.generalReducer);
+  const { theme, currentCity, refetchHome, currentHomeViewDate } = useSelector(
+    (state: RootState) => state.generalReducer
+  );
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -33,32 +32,23 @@ export const HomeView = ({
     }, 1000);
   }, []);
 
-
   return (
-    <PageHeaderLayout 
-      headerTitle={t("screens.home.title")}
-      headerWithBackNavigation={false}
-      headerWithTransparentBackground={true}
-      headerTitleColor="white"
-    >
-       <ScrollView 
-          style={{
-            ...style.scrollView,
-            backgroundColor: THEME.background[theme] as string,
-          }}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        > 
-          <CityBackgroundItem />
-          <CityEventsListHorizontalItem
-            navigation={navigation} 
-            route={route} 
-            title={t("screens.home.text.event")}
-            handleNavigation={() => navigation.push('HomeCulturalEvent')}
-          />
-        </ScrollView>    
-    </PageHeaderLayout>
-
-  )
-}
+    <View>
+      <ScrollView
+        style={{
+          ...style.scrollView,
+          backgroundColor: THEME.background.light
+        }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      >
+        <CityBackgroundItem />
+        <CityEventsListHorizontalItem
+          navigation={navigation}
+          route={route}
+          title={t('screens.home.text.event')}
+          handleNavigation={() => navigation.push('HomeCulturalEvent')}
+        />
+      </ScrollView>
+    </View>
+  );
+};

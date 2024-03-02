@@ -25,8 +25,8 @@ export const TagItem = ({
       style={{
         ...style as ViewStyle, 
         ...tagStyle.tagContainer,
-        backgroundColor: themeStyle.background[theme] as string,
-        borderColor: themeStyle.border[theme] as string,
+        backgroundColor: themeStyle.background['light'] as string,
+        borderColor: themeStyle.border['light'] as string,
       }}
     >
       { IconElt && (

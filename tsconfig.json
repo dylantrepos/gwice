@@ -1,5 +1,17 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "jsx": "react-native",
+    "lib": [
+      "es6",
+      "dom",
+      "esnext.asynciterable"
+    ],
+    "types": [
+      "react",
+      "react-native",
+      "jest"
+    ]
+  },
   "extends": "@tsconfig/react-native/tsconfig.json",
   "typeRoots": [
     "./types"

@@ -10,6 +10,7 @@ import { RootState } from '../../store/store';
 import { IconItem } from '../IconItem/IconItem';
 import {themeStyle as iconThemeStyle} from '../IconItem/IconItem.style';
 import { useNavigation } from '@react-navigation/native';
+import { Animated } from 'react-native';
 
 export type HeaderProps = ViewProps & {
   headerTitle?: string;
@@ -22,7 +23,6 @@ export type HeaderProps = ViewProps & {
   headerIconColor?: string | null;
   headerIconStroke?: keyof typeof iconThemeStyle.stroke;
   headerBackground?: string;
-  headerWithTransparentBackground?: boolean;
   headerWithBackNavigation?: boolean;
   headerStyle?: ViewStyle;
 }
@@ -38,7 +38,6 @@ export const HeaderItem = ({
   headerIconColor = null,
   headerIconStroke = 'strong',
   headerBackground,
-  headerWithTransparentBackground = false,
   headerWithBackNavigation = false,
   headerStyle,
 }: PropsWithChildren<HeaderProps>) => {
@@ -46,14 +45,14 @@ export const HeaderItem = ({
   const navigate = useNavigation();
 
   return (
-    <View
+    <Animated.View
       style={{
         flex: 1,
         top: insets.top,
         zIndex: 100,
         height: 70,
-        width: '100%',
-        backgroundColor: headerWithTransparentBackground ? 'transparent' : headerBackground,
+        width: '100%', 
+        backgroundColor: headerBackground ?? 'transparent',
         position: 'absolute',
         flexDirection: 'row',
         ...headerStyle as ViewStyle,
@@ -125,6 +124,6 @@ export const HeaderItem = ({
           </Pressable>
         )}
       </View>
-    </View>
+    </Animated.View>
   );
 }

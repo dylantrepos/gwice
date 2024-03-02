@@ -89,8 +89,8 @@ export const CityEventListCategoryListItem = ({
                     <IconItem
                       color={
                         categoriesSelected.includes(id) 
-                        ? themeStyle.categoryBackgroundIncludeColor[theme] 
-                        : themeStyle.categoryBackgroundExcludeColor[theme]}
+                        ? themeStyle.categoryBackgroundIncludeColor['light'] 
+                        : themeStyle.categoryBackgroundExcludeColor['light']}
                       size="xl"
                       stroke="light"
                       IconElt={IconElt}

@@ -71,7 +71,7 @@ export const CityWeatherHourlyItem = ({
         </TextItem>
         <View style={{
           ...style.halfBottomBorder,
-          borderColor: themeStyle.halfBottomBorderColor[theme] as string,
+          borderColor: themeStyle.halfBottomBorderColor['light'] as string,
         }} />
       </ViewItem.Animated>
     </View>

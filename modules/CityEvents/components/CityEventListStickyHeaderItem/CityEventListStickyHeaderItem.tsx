@@ -44,7 +44,7 @@ export const CityEventListStickyHeaderItem = ({
   return (
     <View
       style={{
-        backgroundColor: THEME.background[theme] as string,
+        backgroundColor: THEME.background['light'] as string,
       }}
     >
       <SearchBarItem

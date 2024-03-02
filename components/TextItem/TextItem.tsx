@@ -33,7 +33,7 @@ export const TextItem = ({
     <Text 
       style={{
         fontFamily: font,
-        color: color ?? themeStyle.color[theme] as string,
+        color: color ?? themeStyle.color['light'] as string,
         fontSize: themeStyle.size[size as keyof typeof themeStyle.size],
         ...style as TextStyle, 
       } as TextStyle} 

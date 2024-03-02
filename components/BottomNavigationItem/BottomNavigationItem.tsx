@@ -27,11 +27,12 @@ export const BottomNavigationItem = ({
   }
   const tabStyle = {
     container: {
-      backgroundColor: themeStyle.background[theme] as string,
+      backgroundColor: themeStyle.background['light'] as string,
       borderTopWidth: 1,
-      borderTopColor: themeStyle.border[theme] as string,
+      borderTopColor: themeStyle.border['light'] as string,
       elevation: 0,
       height: 60,
+      // height: 60,
     } as StyleProp<ViewStyle>,
     label: {
       fontSize: 20,

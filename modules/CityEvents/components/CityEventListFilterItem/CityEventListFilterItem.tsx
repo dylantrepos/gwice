@@ -51,7 +51,7 @@ export const CityEventListFilterItem = () => {
         <Pressable
           style={{
             ...style.filter,
-            backgroundColor: themeStyle.filterBackgroundColor[theme] as string,
+            backgroundColor: themeStyle.filterBackgroundColor['light'] as string,
           }}
           onPress={handlePopin}
         >
@@ -77,7 +77,7 @@ export const CityEventListFilterItem = () => {
         <View
           style={{
             ...style.filter,
-            backgroundColor: themeStyle.filterBackgroundColor[theme] as string,
+            backgroundColor: themeStyle.filterBackgroundColor['light'] as string,
           }}
         >
           <IconItem
@@ -99,7 +99,7 @@ export const CityEventListFilterItem = () => {
         <View
           style={{
             ...style.filter,
-            backgroundColor: themeStyle.filterBackgroundColor[theme] as string,
+            backgroundColor: themeStyle.filterBackgroundColor['light'] as string,
           }}
         >
           <IconItem

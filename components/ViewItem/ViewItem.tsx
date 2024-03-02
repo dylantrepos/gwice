@@ -23,7 +23,7 @@ export const ViewItem = ({
   return (
     <View 
       style={{
-        backgroundColor: themeStyle[theme] as string,
+        backgroundColor: themeStyle['light'] as string,
         ...style as ViewStyle, 
       }}
     >
@@ -43,7 +43,7 @@ ViewItem.Animated = ({
   return (
     <Animated.View 
       style={{
-        backgroundColor: isLoading ? backgroundColor : themeStyle[theme] as string,
+        backgroundColor: isLoading ? backgroundColor : themeStyle['light'] as string,
         ...style as ViewStyle, 
       }}
     >
