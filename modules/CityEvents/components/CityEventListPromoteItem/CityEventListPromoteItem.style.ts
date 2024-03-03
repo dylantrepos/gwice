@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   header: {
@@ -6,21 +6,21 @@ export default StyleSheet.create({
     top: 0,
     left: 0,
     zIndex: 1,
-    width: '100%',
+    width: '100%'
   },
   headerTitle: {
-    color: '#fff',
+    color: '#fff'
   },
   promoteEvent: {
     backgroundColor: '#0D89CE',
-    position: 'relative',
+    position: 'relative'
   },
   promoteEventImage: {
     width: '100%',
     height: 400,
     display: 'flex',
     justifyContent: 'flex-end',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   promoteEventInfos: {
     gap: 10,
@@ -28,11 +28,11 @@ export default StyleSheet.create({
     height: 200,
     display: 'flex',
     justifyContent: 'flex-end',
-    paddingBottom: 20,
+    paddingBottom: 20
   },
   promoteEventDate: {
     color: '#fff',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   promoteEventButton: {
     borderWidth: 1,
@@ -40,10 +40,10 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 100,
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   promoteEventButtonText: {
     color: '#fff',
-    textAlign: 'center',
-  },
+    textAlign: 'center'
+  }
 });

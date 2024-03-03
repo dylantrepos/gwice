@@ -2,12 +2,10 @@ import { useCallback, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { THEME } from '../../assets/theme';
 import { CityBackgroundItem } from '../../components/CityBackgroundItem/CityBackgroundItem';
 import { Layout } from '../../layouts/Layout';
 import { CityEventsListHorizontalItem } from '../../modules/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
 import { setRefetchHome } from '../../reducers/generalReducer';
-import style from './HomeView.style';
 
 interface HomeViewProps {
   navigation: any;
@@ -35,16 +33,11 @@ export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
   return (
     <Layout
       header={{
-        headerTitle: t('screens.home.title')
+        headerTitle: t('screens.home.title'),
+        headerTransparent: true
       }}
     >
-      <ScrollView
-        style={{
-          ...style.scrollView,
-          backgroundColor: THEME.style.viewBackground.light
-        }}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      >
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <CityBackgroundItem />
         <CityEventsListHorizontalItem
           navigation={navigation}

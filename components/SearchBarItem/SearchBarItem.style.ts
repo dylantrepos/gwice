@@ -1,4 +1,5 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
+import palette from '../../assets/palette';
 
 export default StyleSheet.create({
   searchContainer: {
@@ -6,25 +7,23 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     paddingVertical: 10,
-    backgroundColor: '#f5f5f5',
     margin: 20,
     marginBottom: 10,
     borderRadius: 100,
     gap: 10,
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
     paddingTop: 0,
-    paddingBottom: 0, 
+    paddingBottom: 0,
     paddingRight: 50
-
   },
   searchTitle: {
     fontSize: 16,
     color: '#A0A0A0',
-    lineHeight: 22,
+    lineHeight: 22
   },
   searchIconReset: {
     backgroundColor: '#f5f5f5',
@@ -36,6 +35,13 @@ export default StyleSheet.create({
     borderBottomEndRadius: 100,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-  },  
+    alignItems: 'center'
+  }
 });
+
+export const themeStyle = {
+  background: {
+    light: palette.grayLighter,
+    dark: palette.white
+  }
+};

@@ -1,41 +1,37 @@
-import { View, Image, Animated, ViewStyle, Dimensions} from 'react-native';
-import { weatherCodeIcons } from '../../utils/weatherImgCode';
-import style, { themeStyle } from './CityWeatherHourlyItem.style';
-import { OpenMeteoDataHourly} from '../../types/Weather';
-import { useEffect, useRef } from 'react';
-import { animationOptions } from '../cityWeatherSettings';
-import { useBackgroundColorLoading } from '../../../../hooks/useBackgroundColorLoading';
-import { TextItem } from '../../../../components/TextItem/TextItem';
-import { ViewItem } from '../../../../components/ViewItem/ViewItem';
+import { useEffect, useRef, type ReactNode } from 'react';
+import { Animated, Dimensions, Image, View, type ViewStyle } from 'react-native';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
+import { TextItem } from '../../../../components/TextItem/TextItem';
+import { ViewItemAnimated } from '../../../../components/ViewItem/ViewItem';
+import { useBackgroundColorLoading } from '../../../../hooks/useBackgroundColorLoading';
+import { type RootState } from '../../../../store/store';
+import { type OpenMeteoDataHourly } from '../../types/Weather';
+import { weatherCodeIcons } from '../../utils/weatherImgCode';
+import { animationOptions } from '../cityWeatherSettings';
+import style, { themeStyle } from './CityWeatherHourlyItem.style';
 
-type Props = {
+interface Props {
   weather: OpenMeteoDataHourly;
   show: boolean;
   styleProps?: ViewStyle;
 }
 
-export const CityWeatherHourlyItem = ({
-  weather,
-  show,
-  styleProps
-}: Props) => {
-  const { temperature, hour, weatherCode, isDay, date } = weather;
+export const CityWeatherHourlyItem = ({ weather, show, styleProps }: Props): ReactNode => {
+  const { temperature, hour, weatherCode, isDay } = weather;
   const imageSource = weatherCodeIcons[isDay ? 'day' : 'night'][weatherCode];
   const fade = useRef(new Animated.Value(0)).current;
   const { theme } = useSelector((state: RootState) => state.generalReducer);
 
-  const fadeIn = () => {
+  const fadeIn = (): void => {
     Animated.timing(fade, animationOptions(1)).start();
-  }
-  const fadeOut = () => {
+  };
+  const fadeOut = (): void => {
     Animated.timing(fade, animationOptions(0)).start();
-  }
+  };
 
   const opacity = fade.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 1],
+    outputRange: [0, 1]
   });
 
   useEffect(() => {
@@ -47,52 +43,42 @@ export const CityWeatherHourlyItem = ({
   }, [show]);
 
   return (
-    <View 
-      style={{...style.cityWeatherHourlyContainer, ...styleProps}}
-    >
-      <ViewItem.Animated 
+    <View style={{ ...style.cityWeatherHourlyContainer, ...styleProps }}>
+      <ViewItemAnimated
         style={{
-        ...style.cityWeatherHourlyContainerAnimated,
-        opacity: opacity
+          ...style.cityWeatherHourlyContainerAnimated,
+          opacity
         }}
       >
-        <TextItem
-          weight="regular"
-          size="md"
-        >
+        <TextItem weight="regular" size="md">
           {hour}
         </TextItem>
         <Image source={imageSource} style={style.cityWeatherHourlyImage} />
-        <TextItem 
-          weight="light"
-          size="md"
-        >
+        <TextItem weight="light" size="md">
           {temperature}
         </TextItem>
-        <View style={{
-          ...style.halfBottomBorder,
-          borderColor: themeStyle.halfBottomBorderColor['light'] as string,
-        }} />
-      </ViewItem.Animated>
+        <View
+          style={{
+            ...style.halfBottomBorder,
+            borderColor: themeStyle.halfBottomBorderColor[theme]
+          }}
+        />
+      </ViewItemAnimated>
     </View>
   );
-}
+};
 
+export const CityWeatherHourlyEmptyItem = (): ReactNode => {
+  const { backgroundColor } = useBackgroundColorLoading(true);
 
-export const CityWeatherHourlyEmptyItem = () => {
-
-
-  const { backgroundColor } = useBackgroundColorLoading(true)
-  
   return (
-    <Animated.View 
+    <Animated.View
       style={{
         ...style.cityWeatherHourlyEmptyContainer,
         height: '100%',
-        width: ((Dimensions.get('window').width - 40) - (3 * 10)) / 4,
-        backgroundColor,
+        width: (Dimensions.get('window').width - 40 - 3 * 10) / 4,
+        backgroundColor
       }}
-    >
-    </Animated.View>
-  )
+    ></Animated.View>
+  );
 };

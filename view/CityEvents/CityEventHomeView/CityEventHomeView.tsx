@@ -1,10 +1,11 @@
 import { isBefore } from 'date-fns';
-import { Layout } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Keyboard, View, VirtualizedList } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
+import { Layout } from '../../../layouts/Layout';
 import {
   CityEventCardLargeEmptyItem,
   CityEventCardLargeItem
@@ -30,7 +31,7 @@ const HeaderList = ({ navigation, handleHeaderHeight }: HeaderListProps): ReactN
       handleHeaderHeight(height);
     }}
   >
-    <CityEventListPromoteItem navigation={navigation} />
+    <CityEventListPromoteItem />
   </View>
 );
 
@@ -54,6 +55,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   const { isSearchInputFocused, currentPeriod, customPeriod, startDate, endDate } = useSelector(
     (state: RootState) => state.eventReducer
   );
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const flatListRef = useRef<VirtualizedList<CityEventCard> | null>(null);
   const fakeWaitingData = Array(5)
@@ -74,8 +76,8 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
       if (index === 0) return item;
 
       if (index > 0 && item.nextTiming) {
-        const nextTimingStart = new Date(item.nextTiming.begin);
-        const nextTimingEnd = new Date(item.nextTiming.end);
+        const nextTimingStart = new Date((item as CityEventCard).nextTiming.begin);
+        const nextTimingEnd = new Date((item as CityEventCard).nextTiming.end);
         const now = new Date();
 
         if (isBefore(nextTimingStart, now) && isBefore(nextTimingEnd, now)) {
@@ -87,7 +89,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
         <CityEventCardLargeItem
           navigation={navigation}
           route={route}
-          event={item as CityEventCard}
+          event={item}
           selectedItemDate={selectedItemDate}
           period={currentPeriod}
         />
@@ -101,7 +103,6 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   const {
     isLoading,
     events,
-    isError,
     hasNextPage,
     fetchNextPage,
     isFetching,
@@ -115,7 +116,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
     key: 'cityEventHome'
   });
 
-  const fetchMoreData = () => {
+  const fetchMoreData = (): void => {
     if (hasNextPage) {
       fetchNextPage();
     }
@@ -163,7 +164,12 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   }, [isSearchInputFocused]);
 
   return (
-    <Layout title>
+    <Layout
+      header={{
+        headerTitle: t('screens.events.title'),
+        headerTransparent: true
+      }}
+    >
       <VirtualizedList
         removeClippedSubviews={false}
         contentContainerStyle={{ minHeight: '100%' }}
@@ -190,7 +196,15 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
         getItemLayout={(data, index) => ({ length: 450, offset: 450 * index, index })}
         stickyHeaderHiddenOnScroll={true}
         stickyHeaderIndices={[1]}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            style={{
+              zIndex: -10
+            }}
+          />
+        }
         onEndReachedThreshold={5}
         onEndReached={fetchMoreData}
         ListHeaderComponent={
@@ -210,7 +224,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
           )
         }
         keyExtractor={(item, index) =>
-          `${(item as CityEventCard)?.uid?.toString()}-${index}` ?? `${item}-header-${index}`
+          `${item?.uid?.toString()}-${index}` ?? `${item}-header-${index}`
         }
         extraData={selectedItemDate}
       />

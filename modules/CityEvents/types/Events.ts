@@ -1,4 +1,5 @@
-import { LucideIcon } from "lucide-react-native";
+import { type LucideIcon } from 'lucide-react-native';
+
 interface Image {
   filename: string;
   size: {
@@ -26,7 +27,6 @@ interface Location {
   longitude: number;
 }
 
-
 interface CategoryOption {
   id: number;
   value: string;
@@ -38,7 +38,7 @@ interface CategoryOption {
   display: boolean;
 }
 
-interface Description { [key: string]: string }
+type Description = Record<string, string>;
 
 export interface CityEventDetailsRequest {
   total: number;
@@ -68,6 +68,13 @@ interface Category {
   };
 }
 
+export interface CategoryItem {
+  title: string;
+  id: number;
+  iconElt: LucideIcon;
+  translationKey: string;
+}
+
 export interface CityEventCard {
   image: Image;
   uid: number;
@@ -77,20 +84,20 @@ export interface CityEventCard {
   description: Description;
   location: Location;
   title: Title;
-  "categories-metropolitaines": Category[];
+  'categories-metropolitaines': Category[];
   nextTiming: Timing;
   nextDate: string;
 }
 
 export interface CityEventDetails {
-  longDescription: { [key: string]: string };
-  country: { [key: string]: string };
+  longDescription: Record<string, string>;
+  country: Record<string, string>;
   interetintercommunal: number[];
   featured: boolean;
   private: number;
-  keywords: {};
-  accessibility: { [key: string]: boolean };
-  dateRange: { [key: string]: string };
+  keywords: Record<string, unknown>;
+  accessibility: Record<string, boolean>;
+  dateRange: Record<string, string>;
   timezone: string;
   imageCredits: string | null;
   originAgenda: {
@@ -98,21 +105,21 @@ export interface CityEventDetails {
     image: string;
     title: string;
   };
-  description: { [key: string]: string };
-  title: { [key: string]: string };
+  description: Record<string, string>;
+  title: Record<string, string>;
   onlineAccessLink: string | null;
   createdAt: string;
   uid: number;
   draft: number;
-  timings: {
+  timings: Array<{
     begin: string;
     end: string;
-  }[];
+  }>;
   firstTiming: {
     begin: string;
     end: string;
   };
-  links: Record<'link', string>[];
+  links: Array<Record<'link', string>>;
   state: number;
   'categories-metropolitaines': CategoryOption[];
   slug: string;
@@ -124,18 +131,18 @@ export interface CityEventDetails {
       width: number;
       height: number;
     };
-    variants: {
+    variants: Array<{
       filename: string;
       size: {
         width: number;
         height: number;
       };
       type: string;
-    }[];
+    }>;
     base: string;
   };
   attendanceMode: number;
-  sourceAgendas: {
+  sourceAgendas: Array<{
     image: string;
     private: number;
     indexed: number;
@@ -150,7 +157,7 @@ export interface CityEventDetails {
     officializedAt: string;
     slug: string;
     updatedAt: string;
-  }[];
+  }>;
   label: [];
   creatorUid: number;
   recurringevent: [];
@@ -158,20 +165,20 @@ export interface CityEventDetails {
     begin: string;
     end: string;
   };
-  registration: {
+  registration: Array<{
     type: string;
     value: string;
-  }[];
+  }>;
   category: CategoryOption[];
   location: {
     disqualifiedDuplicates: null;
-    access: {};
+    access: Record<string, unknown>;
     city: string;
     timezone: string;
     postalCode: string;
     latitude: number;
     imageCredits: string | null;
-    description: {};
+    description: Record<string, unknown>;
     setUid: number | null;
     uid: number;
     createdAt: string;
@@ -204,7 +211,7 @@ export interface CityEventDetails {
     region: string;
   };
   ownerUid: number;
-  conditions: { [key: string]: string };
+  conditions: Record<string, string>;
   age: {
     min: number | null;
     max: number | null;

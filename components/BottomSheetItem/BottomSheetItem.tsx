@@ -1,21 +1,12 @@
-import { Modal, Pressable, StyleSheet, View, ViewProps } from 'react-native';
-import style, { themeStyle } from "./BottomSheetItem.style";
-import { PropsWithChildren, useCallback, useEffect, useRef } from "react";
-import palette from '../../assets/palette';
-import { TextItem } from '../TextItem/TextItem';
-import { IconItem } from '../IconItem/IconItem';
-import { X } from 'lucide-react-native';
+import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import { useCallback, useEffect, useRef, type PropsWithChildren, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { View, type ViewProps } from 'react-native';
+import { useSelector } from 'react-redux';
+import { type RootState } from '../../store/store';
 import { ButtonItem } from '../ButtonItem/ButtonItem';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
-import { RootState } from '../../store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { HeaderItem } from '../HeaderItem/HeaderItem';
+import { TextItem } from '../TextItem/TextItem';
+import style, { themeStyle } from './BottomSheetItem.style';
 
 type Props = ViewProps & {
   title: string;
@@ -25,7 +16,7 @@ type Props = ViewProps & {
   handleConfirm: () => void;
   disableConfirm?: boolean;
   handleClose: () => void;
-}
+};
 
 export const BottomSheetItem = ({
   title,
@@ -35,7 +26,7 @@ export const BottomSheetItem = ({
   handleConfirm,
   disableConfirm = false,
   children
-}: PropsWithChildren<Props>) => {
+}: PropsWithChildren<Props>): ReactNode => {
   const { t } = useTranslation();
   const { theme } = useSelector((state: RootState) => state.generalReducer);
   // ref
@@ -50,68 +41,57 @@ export const BottomSheetItem = ({
     if (visible) {
       handlePresentModalPress();
       setVisibility(false);
-    } 
+    }
   }, [visible]);
 
   const renderBackdrop = useCallback(
-		(props: any) => (
-			<BottomSheetBackdrop
-				{...props}
-				disappearsOnIndex={-1}
-				appearsOnIndex={0}
-			/>
-		),
-		[]
-	);
+    (props: any) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />,
+    []
+  );
 
-  const handleConfirmModal = () => {
+  const handleConfirmModal = (): void => {
     if (disableConfirm) return;
     bottomSheetModalRef.current?.dismiss();
     handleConfirm();
-  }
+  };
 
   return (
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={0}
-          enableDynamicSizing={true}
-          enablePanDownToClose={true}
-          backdropComponent={renderBackdrop}
-          animateOnMount={true}
-          enableOverDrag={false}
-          handleStyle={{
-            backgroundColor: themeStyle.containerBackground['light'] as string,
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-          }}
-          handleIndicatorStyle={{
-            backgroundColor: themeStyle.handleIndicator['light'] as string,
-          }}
-        >
-          <BottomSheetView
-            style={{
-              ...style.modalContentContainer,
-              backgroundColor: themeStyle.containerBackground['light'] as string,
-            }}
-          >
-            <View
-              style={style.modalHeaderContainer}
-            >
-              <TextItem
-                size="xl"
-                weight="semiBold"
-              >
-                {title}
-              </TextItem>
-            </View>
+    <BottomSheetModal
+      ref={bottomSheetModalRef}
+      index={0}
+      enableDynamicSizing={true}
+      enablePanDownToClose={true}
+      backdropComponent={renderBackdrop}
+      animateOnMount={true}
+      enableOverDrag={false}
+      handleStyle={{
+        backgroundColor: themeStyle.containerBackground[theme],
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10
+      }}
+      handleIndicatorStyle={{
+        backgroundColor: themeStyle.handleIndicator[theme]
+      }}
+    >
+      <BottomSheetView
+        style={{
+          ...style.modalContentContainer,
+          backgroundColor: themeStyle.containerBackground[theme]
+        }}
+      >
+        <View style={style.modalHeaderContainer}>
+          <TextItem size="xl" weight="semiBold">
+            {title}
+          </TextItem>
+        </View>
 
-            { children }
-              <ButtonItem 
-                title={confirmText ?? t('button.confirm')}
-                handlePress={handleConfirmModal}
-                type={disableConfirm ? 'disabled' : 'confirm'}
-              />
-            </BottomSheetView>
-        </BottomSheetModal>
-  )
-}
+        {children}
+        <ButtonItem
+          title={confirmText ?? t('button.confirm')}
+          handlePress={handleConfirmModal}
+          type={disableConfirm ? 'disabled' : 'confirm'}
+        />
+      </BottomSheetView>
+    </BottomSheetModal>
+  );
+};

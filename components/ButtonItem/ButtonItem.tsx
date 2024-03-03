@@ -1,11 +1,11 @@
-import { Pressable, View, ViewProps, ViewStyle } from 'react-native';
-import buttonStyle, { themeStyle } from "./ButtonItem.style";
+import { type ReactNode } from 'react';
+import { Pressable, type ViewProps, type ViewStyle } from 'react-native';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { THEME } from '../../assets/palette';
-import { TextItem } from '../TextItem/TextItem';
+import { type RootState } from '../../store/store';
 import { formatTitle } from '../../utils/events';
 import { IconItem } from '../IconItem/IconItem';
+import { TextItem } from '../TextItem/TextItem';
+import buttonStyle, { themeStyle } from './ButtonItem.style';
 
 type Props = ViewProps & {
   title: string;
@@ -16,7 +16,7 @@ type Props = ViewProps & {
   weight?: keyof typeof themeStyle.weight;
   type: keyof typeof themeStyle.type;
   handlePress: () => void;
-}
+};
 
 export const ButtonItem = ({
   title,
@@ -26,27 +26,25 @@ export const ButtonItem = ({
   type = 'primary',
   size = 'md',
   weight = 'semiBold',
-  handlePress,
-}: Props) => {
-  const { theme } = useSelector((state: RootState) => state.generalReducer)
+  handlePress
+}: Props): ReactNode => {
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
 
   return (
     <Pressable
       style={{
-        ...style as ViewStyle, 
+        ...(style as ViewStyle),
         ...buttonStyle.buttonContainer,
-        backgroundColor: themeStyle.type[type].background['light'] as string,
+        backgroundColor: themeStyle.type[type].background[theme]
       }}
       onPress={handlePress}
     >
-      { IconElt && <IconItem IconElt={IconElt} size="md" color={themeStyle.type[type].text['light'] as string} /> }
-      <TextItem
-        size={size}
-        weight={weight}
-        color={themeStyle.type[type].text['light'] as string}
-      >
+      {IconElt && (
+        <IconItem IconElt={IconElt} size="md" color={themeStyle.type[type].text[theme]} />
+      )}
+      <TextItem size={size} weight={weight} color={themeStyle.type[type].text[theme]}>
         {formatTitle(title)}
       </TextItem>
     </Pressable>
   );
-}
+};

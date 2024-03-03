@@ -1,50 +1,46 @@
-import style from './CityEventListStickyHeaderItem.style';
-
-import { Pressable, View, Animated, Keyboard, TextInput } from "react-native";
-import { CityEventListCategoryListItem } from "../CityEventListCategoryListItem/CityEventListCategoryListItem";
-import { CityEventListFilterItem } from "../CityEventListFilterItem/CityEventListFilterItem";
-import { useEffect, useRef, useState } from "react";
-import { Search, X } from "lucide-react-native";
-import { eventsCategoryLille } from "../../utils/events";
-import { TextItem } from "../../../../components/TextItem/TextItem";
-import { SearchBarItem } from '../../../../components/SearchBarItem/SearchBarItem';
-import { RootState } from '../../../../store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setIsSearchInputFocused, setSearchValue } from '../../../../reducers/eventReducer';
-import { THEME } from '../../../../assets/palette';
+import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FilterDateItem } from '../../utils/date';
+import { View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { THEME } from '../../../../assets/theme';
+import { SearchBarItem } from '../../../../components/SearchBarItem/SearchBarItem';
+import { setIsSearchInputFocused, setSearchValue } from '../../../../reducers/eventReducer';
+import { type RootState } from '../../../../store/store';
+import { type FilterDateItem } from '../../utils/date';
+import { eventsCategoryLille } from '../../utils/events';
+import { CityEventListCategoryListItem } from '../CityEventListCategoryListItem/CityEventListCategoryListItem';
+import { CityEventListFilterItem } from '../CityEventListFilterItem/CityEventListFilterItem';
 
-type StickyHeaderProps = {
+interface StickyHeaderProps {
   filteredCategoryIdList: number[];
   handleSetFilteredCategoryIdList: React.Dispatch<React.SetStateAction<number[]>>;
   selectedItemDate: FilterDateItem;
   setSelectedItemDate: React.Dispatch<React.SetStateAction<FilterDateItem>>;
-};
+}
 
 export const CityEventListStickyHeaderItem = ({
   filteredCategoryIdList,
   handleSetFilteredCategoryIdList,
   selectedItemDate,
-  setSelectedItemDate,
-}: StickyHeaderProps) => {
-  const { searchValue } = useSelector((state: RootState) => state.eventReducer);  
+  setSelectedItemDate
+}: StickyHeaderProps): ReactNode => {
+  const { searchValue } = useSelector((state: RootState) => state.eventReducer);
   const { theme } = useSelector((state: RootState) => state.generalReducer);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  
-  const handleSubmitSearchValue = (newSearchValue: string) => {
-    dispatch(setSearchValue(newSearchValue));
-  }
 
-  const handleUpdateIsSearchInputFocused = (isFocused: boolean) => {
+  const handleSubmitSearchValue = (newSearchValue: string): void => {
+    dispatch(setSearchValue(newSearchValue));
+  };
+
+  const handleUpdateIsSearchInputFocused = (isFocused: boolean): void => {
     dispatch(setIsSearchInputFocused(isFocused));
-  }
+  };
 
   return (
     <View
       style={{
-        backgroundColor: THEME.background['light'] as string,
+        backgroundColor: THEME.style.viewBackground[theme]
       }}
     >
       <SearchBarItem
@@ -53,11 +49,12 @@ export const CityEventListStickyHeaderItem = ({
         handleSubmitSearchValue={handleSubmitSearchValue}
         handleIsFocused={handleUpdateIsSearchInputFocused}
       />
-      <CityEventListCategoryListItem 
+      <CityEventListCategoryListItem
         categories={eventsCategoryLille}
         categoriesSelected={filteredCategoryIdList}
         filteredCategoryIdList={handleSetFilteredCategoryIdList}
       />
       <CityEventListFilterItem />
-    </View>)
-}
+    </View>
+  );
+};

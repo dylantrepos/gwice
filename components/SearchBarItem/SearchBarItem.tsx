@@ -1,52 +1,45 @@
-import style from './SearchBarItem.style';
+import style, { themeStyle } from './SearchBarItem.style';
 
-import { Pressable, View, Animated, Keyboard, TextInput } from "react-native";
-import { useEffect, useRef, useState } from "react";
-import { Search, X } from "lucide-react-native";
+import { Search, X } from 'lucide-react-native';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { Animated, Keyboard, Pressable, TextInput, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { type RootState } from '../../store/store';
 
-
-type SearchBarItemProps = {
-  leftIcon?: React.ReactNode;
+interface SearchBarItemProps {
+  leftIcon?: ReactNode;
   searchValue: string;
   placeholder?: string;
   handleSubmitSearchValue: (searchValue: string) => void;
   handleIsFocused?: (isFocused: boolean) => void;
-};
+}
 
-const DefaultLeftIcon = () => (
-  <Search
-    size={22}
-    color="black"
-    strokeWidth={2}
-  />
-);
+const DefaultLeftIcon: ReactNode = <Search size={22} color="black" strokeWidth={2} />;
 
 export const SearchBarItem = ({
-  leftIcon = <DefaultLeftIcon />,
+  leftIcon = DefaultLeftIcon,
   placeholder = '',
   searchValue,
   handleSubmitSearchValue,
-  handleIsFocused,
-}: SearchBarItemProps) => {
+  handleIsFocused
+}: SearchBarItemProps): ReactNode => {
   const [currSearchValue, setCurrSearchValue] = useState<string>(searchValue);
   const [isFocused, setIsFocused] = useState(false);
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
 
-  const slideAnim = useRef(new Animated.Value(0)).current; 
-  const inputRef =  useRef<TextInput | null>(null);
+  const slideAnim = useRef(new Animated.Value(0)).current;
+  const inputRef = useRef<TextInput | null>(null);
 
   // UseEffect to animate the search icon reset
   useEffect(() => {
-    Animated.timing(
-      slideAnim,
-      {
-        toValue: (currSearchValue.length > 0) ? 1 : 0, 
-        duration: (currSearchValue.length > 0) ? 150 : 0, 
-        useNativeDriver: true,
-      }
-    ).start();
+    Animated.timing(slideAnim, {
+      toValue: currSearchValue.length > 0 ? 1 : 0,
+      duration: currSearchValue.length > 0 ? 150 : 0,
+      useNativeDriver: true
+    }).start();
   }, [currSearchValue, isFocused]);
 
-  const clearSearchValue = () => {
+  const clearSearchValue = (): void => {
     setCurrSearchValue('');
 
     if (!Keyboard.isVisible()) {
@@ -54,20 +47,17 @@ export const SearchBarItem = ({
     }
   };
 
-  const handleSubmitSearchInput = () => {
+  const handleSubmitSearchInput = (): void => {
     handleSubmitSearchValue(currSearchValue);
     Keyboard.dismiss();
-  }
+  };
 
   useEffect(() => {
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setIsFocused(false);
-        inputRef.current?.blur();
-      }
-    );
-  
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setIsFocused(false);
+      inputRef.current?.blur();
+    });
+
     return () => {
       keyboardDidHideListener.remove();
     };
@@ -79,7 +69,10 @@ export const SearchBarItem = ({
 
   return (
     <View
-      style={style.searchContainer}
+      style={{
+        ...style.searchContainer,
+        backgroundColor: themeStyle.background[theme]
+      }}
     >
       {leftIcon}
       <TextInput
@@ -92,32 +85,32 @@ export const SearchBarItem = ({
         value={currSearchValue}
         onChangeText={setCurrSearchValue}
         onSubmitEditing={handleSubmitSearchInput}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={() => {
+          setIsFocused(true);
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+        }}
         ref={inputRef}
       />
       {currSearchValue.length > 0 && (
-        <Pressable 
-          onPress={clearSearchValue}
-          style={style.searchIconReset}
-        >
+        <Pressable onPress={clearSearchValue} style={style.searchIconReset}>
           <Animated.View
-          style={{
-            transform: [{
-              translateX: slideAnim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [100, 0]
-              })
-            }]
-          }}
-        >
-          <X
-            size={22}
-            color="black"
-            strokeWidth={2}
-          />
+            style={{
+              transform: [
+                {
+                  translateX: slideAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [100, 0]
+                  })
+                }
+              ]
+            }}
+          >
+            <X size={22} color="black" strokeWidth={2} />
           </Animated.View>
-        </Pressable>)}
+        </Pressable>
+      )}
     </View>
-    )
-}
+  );
+};

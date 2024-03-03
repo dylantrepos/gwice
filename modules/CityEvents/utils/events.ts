@@ -1,191 +1,213 @@
-import { Award, BadgePercent, Bike, BookHeart, Briefcase, Brush, ChevronRight, Clapperboard, Drama, Guitar, HeartPulse, Hotel, Leaf, MapPin, MessageSquareText, Mic2, Palette, PartyPopper, School2, Shirt, Sparkle, Theater } from "lucide-react-native";
-import { EventsCategory, ListCategoryItem } from "../types/Events";
+import {
+  Award,
+  BadgePercent,
+  Bike,
+  BookHeart,
+  Briefcase,
+  Brush,
+  ChevronRight,
+  Clapperboard,
+  Drama,
+  Guitar,
+  HeartPulse,
+  Hotel,
+  Leaf,
+  MapPin,
+  MessageSquareText,
+  Mic2,
+  Palette,
+  PartyPopper,
+  School2,
+  Shirt,
+  Sparkle,
+  Theater
+} from 'lucide-react-native';
+import { type CategoryItem } from '../types/Events';
 
-export const eventsCategory: Record<EventsCategory, number> = {
-  "atelier": 3,
-  "braderie-brocante": 4,
-  "ceremonie": 5,
-  "cinema": 6,
-  "conference-rencontre": 7,
-  "conseil-municipal": 8,
-  "danse": 9,
-  "developpement-durable": 10,
-  "emploi": 11,
-  "exposition": 12,
-  "fete-festival": 13,
-  "formation": 14,
-  "lecture": 15,
-  "mode": 16,
-  "musique": 17,
-  "reunion-publique": 18,
-  "sante": 19,
-  "spectacle": 20,
-  "sport": 21,
-  "theatre": 22,
-  "visite-balade": 23,
-  "aucune": 28,
-}
+export const eventsCategory: Record<string, number> = {
+  atelier: 3,
+  'braderie-brocante': 4,
+  ceremonie: 5,
+  cinema: 6,
+  'conference-rencontre': 7,
+  'conseil-municipal': 8,
+  danse: 9,
+  'developpement-durable': 10,
+  emploi: 11,
+  exposition: 12,
+  'fete-festival': 13,
+  formation: 14,
+  lecture: 15,
+  mode: 16,
+  musique: 17,
+  'reunion-publique': 18,
+  sante: 19,
+  spectacle: 20,
+  sport: 21,
+  theatre: 22,
+  'visite-balade': 23,
+  aucune: 28
+};
 
-
-
-export const allEventsCategoryLille: ListCategoryItem[] = [
+export const allEventsCategoryLille: CategoryItem[] = [
   {
-    title: "atelier",
+    title: 'atelier',
     id: 3,
     iconElt: Palette,
-    translationKey: "eventsCategory.workshop"
+    translationKey: 'eventsCategory.workshop'
   },
   {
-    title: "braderie-brocante",
+    title: 'braderie-brocante',
     id: 4,
     iconElt: BadgePercent,
-    translationKey: "eventsCategory.sale"
+    translationKey: 'eventsCategory.sale'
   },
   {
-    title: "ceremonie",
+    title: 'ceremonie',
     id: 5,
     iconElt: Award,
-    translationKey: "eventsCategory.ceremony"
+    translationKey: 'eventsCategory.ceremony'
   },
   {
-    title: "cinema",
+    title: 'cinema',
     id: 6,
     iconElt: Clapperboard,
-    translationKey: "eventsCategory.cinema"
+    translationKey: 'eventsCategory.cinema'
   },
   {
-    title: "conference-rencontre",
+    title: 'conference-rencontre',
     id: 7,
     iconElt: Mic2,
-    translationKey: "eventsCategory.conference"
+    translationKey: 'eventsCategory.conference'
   },
   {
-    title: "conseil-municipal",
+    title: 'conseil-municipal',
     id: 8,
     iconElt: Hotel,
-    translationKey: "eventsCategory.council"
+    translationKey: 'eventsCategory.council'
   },
   {
-    title: "danse",
+    title: 'danse',
     id: 9,
     iconElt: Sparkle,
-    translationKey: "eventsCategory.dance"
+    translationKey: 'eventsCategory.dance'
   },
   {
-    title: "developpement-durable",
+    title: 'developpement-durable',
     id: 10,
     iconElt: Leaf,
-    translationKey: "eventsCategory.sustainableDevelopment"
+    translationKey: 'eventsCategory.sustainableDevelopment'
   },
   {
-    title: "emploi",
+    title: 'emploi',
     id: 11,
     iconElt: Briefcase,
-    translationKey: "eventsCategory.employment"
+    translationKey: 'eventsCategory.employment'
   },
   {
-    title: "exposition",
+    title: 'exposition',
     id: 12,
     iconElt: Brush,
-    translationKey: "eventsCategory.exhibition"
+    translationKey: 'eventsCategory.exhibition'
   },
   {
-    title: "fete-festival",
+    title: 'fete-festival',
     id: 13,
     iconElt: PartyPopper,
-    translationKey: "eventsCategory.festival"
+    translationKey: 'eventsCategory.festival'
   },
   {
-    title: "formation",
+    title: 'formation',
     id: 14,
     iconElt: School2,
-    translationKey: "eventsCategory.training"
+    translationKey: 'eventsCategory.training'
   },
   {
-    title: "lecture",
+    title: 'lecture',
     id: 15,
     iconElt: BookHeart,
-    translationKey: "eventsCategory.lecture"
+    translationKey: 'eventsCategory.lecture'
   },
   {
-    title: "mode",
+    title: 'mode',
     id: 16,
     iconElt: Shirt,
-    translationKey: "eventsCategory.fashion"
+    translationKey: 'eventsCategory.fashion'
   },
   {
-    title: "musique",
+    title: 'musique',
     id: 17,
     iconElt: Guitar,
-    translationKey: "eventsCategory.music"
+    translationKey: 'eventsCategory.music'
   },
   {
-    title: "reunion-publique",
+    title: 'reunion-publique',
     id: 18,
     iconElt: MessageSquareText,
-    translationKey: "eventsCategory.publicMeeting"
+    translationKey: 'eventsCategory.publicMeeting'
   },
   {
-    title: "sante",
+    title: 'sante',
     id: 19,
     iconElt: HeartPulse,
-    translationKey: "eventsCategory.health"
+    translationKey: 'eventsCategory.health'
   },
   {
-    title: "spectacle",
+    title: 'spectacle',
     id: 20,
     iconElt: Theater,
-    translationKey: "eventsCategory.show"
+    translationKey: 'eventsCategory.show'
   },
   {
-    title: "sport",
+    title: 'sport',
     id: 21,
     iconElt: Bike,
-    translationKey: "eventsCategory.sport"
+    translationKey: 'eventsCategory.sport'
   },
   {
-    title: "theatre",
+    title: 'theatre',
     id: 22,
     iconElt: Drama,
-    translationKey: "eventsCategory.theater"
+    translationKey: 'eventsCategory.theater'
   },
   {
-    title: "visite-balade",
+    title: 'visite-balade',
     id: 23,
     iconElt: MapPin,
-    translationKey: "eventsCategory.visit"
+    translationKey: 'eventsCategory.visit'
   },
   {
-    title: "aucune",
+    title: 'aucune',
     id: 28,
     iconElt: ChevronRight,
-    translationKey: "eventsCategory.none"
+    translationKey: 'eventsCategory.none'
   },
   {
-    title: "voir plus",
+    title: 'voir plus',
     id: 28,
     iconElt: ChevronRight,
-    translationKey: "eventsCategory.seeMore",
-  },
+    translationKey: 'eventsCategory.seeMore'
+  }
 ];
 
 const eventsCategoryShort = [
-  "fete-festival",
-  "visite-balade",
-  "musique",
-  "sport",
-  "cinema",
-  "atelier",
-  "braderie-brocante",
-  "spectacle",
-  "exposition",
-  "voir plus",
+  'fete-festival',
+  'visite-balade',
+  'musique',
+  'sport',
+  'cinema',
+  'atelier',
+  'braderie-brocante',
+  'spectacle',
+  'exposition',
+  'voir plus'
 ];
 
-export const eventsCategoryLille = allEventsCategoryLille.filter((item) => eventsCategoryShort.includes(item.title));
+export const eventsCategoryLille = allEventsCategoryLille.filter((item) =>
+  eventsCategoryShort.includes(item.title)
+);
 
-
-export const formatTitle = (title: string) => {
+export const formatTitle = (title: string): string => {
   const titleUpdate = title.split('-')[0];
   return titleUpdate[0].toUpperCase() + titleUpdate.slice(1);
-}
+};

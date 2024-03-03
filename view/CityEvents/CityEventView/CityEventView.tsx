@@ -14,10 +14,10 @@ import {
 } from 'react-native';
 import PanPinchView from 'react-native-pan-pinch-view';
 import { useDispatch } from 'react-redux';
-import { THEME } from '../../../assets/palette';
 import { IconItem } from '../../../components/IconItem/IconItem';
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
+import { Layout } from '../../../layouts/Layout';
 import { useGetCityEventDetails } from '../../../modules/CityEvents/hooks/useGetCityEvents';
 import { setRefetchHome } from '../../../reducers/generalReducer';
 import { getFormatedDateFromTimestamp } from '../../../utils/utils';
@@ -99,12 +99,9 @@ export const CityEventView = ({ navigation, route }: Props): ReactNode => {
   const firstTimingDate = new Date(firstTiming.begin);
 
   return (
-    <View style={style.container}>
+    <Layout>
       <ScrollView
-        style={{
-          ...style.scrollView,
-          backgroundColor: THEME.background.light
-        }}
+        style={{ ...style.scrollView }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         <TouchableOpacity
@@ -238,6 +235,6 @@ export const CityEventView = ({ navigation, route }: Props): ReactNode => {
           </TextItem>
         </Pressable> } */}
       </ScrollView>
-    </View>
+    </Layout>
   );
 };

@@ -51,6 +51,7 @@ const HomeStack = createNativeStackNavigator();
 
 const screenOptions: NativeStackNavigationOptions = {
   headerShown: false
+  // animation: 'none'
 };
 
 const SettingsScreens = (): ReactElement => (

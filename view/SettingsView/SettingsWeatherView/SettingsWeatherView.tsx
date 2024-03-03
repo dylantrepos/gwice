@@ -1,33 +1,31 @@
 import { useNavigation } from '@react-navigation/native';
 import { Minus, Plus } from 'lucide-react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, Easing, Pressable, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { TextItem } from '../../../components/TextItem/TextItem';
-import { PageHeaderLayout } from '../../../layouts/Layout';
+import { Layout } from '../../../layouts/Layout';
 import { setWeatherSettings } from '../../../reducers/generalReducer';
 import { store } from '../../../store/store';
 import style from './SettingsWeatherView.style';
 
-const animationOptions = (value: number) =>
-  ({
-    toValue: value,
-    duration: 100,
-    useNativeDriver: true,
-    easing: Easing.inOut(Easing.linear)
-  }) as Animated.TimingAnimationConfig;
+const animationOptions = (value: number): Animated.TimingAnimationConfig => ({
+  toValue: value,
+  duration: 100,
+  useNativeDriver: true,
+  easing: Easing.inOut(Easing.linear)
+});
 
-export const SettingsWeatherView = ({}) => {
+export const SettingsWeatherView = (): ReactNode => {
   const startDailyHour = store.getState().generalReducer.weatherSettings.startDailyHour;
-  const { theme } = store.getState().generalReducer;
   const [currStartDailyHour, setCurrStartDailyHour] = useState(startDailyHour);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const position = useRef(new Animated.Value(1)).current;
   const { t } = useTranslation();
 
-  const handleSaveSettings = () => {
+  const handleSaveSettings = (): void => {
     dispatch(
       setWeatherSettings({
         startDailyHour: currStartDailyHour
@@ -36,18 +34,19 @@ export const SettingsWeatherView = ({}) => {
     navigation.goBack();
   };
 
-  const animate = (value: number) => Animated.timing(position, animationOptions(value)).start();
+  const animate = (value: number): void => {
+    Animated.timing(position, animationOptions(value)).start();
+  };
 
   useEffect(() => {
     animate(currStartDailyHour !== startDailyHour ? 0 : 1);
   }, [currStartDailyHour]);
 
   return (
-    <PageHeaderLayout
-      headerTitle={t('screens.settingsWeather.title')}
-      headerWithBackNavigation={true}
-      headerWithTransparentBackground={false}
-      headerIsAbsolute={false}
+    <Layout
+      header={{
+        headerTitle: t('screens.settingsWeather.title')
+      }}
     >
       <View style={style.weatherInputContainer}>
         <TextItem weight="regular" size="md" style={style.weatherInputDescription}>
@@ -101,6 +100,6 @@ export const SettingsWeatherView = ({}) => {
           </TextItem>
         </Pressable>
       </Animated.View>
-    </PageHeaderLayout>
+    </Layout>
   );
 };

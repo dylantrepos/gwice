@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { type ReactNode } from 'react';
 import { type StyleProp, type TextStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
+import { type RootState } from '../../store/store';
 import { themeStyle } from './BottomNavigationItem.style';
 
 export interface NavigatorProps {
@@ -20,15 +22,16 @@ export const BottomNavigationItem = ({ navigatorTabs }: Props): ReactNode => {
   // const { theme } = useSelector((state: RootState) => state.generalReducer);
   const Tab = createBottomTabNavigator();
   const insets = useSafeAreaInsets();
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
   const iconSize = {
     height: 26,
     width: 26
   };
 
   const tabStyleContainer = {
-    backgroundColor: themeStyle.background.light,
+    backgroundColor: themeStyle.background[theme],
     borderTopWidth: 1,
-    borderTopColor: themeStyle.border.light,
+    borderTopColor: themeStyle.border[theme],
     elevation: 0,
     height: 60 + insets.bottom
     // height: 60

@@ -1,11 +1,11 @@
-import { Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   scrollView: {
-    paddingBottom: 40,
+    paddingBottom: 40
   },
   backButton: {
     position: 'absolute',
@@ -19,15 +19,15 @@ export default StyleSheet.create({
       ios: {
         shadowOffset: {
           width: 0,
-          height: 9,
+          height: 9
         },
-        shadowOpacity: 0.50,
-        shadowRadius: 12.35,
+        shadowOpacity: 0.5,
+        shadowRadius: 12.35
       },
       android: {
-        elevation: 10,
-      },
-    }),
+        elevation: 10
+      }
+    })
   },
   infosContainer: {
     paddingLeft: 10,
@@ -37,7 +37,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     borderColor: '#F6F6F6',
     borderWidth: 1,
-    marginVertical: 20,
+    marginVertical: 20
   },
   infoContainer: {
     display: 'flex',
@@ -45,59 +45,59 @@ export default StyleSheet.create({
     alignItems: 'center',
     gap: 10,
     marginBottom: 10,
-    width: '100%',
+    width: '100%'
   },
   image: {
     height: 300,
     width: 'auto',
-    marginBottom: 20,
+    marginBottom: 20
   },
   title: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   date: {
     marginTop: 5,
-    marginRight: 10,
+    marginRight: 10
   },
   description: {
     paddingHorizontal: 20,
-    marginBottom: 10,
+    marginBottom: 10
   },
   location: {
     paddingHorizontal: 20,
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: 10
   },
-  
+
   link: {
     paddingHorizontal: 20,
-    marginBottom: 10,
+    marginBottom: 10
   },
   linkUrl: {
-    color: 'blue',
+    color: 'blue'
   },
   accessContainer: {
-    marginBottom: 10,
+    marginBottom: 10
   },
   transportContainer: {
     display: 'flex',
     flexDirection: 'row',
     gap: 10,
     marginBottom: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   transportType: {
     fontSize: 16,
     fontWeight: '600',
-    flex: 1,
+    flex: 1
   },
   transportValue: {
     fontSize: 16,
-    flex: 4,
+    flex: 4
   },
   closeImageButton: {
-    position: 'absolute', 
-    bottom: 50, 
+    position: 'absolute',
+    bottom: 50,
     alignSelf: 'center',
     borderWidth: 1,
     borderColor: 'red',
@@ -113,15 +113,14 @@ export default StyleSheet.create({
       ios: {
         shadowOffset: {
           width: 0,
-          height: 9,
+          height: 9
         },
-        shadowOpacity: 0.50,
-        shadowRadius: 12.35,
+        shadowOpacity: 0.5,
+        shadowRadius: 12.35
       },
       android: {
-        elevation: 10,
-      },
-    }),
-  
+        elevation: 10
+      }
+    })
   }
 });

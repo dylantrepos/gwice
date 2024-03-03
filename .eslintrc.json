@@ -23,13 +23,16 @@
     "react-native"
   ],
   "rules": {
+    "multiline-ternary": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
+    "react/jsx-key": "off",
     "@typescript-eslint/semi": "off",
     "arrow-body-style": [
       "error",
       "as-needed"
     ],
+    "no-floating-promises": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/member-delimiter-style": [
       "error",

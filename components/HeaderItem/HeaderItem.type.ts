@@ -5,6 +5,7 @@ export interface HeaderProps {
   headerTitle?: string;
   headerTitleColor?: string;
   headerLeftIcon?: any;
+  headerTransparent?: boolean;
   headerRightIcon?: any;
   headerHandleLeftIconPress?: () => void;
   headerHandleRightIconPress?: () => void;

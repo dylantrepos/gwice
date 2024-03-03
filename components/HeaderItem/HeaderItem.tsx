@@ -1,13 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
 import { ChevronLeft } from 'lucide-react-native';
 import { type PropsWithChildren, type ReactNode } from 'react';
 import { Animated, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import palette from '../../assets/palette';
 import { type RootState } from '../../store/store';
-import { type ThemeColor } from '../../types/Theme';
 import { IconItem } from '../IconItem/IconItem';
 import { TextItem } from '../TextItem/TextItem';
 import style, { HEADER_THEME } from './HeaderItem.style';
@@ -15,7 +12,7 @@ import { type HeaderProps } from './HeaderItem.type';
 
 export const HeaderItem = ({
   headerTitle = '',
-  headerTitleColor = palette.black,
+  headerTitleColor,
   headerLeftIcon = null,
   headerRightIcon = null,
   headerHandleLeftIconPress = () => {},
@@ -24,45 +21,29 @@ export const HeaderItem = ({
   headerIconColor = null,
   headerIconStroke = 'strong',
   headerBackground,
+  headerTransparent = false,
   headerWithBackNavigation = false
 }: PropsWithChildren<HeaderProps>): ReactNode => {
   const insets = useSafeAreaInsets();
   const navigate = useNavigation();
   const { theme } = useSelector((state: RootState) => state.generalReducer);
-  const statusBarColor = HEADER_THEME.headerBackground[
-    theme === 'light' ? 'dark' : 'light'
-  ] as ThemeColor;
+  const headerHeight = { height: HEADER_THEME.headerHeight + insets.top };
+  const headerTopPosition = { top: insets.top };
 
   return (
     <View
       style={{
-        height: insets.top + HEADER_THEME.headerHeight
+        ...headerHeight,
+        position: headerTransparent ? 'absolute' : 'relative',
+        backgroundColor: headerTransparent
+          ? 'transparent'
+          : headerBackground ?? HEADER_THEME.headerBackground[theme],
+        width: '100%',
+        zIndex: 100
       }}
     >
-      <StatusBar style={statusBarColor} animated={true} />
-      <View
-        style={{
-          height: insets.top,
-          flex: 1,
-          width: '100%',
-          backgroundColor: HEADER_THEME.headerBackground[theme]
-        }}
-      />
-      <Animated.View
-        style={{
-          top: insets.top,
-          height: HEADER_THEME.headerHeight,
-          width: '100%',
-          backgroundColor: HEADER_THEME.headerBackground[theme],
-          position: 'absolute',
-          flexDirection: 'row'
-        }}
-      >
-        <View
-          style={{
-            flex: 1
-          }}
-        >
+      <Animated.View style={[style.headerContainer, headerTopPosition]}>
+        <View style={style.headerAsideContainer}>
           {headerWithBackNavigation && navigate.canGoBack() && (
             <Pressable
               onPress={() => {
@@ -89,22 +70,12 @@ export const HeaderItem = ({
             </Pressable>
           )}
         </View>
-        <View
-          style={{
-            flex: 3,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
+        <View style={style.headerMiddleContainer}>
           <TextItem weight="regular" size="xxl" color={headerTitleColor}>
             {headerTitle}
           </TextItem>
         </View>
-        <View
-          style={{
-            flex: 1
-          }}
-        >
+        <View style={style.headerAsideContainer}>
           {headerRightIcon && (
             <Pressable onPress={headerHandleRightIconPress} style={style.headerIcon}>
               <IconItem
