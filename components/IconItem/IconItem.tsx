@@ -1,9 +1,10 @@
+import { type LucideIcon } from 'lucide-react-native';
 import { type PropsWithChildren, type ReactNode } from 'react';
 import { type ViewProps, type ViewStyle } from 'react-native';
 import { themeStyle } from './IconItem.style';
 
 type Props = ViewProps & {
-  IconElt?: any;
+  IconElt: LucideIcon;
   size: 'sm' | 'md' | 'lg' | 'xl';
   color?: string | null;
   stroke?: 'light' | 'strong';

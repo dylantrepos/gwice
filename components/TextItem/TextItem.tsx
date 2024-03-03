@@ -1,46 +1,42 @@
-import { TextProps, Text, TextStyle } from 'react-native';
-import styleTextItem, { themeStyle } from "./TextItem.style";
-import { PropsWithChildren } from "react";
+import { type PropsWithChildren, type ReactNode } from 'react';
+import { Text, type TextProps, type TextStyle } from 'react-native';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import palette from '../../assets/palette';
+import { type RootState } from '../../store/store';
+import { themeStyle } from './TextItem.style';
 
 type Props = TextProps & {
   size?: keyof typeof themeStyle.size;
   weight?: keyof typeof themeStyle.weight;
-  color?: string;
-  numberOfLines?: number;
-  ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip';
+  color?: string | undefined;
+  numberOfLines?: number | undefined;
+  ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip' | undefined;
   italic?: boolean;
   style?: TextStyle;
-}
+};
 
 export const TextItem = ({
   weight = 'light',
   italic = false,
-  color,
-  size,
+  color = undefined,
+  size = 'md',
   numberOfLines,
   ellipsizeMode,
   style,
   children
-}: PropsWithChildren<Props>) => {
-
+}: PropsWithChildren<Props>): ReactNode => {
   const { theme } = useSelector((state: RootState) => state.generalReducer);
   const font = `Poppins_${themeStyle.weight[weight as keyof typeof themeStyle.weight]}${italic ? '_Italic' : ''}`;
 
+  const textStyle: TextStyle = {
+    fontFamily: font,
+    color: color ?? themeStyle.color[theme],
+    fontSize: themeStyle.size[size],
+    ...(style as TextStyle)
+  };
+
   return (
-    <Text 
-      style={{
-        fontFamily: font,
-        color: color ?? themeStyle.color['light'] as string,
-        fontSize: themeStyle.size[size as keyof typeof themeStyle.size],
-        ...style as TextStyle, 
-      } as TextStyle} 
-      numberOfLines={numberOfLines}
-      ellipsizeMode={ellipsizeMode}
-    >
-      { children }
+    <Text style={textStyle} numberOfLines={numberOfLines} ellipsizeMode={ellipsizeMode}>
+      {children}
     </Text>
   );
-}
+};

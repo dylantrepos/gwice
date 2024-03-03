@@ -1,75 +1,65 @@
-import style from './SettingsHomeView.style';
-import { Pressable, View } from "react-native"
-import { Settings, Sun } from 'lucide-react-native'
-import { TextItem } from '../../../components/TextItem/TextItem';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import { IconItem } from '../../../components/IconItem/IconItem';
-import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
+import { Settings, Sun, type LucideIcon } from 'lucide-react-native';
+import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { t } from 'i18next';
+import { Pressable, View } from 'react-native';
+import { IconItem } from '../../../components/IconItem/IconItem';
+import { TextItem } from '../../../components/TextItem/TextItem';
+import { Layout } from '../../../layouts/Layout';
+import style from './SettingsHomeView.style';
 
-type SettingsHomeViewProps = {
+interface SettingsHomeViewProps {
   navigation: any;
   route: any;
-};
+}
 
-type SettingsNavButtonProps = {
+interface SettingsNavButtonProps {
   title: string;
   navigation: any;
   id: string;
-  icons?: any;
-};
-
-const SettingsNavButton = ({title, navigation, icons, id}: SettingsNavButtonProps) => {
-
-  return (
-    <Pressable 
-      style={style.settingsScreenButton}
-      onPress={() => {navigation.push(id)}}
-    >
-      <View style={style.settingsScreenButtonTextIcon}>
-        {icons && (
-          <IconItem
-            IconElt={icons}
-            size="md"
-          />
-        )}
-        <TextItem
-          weight='regular'
-          size='lg'
-        >
-          {title}
-        </TextItem>
-      </View>
-    </Pressable>
-  )
+  icons?: LucideIcon;
 }
 
+const SettingsNavButton = ({ title, navigation, icons, id }: SettingsNavButtonProps): ReactNode => (
+  <Pressable
+    style={style.settingsScreenButton}
+    onPress={() => {
+      navigation.push(id);
+    }}
+  >
+    <View style={style.settingsScreenButtonTextIcon}>
+      {icons && <IconItem IconElt={icons} size="md" />}
+      <TextItem weight="regular" size="lg">
+        {title}
+      </TextItem>
+    </View>
+  </Pressable>
+);
 
-export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps) => {
+export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps): ReactNode => {
   const { t } = useTranslation();
 
   return (
-    <PageHeaderLayout
-      headerTitle={t('screens.settingsHome.title')}
-      headerWithBackNavigation={false}
-      headerWithTransparentBackground={false}
-      headerIsAbsolute={false}
+    <Layout
+      // title={t('screens.settingsHome.title')}
+      // headerWithBackNavigation={false}
+      // headerWithTransparentBackground={false}
+      // headerIsAbsolute={false}
+      header={{
+        headerTitle: t('screens.settingsHome.title')
+      }}
     >
-      <SettingsNavButton 
+      <SettingsNavButton
         title={t('screens.settingsHome.text.general')}
         navigation={navigation}
         id={'General'}
         icons={Settings}
       />
-      <SettingsNavButton 
+      <SettingsNavButton
         title={t('screens.settingsHome.text.weather')}
         navigation={navigation}
         id={'Weather'}
         icons={Sun}
       />
-    </PageHeaderLayout>
-  )
-}
-
+    </Layout>
+  );
+};

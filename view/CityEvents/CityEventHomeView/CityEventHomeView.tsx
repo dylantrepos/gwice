@@ -1,5 +1,6 @@
 import { isBefore } from 'date-fns';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Layout } from 'lucide-react-native';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Keyboard, View, VirtualizedList } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +23,7 @@ interface HeaderListProps {
   handleHeaderHeight: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const HeaderList = ({ navigation, handleHeaderHeight }: HeaderListProps) => (
+const HeaderList = ({ navigation, handleHeaderHeight }: HeaderListProps): ReactNode => (
   <View
     onLayout={(event) => {
       const { height } = event.nativeEvent.layout;
@@ -43,7 +44,7 @@ interface CityEventCardLargeItemProps {
   index: number;
 }
 
-export const CityEventHomeView = ({ navigation, route }: Props) => {
+export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   const [refreshing, setRefreshing] = useState(false);
   const [eventList, setEventList] = useState<CityEventCard[] | number[]>([]);
   const [filteredCategoryIdList, setFilteredCategoryIdList] = useState<number[]>([]);
@@ -162,7 +163,7 @@ export const CityEventHomeView = ({ navigation, route }: Props) => {
   }, [isSearchInputFocused]);
 
   return (
-    <View>
+    <Layout title>
       <VirtualizedList
         removeClippedSubviews={false}
         contentContainerStyle={{ minHeight: '100%' }}
@@ -213,6 +214,6 @@ export const CityEventHomeView = ({ navigation, route }: Props) => {
         }
         extraData={selectedItemDate}
       />
-    </View>
+    </Layout>
   );
 };

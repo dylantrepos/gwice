@@ -1,12 +1,12 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, RefreshControl, ScrollView, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { THEME } from '../../assets/palette';
+import { RefreshControl, ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { THEME } from '../../assets/theme';
 import { CityBackgroundItem } from '../../components/CityBackgroundItem/CityBackgroundItem';
+import { Layout } from '../../layouts/Layout';
 import { CityEventsListHorizontalItem } from '../../modules/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
 import { setRefetchHome } from '../../reducers/generalReducer';
-import { type RootState } from '../../store/store';
 import style from './HomeView.style';
 
 interface HomeViewProps {
@@ -14,15 +14,15 @@ interface HomeViewProps {
   route: any;
 }
 
-export const HomeView = ({ navigation, route }: HomeViewProps) => {
+export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
   const [refreshing, setRefreshing] = useState(false);
-  const { theme, currentCity, refetchHome, currentHomeViewDate } = useSelector(
-    (state: RootState) => state.generalReducer
-  );
+  // const { theme, currentCity, refetchHome, currentHomeViewDate } = useSelector(
+  // (state: RootState) => state.generalReducer
+  // );
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const scrollY = useRef(new Animated.Value(0)).current;
+  // const scrollY = useRef(new Animated.Value(0)).current;
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -33,11 +33,15 @@ export const HomeView = ({ navigation, route }: HomeViewProps) => {
   }, []);
 
   return (
-    <View>
+    <Layout
+      header={{
+        headerTitle: t('screens.home.title')
+      }}
+    >
       <ScrollView
         style={{
           ...style.scrollView,
-          backgroundColor: THEME.background.light
+          backgroundColor: THEME.style.viewBackground.light
         }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
@@ -49,6 +53,6 @@ export const HomeView = ({ navigation, route }: HomeViewProps) => {
           handleNavigation={() => navigation.push('HomeCulturalEvent')}
         />
       </ScrollView>
-    </View>
+    </Layout>
   );
 };

@@ -40,90 +40,34 @@ import {
 } from '@expo-google-fonts/poppins';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { type ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { THEME } from './assets/palette';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BottomNavigationItem } from './components/BottomNavigationItem/BottomNavigationItem';
-import { HeaderLeftItem } from './components/HeaderItem2/HeaderItem';
 import { WarningScreenItem } from './components/WarningScreenItem/WarningScreenItem';
 import { SettingsGeneralView } from './view/SettingsView/SettingsGeneralView/SettingsGeneralView';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 
-// const { theme } = useSelector((state: RootState) => state.generalReducer);
-
 const screenOptions: NativeStackNavigationOptions = {
-  headerShown: true,
-  headerTintColor: THEME.titleBackground.light,
-  headerTitleAlign: 'center',
-  headerBackTitleVisible: false
+  headerShown: false
 };
 
-const SettingsScreens = (): ReactElement => {
-  const { t } = useTranslation();
-  return (
-    <SettingStack.Navigator
-      screenOptions={{
-        ...screenOptions
-      }}
-      initialRouteName="Settings"
-    >
-      <SettingStack.Screen
-        name="Settings"
-        component={SettingsHomeView}
-        options={{
-          title: t('screens.settingsHome.title')
-        }}
-      />
-      <SettingStack.Screen
-        name="Weather"
-        component={SettingsWeatherView}
-        options={{
-          title: t('screens.settingsWeather.title')
-        }}
-      />
-      <SettingStack.Screen
-        name="General"
-        component={SettingsGeneralView}
-        options={{
-          title: t('screens.settingsGeneral.title')
-        }}
-      />
-    </SettingStack.Navigator>
-  );
-};
+const SettingsScreens = (): ReactElement => (
+  <SettingStack.Navigator screenOptions={screenOptions} initialRouteName="Settings">
+    <SettingStack.Screen name="Settings" component={SettingsHomeView} />
+    <SettingStack.Screen name="Weather" component={SettingsWeatherView} />
+    <SettingStack.Screen name="General" component={SettingsGeneralView} />
+  </SettingStack.Navigator>
+);
 
-const HomeScreens = (): ReactElement => {
-  const { t } = useTranslation();
-
-  return (
-    <HomeStack.Navigator
-      screenOptions={{
-        ...screenOptions
-      }}
-      initialRouteName="Home"
-    >
-      <HomeStack.Screen name="Home" component={HomeView} />
-      <HomeStack.Screen
-        name="CulturalEvent"
-        component={CityEventView}
-        options={{
-          headerTitle: '',
-          headerTransparent: true,
-          headerLeft: HeaderLeftItem
-        }}
-      />
-      <HomeStack.Screen
-        name="HomeCulturalEvent"
-        component={CityEventHomeView}
-        options={{
-          title: t('screens.events.title')
-        }}
-      />
-    </HomeStack.Navigator>
-  );
-};
+const HomeScreens = (): ReactElement => (
+  <HomeStack.Navigator screenOptions={screenOptions} initialRouteName="Home">
+    <HomeStack.Screen name="Home" component={HomeView} />
+    <HomeStack.Screen name="CulturalEvent" component={CityEventView} />
+    <HomeStack.Screen name="HomeCulturalEvent" component={CityEventHomeView} />
+  </HomeStack.Navigator>
+);
 
 // eslint-disable-next-line @typescript-eslint/space-before-function-paren
 export default function App(): ReactElement {
@@ -162,10 +106,10 @@ export default function App(): ReactElement {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar style={'dark'} />
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <StatusBar style="auto" />
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
             <BottomSheetModalProvider>
               <BottomNavigationItem
                 navigatorTabs={[
@@ -184,9 +128,9 @@ export default function App(): ReactElement {
                 ]}
               />
             </BottomSheetModalProvider>
-          </SafeAreaView>
-        </QueryClientProvider>
-      </Provider>
+          </QueryClientProvider>
+        </Provider>
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }

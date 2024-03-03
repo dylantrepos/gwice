@@ -1,59 +1,46 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Pressable, Animated, Easing, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import style from './SettingsGeneralView.style';
-import { useDispatch } from 'react-redux';
-import { store } from '../../../store/store';
-import { setTheme, setWeatherSettings } from '../../../reducers/generalReducer';
-import { useNavigation } from '@react-navigation/native';
-import { TextItem } from '../../../components/TextItem/TextItem';
-import palette from '../../../assets/palette';
-import { Switch } from 'react-native-gesture-handler';
-import { PageHeaderLayout } from '../../../layouts/PageHeaderLayout';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Animated, Easing, Pressable, ScrollView, View } from 'react-native';
+import { Switch } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import palette from '../../../assets/palette';
+import { TextItem } from '../../../components/TextItem/TextItem';
+import { setTheme } from '../../../reducers/generalReducer';
+import { store } from '../../../store/store';
+import style from './SettingsGeneralView.style';
 
-const animationOptions = (value: number) => ({
-  toValue: value, 
-  duration: 100, 
-  useNativeDriver: true, 
-  easing: Easing.inOut(Easing.linear), 
-} as Animated.TimingAnimationConfig)
+const animationOptions = (value: number) =>
+  ({
+    toValue: value,
+    duration: 100,
+    useNativeDriver: true,
+    easing: Easing.inOut(Easing.linear)
+  }) as Animated.TimingAnimationConfig;
 
-export const SettingsGeneralView = ({
-
-}) => {
+export const SettingsGeneralView = ({}) => {
   const { theme } = store.getState().generalReducer;
-  const [isDarkMode, setIsDarkMode] = useState(theme === 'dark'); 
+  const [isDarkMode, setIsDarkMode] = useState(theme === 'dark');
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
 
   const handleSetDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     dispatch(setTheme(isDarkMode ? 'light' : 'dark'));
-  }
+  };
 
   const handleSetLanguage = (language: string) => {
-    i18n.changeLanguage(language)
-  }
+    i18n.changeLanguage(language);
+  };
 
-  
   return (
     <View>
       <ScrollView>
-        <Pressable 
-          style={style.option}
-          onPress={handleSetDarkMode}
-        >
-          <TextItem 
-            weight="regular"
-            size="md"
-            style={style.optionTitle}
-          >
+        <Pressable style={style.option} onPress={handleSetDarkMode}>
+          <TextItem weight="regular" size="md" style={style.optionTitle}>
             {t('screens.settingsGeneral.text.darkMode')}
           </TextItem>
-          <View 
-            style={style.optionInput}
-          >
+          <View style={style.optionInput}>
             <Switch
               value={isDarkMode}
               onValueChange={handleSetDarkMode}
@@ -66,10 +53,9 @@ export const SettingsGeneralView = ({
           <TextItem>{t('screens.settingsGeneral.text.language')}</TextItem>
           <Picker
             selectedValue={i18n.language}
-            style={{height: 50, width: 150}}
-            onValueChange={(itemValue, itemIndex) =>
-              handleSetLanguage(itemValue)
-            }>
+            style={{ height: 50, width: 150 }}
+            onValueChange={(itemValue, itemIndex) => handleSetLanguage(itemValue)}
+          >
             <Picker.Item label={t('languages.french')} value="fr" />
             <Picker.Item label={t('languages.english')} value="en" />
           </Picker>
@@ -78,4 +64,3 @@ export const SettingsGeneralView = ({
     </View>
   );
 };
-

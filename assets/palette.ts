@@ -1,4 +1,4 @@
-export const palette = {
+export default {
   white: '#FFFFFF',
   white30: '#FFFFFF30',
   black: '#000000',
@@ -12,83 +12,4 @@ export const palette = {
   blueLight50: '#3988FD50',
   blue: '#0D89CE',
   red: '#FD3939'
-}
-
-export type Theme = 'light' | 'dark'
-
-export interface TestTheme {
-  background: {
-    light: Theme
-    dark: Theme
-  }
-  text: {
-    light: Theme
-    dark: Theme
-  }
-  spacing: {
-    s: number
-    m: number
-    l: number
-    xl: number
-  }
-  textSize: {
-    sm: number
-    md: number
-    lg: number
-    xl: number
-    xxl: number
-  }
-}
-
-export const THEME = {
-  background: {
-    light: palette.white,
-    dark: palette.blackLighter
-  },
-  header: {
-    leftButtonBackground: {
-      light: palette.white,
-      dark: palette.black
-    },
-    leftButtonIcon: {
-      light: palette.black,
-      dark: palette.white
-    }
-  },
-  headerBackground: {
-    light: palette.white,
-    dark: palette.black
-  },
-
-  titleBackground: {
-    light: palette.black,
-    dark: palette.white
-  },
-  text: {
-    light: palette.black,
-    dark: palette.white
-  },
-  textScrolled: {
-    light: palette.black,
-    dark: palette.white
-  },
-
-  // Spacing
-  spacing: {
-    s: 8,
-    m: 16,
-    l: 24,
-    xl: 40
-  },
-
-  // Size
-  textSize: {
-    sm: 12,
-    md: 16,
-    lg: 20,
-    xl: 24,
-    xxl: 32
-  }
-}
-
-export default palette
+};

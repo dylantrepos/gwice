@@ -30,6 +30,7 @@
       "error",
       "as-needed"
     ],
+    "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/member-delimiter-style": [
       "error",
       {
