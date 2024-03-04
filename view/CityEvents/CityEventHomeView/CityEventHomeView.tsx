@@ -5,7 +5,6 @@ import { Keyboard, View, VirtualizedList } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
-import { Layout } from '../../../layouts/Layout';
 import {
   CityEventCardLargeEmptyItem,
   CityEventCardLargeItem
@@ -164,12 +163,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   }, [isSearchInputFocused]);
 
   return (
-    <Layout
-      header={{
-        headerTitle: t('screens.events.title'),
-        headerTransparent: true
-      }}
-    >
+    <View>
       <VirtualizedList
         removeClippedSubviews={false}
         contentContainerStyle={{ minHeight: '100%' }}
@@ -228,6 +222,6 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
         }
         extraData={selectedItemDate}
       />
-    </Layout>
+    </View>
   );
 };

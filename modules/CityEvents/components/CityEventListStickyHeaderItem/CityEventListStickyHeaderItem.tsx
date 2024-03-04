@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { THEME } from '../../../../assets/theme';
-import { SearchBarItem } from '../../../../components/SearchBarItem/SearchBarItem';
 import { setIsSearchInputFocused, setSearchValue } from '../../../../reducers/eventReducer';
 import { type RootState } from '../../../../store/store';
 import { type FilterDateItem } from '../../utils/date';
@@ -43,12 +42,12 @@ export const CityEventListStickyHeaderItem = ({
         backgroundColor: THEME.style.viewBackground[theme]
       }}
     >
-      <SearchBarItem
+      {/* <SearchBarItem
         placeholder={t('screens.events.text.searchBarPlaceholder')}
         searchValue={searchValue}
         handleSubmitSearchValue={handleSubmitSearchValue}
         handleIsFocused={handleUpdateIsSearchInputFocused}
-      />
+      /> */}
       <CityEventListCategoryListItem
         categories={eventsCategoryLille}
         categoriesSelected={filteredCategoryIdList}
