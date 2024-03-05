@@ -89,7 +89,8 @@ export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
           style={{
             opacity: textOpacity, // Use the animated text opacity
             transform: [{ translateY: textPosition }], // Use the animated text position
-            color: theme === 'light' ? 'black' : 'white'
+            color: theme === 'light' ? 'black' : 'white',
+            fontSize: 20
           }}
         >
           {' '}

@@ -175,9 +175,9 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
     outputRange: ['rgba(255,255,255,0)', 'rgba(255,255,255,1)']
   });
 
-  const textOpacity = scrollPosition2.interpolate({
+  const textColor = scrollPosition2.interpolate({
     inputRange: [0, 70],
-    outputRange: [0, 1]
+    outputRange: ['rgba(255,255,255,1)', 'rgba(0,0,0,1)']
   });
 
   const textPosition = scrollPosition2.interpolate({
@@ -242,14 +242,16 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
         </View>
         <Animated.Text
           style={{
-            opacity: textOpacity,
-            transform: [{ translateY: textPosition }],
+            opacity: 1,
+            // transform: [{ translateY: textPosition }],
+            fontSize: 20,
+            color: textColor,
             flex: 3,
             textAlign: 'center'
           }}
         >
           {' '}
-          {t('screens.home.title')}{' '}
+          {t('screens.events.title')}{' '}
         </Animated.Text>
         <View
           style={{
