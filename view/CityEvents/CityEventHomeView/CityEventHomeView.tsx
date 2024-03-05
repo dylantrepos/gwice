@@ -1,9 +1,12 @@
 import { isBefore } from 'date-fns';
+import { ArrowLeft } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Keyboard, View, VirtualizedList } from 'react-native';
+import { Animated, Keyboard, Pressable, StatusBar, View, VirtualizedList } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
+import { IconItem } from '../../../components/IconItem/IconItem';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
 import {
   CityEventCardLargeEmptyItem,
@@ -51,6 +54,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [selectedItemDate, setSelectedItemDate] = useState(filterDate[0]);
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
   const { isSearchInputFocused, currentPeriod, customPeriod, startDate, endDate } = useSelector(
     (state: RootState) => state.eventReducer
   );
@@ -162,8 +166,97 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
     }
   }, [isSearchInputFocused]);
 
+  const { top } = useSafeAreaInsets();
+
+  const scrollPosition2 = useRef(new Animated.Value(0)).current;
+
+  const headerBackgroundColor = scrollPosition2.interpolate({
+    inputRange: [0, 70],
+    outputRange: ['rgba(255,255,255,0)', 'rgba(255,255,255,1)']
+  });
+
+  const textOpacity = scrollPosition2.interpolate({
+    inputRange: [0, 70],
+    outputRange: [0, 1]
+  });
+
+  const textPosition = scrollPosition2.interpolate({
+    inputRange: [0, 70],
+    outputRange: [10, 0],
+    extrapolate: 'clamp'
+  });
+
+  const onScroll = Animated.event(
+    [{ nativeEvent: { contentOffset: { y: scrollPosition2 } } }],
+    { useNativeDriver: false } // Set this to true if you're not using the scroll position in JS
+  );
+
   return (
     <View>
+      <Animated.View
+        style={{
+          backgroundColor: headerBackgroundColor,
+          zIndex: 10,
+          height: top,
+          width: '100%',
+          position: 'absolute',
+          top: 0
+        }}
+      >
+        <StatusBar barStyle={theme === 'light' ? 'dark-content' : 'light-content'} />
+      </Animated.View>
+      <Animated.View
+        style={{
+          height: 70,
+          flex: 1,
+          zIndex: 1,
+          backgroundColor: headerBackgroundColor, // Use the animated background color
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+          width: '100%',
+          top,
+          display: 'flex',
+          flexDirection: 'row',
+          paddingHorizontal: 20
+        }}
+      >
+        <View
+          style={{
+            flex: 1
+          }}
+        >
+          <Pressable
+            style={{
+              backgroundColor: 'white',
+              borderRadius: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 50,
+              width: 50
+            }}
+            onPress={() => navigation.goBack()}
+          >
+            <IconItem IconElt={ArrowLeft} size="md" color={'black'} stroke="strong" />
+          </Pressable>
+        </View>
+        <Animated.Text
+          style={{
+            opacity: textOpacity,
+            transform: [{ translateY: textPosition }],
+            flex: 3,
+            textAlign: 'center'
+          }}
+        >
+          {' '}
+          {t('screens.home.title')}{' '}
+        </Animated.Text>
+        <View
+          style={{
+            flex: 1
+          }}
+        ></View>
+      </Animated.View>
       <VirtualizedList
         removeClippedSubviews={false}
         contentContainerStyle={{ minHeight: '100%' }}
@@ -172,8 +265,10 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
         ref={flatListRef}
         keyboardShouldPersistTaps="handled"
         onScroll={(event) => {
+          onScroll(event);
           setScrollPosition(event.nativeEvent.contentOffset.y);
         }}
+        scrollEventThrottle={16}
         data={[
           <CityEventListStickyHeaderItem
             filteredCategoryIdList={filteredCategoryIdList}
