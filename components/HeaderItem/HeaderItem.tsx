@@ -1,93 +1,148 @@
 import { useNavigation } from '@react-navigation/native';
-import { ChevronLeft } from 'lucide-react-native';
-import { type PropsWithChildren, type ReactNode } from 'react';
-import { Animated, Pressable, View } from 'react-native';
+import { ArrowLeft } from 'lucide-react-native';
+import { useRef, type ReactNode } from 'react';
+import { Animated, Pressable, StatusBar, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
+import { THEME } from '../../assets/theme';
 import { type RootState } from '../../store/store';
 import { IconItem } from '../IconItem/IconItem';
-import { TextItem } from '../TextItem/TextItem';
-import style, { HEADER_THEME } from './HeaderItem.style';
-import { type HeaderProps } from './HeaderItem.type';
+// import { type HeaderProps } from './HeaderItem.type';
+
+interface HeaderProps {
+  title?: string | null;
+  scrollPosition?: Animated.Value | null;
+  animTitle?: boolean;
+  inputRange?: number[];
+  withBackNavigation?: boolean;
+  transparent?: boolean;
+}
 
 export const HeaderItem = ({
-  headerTitle = '',
-  headerTitleColor,
-  headerLeftIcon = null,
-  headerRightIcon = null,
-  headerHandleLeftIconPress = () => {},
-  headerHandleRightIconPress = () => {},
-  headerIconSize = 'md',
-  headerIconColor = null,
-  headerIconStroke = 'strong',
-  headerBackground,
-  headerTransparent = false,
-  headerWithBackNavigation = false
-}: PropsWithChildren<HeaderProps>): ReactNode => {
-  const insets = useSafeAreaInsets();
-  const navigate = useNavigation();
+  title = null,
+  scrollPosition = null,
+  animTitle = false,
+  inputRange = [0, 20],
+  withBackNavigation = true,
+  transparent = false
+}: HeaderProps): ReactNode => {
+  const { top } = useSafeAreaInsets();
   const { theme } = useSelector((state: RootState) => state.generalReducer);
-  const headerHeight = { height: HEADER_THEME.headerHeight + insets.top };
-  const headerTopPosition = { top: insets.top };
+  const navigation = useNavigation();
+  if (!scrollPosition) scrollPosition = useRef(new Animated.Value(0)).current;
+
+  const headerBackgroundColor = scrollPosition.interpolate({
+    inputRange,
+    outputRange:
+      theme === 'light'
+        ? ['rgba(255,255,255,0)', 'rgba(255,255,255,1)']
+        : ['rgba(0,0,0,0)', 'rgba(0,0,0,1)']
+  });
+
+  const textOpacity = scrollPosition.interpolate({
+    inputRange,
+    outputRange: [0, 1]
+  });
+
+  const textPosition = scrollPosition.interpolate({
+    inputRange,
+    outputRange: [10, 0],
+    extrapolate: 'clamp'
+  });
 
   return (
-    <View
+    <Animated.View
       style={{
-        ...headerHeight,
-        position: headerTransparent ? 'absolute' : 'relative',
-        backgroundColor: headerTransparent
-          ? 'transparent'
-          : headerBackground ?? HEADER_THEME.headerBackground[theme],
+        top: 0,
+        zIndex: 10,
+        position: transparent ? 'absolute' : 'relative',
         width: '100%',
-        zIndex: 100
+        backgroundColor: transparent ? headerBackgroundColor : THEME.style.viewBackground[theme]
       }}
     >
-      <Animated.View style={[style.headerContainer, headerTopPosition]}>
-        <View style={style.headerAsideContainer}>
-          {headerWithBackNavigation && navigate.canGoBack() && (
+      <Animated.View
+        style={{
+          height: top,
+          width: '100%'
+        }}
+      >
+        <StatusBar barStyle={theme === 'light' ? 'dark-content' : 'light-content'} />
+      </Animated.View>
+      <Animated.View
+        style={{
+          height: 70,
+          zIndex: 1,
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            height: '100%',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          {withBackNavigation && navigation.canGoBack() && (
             <Pressable
-              onPress={() => {
-                navigate.goBack();
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 50,
+                width: 50
               }}
-              style={style.headerIcon}
+              onPress={() => {
+                navigation.goBack();
+              }}
             >
-              <IconItem
-                IconElt={ChevronLeft}
-                size={headerIconSize}
-                color={headerIconColor}
-                stroke={headerIconStroke}
-              />
-            </Pressable>
-          )}
-          {headerLeftIcon && (
-            <Pressable onPress={headerHandleLeftIconPress} style={style.headerIcon}>
-              <IconItem
-                IconElt={headerLeftIcon}
-                size={headerIconSize}
-                color={headerIconColor}
-                stroke={headerIconStroke}
-              />
+              <IconItem IconElt={ArrowLeft} size="md" color={'black'} stroke="strong" />
             </Pressable>
           )}
         </View>
-        <View style={style.headerMiddleContainer}>
-          <TextItem weight="regular" size="xxl" color={headerTitleColor}>
-            {headerTitle}
-          </TextItem>
-        </View>
-        <View style={style.headerAsideContainer}>
-          {headerRightIcon && (
-            <Pressable onPress={headerHandleRightIconPress} style={style.headerIcon}>
-              <IconItem
-                IconElt={headerRightIcon}
-                size={headerIconSize}
-                color={headerIconColor}
-                stroke={headerIconStroke}
-              />
-            </Pressable>
-          )}
+        <Animated.Text
+          style={{
+            opacity: animTitle ? textOpacity : 1,
+            transform: animTitle ? [{ translateY: textPosition }] : [],
+            color: theme === 'light' ? 'black' : 'white',
+            fontSize: 20,
+            flex: 3,
+            verticalAlign: 'middle',
+            textAlign: 'center',
+            height: '100%'
+          }}
+        >
+          {title}
+        </Animated.Text>
+        <View
+          style={{
+            flex: 1,
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          {/* <Pressable
+            style={{
+              backgroundColor: 'white',
+              borderRadius: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 50,
+              width: 50
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <IconItem IconElt={ArrowLeft} size="md" color={'black'} stroke="strong" />
+          </Pressable> */}
         </View>
       </Animated.View>
-    </View>
+    </Animated.View>
   );
 };
