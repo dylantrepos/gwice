@@ -43,7 +43,7 @@ export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
         transparent={true}
       />
       <ScrollView
-        onScroll={onScroll} // Use the animated onScroll handler
+        onScroll={onScroll}
         scrollEventThrottle={16}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         style={{ flex: 1, backgroundColor: 'white' }}
