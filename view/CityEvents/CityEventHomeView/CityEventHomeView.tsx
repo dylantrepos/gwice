@@ -1,12 +1,10 @@
 import { isBefore } from 'date-fns';
-import { ArrowLeft } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, Keyboard, Pressable, StatusBar, View, VirtualizedList } from 'react-native';
+import { Animated, Keyboard, View, VirtualizedList } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { IconItem } from '../../../components/IconItem/IconItem';
+import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
 import {
   CityEventCardLargeEmptyItem,
@@ -166,25 +164,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
     }
   }, [isSearchInputFocused]);
 
-  const { top } = useSafeAreaInsets();
-
   const scrollPosition2 = useRef(new Animated.Value(0)).current;
-
-  const headerBackgroundColor = scrollPosition2.interpolate({
-    inputRange: [0, 70],
-    outputRange: ['rgba(255,255,255,0)', 'rgba(255,255,255,1)']
-  });
-
-  const textColor = scrollPosition2.interpolate({
-    inputRange: [0, 70],
-    outputRange: ['rgba(255,255,255,1)', 'rgba(0,0,0,1)']
-  });
-
-  const textPosition = scrollPosition2.interpolate({
-    inputRange: [0, 70],
-    outputRange: [10, 0],
-    extrapolate: 'clamp'
-  });
 
   const onScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrollPosition2 } } }],
@@ -193,72 +173,13 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
 
   return (
     <View>
-      <Animated.View
-        style={{
-          backgroundColor: headerBackgroundColor,
-          zIndex: 10,
-          height: top,
-          width: '100%',
-          position: 'absolute',
-          top: 0
-        }}
-      >
-        <StatusBar barStyle={theme === 'light' ? 'dark-content' : 'light-content'} />
-      </Animated.View>
-      <Animated.View
-        style={{
-          height: 70,
-          flex: 1,
-          zIndex: 1,
-          backgroundColor: headerBackgroundColor, // Use the animated background color
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-          width: '100%',
-          top,
-          display: 'flex',
-          flexDirection: 'row',
-          paddingHorizontal: 20
-        }}
-      >
-        <View
-          style={{
-            flex: 1
-          }}
-        >
-          <Pressable
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 50,
-              width: 50
-            }}
-            onPress={() => navigation.goBack()}
-          >
-            <IconItem IconElt={ArrowLeft} size="md" color={'black'} stroke="strong" />
-          </Pressable>
-        </View>
-        <Animated.Text
-          style={{
-            opacity: 1,
-            // transform: [{ translateY: textPosition }],
-            fontSize: 20,
-            color: textColor,
-            flex: 3,
-            textAlign: 'center'
-          }}
-        >
-          {' '}
-          {t('screens.events.title')}{' '}
-        </Animated.Text>
-        <View
-          style={{
-            flex: 1
-          }}
-        ></View>
-      </Animated.View>
+      <HeaderItem
+        title={t('screens.events.title')}
+        scrollPosition={scrollPosition2}
+        animTitle={true}
+        withBackNavigation={true}
+        transparent={true}
+      />
       <VirtualizedList
         removeClippedSubviews={false}
         contentContainerStyle={{ minHeight: '100%' }}
