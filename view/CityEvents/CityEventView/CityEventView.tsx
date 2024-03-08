@@ -1,6 +1,7 @@
 import { BadgeEuro, Calendar, MapPin, X } from 'lucide-react-native';
-import { useCallback, useState, type ReactNode } from 'react';
+import { useCallback, useRef, useState, type ReactNode } from 'react';
 import {
+  Animated,
   Dimensions,
   Image,
   Linking,
@@ -14,10 +15,10 @@ import {
 } from 'react-native';
 import PanPinchView from 'react-native-pan-pinch-view';
 import { useDispatch } from 'react-redux';
+import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { IconItem } from '../../../components/IconItem/IconItem';
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
-import { Layout } from '../../../layouts/Layout';
 import { useGetCityEventDetails } from '../../../modules/CityEvents/hooks/useGetCityEvents';
 import { setRefetchHome } from '../../../reducers/generalReducer';
 import { getFormatedDateFromTimestamp } from '../../../utils/utils';
@@ -32,6 +33,12 @@ export const CityEventView = ({ navigation, route }: Props): ReactNode => {
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
+  const scrollPosition = useRef(new Animated.Value(0)).current;
+
+  const onScroll = Animated.event(
+    [{ nativeEvent: { contentOffset: { y: scrollPosition } } }],
+    { useNativeDriver: false } // Set this to true if you're not using the scroll position in JS
+  );
 
   const handleOpenModal = (open: boolean = true): void => {
     setModalVisible(open);
@@ -99,9 +106,17 @@ export const CityEventView = ({ navigation, route }: Props): ReactNode => {
   const firstTimingDate = new Date(firstTiming.begin);
 
   return (
-    <Layout>
+    <View>
+      <HeaderItem
+        scrollPosition={scrollPosition}
+        withBackNavigation={true}
+        transparent={true}
+        forceStatusBarShow={true}
+        forceTransparentBackground={true}
+      />
       <ScrollView
         style={{ ...style.scrollView }}
+        onScroll={onScroll}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         <TouchableOpacity
@@ -169,7 +184,9 @@ export const CityEventView = ({ navigation, route }: Props): ReactNode => {
             <IconItem IconElt={MapPin} size="md" />
             <Pressable
               onPress={() => {
-                Linking.openURL(locationMapUrl);
+                void (async () => {
+                  await Linking.openURL(locationMapUrl);
+                })();
               }}
             >
               <TextItem size="md" style={style.date}>
@@ -193,7 +210,9 @@ export const CityEventView = ({ navigation, route }: Props): ReactNode => {
           <Pressable
             style={style.link}
             onPress={() => {
-              Linking.openURL(siteLink);
+              void (async () => {
+                await Linking.openURL(siteLink);
+              })();
             }}
           >
             <TextItem weight="regular" size="md">
@@ -235,6 +254,6 @@ export const CityEventView = ({ navigation, route }: Props): ReactNode => {
           </TextItem>
         </Pressable> } */}
       </ScrollView>
-    </Layout>
+    </View>
   );
 };

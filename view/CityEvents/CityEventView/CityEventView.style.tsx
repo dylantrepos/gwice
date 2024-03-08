@@ -5,7 +5,7 @@ export default StyleSheet.create({
     flex: 1
   },
   scrollView: {
-    paddingBottom: 40
+    marginBottom: 50
   },
   backButton: {
     position: 'absolute',
