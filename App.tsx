@@ -51,7 +51,6 @@ const HomeStack = createNativeStackNavigator();
 
 const screenOptions: NativeStackNavigationOptions = {
   headerShown: false
-  // animation: 'none'
 };
 
 const SettingsScreens = (): ReactElement => (
@@ -64,25 +63,9 @@ const SettingsScreens = (): ReactElement => (
 
 const HomeScreens = (): ReactElement => (
   <HomeStack.Navigator screenOptions={screenOptions} initialRouteName="Home">
-    <HomeStack.Screen
-      name="Home"
-      component={HomeView}
-      // options={{
-      //   headerShown: true,
-      //   headerTransparent: true,
-      //   header: () => <HeaderItem headerTitle="test" />
-      // }}
-    />
+    <HomeStack.Screen name="Home" component={HomeView} />
     <HomeStack.Screen name="CulturalEvent" component={CityEventView} />
-    <HomeStack.Screen
-      name="HomeCulturalEvent"
-      component={CityEventHomeView}
-      // options={{
-      //   headerShown: true,
-      //   headerTransparent: true,
-      //   header: () => <HeaderItem headerTitle="test2" />
-      // }}
-    />
+    <HomeStack.Screen name="HomeCulturalEvent" component={CityEventHomeView} />
   </HomeStack.Navigator>
 );
 

@@ -8,6 +8,7 @@ import { THEME } from '../../assets/theme';
 import { type RootState } from '../../store/store';
 import { IconItem } from '../IconItem/IconItem';
 // import { type HeaderProps } from './HeaderItem.type';
+import style from './HeaderItem.style';
 
 interface HeaderProps {
   title?: string | null;
@@ -16,6 +17,8 @@ interface HeaderProps {
   inputRange?: number[];
   withBackNavigation?: boolean;
   transparent?: boolean;
+  forceStatusBarShow?: boolean;
+  forceTransparentBackground?: boolean;
 }
 
 export const HeaderItem = ({
@@ -24,7 +27,9 @@ export const HeaderItem = ({
   animTitle = false,
   inputRange = [0, 20],
   withBackNavigation = true,
-  transparent = false
+  transparent = false,
+  forceStatusBarShow = false,
+  forceTransparentBackground = false
 }: HeaderProps): ReactNode => {
   const { top } = useSafeAreaInsets();
   const { theme } = useSelector((state: RootState) => state.generalReducer);
@@ -51,82 +56,61 @@ export const HeaderItem = ({
   });
 
   return (
-    <Animated.View
-      style={{
-        top: 0,
-        zIndex: 10,
-        position: transparent ? 'absolute' : 'relative',
-        width: '100%',
-        backgroundColor: transparent ? headerBackgroundColor : THEME.style.viewBackground[theme]
-      }}
-    >
+    <View>
+      {forceStatusBarShow && (
+        <Animated.View
+          style={{
+            ...style.statusBar,
+            height: top
+          }}
+        >
+          <StatusBar barStyle={theme === 'light' ? 'dark-content' : 'light-content'} />
+        </Animated.View>
+      )}
       <Animated.View
         style={{
-          height: top,
-          width: '100%'
+          ...style.headerStatusContainer,
+          position: transparent ? 'absolute' : 'relative',
+          backgroundColor: forceTransparentBackground
+            ? 'transparent'
+            : transparent
+              ? headerBackgroundColor
+              : THEME.style.viewBackground[theme]
         }}
       >
-        <StatusBar barStyle={theme === 'light' ? 'dark-content' : 'light-content'} />
-      </Animated.View>
-      <Animated.View
-        style={{
-          height: 70,
-          zIndex: 1,
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <View
+        <Animated.View
           style={{
-            flex: 1,
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center'
+            ...style.statusBar,
+            height: top
           }}
         >
-          {withBackNavigation && navigation.canGoBack() && (
-            <Pressable
-              style={{
-                backgroundColor: 'white',
-                borderRadius: 50,
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 50,
-                width: 50
-              }}
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <IconItem IconElt={ArrowLeft} size="md" color={'black'} stroke="strong" />
-            </Pressable>
-          )}
-        </View>
-        <Animated.Text
-          style={{
-            opacity: animTitle ? textOpacity : 1,
-            transform: animTitle ? [{ translateY: textPosition }] : [],
-            color: theme === 'light' ? 'black' : 'white',
-            fontSize: 20,
-            flex: 3,
-            verticalAlign: 'middle',
-            textAlign: 'center',
-            height: '100%'
-          }}
-        >
-          {title}
-        </Animated.Text>
-        <View
-          style={{
-            flex: 1,
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          {/* <Pressable
+          <StatusBar barStyle={theme === 'light' ? 'dark-content' : 'light-content'} />
+        </Animated.View>
+        <Animated.View style={style.headerContainer}>
+          <View style={style.aside}>
+            {withBackNavigation && navigation.canGoBack() && (
+              <Pressable
+                style={style.backButton}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+              >
+                <IconItem IconElt={ArrowLeft} size="md" color={'black'} stroke="strong" />
+              </Pressable>
+            )}
+          </View>
+          <Animated.Text
+            style={{
+              ...style.title,
+              opacity: animTitle ? textOpacity : 1,
+              transform: animTitle ? [{ translateY: textPosition }] : [],
+              color: theme === 'light' ? 'black' : 'white'
+            }}
+          >
+            {title}
+          </Animated.Text>
+          <View style={style.aside}>
+            {/* <Pressable
             style={{
               backgroundColor: 'white',
               borderRadius: 50,
@@ -141,8 +125,9 @@ export const HeaderItem = ({
           >
             <IconItem IconElt={ArrowLeft} size="md" color={'black'} stroke="strong" />
           </Pressable> */}
-        </View>
+          </View>
+        </Animated.View>
       </Animated.View>
-    </Animated.View>
+    </View>
   );
 };

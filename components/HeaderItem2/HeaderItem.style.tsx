@@ -15,41 +15,24 @@ export const HEADER_THEME: HeaderThemeProps = {
 };
 
 export default StyleSheet.create({
-  headerStatusContainer: {
-    top: 0,
-    zIndex: 100,
-    width: '100%'
-  },
-  statusBar: {
-    width: '100%'
-  },
   headerContainer: {
+    width: '100%',
+    position: 'absolute',
     height: HEADER_THEME.headerHeight,
-    zIndex: 1,
-    display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'row'
+  },
+  headerAsideContainer: {
+    flex: 1
+  },
+  headerMiddleContainer: {
+    flex: 3,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  aside: {
-    flex: 1,
+  headerIcon: {
+    width: '100%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  backButton: {
-    backgroundColor: 'white',
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 50,
-    width: 50
-  },
-  title: {
-    fontSize: 20,
-    flex: 3,
-    verticalAlign: 'middle',
-    textAlign: 'center',
-    height: '100%'
   }
 });
