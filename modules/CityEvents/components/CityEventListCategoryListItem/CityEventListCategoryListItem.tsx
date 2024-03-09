@@ -1,6 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, FlatList, Platform, Pressable, View } from 'react-native';
+import { Animated, FlatList, Platform, Pressable, View, type ViewProps } from 'react-native';
 import { useSelector } from 'react-redux';
 import { IconItem } from '../../../../components/IconItem/IconItem';
 import { TextItem } from '../../../../components/TextItem/TextItem';
@@ -9,7 +9,7 @@ import { type CategoryItem } from '../../types/Events';
 import { formatTitle } from '../../utils/events';
 import style, { themeStyle } from './CityEventListCategoryListItem.style';
 
-interface CategoryListItemProps {
+interface CategoryListItemProps extends ViewProps {
   categories: CategoryItem[];
   categoriesSelected: number[];
   filteredCategoryIdList: React.Dispatch<React.SetStateAction<number[]>>;

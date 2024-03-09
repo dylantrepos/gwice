@@ -25,7 +25,7 @@ export const HeaderItem = ({
   title = null,
   scrollPosition = null,
   animTitle = false,
-  inputRange = [0, 20],
+  inputRange = [0, 10],
   withBackNavigation = true,
   transparent = false,
   forceStatusBarShow = false,
@@ -56,7 +56,11 @@ export const HeaderItem = ({
   });
 
   return (
-    <View>
+    <View
+      style={{
+        zIndex: 100
+      }}
+    >
       {forceStatusBarShow && (
         <Animated.View
           style={{

@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { View, type ViewProps, type ViewStyle } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { THEME } from '../../../../assets/theme';
 import { setIsSearchInputFocused, setSearchValue } from '../../../../reducers/eventReducer';
@@ -10,18 +10,21 @@ import { eventsCategoryLille } from '../../utils/events';
 import { CityEventListCategoryListItem } from '../CityEventListCategoryListItem/CityEventListCategoryListItem';
 import { CityEventListFilterItem } from '../CityEventListFilterItem/CityEventListFilterItem';
 
-interface StickyHeaderProps {
+interface StickyHeaderProps extends ViewProps {
   filteredCategoryIdList: number[];
   handleSetFilteredCategoryIdList: React.Dispatch<React.SetStateAction<number[]>>;
   selectedItemDate: FilterDateItem;
   setSelectedItemDate: React.Dispatch<React.SetStateAction<FilterDateItem>>;
+  styles?: ViewStyle;
 }
 
 export const CityEventListStickyHeaderItem = ({
   filteredCategoryIdList,
   handleSetFilteredCategoryIdList,
   selectedItemDate,
-  setSelectedItemDate
+  setSelectedItemDate,
+  onLayout,
+  styles
 }: StickyHeaderProps): ReactNode => {
   const { searchValue } = useSelector((state: RootState) => state.eventReducer);
   const { theme } = useSelector((state: RootState) => state.generalReducer);
@@ -39,8 +42,10 @@ export const CityEventListStickyHeaderItem = ({
   return (
     <View
       style={{
-        backgroundColor: THEME.style.viewBackground[theme]
+        backgroundColor: THEME.style.viewBackground[theme],
+        ...styles
       }}
+      onLayout={onLayout}
     >
       {/* <SearchBarItem
         placeholder={t('screens.events.text.searchBarPlaceholder')}
