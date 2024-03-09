@@ -127,7 +127,7 @@ export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDat
                         color:
                           currSelectedItem === item
                             ? palette.blueLight
-                            : themeStyle.textDefault.light
+                            : themeStyle.textDefault[theme]
                       }}
                     >
                       {t(`period.${item}`)}

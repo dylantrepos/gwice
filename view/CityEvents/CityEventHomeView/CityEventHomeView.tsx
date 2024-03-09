@@ -5,6 +5,7 @@ import { Animated, Keyboard, View, VirtualizedList } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
+import { THEME } from '../../../assets/theme';
 import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { HEADER_THEME } from '../../../components/HeaderItem/HeaderItem.style';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
@@ -201,7 +202,11 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   );
 
   return (
-    <View>
+    <View
+      style={{
+        backgroundColor: THEME.style.viewBackground[theme]
+      }}
+    >
       <HeaderItem
         title={t('screens.events.title')}
         scrollPosition={scrollPosition2}
