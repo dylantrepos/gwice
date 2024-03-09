@@ -5,6 +5,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { Switch } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import palette from '../../../assets/palette';
+import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { Layout } from '../../../layouts/Layout';
 import { setTheme } from '../../../reducers/generalReducer';
@@ -28,11 +29,8 @@ export const SettingsGeneralView = (): ReactNode => {
   };
 
   return (
-    <Layout
-      header={{
-        headerTitle: t('screens.settingsGeneral.title')
-      }}
-    >
+    <Layout>
+      <HeaderItem title={t('screens.settingsGeneral.title')} />
       <ScrollView>
         <Pressable style={style.option} onPress={handleSetDarkMode}>
           <TextItem weight="regular" size="md" style={style.optionTitle}>

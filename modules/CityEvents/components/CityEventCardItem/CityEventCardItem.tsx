@@ -1,6 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Calendar } from 'lucide-react-native';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, Image, ImageBackground, Pressable, View } from 'react-native';
 import { IconItem } from '../../../../components/IconItem/IconItem';
@@ -20,14 +21,13 @@ interface Props {
   period: string;
 }
 
-export const CityEventCardItem = ({ navigation, route, event, period }: Props) => {
+export const CityEventCardItem = ({ navigation, route, event, period }: Props): ReactNode => {
   const {
     uid: eventId,
     title,
     image,
     'categories-metropolitaines': categoriesMetropolitaines,
     nextTiming,
-    timings,
     nextDate
   } = event;
 
@@ -66,14 +66,16 @@ export const CityEventCardItem = ({ navigation, route, event, period }: Props) =
         <View style={style.culturalEventsCardImageContainer}>
           <Image style={style.culturalEventsCardImage} source={{ uri: imageSrc }} />
         </View>
-        <TagItem
-          title={t(firstCategory.translationKey) ?? ''}
-          IconElt={CategoryIconElt}
-          style={{
-            position: 'absolute',
-            top: 5
-          }}
-        />
+        {firstCategory && (
+          <TagItem
+            title={t(firstCategory.translationKey) ?? ''}
+            IconElt={CategoryIconElt}
+            style={{
+              position: 'absolute',
+              top: 5
+            }}
+          />
+        )}
         <View style={style.culturalEventsCardDetails}>
           <TextItem size="sm" weight="regular" numberOfLines={2} ellipsizeMode="tail">
             {title.fr ?? ''}
@@ -92,8 +94,6 @@ export const CityEventCardItem = ({ navigation, route, event, period }: Props) =
 };
 
 interface CityEventCardLargeItemProps {
-  navigation: any;
-  route: any;
   event: CityEventCard;
   selectedItemDate: FilterDateItem;
   period: string;
@@ -101,7 +101,7 @@ interface CityEventCardLargeItemProps {
 
 // eslint-disable-next-line react/display-name
 export const CityEventCardLargeItem = memo(
-  ({ navigation, route, event, period }: CityEventCardLargeItemProps) => {
+  ({ event, period }: CityEventCardLargeItemProps) => {
     const {
       uid,
       title,
@@ -115,13 +115,13 @@ export const CityEventCardLargeItem = memo(
     if (!categoriesMetropolitaines) return null;
 
     const { t } = useTranslation();
+    const navigation = useNavigation();
 
     const categoriesId = categoriesMetropolitaines.map((category) => category.id);
 
     const categories = categoriesId.map((categoryId) =>
       allEventsCategoryLille.find((category) => category.id === categoryId)
     );
-    const lastThreeCategories = categories.slice(-3);
 
     const [imageLoaded, setImageLoaded] = useState(false);
     const imageSrc = `${image.base}${image.filename}`;
@@ -137,7 +137,8 @@ export const CityEventCardLargeItem = memo(
     }, []);
 
     const handlePress = (): void => {
-      navigation.push('CulturalEvent', { eventId: uid });
+      // @ts-expect-error navigate need definition
+      navigation.navigate('CulturalEvent', { eventId: uid });
     };
 
     return (
@@ -172,15 +173,18 @@ export const CityEventCardLargeItem = memo(
             <LinearGradient colors={['transparent', 'rgba(0,0,0,1)']} style={style.cardDescription}>
               {categories && (
                 <View style={style.cardDescriptionCategoriesContainer}>
-                  {lastThreeCategories.map((category, index) => {
-                    const CategoryIconElt = category?.iconElt ?? null;
-                    return (
-                      <TagItem
-                        key={index}
-                        title={t(category.translationKey) ?? ''}
-                        IconElt={CategoryIconElt}
-                      />
-                    );
+                  {categories.slice(-3).map((category, index) => {
+                    if (category) {
+                      const CategoryIconElt = category?.iconElt ?? null;
+                      return (
+                        <TagItem
+                          key={index}
+                          title={t(category.translationKey) ?? ''}
+                          IconElt={CategoryIconElt}
+                        />
+                      );
+                    }
+                    return null;
                   })}
                 </View>
               )}
@@ -198,26 +202,19 @@ export const CityEventCardLargeItem = memo(
   (prevProps, nextProps) => prevProps.event.uid === nextProps.event.uid
 );
 
-export const CityEventCardLargeEmptyItem = () => {
+interface CityEventCardEmptyItemProps {
+  large?: boolean;
+}
+
+export const CityEventCardEmptyItem = ({
+  large = false
+}: CityEventCardEmptyItemProps): ReactNode => {
   const { backgroundColor } = useBackgroundColorLoading(true);
 
   return (
     <Animated.View
       style={{
-        ...style.cardLargeEmptyContainer,
-        backgroundColor
-      }}
-    ></Animated.View>
-  );
-};
-
-export const CityEventCardEmptyItem = () => {
-  const { backgroundColor } = useBackgroundColorLoading(true);
-
-  return (
-    <Animated.View
-      style={{
-        ...style.cardEmptyContainer,
+        ...(large ? style.cardLargeEmptyContainer : style.cardEmptyContainer),
         backgroundColor
       }}
     ></Animated.View>

@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, Easing, Pressable, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { Layout } from '../../../layouts/Layout';
 import { setWeatherSettings } from '../../../reducers/generalReducer';
@@ -43,11 +44,8 @@ export const SettingsWeatherView = (): ReactNode => {
   }, [currStartDailyHour]);
 
   return (
-    <Layout
-      header={{
-        headerTitle: t('screens.settingsWeather.title')
-      }}
-    >
+    <Layout>
+      <HeaderItem title={t('screens.settingsWeather.title')} />
       <View style={style.weatherInputContainer}>
         <TextItem weight="regular" size="md" style={style.weatherInputDescription}>
           {t('screens.settingsWeather.text.dailyStartHour')}

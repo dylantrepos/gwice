@@ -41,8 +41,6 @@ export const BottomNavigationItem = ({ navigatorTabs }: Props): ReactNode => {
     fontWeight: '400'
   };
 
-  console.log({ navigatorTabs });
-
   return (
     <NavigationContainer>
       <Tab.Navigator

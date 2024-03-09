@@ -77,8 +77,6 @@ export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDat
         })
       );
     } else {
-      console.log('currentPeriod', currentPeriod);
-
       if (currSelectedItem === 'custom' && customPeriod) {
         dispatch(setStartDatePeriod(customPeriod.startDate));
         dispatch(setEndDatePeriod(customPeriod.endDate));

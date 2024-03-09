@@ -5,12 +5,12 @@ import { Animated, Keyboard, View, VirtualizedList } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { THEME } from '../../../assets/theme';
 import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { HEADER_THEME } from '../../../components/HeaderItem/HeaderItem.style';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
+import { Layout } from '../../../layouts/Layout';
 import {
-  CityEventCardLargeEmptyItem,
+  CityEventCardEmptyItem,
   CityEventCardLargeItem
 } from '../../../modules/CityEvents/components/CityEventCardItem/CityEventCardItem';
 import { CityEventListFooterItem } from '../../../modules/CityEvents/components/CityEventListFooterItem/CityEventListFooterItem';
@@ -21,30 +21,23 @@ import { type CityEventCard } from '../../../modules/CityEvents/types/Events';
 import { filterDate } from '../../../modules/CityEvents/utils/date';
 import { setRefetchCityEventHome } from '../../../reducers/generalReducer';
 import { type RootState } from '../../../store/store';
+import styles from './CityEventHomeView.style';
 
-// interface HeaderListProps {
-//   navigation: any;
-//   handleHeaderHeight: React.Dispatch<React.SetStateAction<number>>;
-// }
+interface HeaderListProps {
+  setHeaderHeight: React.Dispatch<React.SetStateAction<number>>;
+}
 
-// const HeaderList = ({ navigation, handleHeaderHeight }: HeaderListProps): ReactNode => (
-//   <View
-//     onLayout={(event) => {
-//       const { height } = event.nativeEvent.layout;
-//       handleHeaderHeight(height);
-//     }}
-//     style={{
-//       position: 'absolute',
-//       top: 50,
-//       zIndex: 1000,
-//       width: '100%',
-//       height: 1000,
-//       backgroundColor: 'green'
-//     }}
-//   >
-//     <CityEventListPromoteItem />
-//   </View>
-// );
+const HeaderList = ({ setHeaderHeight }: HeaderListProps): ReactNode => (
+  <View
+    onLayout={(event) => {
+      const { height } = event.nativeEvent.layout;
+      setHeaderHeight(height);
+    }}
+    style={styles.heroContainer}
+  >
+    <CityEventListPromoteItem />
+  </View>
+);
 
 interface Props {
   navigation: any;
@@ -63,12 +56,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [selectedItemDate, setSelectedItemDate] = useState(filterDate[0]);
-  const [stickyHeight, setStickyHeight] = useState(0);
   const { top } = useSafeAreaInsets();
-  const [stickyY, setStickyY] = useState(0);
-  const { theme, headerHeight: realHeader } = useSelector(
-    (state: RootState) => state.generalReducer
-  );
   const { isSearchInputFocused, currentPeriod, customPeriod, startDate, endDate } = useSelector(
     (state: RootState) => state.eventReducer
   );
@@ -104,14 +92,12 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
 
       return eventList?.length > 0 ? (
         <CityEventCardLargeItem
-          navigation={navigation}
-          route={route}
           event={item}
           selectedItemDate={selectedItemDate}
           period={currentPeriod}
         />
       ) : (
-        <CityEventCardLargeEmptyItem />
+        <CityEventCardEmptyItem large />
       );
     },
     [eventList]
@@ -154,18 +140,10 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   useEffect(() => {
     setEventList([]);
     const offset = headerHeight - (top + HEADER_THEME.headerHeight);
-    if (flatListRef.current && scrollPosition < headerHeight) {
-      flatListRef.current.scrollToOffset({
-        animated: true,
-        offset
-      });
-    }
-    if (flatListRef.current && scrollPosition > headerHeight) {
-      flatListRef.current.scrollToOffset({
-        animated: false,
-        offset
-      });
-    }
+    flatListRef.current?.scrollToOffset({
+      animated: flatListRef.current && scrollPosition < headerHeight,
+      offset
+    });
   }, [filteredCategoryIdList, currentPeriod, customPeriod]);
 
   useEffect(() => {
@@ -180,17 +158,10 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   useEffect(() => {
     const offset = headerHeight - (top + HEADER_THEME.headerHeight);
     if (isSearchInputFocused) {
-      if (flatListRef.current && scrollPosition < headerHeight) {
-        flatListRef.current.scrollToOffset({
-          animated: true,
-          offset
-        });
-      } else if (flatListRef.current && scrollPosition > headerHeight) {
-        flatListRef.current.scrollToOffset({
-          animated: false,
-          offset
-        });
-      }
+      flatListRef.current?.scrollToOffset({
+        animated: scrollPosition < headerHeight,
+        offset
+      });
     }
   }, [isSearchInputFocused]);
 
@@ -202,11 +173,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   );
 
   return (
-    <View
-      style={{
-        backgroundColor: THEME.style.viewBackground[theme]
-      }}
-    >
+    <Layout>
       <HeaderItem
         title={t('screens.events.title')}
         scrollPosition={scrollPosition2}
@@ -227,50 +194,23 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
         }}
         scrollEventThrottle={16}
         data={[
-          <View
-            onLayout={(event) => {
-              const { height } = event.nativeEvent.layout;
-              // handleHeaderHeight(height);
-              setHeaderHeight(height);
-            }}
-            style={{
-              position: 'absolute',
-              top: 0,
-              zIndex: 100,
-              width: '100%',
-              // height: 1000,
-              backgroundColor: 'green'
-            }}
-          >
-            <CityEventListPromoteItem />
-          </View>,
+          <HeaderList setHeaderHeight={setHeaderHeight} />,
           <View
             style={{
               height: headerHeight - (top + HEADER_THEME.headerHeight)
             }}
-          ></View>,
+          />,
           <View>
             <View
               style={{
                 height: top + HEADER_THEME.headerHeight
               }}
-            ></View>
+            />
             <CityEventListStickyHeaderItem
               filteredCategoryIdList={filteredCategoryIdList}
               handleSetFilteredCategoryIdList={setFilteredCategoryIdList}
               selectedItemDate={selectedItemDate}
               setSelectedItemDate={setSelectedItemDate}
-              onLayout={(event) => {
-                const { height, y } = event.nativeEvent.layout;
-                console.log('height', height);
-                setStickyHeight(height);
-                setStickyY(y);
-              }}
-              styles={
-                {
-                  // marginTop: stickyHeight
-                }
-              }
             />
           </View>,
           ...(!isLoading ? eventList : fakeWaitingData)
@@ -293,17 +233,14 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
         }
         onEndReachedThreshold={5}
         onEndReached={fetchMoreData}
-        // ListHeaderComponent={
-        //   <HeaderList navigation={navigation} handleHeaderHeight={setHeaderHeight} />
-        // }
         ListEmptyComponent={<WarningScreenItem type={isLoading ? 'loader' : 'error'} />}
         renderItem={CityHomeEventRender}
         ListFooterComponent={() =>
           isLoading || isFetching || isFetchingNextPage || isRefetching ? (
             <>
-              <CityEventCardLargeEmptyItem />
-              <CityEventCardLargeEmptyItem />
-              <CityEventCardLargeEmptyItem />
+              <CityEventCardEmptyItem large />
+              <CityEventCardEmptyItem large />
+              <CityEventCardEmptyItem large />
             </>
           ) : (
             <CityEventListFooterItem isLoading={isLoading} eventLength={eventList.length} />
@@ -314,6 +251,6 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
         }
         extraData={selectedItemDate}
       />
-    </View>
+    </Layout>
   );
 };
