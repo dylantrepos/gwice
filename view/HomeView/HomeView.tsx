@@ -2,11 +2,13 @@ import { useCallback, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, View } from 'react-native';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { THEME } from '../../assets/theme';
 import { CityBackgroundItem } from '../../components/CityBackgroundItem/CityBackgroundItem';
 import { HeaderItem } from '../../components/HeaderItem/HeaderItem';
 import { CityEventsListHorizontalItem } from '../../modules/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
 import { setRefetchHome } from '../../reducers/generalReducer';
+import { type RootState } from '../../store/store';
 
 interface HomeViewProps {
   navigation: any;
@@ -15,6 +17,7 @@ interface HomeViewProps {
 
 export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
   const [refreshing, setRefreshing] = useState(false);
+  const { theme } = useSelector((state: RootState) => state.generalReducer);
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -46,7 +49,7 @@ export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
         onScroll={onScroll}
         scrollEventThrottle={16}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        style={{ flex: 1, backgroundColor: 'white' }}
+        style={{ flex: 1, backgroundColor: THEME.style.viewBackground[theme] }}
       >
         <CityBackgroundItem />
         <CityEventsListHorizontalItem
