@@ -15,10 +15,10 @@ import {
 } from 'react-native';
 import PanPinchView from 'react-native-pan-pinch-view';
 import { useDispatch } from 'react-redux';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { IconItem } from '../../../components/IconItem/IconItem';
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
+import { Layout } from '../../../layouts/Layout';
 import { useGetCityEventDetails } from '../../../modules/CityEvents/hooks/useGetCityEvents';
 import { setRefetchHome } from '../../../reducers/generalReducer';
 import { getFormatedDateFromTimestamp } from '../../../utils/utils';
@@ -106,14 +106,13 @@ export const CityEventView = ({ navigation, route }: Props): ReactNode => {
   const firstTimingDate = new Date(firstTiming.begin);
 
   return (
-    <View>
-      <HeaderItem
+    <Layout>
+      {/* <HeaderItem
         scrollPosition={scrollPosition}
         withBackNavigation={true}
         transparent={true}
         forceStatusBarShow={true}
-        forceTransparentBackground={true}
-      />
+      /> */}
       <ScrollView
         style={{ ...style.scrollView }}
         onScroll={onScroll}
@@ -254,6 +253,6 @@ export const CityEventView = ({ navigation, route }: Props): ReactNode => {
           </TextItem>
         </Pressable> } */}
       </ScrollView>
-    </View>
+    </Layout>
   );
 };

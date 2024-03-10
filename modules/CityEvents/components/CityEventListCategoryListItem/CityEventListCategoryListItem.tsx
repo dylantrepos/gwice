@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/native';
 import { useEffect, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, FlatList, Platform, Pressable, View, type ViewProps } from 'react-native';
@@ -5,9 +6,10 @@ import { useSelector } from 'react-redux';
 import { IconItem } from '../../../../components/IconItem/IconItem';
 import { TextItem } from '../../../../components/TextItem/TextItem';
 import { type RootState } from '../../../../store/store';
+import palette from '../../../../theme/palette';
 import { type CategoryItem } from '../../types/Events';
 import { formatTitle } from '../../utils/events';
-import style, { themeStyle } from './CityEventListCategoryListItem.style';
+import style from './CityEventListCategoryListItem.style';
 
 interface CategoryListItemProps extends ViewProps {
   categories: CategoryItem[];
@@ -22,6 +24,7 @@ export const CityEventListCategoryListItem = ({
 }: CategoryListItemProps): ReactNode => {
   const { theme } = useSelector((state: RootState) => state.generalReducer);
   const { t } = useTranslation();
+  const { colors } = useTheme();
 
   const handleToggleCategory = (categoryId: number): void => {
     const index = categoriesSelected.indexOf(categoryId);
@@ -65,7 +68,9 @@ export const CityEventListCategoryListItem = ({
               {IconElt && (
                 <View
                   style={{
-                    backgroundColor: categoriesSelected.includes(id) ? '#0D89CE' : 'transparent',
+                    backgroundColor: categoriesSelected.includes(id)
+                      ? palette.bluePrimary
+                      : 'transparent',
                     borderRadius: 100,
                     padding: 10,
                     ...Platform.select({
@@ -84,22 +89,12 @@ export const CityEventListCategoryListItem = ({
                   }}
                 >
                   <IconItem
-                    color={
-                      categoriesSelected.includes(id)
-                        ? themeStyle.categoryBackgroundIncludeColor[theme]
-                        : themeStyle.categoryBackgroundExcludeColor[theme]
-                    }
+                    color={colors.text}
                     size="xl"
                     stroke="light"
                     IconElt={IconElt}
                     style={style.categoryIcon}
                   />
-                  {/* <IconElt
-                      color={categoriesSelected.includes(id) ? 'white' : 'black'}
-                      size={34}
-                      strokeWidth={1}
-                      style={style.categoryIcon}
-                      /> */}
                 </View>
               )}
               <TextItem

@@ -5,8 +5,6 @@ import { Animated, Keyboard, View, VirtualizedList } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
-import { HEADER_THEME } from '../../../components/HeaderItem/HeaderItem.style';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
 import { Layout } from '../../../layouts/Layout';
 import {
@@ -57,9 +55,8 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [selectedItemDate, setSelectedItemDate] = useState(filterDate[0]);
   const { top } = useSafeAreaInsets();
-  const { isSearchInputFocused, currentPeriod, customPeriod, startDate, endDate } = useSelector(
-    (state: RootState) => state.eventReducer
-  );
+  const { isSearchInputFocused, currentPeriod, customPeriod, startDate, endDate, searchValue } =
+    useSelector((state: RootState) => state.eventReducer);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const flatListRef = useRef<VirtualizedList<CityEventCard> | null>(null);
@@ -78,7 +75,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   const CityHomeEventRender = useCallback(
     ({ item, index }: CityEventCardLargeItemProps) => {
       // check if the item is the sticky header
-      if (index < 3) return item;
+      if (index === 0) return item;
 
       if (index > 0 && item.nextTiming) {
         const nextTimingStart = new Date((item as CityEventCard).nextTiming.begin);
@@ -139,7 +136,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
 
   useEffect(() => {
     setEventList([]);
-    const offset = headerHeight - (top + HEADER_THEME.headerHeight);
+    const offset = headerHeight;
     flatListRef.current?.scrollToOffset({
       animated: flatListRef.current && scrollPosition < headerHeight,
       offset
@@ -156,7 +153,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
   }, [events]);
 
   useEffect(() => {
-    const offset = headerHeight - (top + HEADER_THEME.headerHeight);
+    const offset = headerHeight;
     if (isSearchInputFocused) {
       flatListRef.current?.scrollToOffset({
         animated: scrollPosition < headerHeight,
@@ -172,15 +169,16 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
     { useNativeDriver: false } // Set this to true if you're not using the scroll position in JS
   );
 
+  // const handleSubmitSearchValue = (newSearchValue: string): void => {
+  //   dispatch(setSearchValue(newSearchValue));
+  // };
+
+  // const handleUpdateIsSearchInputFocused = (isFocused: boolean): void => {
+  //   dispatch(setIsSearchInputFocused(isFocused));
+  // };
+
   return (
     <Layout>
-      <HeaderItem
-        title={t('screens.events.title')}
-        scrollPosition={scrollPosition2}
-        animTitle={true}
-        withBackNavigation={true}
-        transparent={true}
-      />
       <VirtualizedList
         removeClippedSubviews={false}
         contentContainerStyle={{ minHeight: '100%' }}
@@ -188,31 +186,19 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
         windowSize={21}
         ref={flatListRef}
         keyboardShouldPersistTaps="handled"
+        ListHeaderComponent={<HeaderList setHeaderHeight={setHeaderHeight} />}
         onScroll={(event) => {
           onScroll(event);
           setScrollPosition(event.nativeEvent.contentOffset.y);
         }}
         scrollEventThrottle={16}
         data={[
-          <HeaderList setHeaderHeight={setHeaderHeight} />,
-          <View
-            style={{
-              height: headerHeight - (top + HEADER_THEME.headerHeight)
-            }}
+          <CityEventListStickyHeaderItem
+            filteredCategoryIdList={filteredCategoryIdList}
+            handleSetFilteredCategoryIdList={setFilteredCategoryIdList}
+            selectedItemDate={selectedItemDate}
+            setSelectedItemDate={setSelectedItemDate}
           />,
-          <View>
-            <View
-              style={{
-                height: top + HEADER_THEME.headerHeight
-              }}
-            />
-            <CityEventListStickyHeaderItem
-              filteredCategoryIdList={filteredCategoryIdList}
-              handleSetFilteredCategoryIdList={setFilteredCategoryIdList}
-              selectedItemDate={selectedItemDate}
-              setSelectedItemDate={setSelectedItemDate}
-            />
-          </View>,
           ...(!isLoading ? eventList : fakeWaitingData)
         ]}
         initialNumToRender={1}
@@ -221,7 +207,7 @@ export const CityEventHomeView = ({ navigation, route }: Props): ReactNode => {
         getItemCount={(data) => data?.length}
         getItemLayout={(data, index) => ({ length: 450, offset: 450 * index, index })}
         stickyHeaderHiddenOnScroll={true}
-        stickyHeaderIndices={[2]}
+        stickyHeaderIndices={[1]}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

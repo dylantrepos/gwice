@@ -1,26 +1,25 @@
+import { useTheme } from '@react-navigation/native';
 import { useEffect, useRef, type ReactNode } from 'react';
 import { Animated, Dimensions, Image, View, type ViewStyle } from 'react-native';
-import { useSelector } from 'react-redux';
 import { TextItem } from '../../../../components/TextItem/TextItem';
 import { ViewItemAnimated } from '../../../../components/ViewItem/ViewItem';
 import { useBackgroundColorLoading } from '../../../../hooks/useBackgroundColorLoading';
-import { type RootState } from '../../../../store/store';
 import { type OpenMeteoDataHourly } from '../../types/Weather';
 import { weatherCodeIcons } from '../../utils/weatherImgCode';
 import { animationOptions } from '../cityWeatherSettings';
-import style, { themeStyle } from './CityWeatherHourlyItem.style';
+import style from './CityWeatherHourlyItem.style';
 
 interface Props {
   weather: OpenMeteoDataHourly;
   show: boolean;
-  styleProps?: ViewStyle;
+  styles?: ViewStyle;
 }
 
-export const CityWeatherHourlyItem = ({ weather, show, styleProps }: Props): ReactNode => {
+export const CityWeatherHourlyItem = ({ weather, show, styles }: Props): ReactNode => {
   const { temperature, hour, weatherCode, isDay } = weather;
   const imageSource = weatherCodeIcons[isDay ? 'day' : 'night'][weatherCode];
   const fade = useRef(new Animated.Value(0)).current;
-  const { theme } = useSelector((state: RootState) => state.generalReducer);
+  const { colors } = useTheme();
 
   const fadeIn = (): void => {
     Animated.timing(fade, animationOptions(1)).start();
@@ -43,10 +42,11 @@ export const CityWeatherHourlyItem = ({ weather, show, styleProps }: Props): Rea
   }, [show]);
 
   return (
-    <View style={{ ...style.cityWeatherHourlyContainer, ...styleProps }}>
+    <View style={{ ...style.cityWeatherHourlyContainer, ...styles }}>
       <ViewItemAnimated
         style={{
           ...style.cityWeatherHourlyContainerAnimated,
+          backgroundColor: colors.card,
           opacity
         }}
       >
@@ -60,7 +60,7 @@ export const CityWeatherHourlyItem = ({ weather, show, styleProps }: Props): Rea
         <View
           style={{
             ...style.halfBottomBorder,
-            borderColor: themeStyle.halfBottomBorderColor[theme]
+            borderColor: colors.border
           }}
         />
       </ViewItemAnimated>

@@ -6,8 +6,9 @@ import { useSelector } from 'react-redux';
 import { IconItem } from '../../../../components/IconItem/IconItem';
 import { TextItem } from '../../../../components/TextItem/TextItem';
 import { type RootState } from '../../../../store/store';
-import style, { themeStyle } from './CityEventListFilterItem.style';
+import style from './CityEventListFilterItem.style';
 
+import { useTheme } from '@react-navigation/native';
 import { PERIODS } from '../../../../types/Date';
 import { getFormattedDate } from '../../../../utils/date';
 import { FilterDateModal } from '../CityEventPeriodModal/CityEventPeriodModal';
@@ -20,6 +21,7 @@ export const CityEventListFilterItem = (): ReactNode => {
   const { currentPeriod, startDate, endDate } = useSelector(
     (state: RootState) => state.eventReducer
   );
+  const { colors } = useTheme();
   const { t } = useTranslation();
 
   const handlePopin = (): void => {
@@ -49,7 +51,7 @@ export const CityEventListFilterItem = (): ReactNode => {
         <Pressable
           style={{
             ...style.filter,
-            backgroundColor: themeStyle.filterBackgroundColor[theme]
+            backgroundColor: colors.buttonBackground
           }}
           onPress={handlePopin}
         >
@@ -64,7 +66,7 @@ export const CityEventListFilterItem = (): ReactNode => {
         <View
           style={{
             ...style.filter,
-            backgroundColor: themeStyle.filterBackgroundColor[theme]
+            backgroundColor: colors.buttonBackground
           }}
         >
           <IconItem size="md" stroke="light" IconElt={Euro} />
@@ -74,7 +76,7 @@ export const CityEventListFilterItem = (): ReactNode => {
         <View
           style={{
             ...style.filter,
-            backgroundColor: themeStyle.filterBackgroundColor[theme]
+            backgroundColor: colors.buttonBackground
           }}
         >
           <IconItem size="md" stroke="light" IconElt={Euro} />

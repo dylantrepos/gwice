@@ -15,13 +15,11 @@ import { allEventsCategoryLille } from '../../utils/events';
 import style from './CityEventCardItem.style';
 
 interface Props {
-  navigation: any;
-  route: any;
   event: CityEventCard;
   period: string;
 }
 
-export const CityEventCardItem = ({ navigation, route, event, period }: Props): ReactNode => {
+export const CityEventCardItem = ({ event, period }: Props): ReactNode => {
   const {
     uid: eventId,
     title,
@@ -36,6 +34,7 @@ export const CityEventCardItem = ({ navigation, route, event, period }: Props): 
 
   const [imageLoaded, setImageLoaded] = useState(false);
   const imageSrc = `${image.base}${image.filename}`;
+  const navigation = useNavigation();
 
   useEffect(() => {
     Image.prefetch(imageSrc)
@@ -48,7 +47,8 @@ export const CityEventCardItem = ({ navigation, route, event, period }: Props): 
   }, []);
 
   const handlePress = (): void => {
-    navigation.push('CulturalEvent', { eventId });
+    // @ts-expect-error navigate need definition
+    navigation.navigate('CulturalEvent', { eventId });
   };
 
   const categoriesId = categoriesMetropolitaines.map((category) => category.id);

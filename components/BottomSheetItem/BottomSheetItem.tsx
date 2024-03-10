@@ -1,12 +1,11 @@
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import { useTheme } from '@react-navigation/native';
 import { useCallback, useEffect, useRef, type PropsWithChildren, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, type ViewProps } from 'react-native';
-import { useSelector } from 'react-redux';
-import { type RootState } from '../../store/store';
 import { ButtonItem } from '../ButtonItem/ButtonItem';
 import { TextItem } from '../TextItem/TextItem';
-import style, { themeStyle } from './BottomSheetItem.style';
+import style from './BottomSheetItem.style';
 
 type Props = ViewProps & {
   title: string;
@@ -28,7 +27,7 @@ export const BottomSheetItem = ({
   children
 }: PropsWithChildren<Props>): ReactNode => {
   const { t } = useTranslation();
-  const { theme } = useSelector((state: RootState) => state.generalReducer);
+  const { colors } = useTheme();
   // ref
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -65,22 +64,22 @@ export const BottomSheetItem = ({
       animateOnMount={true}
       enableOverDrag={false}
       handleStyle={{
-        backgroundColor: themeStyle.containerBackground[theme],
+        backgroundColor: colors.bottomSheetBackground,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10
       }}
       handleIndicatorStyle={{
-        backgroundColor: themeStyle.handleIndicator[theme]
+        backgroundColor: colors.bottomSheetIndicatorBackground
       }}
     >
       <BottomSheetView
         style={{
           ...style.modalContentContainer,
-          backgroundColor: themeStyle.containerBackground[theme]
+          backgroundColor: colors.bottomSheetBackground
         }}
       >
         <View style={style.modalHeaderContainer}>
-          <TextItem size="xl" weight="semiBold">
+          <TextItem size="xl" weight="semiBold" color={colors.text}>
             {title}
           </TextItem>
         </View>

@@ -1,18 +1,19 @@
-import { Platform, StyleSheet } from "react-native";
-import WeatherStyle from "../cityWeather.style";
+import { StyleSheet } from 'react-native';
+import palette from '../../../../theme/palette';
+import WeatherStyle from '../cityWeather.style';
 
 export default StyleSheet.create({
   ...WeatherStyle,
   cityWeatherTemp: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 10,
+    gap: 10
   },
   cityWeatherTempMin: {
-    color: '#3988FD',
-    marginLeft: 4,
+    color: palette.blueLight,
+    marginLeft: 4
   },
   cityWeatherTempMax: {
-    color: '#FD3939',
-  },
+    color: palette.red
+  }
 });

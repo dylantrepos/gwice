@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   cityWeather: {
@@ -9,15 +9,15 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     shadowColor: '#000',
     justifyContent: 'center',
+    backgroundColor: 'transparent'
   },
   cityWeatherDetails: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 20,
-    backgroundColor: 'white',
     shadowColor: '#000',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   cityAnimated: {
     height: 150,
@@ -25,7 +25,7 @@ export default StyleSheet.create({
     flex: 1,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
     // borderWidth: 1,
     // borderColor: 'black',
     // borderRadius: 10,
@@ -33,26 +33,26 @@ export default StyleSheet.create({
   image: {
     height: 150,
     width: 150,
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-end'
     // borderWidth: 1,
     // borderColor: 'black',
     // borderRadius: 10,
   },
   cityWeatherInfo: {
     flex: 1,
-    gap: 5,
+    gap: 5
     // backgroundColor: 'blue',
   },
   cityWeatherInfoDetail: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 8
   },
   cityWeatherTempMin: {
-    color: '#3988FD',
+    color: '#3988FD'
   },
   cityWeatherTempMax: {
-    color: '#FD3939',
-  },
+    color: '#FD3939'
+  }
 });

@@ -1,10 +1,10 @@
+import { useTheme } from '@react-navigation/native';
 import { CalendarDays, ChevronLeft } from 'lucide-react-native';
 import moment from 'moment';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import palette from '../../../../assets/palette';
 import { BottomSheetItem } from '../../../../components/BottomSheetItem/BottomSheetItem';
 import { ButtonItem } from '../../../../components/ButtonItem/ButtonItem';
 import { DateTimePickerModalItem } from '../../../../components/DateTimePickerModalItem/DateTimePickerModalItem';
@@ -16,9 +16,10 @@ import {
   setStartDatePeriod
 } from '../../../../reducers/eventReducer';
 import { type RootState } from '../../../../store/store';
+import palette from '../../../../theme/palette';
 import { PERIODS } from '../../../../types/Date';
 import { getFormattedDate, getPeriod } from '../../../../utils/date';
-import style, { themeStyle } from './CityEventPeriodModal.style';
+import style from './CityEventPeriodModal.style';
 // import { getFormatedDate } from '../../../CityWeather/utils/utils';
 
 interface FilterDateModalProps {
@@ -31,6 +32,7 @@ export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDat
   const [showDatePicker, setShowDatePicker] = useState(false);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { colors } = useTheme();
   const {
     currentPeriod,
     customPeriod,
@@ -44,17 +46,17 @@ export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDat
     endDate: ''
   });
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setTimeout(() => {
       setIsPopinVisible(false);
     }, 5);
   };
 
-  const handleUpdatePeriod = (item: string) => {
+  const handleUpdatePeriod = (item: string): void => {
     setCurrSelectedItem(item);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = (): void => {
     dispatch(setCurrentPeriod(currSelectedItem));
 
     if (showDatePicker) {
@@ -122,10 +124,7 @@ export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDat
                     <TextItem
                       style={{
                         ...style.itemText,
-                        color:
-                          currSelectedItem === item
-                            ? palette.blueLight
-                            : themeStyle.textDefault[theme]
+                        color: currSelectedItem === item ? palette.bluePrimary : colors.text
                       }}
                     >
                       {t(`period.${item}`)}
@@ -143,10 +142,7 @@ export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDat
                 <TextItem
                   style={{
                     ...style.itemText,
-                    color:
-                      currSelectedItem === 'custom'
-                        ? palette.blueLight
-                        : themeStyle.textDefault[theme]
+                    color: currSelectedItem === 'custom' ? palette.blueLight : colors.text
                   }}
                 >
                   {getFormattedDate(customPeriod.startDate, customPeriod?.endDate) ?? 'error'}

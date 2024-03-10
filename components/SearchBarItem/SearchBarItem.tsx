@@ -2,7 +2,7 @@ import style, { themeStyle } from './SearchBarItem.style';
 
 import { Search, X } from 'lucide-react-native';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { Animated, Keyboard, Pressable, TextInput, View } from 'react-native';
+import { Animated, Keyboard, Pressable, TextInput, View, type ViewStyle } from 'react-native';
 import { useSelector } from 'react-redux';
 import { type RootState } from '../../store/store';
 
@@ -12,6 +12,7 @@ interface SearchBarItemProps {
   placeholder?: string;
   handleSubmitSearchValue: (searchValue: string) => void;
   handleIsFocused?: (isFocused: boolean) => void;
+  styles?: ViewStyle;
 }
 
 const DefaultLeftIcon: ReactNode = <Search size={22} color="black" strokeWidth={2} />;
@@ -21,7 +22,8 @@ export const SearchBarItem = ({
   placeholder = '',
   searchValue,
   handleSubmitSearchValue,
-  handleIsFocused
+  handleIsFocused,
+  styles
 }: SearchBarItemProps): ReactNode => {
   const [currSearchValue, setCurrSearchValue] = useState<string>(searchValue);
   const [isFocused, setIsFocused] = useState(false);
@@ -71,7 +73,8 @@ export const SearchBarItem = ({
     <View
       style={{
         ...style.searchContainer,
-        backgroundColor: themeStyle.background[theme]
+        backgroundColor: themeStyle.background[theme],
+        ...styles
       }}
     >
       {leftIcon}
@@ -81,6 +84,7 @@ export const SearchBarItem = ({
         placeholder={placeholder}
         placeholderTextColor="#A0A0A0"
         inputMode="search"
+        returnKeyType="search"
         multiline={false}
         value={currSearchValue}
         onChangeText={setCurrSearchValue}

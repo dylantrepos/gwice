@@ -1,41 +1,31 @@
-import { ChevronRight } from "lucide-react-native";
+import { ChevronRight } from 'lucide-react-native';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { FlatList, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { TitleItem } from '../../../../components/TitleItem/TitleItem';
+import { type RootState } from '../../../../store/store';
+import { useGetCityEvents } from '../../hooks/useGetCityEvents';
+import { type CityEventCard } from '../../types/Events';
+import { CityEventCardEmptyItem, CityEventCardItem } from '../CityEventCardItem/CityEventCardItem';
 import style from './CityEventsListHorizontalItem.style';
-import { FlatList, View } from "react-native";
-import { CityEventCardEmptyItem, CityEventCardItem } from "../CityEventCardItem/CityEventCardItem";
-import { useSelector } from "react-redux";
-import { useCallback, useEffect, useState } from "react";
-import { RootState } from "../../../../store/store";
-import { useInfiniteQuery } from "react-query";
-import { fetchCityEvents } from "../../services/cityEvents";
-import { CityEventsListHorizontalItemRenderProps, Props } from "./CityEventsListHorizontalItem.type";
-import { TitleItem } from "../../../../components/TitleItem/TitleItem";
-import { CityEventCard } from "../../types/Events";
-import { useGetCityEvents } from "../../hooks/useGetCityEvents";
+import {
+  type CityEventsListHorizontalItemRenderProps,
+  type Props
+} from './CityEventsListHorizontalItem.type';
 
-export const CityEventsListHorizontalItem = ({
-  navigation, 
-  route,
-  title,
-  handleNavigation,
-}: Props) => {
+export const CityEventsListHorizontalItem = ({ title, handleNavigation }: Props): ReactNode => {
   const { refetchCityEventHome } = useSelector((state: RootState) => state.generalReducer);
   const [eventList, setEventList] = useState<any[]>([]);
-  const fakeWaitingData = Array(5).fill(0).map((_, index) => index);
+  const fakeWaitingData = Array(5)
+    .fill(0)
+    .map((_, index) => index);
 
-  const { 
-    currentPeriod, 
-    startDate,
-    endDate
-  } = useSelector((state: RootState) => state.eventReducer);
+  const { currentPeriod, startDate, endDate } = useSelector(
+    (state: RootState) => state.eventReducer
+  );
 
-  const {
-    isLoading, 
-    events, 
-    isError,
-    hasNextPage,
-    fetchNextPage,
-  } = useGetCityEvents({
-    refetchCityEventHome: refetchCityEventHome, 
+  const { isLoading, events, hasNextPage, fetchNextPage } = useGetCityEvents({
+    refetchCityEventHome,
     categoryIdList: [],
     startDate,
     endDate,
@@ -51,17 +41,15 @@ export const CityEventsListHorizontalItem = ({
     }
   }, [events]);
 
-  const CityEventsListHorizontalItemRender = useCallback(({ item }: CityEventsListHorizontalItemRenderProps) => {
-    
-    return eventList?.length > 0 
-        ? <CityEventCardItem 
-            navigation={navigation}
-            route={route}
-            event={item}
-            period={currentPeriod}
-          />
-        : <CityEventCardEmptyItem />
-  }, [eventList])
+  const CityEventsListHorizontalItemRender = useCallback(
+    ({ item }: CityEventsListHorizontalItemRenderProps) =>
+      eventList?.length > 0 ? (
+        <CityEventCardItem event={item} period={currentPeriod} />
+      ) : (
+        <CityEventCardEmptyItem />
+      ),
+    [eventList]
+  );
 
   return (
     <View style={style.culturalEvents}>
@@ -72,22 +60,22 @@ export const CityEventsListHorizontalItem = ({
         rightIcon={ChevronRight}
       />
       <FlatList
-        data={(!isLoading ? eventList : fakeWaitingData)}   
+        data={!isLoading ? eventList : fakeWaitingData}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={CityEventsListHorizontalItemRender}     
+        renderItem={CityEventsListHorizontalItemRender}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         style={style.culturalEventsCardsContainer}
-        snapToAlignment='start'
+        snapToAlignment="start"
         decelerationRate="fast"
         alwaysBounceHorizontal={false}
         snapToInterval={315}
-        onEndReached={() => hasNextPage ? fetchNextPage() : null}
+        onEndReached={() => (hasNextPage ? fetchNextPage() : null)}
         contentContainerStyle={{
           columnGap: 15,
-          paddingRight: 30,
+          paddingRight: 30
         }}
       />
     </View>
-  )
+  );
 };

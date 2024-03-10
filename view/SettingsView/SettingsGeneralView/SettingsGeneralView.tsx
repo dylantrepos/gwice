@@ -1,26 +1,20 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Appearance, Pressable, ScrollView, View } from 'react-native';
 import { Switch } from 'react-native-gesture-handler';
-import { useDispatch } from 'react-redux';
 import palette from '../../../assets/palette';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { Layout } from '../../../layouts/Layout';
-import { setTheme } from '../../../reducers/generalReducer';
-import { store } from '../../../store/store';
 import style from './SettingsGeneralView.style';
 
 export const SettingsGeneralView = (): ReactNode => {
-  const { theme } = store.getState().generalReducer;
-  const [isDarkMode, setIsDarkMode] = useState(theme === 'dark');
-  const dispatch = useDispatch();
+  const [isDarkMode, setIsDarkMode] = useState(Appearance.getColorScheme() === 'dark');
   const { t, i18n } = useTranslation();
 
   const handleSetDarkMode = (): void => {
     setIsDarkMode(!isDarkMode);
-    dispatch(setTheme(isDarkMode ? 'light' : 'dark'));
+    Appearance.setColorScheme(isDarkMode ? 'light' : 'dark');
   };
 
   const handleSetLanguage = (language: string): void => {
@@ -30,7 +24,6 @@ export const SettingsGeneralView = (): ReactNode => {
 
   return (
     <Layout>
-      <HeaderItem title={t('screens.settingsGeneral.title')} />
       <ScrollView>
         <Pressable style={style.option} onPress={handleSetDarkMode}>
           <TextItem weight="regular" size="md" style={style.optionTitle}>
@@ -41,7 +34,7 @@ export const SettingsGeneralView = (): ReactNode => {
               value={isDarkMode}
               onValueChange={handleSetDarkMode}
               trackColor={{ false: '#767577', true: palette.blue }}
-              thumbColor={theme === 'dark' ? '#f4f3f4' : '#f4f3f4'}
+              thumbColor={'#f4f3f4'}
             />
           </View>
         </Pressable>

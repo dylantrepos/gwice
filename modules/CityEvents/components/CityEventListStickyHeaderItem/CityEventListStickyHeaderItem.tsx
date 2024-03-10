@@ -1,8 +1,8 @@
+import { useTheme } from '@react-navigation/native';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, type ViewProps, type ViewStyle } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { THEME } from '../../../../assets/theme';
 import { setIsSearchInputFocused, setSearchValue } from '../../../../reducers/eventReducer';
 import { type RootState } from '../../../../store/store';
 import { type FilterDateItem } from '../../utils/date';
@@ -27,7 +27,7 @@ export const CityEventListStickyHeaderItem = ({
   styles
 }: StickyHeaderProps): ReactNode => {
   const { searchValue } = useSelector((state: RootState) => state.eventReducer);
-  const { theme } = useSelector((state: RootState) => state.generalReducer);
+  const { colors } = useTheme();
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -42,7 +42,7 @@ export const CityEventListStickyHeaderItem = ({
   return (
     <View
       style={{
-        backgroundColor: THEME.style.viewBackground[theme],
+        backgroundColor: colors.background,
         ...styles
       }}
       onLayout={onLayout}

@@ -1,7 +1,6 @@
+import { useTheme } from '@react-navigation/native';
 import { type PropsWithChildren, type ReactNode } from 'react';
 import { Text, type TextProps, type TextStyle } from 'react-native';
-import { useSelector } from 'react-redux';
-import { type RootState } from '../../store/store';
 import { themeStyle } from './TextItem.style';
 
 type Props = TextProps & {
@@ -24,12 +23,12 @@ export const TextItem = ({
   style,
   children
 }: PropsWithChildren<Props>): ReactNode => {
-  const { theme } = useSelector((state: RootState) => state.generalReducer);
   const font = `Poppins_${themeStyle.weight[weight as keyof typeof themeStyle.weight]}${italic ? '_Italic' : ''}`;
+  const { colors } = useTheme();
 
   const textStyle: TextStyle = {
     fontFamily: font,
-    color: color ?? themeStyle.color[theme],
+    color: color ?? colors.text,
     fontSize: themeStyle.size[size],
     ...(style as TextStyle)
   };

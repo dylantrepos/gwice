@@ -1,5 +1,6 @@
+import { useTheme } from '@react-navigation/native';
 import React, { type PropsWithChildren, type ReactNode } from 'react';
-import { View } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { THEME } from '../assets/theme';
 import { type HeaderProps } from '../components/HeaderItem/HeaderItem.type';
@@ -11,15 +12,23 @@ interface Props {
 
 export const Layout = ({ children }: PropsWithChildren<Props>): ReactNode => {
   const { theme } = useSelector((state: RootState) => state.generalReducer);
+  const { colors } = useTheme();
 
   return (
     <View
       style={{
-        backgroundColor: THEME.style.viewBackground[theme],
-        flex: 1
+        flex: 1,
+        backgroundColor: colors.background
       }}
     >
-      {children}
+      <View style={{ flex: 1 }}>
+        <StatusBar
+          barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+          backgroundColor={THEME.style.headerBackground[theme]}
+          animated
+        />
+        {children}
+      </View>
     </View>
   );
 };

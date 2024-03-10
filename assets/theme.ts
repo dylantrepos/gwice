@@ -7,6 +7,26 @@ export const THEME: Theme = {
     viewBackground: {
       light: palette.white,
       dark: palette.blackLighter
+    },
+    headerBackground: {
+      light: palette.white,
+      dark: palette.black
+    },
+    headerText: {
+      light: palette.black,
+      dark: palette.white
+    },
+    headerTintColor: {
+      light: palette.black,
+      dark: palette.white
+    },
+    bottomNavIconColor: {
+      light: palette.grayDark,
+      dark: palette.grayDark
+    },
+    bottomNavIconFocusedColor: {
+      light: palette.blue,
+      dark: palette.blue
     }
     // header: {
     //   leftButtonBackground: {

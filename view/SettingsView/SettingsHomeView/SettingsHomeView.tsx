@@ -2,7 +2,6 @@ import { Settings, Sun, type LucideIcon } from 'lucide-react-native';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
-import { HeaderItem } from '../../../components/HeaderItem/HeaderItem';
 import { IconItem } from '../../../components/IconItem/IconItem';
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { Layout } from '../../../layouts/Layout';
@@ -41,7 +40,7 @@ export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps): 
 
   return (
     <Layout>
-      <HeaderItem title={t('screens.settingsHome.title')} />
+      {/* <HeaderItem title={t('screens.settingsHome.title')} /> */}
       <SettingsNavButton
         title={t('screens.settingsHome.text.general')}
         navigation={navigation}

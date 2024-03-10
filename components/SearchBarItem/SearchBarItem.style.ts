@@ -7,14 +7,14 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     paddingVertical: 10,
-    margin: 20,
-    marginBottom: 10,
+    // margin: 20,
+    // marginBottom: 10,
     borderRadius: 100,
     gap: 10,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    flex: 3
   },
   searchInput: {
-    flex: 1,
     fontSize: 16,
     paddingTop: 0,
     paddingBottom: 0,

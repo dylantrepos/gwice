@@ -38,7 +38,6 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   backButton: {
-    backgroundColor: 'white',
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',

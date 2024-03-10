@@ -1,87 +1,95 @@
+import { useTheme } from '@react-navigation/native';
+import moment from 'moment';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View, ImageProps, ScrollView, Animated } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Animated, FlatList, View, type ImageProps } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
-import { weatherCodeIcons } from '../../utils/weatherImgCode';
-import style from './CityWeatherItem.style';
-import useGetWeather from '../../hooks/useGetWeather';
-import { OpenMeteoDataForecast, OpenMeteoDataHourly } from '../../types/Weather';
+import { WarningScreenItem } from '../../../../components/WarningScreenItem/WarningScreenItem';
+import { useBackgroundColorLoading } from '../../../../hooks/useBackgroundColorLoading';
 import { useSwipe } from '../../../../hooks/useSwap';
-import { CityWeatherHourlyEmptyItem, CityWeatherHourlyItem } from '../CityWeatherHourlyItem/CityWeatherHourlyItem';
+import { setCurrentHomeViewDate } from '../../../../reducers/generalReducer';
+import { type RootState } from '../../../../store/store';
+import useGetWeather from '../../hooks/useGetWeather';
+import { type OpenMeteoDataForecast, type OpenMeteoDataHourly } from '../../types/Weather';
+import { weatherCodeIcons } from '../../utils/weatherImgCode';
 import { CityWeatherCurrentItem } from '../CityWeatherCurrentItem/CityWeatherCurrentItem';
 import { CityWeatherDailyItem } from '../CityWeatherDailyItem/CityWeatherDailyItem';
+import {
+  CityWeatherHourlyEmptyItem,
+  CityWeatherHourlyItem
+} from '../CityWeatherHourlyItem/CityWeatherHourlyItem';
 import { animationDuration, dateOptions } from '../cityWeatherSettings';
-import { useBackgroundColorLoading } from '../../../../hooks/useBackgroundColorLoading';
-import { setCurrentHomeViewDate } from '../../../../reducers/generalReducer';
-import moment from 'moment';
-import { FlatList } from 'react-native';
-import { WarningScreenItem } from '../../../../components/WarningScreenItem/WarningScreenItem';
-import { useTranslation } from 'react-i18next';
+import style from './CityWeatherItem.style';
 
-type CityWeatherItemRenderProps = {
+interface CityWeatherItemRenderProps {
   item: any;
   index: number;
 }
 
 export const CityWeatherItem = () => {
-  const { 
-    currentCity, 
-    currentHomeViewDate,
-    weatherSettings, 
-    refetchHome,
-  } = useSelector((state: RootState) => state.generalReducer);
-  
-  const {isLoading, data: weather, error} = useGetWeather(currentCity.cityName, weatherSettings, refetchHome);
-  
-  const [imageSource, setImageSource] = useState<ImageProps>(require('../../assets/images/weather-icons/not-found.png'));
+  const { currentCity, currentHomeViewDate, weatherSettings, refetchHome } = useSelector(
+    (state: RootState) => state.generalReducer
+  );
+
+  const {
+    isLoading,
+    data: weather,
+    error
+  } = useGetWeather(currentCity.cityName, weatherSettings, refetchHome);
+
+  const [imageSource, setImageSource] = useState<ImageProps>(
+    require('../../assets/images/weather-icons/not-found.png')
+  );
   const [weatherHourly, setWeatherHourly] = useState<OpenMeteoDataHourly[]>([]);
   const [dailyWeather, setDailyWeather] = useState<OpenMeteoDataForecast[]>([]);
   const [currentDayCursor, setCurrentDayCursor] = useState(0);
   const [showElt, setShowElt] = useState<boolean>(true);
   const [itemWidth, setItemWidth] = useState(20);
-  const fakeWaitingData = Array(4).fill(0).map((_, index) => index);
+  const fakeWaitingData = Array(4)
+    .fill(0)
+    .map((_, index) => index);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const date = new Date();
   const scrollViewRef = useRef<FlatList>(null);
 
-  const {backgroundColor} = useBackgroundColorLoading(isLoading);
+  const { backgroundColor } = useBackgroundColorLoading(isLoading);
 
   const onSwipeLeft = () => {
     if (currentDayCursor + 1 < dailyWeather.length) {
       const nextDate = moment(currentHomeViewDate).add(1, 'days').toDate();
       dispatch(setCurrentHomeViewDate(nextDate.toISOString()));
     }
-      setCurrentDayCursor((old) => {
-        if (old + 1 < dailyWeather.length) {
-          setShowElt(false);
-          setTimeout(() => {
-            setCurrentDayCursor(old + 1);
-            setShowElt(true);
-          }, animationDuration);
-        } 
-        return old;
-      })
-  }
+    setCurrentDayCursor((old) => {
+      if (old + 1 < dailyWeather.length) {
+        setShowElt(false);
+        setTimeout(() => {
+          setCurrentDayCursor(old + 1);
+          setShowElt(true);
+        }, animationDuration);
+      }
+      return old;
+    });
+  };
 
   const onSwipeRight = () => {
     if (currentDayCursor - 1 >= 0) {
       const dateBefore = moment(currentHomeViewDate).subtract(1, 'days').toDate();
       dispatch(setCurrentHomeViewDate(dateBefore.toISOString()));
     }
-      setCurrentDayCursor((old) => {
-        if (old - 1 >= 0) {
-          setShowElt(false);
-          setTimeout(() => {
-            setCurrentDayCursor(old - 1);
-            setShowElt(true);
-          }, animationDuration);
-        } 
-        return old;
-      })
-  }
-  
+    setCurrentDayCursor((old) => {
+      if (old - 1 >= 0) {
+        setShowElt(false);
+        setTimeout(() => {
+          setCurrentDayCursor(old - 1);
+          setShowElt(true);
+        }, animationDuration);
+      }
+      return old;
+    });
+  };
+
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 50);
 
   const currentDateText = date.toLocaleDateString(t('dateLocale'), dateOptions);
@@ -89,84 +97,92 @@ export const CityWeatherItem = () => {
   const updateHourlyWeather = () => {
     if (!isLoading && weather) {
       const weatherDate = Object.values(weather.forecast)[currentDayCursor].weather.date;
-      const currNextHourly = currentDayCursor === 0 ? weather.forecast[weatherDate].hourly.filter((hourly) => {
-        const hour = hourly.hour.split(':')[0];
-        return +hour > date.getHours() || +hour > 19;
-      }) : weather.forecast[weatherDate].hourly;
+      const currNextHourly =
+        currentDayCursor === 0
+          ? weather.forecast[weatherDate].hourly.filter((hourly) => {
+              const hour = hourly.hour.split(':')[0];
+              return +hour > date.getHours() || +hour > 19;
+            })
+          : weather.forecast[weatherDate].hourly;
 
       setWeatherHourly(currNextHourly);
     }
-  }
+  };
 
-  useEffect(() => { 
+  useEffect(() => {
     if (!isLoading && weather) {
       const forecast = Object.values(weather.forecast);
       setDailyWeather(forecast);
       updateHourlyWeather();
-      
-      setImageSource(weatherCodeIcons[weather.current.isDay ? 'day' : 'night'][weather.current.weatherCode]);
+
+      setImageSource(
+        weatherCodeIcons[weather.current.isDay ? 'day' : 'night'][weather.current.weatherCode]
+      );
     }
     if (scrollViewRef.current) {
-      const scrollTo = currentDayCursor === 0 ? 0 : (itemWidth + 10) * weatherSettings.startDailyHour;
+      const scrollTo =
+        currentDayCursor === 0 ? 0 : (itemWidth + 10) * weatherSettings.startDailyHour;
       scrollViewRef.current.scrollToOffset({ offset: scrollTo, animated: true });
     }
   }, [isLoading, weather, weatherSettings, currentDayCursor]);
 
+  const CityWeatherItemRender = useCallback(
+    ({ item, index }: CityWeatherItemRenderProps) =>
+      !isLoading && weatherHourly?.length > 0 ? (
+        <CityWeatherHourlyItem
+          weather={item}
+          show={showElt}
+          styles={{
+            width: itemWidth,
+            height: '100%'
+          }}
+        />
+      ) : (
+        <CityWeatherHourlyEmptyItem />
+      ),
+    [weatherHourly]
+  );
 
-  const CityWeatherItemRender = useCallback(({item, index}: CityWeatherItemRenderProps) => {
-
-    return !isLoading && weatherHourly?.length > 0 
-        ? <CityWeatherHourlyItem 
-            weather={item} 
-            show={showElt}
-            styleProps={{
-              width: itemWidth,
-              height: '100%',
-            }}
-          />
-        : <CityWeatherHourlyEmptyItem />
-  }, [weatherHourly])
+  const { colors } = useTheme();
 
   return (
     <View
       style={style.cityWeatherItem}
       onLayout={(event) => {
         const { width } = event.nativeEvent.layout;
-        setItemWidth(Math.round((Math.round(width) - (3 * 10)) / 4))
+        setItemWidth(Math.round((Math.round(width) - 3 * 10) / 4));
       }}
     >
-      <Animated.View 
+      <Animated.View
         style={{
           ...style.cityWeatherLargeContainer,
-          backgroundColor: isLoading ? backgroundColor : 'white',
+          backgroundColor: isLoading ? backgroundColor : colors.card
         }}
-        onTouchStart={onTouchStart} 
+        onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         onTouchCancel={onTouchEnd}
       >
-        { error ?
-            <WarningScreenItem
-              type={'error'}
+        {error ? (
+          <WarningScreenItem type={'error'} />
+        ) : !isLoading && weather && dailyWeather.length > 0 ? (
+          currentDayCursor === 0 ? (
+            <CityWeatherCurrentItem
+              imageSource={imageSource}
+              currentDateText={currentDateText}
+              weather={weather.current}
+              show={showElt}
             />
-            : !isLoading && weather && dailyWeather.length > 0
-              ? currentDayCursor === 0 ? 
-                <CityWeatherCurrentItem 
-                  imageSource={imageSource}
-                  currentDateText={currentDateText}
-                  weather={weather.current}
-                  show={showElt}
-                />
-                : <CityWeatherDailyItem 
-                    weather={dailyWeather[currentDayCursor]?.weather} 
-                    show={showElt}
-                  />
-              : !weather?.current ?? 
-                <WarningScreenItem
-                  type='unavailable'
-                >
-                  Module météo indisponible.
-                </WarningScreenItem> 
-        }
+          ) : (
+            <CityWeatherDailyItem
+              weather={dailyWeather[currentDayCursor]?.weather}
+              show={showElt}
+            />
+          )
+        ) : (
+          !weather?.current ?? (
+            <WarningScreenItem type="unavailable">Module météo indisponible.</WarningScreenItem>
+          )
+        )}
       </Animated.View>
       <FlatList
         data={!isLoading ? weatherHourly : fakeWaitingData}
@@ -175,16 +191,16 @@ export const CityWeatherItem = () => {
         horizontal={true}
         ref={scrollViewRef}
         showsHorizontalScrollIndicator={false}
-        snapToAlignment='start'
+        snapToAlignment="start"
         decelerationRate="fast"
         alwaysBounceHorizontal={false}
         snapToInterval={itemWidth + 10}
         contentContainerStyle={{
           columnGap: 10,
-          height: 120,
+          height: 120
         }}
         style={style.cityWeatherListSmall}
       />
     </View>
-  )
+  );
 };

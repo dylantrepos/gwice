@@ -1,11 +1,9 @@
-export type CityEventsListHorizontalItemRenderProps = {
+export interface CityEventsListHorizontalItemRenderProps {
   item: any;
   index: number;
 }
 
-export type Props = {
-  navigation: any;
-  route: any;
+export interface Props {
   title: string;
   handleNavigation: () => void;
   categoryIdList?: number[];

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import { ArrowLeft } from 'lucide-react-native';
-import { useRef, type ReactNode } from 'react';
+import { ArrowLeft, Search } from 'lucide-react-native';
+import { useRef, useState, type ReactNode } from 'react';
 import { Animated, Pressable, StatusBar, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { THEME } from '../../assets/theme';
 import { type RootState } from '../../store/store';
 import { IconItem } from '../IconItem/IconItem';
 // import { type HeaderProps } from './HeaderItem.type';
+import { SearchBarItem } from '../SearchBarItem/SearchBarItem';
 import style from './HeaderItem.style';
 
 interface HeaderProps {
@@ -16,9 +17,15 @@ interface HeaderProps {
   animTitle?: boolean;
   inputRange?: number[];
   withBackNavigation?: boolean;
+  hideBackNavigationOnTop?: boolean;
+  withSearch?: boolean;
   transparent?: boolean;
   forceStatusBarShow?: boolean;
   forceTransparentBackground?: boolean;
+  searchPlaceholder?: string;
+  searchValue?: string;
+  searchHandleSubmitSearchValue?: (searchValue: string) => void;
+  searchHandleIsFocused?: (isFocused: boolean) => void;
 }
 
 export const HeaderItem = ({
@@ -27,12 +34,19 @@ export const HeaderItem = ({
   animTitle = false,
   inputRange = [0, 10],
   withBackNavigation = true,
+  hideBackNavigationOnTop = true,
   transparent = false,
   forceStatusBarShow = false,
-  forceTransparentBackground = false
+  forceTransparentBackground = false,
+  withSearch = false,
+  searchPlaceholder = '',
+  searchValue = '',
+  searchHandleSubmitSearchValue = () => {},
+  searchHandleIsFocused = () => {}
 }: HeaderProps): ReactNode => {
   const { top } = useSafeAreaInsets();
   const { theme } = useSelector((state: RootState) => state.generalReducer);
+  const [showSearch, setShowSearch] = useState(false);
   const navigation = useNavigation();
   if (!scrollPosition) scrollPosition = useRef(new Animated.Value(0)).current;
 
@@ -94,41 +108,71 @@ export const HeaderItem = ({
           <View style={style.aside}>
             {withBackNavigation && navigation.canGoBack() && (
               <Pressable
-                style={style.backButton}
+                style={{
+                  ...style.backButton
+                  // backgroundColor: theme === 'light' ? 'white' : 'black'
+                  // opacity: hideBackNavigationOnTop ? textOpacity : 1
+                }}
                 onPress={() => {
-                  navigation.goBack();
+                  if (showSearch) setShowSearch(false);
+                  else {
+                    navigation.goBack();
+                  }
                 }}
               >
-                <IconItem IconElt={ArrowLeft} size="md" color={'black'} stroke="strong" />
+                <IconItem
+                  IconElt={ArrowLeft}
+                  size="md"
+                  color={theme === 'light' ? 'black' : 'white'}
+                  stroke="strong"
+                />
               </Pressable>
             )}
           </View>
-          <Animated.Text
+          {showSearch ? (
+            <SearchBarItem
+              styles={{
+                flex: 4,
+                marginRight: 10
+              }}
+              placeholder={searchPlaceholder}
+              searchValue={searchValue}
+              handleSubmitSearchValue={searchHandleSubmitSearchValue}
+              handleIsFocused={searchHandleIsFocused}
+            />
+          ) : (
+            <Animated.Text
+              style={{
+                ...style.title,
+                opacity: animTitle ? textOpacity : 1,
+                transform: animTitle ? [{ translateY: textPosition }] : [],
+                color: theme === 'light' ? 'black' : 'white'
+              }}
+            >
+              {title}
+            </Animated.Text>
+          )}
+          <View
             style={{
-              ...style.title,
-              opacity: animTitle ? textOpacity : 1,
-              transform: animTitle ? [{ translateY: textPosition }] : [],
-              color: theme === 'light' ? 'black' : 'white'
+              ...style.aside,
+              flex: showSearch ? 0 : 1
             }}
           >
-            {title}
-          </Animated.Text>
-          <View style={style.aside}>
-            {/* <Pressable
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 50,
-              width: 50
-            }}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <IconItem IconElt={ArrowLeft} size="md" color={'black'} stroke="strong" />
-          </Pressable> */}
+            {withSearch && !showSearch && (
+              <Pressable
+                style={style.backButton}
+                onPress={() => {
+                  setShowSearch(!showSearch);
+                }}
+              >
+                <IconItem
+                  IconElt={Search}
+                  size="md"
+                  color={theme === 'light' ? 'black' : 'white'}
+                  stroke="strong"
+                />
+              </Pressable>
+            )}
           </View>
         </Animated.View>
       </Animated.View>
