@@ -3,18 +3,21 @@ import React, { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Appearance, Pressable, ScrollView, View } from 'react-native';
 import { Switch } from 'react-native-gesture-handler';
-import palette from '../../../assets/palette';
+import { useDispatch } from 'react-redux';
 import { TextItem } from '../../../components/TextItem/TextItem';
 import { Layout } from '../../../layouts/Layout';
+import { setIsDarkMode } from '../../../reducers/generalReducer';
+import palette from '../../../theme/palette';
 import style from './SettingsGeneralView.style';
 
 export const SettingsGeneralView = (): ReactNode => {
-  const [isDarkMode, setIsDarkMode] = useState(Appearance.getColorScheme() === 'dark');
+  const [isCurrDarkMode, setIsCurrDarkMode] = useState(Appearance.getColorScheme() === 'dark');
   const { t, i18n } = useTranslation();
+  const dispatch = useDispatch();
 
   const handleSetDarkMode = (): void => {
-    setIsDarkMode(!isDarkMode);
-    Appearance.setColorScheme(isDarkMode ? 'light' : 'dark');
+    setIsCurrDarkMode(!isCurrDarkMode);
+    dispatch(setIsDarkMode(!isCurrDarkMode));
   };
 
   const handleSetLanguage = (language: string): void => {
@@ -31,9 +34,9 @@ export const SettingsGeneralView = (): ReactNode => {
           </TextItem>
           <View style={style.optionInput}>
             <Switch
-              value={isDarkMode}
+              value={isCurrDarkMode}
               onValueChange={handleSetDarkMode}
-              trackColor={{ false: '#767577', true: palette.blue }}
+              trackColor={{ false: '#767577', true: palette.bluePrimary }}
               thumbColor={'#f4f3f4'}
             />
           </View>

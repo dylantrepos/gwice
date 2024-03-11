@@ -1,47 +1,45 @@
-import { Platform, StyleSheet } from "react-native";
-import palette from "../../../../assets/palette";
+import { StyleSheet } from 'react-native';
+import palette from '../../../../theme/palette';
 
 export default StyleSheet.create({
   categoryContainer: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   categoryTitleContainer: {
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   categoryContainerTitle: {
     fontSize: 18,
-    paddingTop: 10,
+    paddingTop: 10
   },
-  categoryList: {
-  },
+  categoryList: {},
   category: {
     display: 'flex',
     alignItems: 'center',
     borderRadius: 10,
     paddingHorizontal: 5,
-    paddingVertical: 10,
+    paddingVertical: 10
   },
-  categoryIcon: {
-  },
+  categoryIcon: {},
   categoryName: {
-    textAlign: 'center',
-  },
+    textAlign: 'center'
+  }
 });
 
 export const themeStyle = {
   categoryBackgroundIncludeColor: {
-    light: palette.white,
-    dark: palette.white,
+    light: palette.whitePrimary,
+    dark: palette.whitePrimary
   },
   categoryBackgroundExcludeColor: {
-    light: palette.black,
-    dark: palette.white,
+    light: palette.blackPrimary,
+    dark: palette.whitePrimary
   },
   categoryTextColor: {
-    light: palette.black,
-    dark: palette.white,
-  },
-}
+    light: palette.blackPrimary,
+    dark: palette.whitePrimary
+  }
+};

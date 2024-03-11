@@ -7,6 +7,7 @@ import { type ThemeColor } from '../types/Theme';
 
 interface State {
   theme: ThemeColor;
+  isDarkMode: boolean;
   currentCity: City;
   currentHomeViewDate: string;
   weatherSettings: WeatherSettings;
@@ -16,6 +17,7 @@ interface State {
 
 const initialState: State = {
   theme: 'light',
+  isDarkMode: false,
   currentCity: CityLille,
   currentHomeViewDate: moment.utc(1).toISOString(),
   weatherSettings: {
@@ -46,6 +48,9 @@ const generalSlice = createSlice({
     },
     setRefetchCityEventHome: (state, action: PayloadAction<boolean>) => {
       state.refetchCityEventHome = action.payload;
+    },
+    setIsDarkMode: (state, action: PayloadAction<boolean>) => {
+      state.isDarkMode = action.payload;
     }
   }
 });
@@ -56,7 +61,8 @@ export const {
   setCurrentHomeViewDate,
   setWeatherSettings,
   setRefetchHome,
-  setRefetchCityEventHome
+  setRefetchCityEventHome,
+  setIsDarkMode
 } = generalSlice.actions;
 
 export default generalSlice.reducer;

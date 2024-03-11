@@ -1,9 +1,9 @@
-import { Platform, StyleSheet } from "react-native";
-import palette from "../../assets/palette";
+import { StyleSheet } from 'react-native';
+import palette from '../../theme/palette';
 
 export default StyleSheet.create({
   buttonContainer: {
-    backgroundColor: palette.blueLight,
+    backgroundColor: palette.bluePrimary,
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderRadius: 10,
@@ -11,101 +11,101 @@ export default StyleSheet.create({
     flexDirection: 'row',
     gap: 5,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 });
 
 export const themeStyle = {
   background: {
-    light: palette.grayLighter,
-    dark: palette.blackLighter,
+    light: palette.gray200,
+    dark: palette.black200
   },
   border: {
     light: palette.grayLight,
-    dark: palette.grayLight,
+    dark: palette.grayLight
   },
   iconColor: {
-    light: palette.black,
-    dark: palette.white,
+    light: palette.blackPrimary,
+    dark: palette.whitePrimary
   },
   size: {
     sm: 12,
     md: 14,
     lg: 16,
     xl: 18,
-    xxl: 20,
+    xxl: 20
   },
   weight: {
     light: '400',
     regular: '500',
     semiBold: '600',
-    bold: '700',
+    bold: '700'
   },
   variant: {
     solid: 'solid',
     outline: 'outline',
-    clear: 'clear',
+    clear: 'clear'
   },
   type: {
     primary: {
       background: {
-        light: palette.blueLight,
-        dark: palette.blue,
+        light: palette.bluePrimary,
+        dark: palette.bluePrimary
       },
       text: {
-        light: palette.white,
-        dark: palette.white,
-      },
+        light: palette.whitePrimary,
+        dark: palette.whitePrimary
+      }
     },
     disabled: {
       background: {
         light: palette.grayLight,
-        dark: palette.grayLight,
+        dark: palette.grayLight
       },
       text: {
-        light: palette.white,
-        dark: palette.white,
-      },
+        light: palette.whitePrimary,
+        dark: palette.whitePrimary
+      }
     },
     transparent: {
       background: {
         light: 'transparent',
-        dark: 'transparent',
+        dark: 'transparent'
       },
       text: {
-        light: palette.black,
-        dark: palette.white,
-      },
+        light: palette.blackPrimary,
+        dark: palette.whitePrimary
+      }
     },
     transparentPrimary: {
       background: {
         light: 'transparent',
-        dark: 'transparent',
+        dark: 'transparent'
       },
       text: {
-        light: palette.blueLight,
-        dark: palette.blueLight,
-      },
+        light: palette.bluePrimary,
+        dark: palette.bluePrimary
+      }
     },
     confirm: {
       background: {
-        light: palette.blueLight,
-        dark: palette.blue,
+        light: palette.bluePrimary,
+        dark: palette.bluePrimary
       },
       text: {
-        light: palette.white,
-        dark: palette.white,
-      },
+        light: palette.whitePrimary,
+        dark: palette.whitePrimary
+      }
     },
     alert: {
       background: {
         light: palette.red,
-        dark: palette.red,
+        dark: palette.red
       },
       text: {
-        light: palette.white,
-        dark: palette.white,
-      },
-    },
+        light: palette.whitePrimary,
+        dark: palette.whitePrimary
+      }
+    }
   }
-}
+};

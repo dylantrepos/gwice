@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import palette from '../../assets/palette';
+import palette from '../../theme/palette';
 
 export default StyleSheet.create({
   searchContainer: {
@@ -41,7 +41,7 @@ export default StyleSheet.create({
 
 export const themeStyle = {
   background: {
-    light: palette.grayLighter,
-    dark: palette.white
+    light: palette.gray200,
+    dark: palette.gray800
   }
 };

@@ -37,16 +37,16 @@ interface ExtendedTheme extends Theme {
 const DefaultTheme: ExtendedTheme = {
   dark: false,
   colors: {
-    card: palette.whiteLight,
-    background: palette.whiteLight,
-    border: palette.grayLight,
+    card: palette.whitePrimary,
+    background: palette.whitePrimary,
+    border: palette.gray200,
     notification: palette.red,
     primary: palette.bluePrimary,
     switchThumb: palette.grayLight,
     text: palette.blackPrimary,
 
     // Bottom Navigation
-    bottomNavBackground: palette.whiteLight,
+    bottomNavBackground: palette.whitePrimary,
     bottomNavIcon: palette.grayLight,
     bottomNavIconActive: palette.bluePrimary,
     bottomNavBorder: palette.grayLight,
@@ -55,14 +55,14 @@ const DefaultTheme: ExtendedTheme = {
      * Components
      */
     // Button
-    buttonBackground: palette.grayLight,
+    buttonBackground: palette.gray100,
 
     // Tag
-    tagBackground: palette.whiteLight,
+    tagBackground: palette.whitePrimary,
     tagBorder: palette.grayLight,
 
     // BottomSheet
-    bottomSheetBackground: palette.whiteLight,
+    bottomSheetBackground: palette.whitePrimary,
     bottomSheetHandleBackground: palette.grayLight,
     bottomSheetIndicatorBackground: palette.blackPrimary,
 
@@ -75,32 +75,32 @@ const DefaultTheme: ExtendedTheme = {
 const DarkTheme: ExtendedTheme = {
   dark: true,
   colors: {
-    card: palette.blackLight,
+    card: palette.blackPrimary,
     background: palette.blackPrimary,
-    border: palette.grayDark,
+    border: palette.black500,
     notification: palette.red,
     primary: palette.bluePrimary,
     switchThumb: palette.grayLight,
     text: palette.whitePrimary,
 
     // Bottom Navigation
-    bottomNavBackground: palette.whiteLight,
+    bottomNavBackground: palette.blackPrimary,
     bottomNavIcon: palette.grayLight,
     bottomNavIconActive: palette.bluePrimary,
-    bottomNavBorder: palette.grayLight,
+    bottomNavBorder: palette.red,
 
     /**
      * Components
      */
     // Button
-    buttonBackground: palette.blackLight,
+    buttonBackground: palette.black400,
 
     // Tag
     tagBackground: palette.blackPrimary,
     tagBorder: palette.grayLight,
 
     // BottomSheet
-    bottomSheetBackground: palette.blackLight,
+    bottomSheetBackground: palette.blackPrimary,
     bottomSheetHandleBackground: palette.grayLight,
     bottomSheetIndicatorBackground: palette.whitePrimary,
 

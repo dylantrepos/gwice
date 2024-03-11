@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native';
-import palette from '../../assets/palette';
+import palette from '../../theme/palette';
 import { type HeaderThemeProps } from './HeaderItem.type';
 
 export const HEADER_THEME: HeaderThemeProps = {
   headerHeight: 70,
   headerBackground: {
-    light: palette.white,
-    dark: palette.blackLighter
+    light: palette.whitePrimary,
+    dark: palette.blackPrimary
   },
   titleColor: {
-    light: palette.black,
-    dark: palette.white
+    light: palette.blackPrimary,
+    dark: palette.whitePrimary
   }
 };
 

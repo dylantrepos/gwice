@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import palette from '../../assets/palette';
+import palette from '../../theme/palette';
 
 export default StyleSheet.create({
   text: {}
@@ -7,8 +7,8 @@ export default StyleSheet.create({
 
 export const themeStyle = {
   color: {
-    light: palette.black,
-    dark: palette.white
+    light: palette.blackPrimary,
+    dark: palette.whitePrimary
   },
   size: {
     sm: 12,

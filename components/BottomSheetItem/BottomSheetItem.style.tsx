@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import palette from '../../assets/palette';
+import palette from '../../theme/palette';
 
 export default StyleSheet.create({
   modalContentContainer: {
@@ -15,7 +15,7 @@ export default StyleSheet.create({
     paddingBottom: 10
   },
   confirmButton: {
-    backgroundColor: palette.blueLight,
+    backgroundColor: palette.bluePrimary,
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderRadius: 10,
@@ -28,11 +28,11 @@ export default StyleSheet.create({
 
 export const themeStyle = {
   containerBackground: {
-    light: palette.white,
-    dark: palette.black
+    light: palette.whitePrimary,
+    dark: palette.blackPrimary
   },
   handleIndicator: {
-    light: palette.black,
-    dark: palette.white
+    light: palette.blackPrimary,
+    dark: palette.whitePrimary
   }
 };

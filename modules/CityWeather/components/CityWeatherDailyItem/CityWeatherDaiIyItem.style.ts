@@ -10,7 +10,7 @@ export default StyleSheet.create({
     gap: 10
   },
   cityWeatherTempMin: {
-    color: palette.blueLight,
+    color: palette.blue500,
     marginLeft: 4
   },
   cityWeatherTempMax: {
