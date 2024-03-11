@@ -2,11 +2,9 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
 import { CityLille } from '../cities/CityLille';
 import { type City } from '../cities/types/city';
-import { type WeatherSettings } from '../modules/CityWeather/types/Weather';
-import { type ThemeColor } from '../types/Theme';
+import { type WeatherSettings } from '../types/Weather';
 
 interface State {
-  theme: ThemeColor;
   isDarkMode: boolean;
   currentCity: City;
   currentHomeViewDate: string;
@@ -16,7 +14,6 @@ interface State {
 }
 
 const initialState: State = {
-  theme: 'light',
   isDarkMode: false,
   currentCity: CityLille,
   currentHomeViewDate: moment.utc(1).toISOString(),
@@ -31,9 +28,6 @@ const generalSlice = createSlice({
   name: 'general',
   initialState,
   reducers: {
-    setTheme: (state, action: PayloadAction<ThemeColor>) => {
-      state.theme = action.payload;
-    },
     setCurrentCity: (state, action: PayloadAction<{ cityName: City }>) => {
       state.currentCity = action.payload.cityName;
     },
@@ -56,7 +50,6 @@ const generalSlice = createSlice({
 });
 
 export const {
-  setTheme,
   setCurrentCity,
   setCurrentHomeViewDate,
   setWeatherSettings,

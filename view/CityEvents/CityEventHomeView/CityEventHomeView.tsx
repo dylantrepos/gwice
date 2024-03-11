@@ -6,19 +6,19 @@ import { RefreshControl } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
-import { Layout } from '../../../layouts/Layout';
 import {
   CityEventCardEmptyItem,
   CityEventCardLargeItem
-} from '../../../modules/CityEvents/components/CityEventCardItem/CityEventCardItem';
-import { CityEventListFooterItem } from '../../../modules/CityEvents/components/CityEventListFooterItem/CityEventListFooterItem';
-import { CityEventListPromoteItem } from '../../../modules/CityEvents/components/CityEventListPromoteItem/CityEventListPromoteItem';
-import { CityEventListStickyHeaderItem } from '../../../modules/CityEvents/components/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem';
-import { useGetCityEvents } from '../../../modules/CityEvents/hooks/useGetCityEvents';
-import { type CityEventCard } from '../../../modules/CityEvents/types/Events';
-import { filterDate } from '../../../modules/CityEvents/utils/date';
+} from '../../../components/cityEvents/CityEventCardItem/CityEventCardItem';
+import { CityEventListFooterItem } from '../../../components/cityEvents/CityEventListFooterItem/CityEventListFooterItem';
+import { CityEventListPromoteItem } from '../../../components/cityEvents/CityEventListPromoteItem/CityEventListPromoteItem';
+import { CityEventListStickyHeaderItem } from '../../../components/cityEvents/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem';
+import { useGetCityEvents } from '../../../hooks/useGetCityEvents';
+import { Layout } from '../../../layouts/Layout';
 import { setRefetchCityEventHome } from '../../../reducers/generalReducer';
 import { type RootState } from '../../../store/store';
+import { type CityEventCard } from '../../../types/Events';
+import { filterDate } from '../../../utils/date';
 import styles from './CityEventHomeView.style';
 
 interface HeaderListProps {

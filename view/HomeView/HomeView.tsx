@@ -4,8 +4,8 @@ import { Animated } from 'react-native';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { CityBackgroundItem } from '../../components/CityBackgroundItem/CityBackgroundItem';
+import { CityEventsListHorizontalItem } from '../../components/cityEvents/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
 import { Layout } from '../../layouts/Layout';
-import { CityEventsListHorizontalItem } from '../../modules/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
 import { setRefetchHome } from '../../reducers/generalReducer';
 
 interface HomeViewProps {

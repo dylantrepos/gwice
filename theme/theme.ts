@@ -2,10 +2,6 @@ import { type Theme } from '@react-navigation/native';
 import palette from './palette';
 
 interface ExtendedTheme extends Theme {
-  // Reference the Theme type's colors field and make our field an intersection
-  // Learn more:
-  //   https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types
-  //   https://www.typescriptlang.org/docs/handbook/2/indexed-access-types.html
   colors: Theme['colors'] & {
     switchThumb: string;
     bottomNavBackground: string;

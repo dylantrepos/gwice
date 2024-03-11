@@ -15,11 +15,11 @@ import {
 } from 'react-native';
 import PanPinchView from 'react-native-pan-pinch-view';
 import { useDispatch } from 'react-redux';
-import { IconItem } from '../../../components/IconItem/IconItem';
-import { TextItem } from '../../../components/TextItem/TextItem';
 import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
+import { IconItem } from '../../../components/general/IconItem/IconItem';
+import { TextItem } from '../../../components/general/TextItem/TextItem';
+import { useGetCityEventDetails } from '../../../hooks/useGetCityEvents';
 import { Layout } from '../../../layouts/Layout';
-import { useGetCityEventDetails } from '../../../modules/CityEvents/hooks/useGetCityEvents';
 import { setRefetchHome } from '../../../reducers/generalReducer';
 import { getFormatedDateFromTimestamp } from '../../../utils/utils';
 import style from './CityEventView.style';

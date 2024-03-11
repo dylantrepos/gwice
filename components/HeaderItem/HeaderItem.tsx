@@ -6,9 +6,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import { THEME } from '../../assets/theme';
 import { type RootState } from '../../store/store';
-import { IconItem } from '../IconItem/IconItem';
+import { IconItem } from '../general/IconItem/IconItem';
 // import { type HeaderProps } from './HeaderItem.type';
-import { SearchBarItem } from '../SearchBarItem/SearchBarItem';
+import { SearchBarItem } from '../general/SearchBarItem/SearchBarItem';
 import style from './HeaderItem.style';
 
 interface HeaderProps {

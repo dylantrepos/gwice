@@ -1,28 +1,18 @@
-import { View, ImageBackground } from 'react-native';
-import { useSelector } from 'react-redux'; 
+import { ImageBackground, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { type RootState } from '../../store/store';
+import { CityWeatherItem } from '../cityWeather/CityWeatherItem/CityWeatherItem';
+import { TextItem } from '../general/TextItem/TextItem';
 import style from './CityBackgroundItem.style';
-import { RootState } from '../../store/store';
-import { CityWeatherItem } from '../../modules/CityWeather/components/CityWeatherItem/CityWeatherItem';
-import { TextItem } from '../TextItem/TextItem';
-
-
 
 export const CityBackgroundItem = () => {
-
-  const { image, cityName } = useSelector((state: RootState) => state.generalReducer.currentCity);  
+  const { image, cityName } = useSelector((state: RootState) => state.generalReducer.currentCity);
 
   return (
     <View style={style.container}>
-      <ImageBackground 
-        style={style.image} 
-        source={image.homeImage}
-      >
-      </ImageBackground>
-      <TextItem style={style.cityName}>
-        { cityName }
-      </TextItem>
+      <ImageBackground style={style.image} source={image.homeImage}></ImageBackground>
+      <TextItem style={style.cityName}>{cityName}</TextItem>
       <CityWeatherItem />
     </View>
   );
 };
-
