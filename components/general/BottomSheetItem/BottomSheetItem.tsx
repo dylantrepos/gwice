@@ -88,7 +88,7 @@ export const BottomSheetItem = ({
         <ButtonItem
           title={confirmText ?? t('button.confirm')}
           handlePress={handleConfirmModal}
-          type={disableConfirm ? 'disabled' : 'confirm'}
+          type={disableConfirm ? 'disabled' : 'primary'}
         />
       </BottomSheetView>
     </BottomSheetModal>

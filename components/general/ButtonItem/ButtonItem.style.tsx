@@ -3,7 +3,6 @@ import palette from '../../../theme/palette';
 
 export default StyleSheet.create({
   buttonContainer: {
-    backgroundColor: palette.bluePrimary,
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderRadius: 10,
@@ -16,18 +15,6 @@ export default StyleSheet.create({
 });
 
 export const themeStyle = {
-  background: {
-    light: palette.gray200,
-    dark: palette.black200
-  },
-  border: {
-    light: palette.grayLight,
-    dark: palette.grayLight
-  },
-  iconColor: {
-    light: palette.blackPrimary,
-    dark: palette.whitePrimary
-  },
   size: {
     sm: 12,
     md: 14,
@@ -46,66 +33,36 @@ export const themeStyle = {
     outline: 'outline',
     clear: 'clear'
   },
-  type: {
+
+  // Light theme
+  buttonStyle: {
     primary: {
-      background: {
-        light: palette.bluePrimary,
-        dark: palette.bluePrimary
-      },
-      text: {
-        light: palette.whitePrimary,
-        dark: palette.whitePrimary
-      }
+      backgroundColor: palette.bluePrimary,
+      textColor: palette.whitePrimary
     },
     disabled: {
-      background: {
-        light: palette.grayLight,
-        dark: palette.grayLight
-      },
-      text: {
-        light: palette.whitePrimary,
-        dark: palette.whitePrimary
-      }
-    },
-    transparent: {
-      background: {
-        light: 'transparent',
-        dark: 'transparent'
-      },
-      text: {
-        light: palette.blackPrimary,
-        dark: palette.whitePrimary
-      }
+      backgroundColor: palette.gray200,
+      textColor: palette.gray400
     },
     transparentPrimary: {
-      background: {
-        light: 'transparent',
-        dark: 'transparent'
-      },
-      text: {
-        light: palette.bluePrimary,
-        dark: palette.bluePrimary
-      }
+      backgroundColor: 'transparent',
+      textColor: palette.bluePrimary
+    }
+  },
+
+  // Dark theme
+  buttonDarkStyle: {
+    primary: {
+      backgroundColor: palette.bluePrimary,
+      textColor: palette.whitePrimary
     },
-    confirm: {
-      background: {
-        light: palette.bluePrimary,
-        dark: palette.bluePrimary
-      },
-      text: {
-        light: palette.whitePrimary,
-        dark: palette.whitePrimary
-      }
+    disabled: {
+      backgroundColor: palette.gray200,
+      textColor: palette.gray400
     },
-    alert: {
-      background: {
-        light: palette.red,
-        dark: palette.red
-      },
-      text: {
-        light: palette.whitePrimary,
-        dark: palette.whitePrimary
-      }
+    transparentPrimary: {
+      backgroundColor: 'transparent',
+      textColor: palette.bluePrimary
     }
   }
 };

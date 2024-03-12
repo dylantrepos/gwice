@@ -1,10 +1,9 @@
-import { useTheme } from '@react-navigation/native';
 import { type ReactNode } from 'react';
-import { Pressable, type ViewProps, type ViewStyle } from 'react-native';
+import { Appearance, Pressable, type ViewProps, type ViewStyle } from 'react-native';
 import { formatTitle } from '../../../utils/events';
 import { IconItem } from '../IconItem/IconItem';
 import { TextItem } from '../TextItem/TextItem';
-import buttonStyle, { type themeStyle } from './ButtonItem.style';
+import buttonStyle, { themeStyle } from './ButtonItem.style';
 
 type Props = ViewProps & {
   title: string;
@@ -13,7 +12,8 @@ type Props = ViewProps & {
   backgroundTransparent?: boolean;
   size?: keyof typeof themeStyle.size;
   weight?: keyof typeof themeStyle.weight;
-  type: keyof typeof themeStyle.type;
+  type: keyof typeof themeStyle.buttonStyle;
+  variant?: keyof typeof themeStyle.variant;
   handlePress: () => void;
 };
 
@@ -24,21 +24,38 @@ export const ButtonItem = ({
   type = 'primary',
   size = 'md',
   weight = 'semiBold',
+  variant = 'solid',
   handlePress
 }: Props): ReactNode => {
-  const { colors } = useTheme();
+  const { backgroundColor, textColor } =
+    Appearance.getColorScheme() === 'dark'
+      ? themeStyle.buttonDarkStyle[type]
+      : themeStyle.buttonStyle[type];
 
   return (
     <Pressable
       style={{
         ...(style as ViewStyle),
         ...buttonStyle.buttonContainer,
-        backgroundColor: colors.buttonBackground
+        backgroundColor: variant === 'solid' ? backgroundColor : 'transparent',
+        borderColor: variant === 'outline' ? backgroundColor : 'transparent',
+        borderWidth: variant === 'outline' ? 1 : 0,
+        borderStyle: 'solid'
       }}
       onPress={handlePress}
     >
-      {IconElt && <IconItem IconElt={IconElt} size="md" color={colors.text} />}
-      <TextItem size={size} weight={weight} color={colors.text}>
+      {IconElt && (
+        <IconItem
+          IconElt={IconElt}
+          size="md"
+          color={variant === 'solid' ? textColor : backgroundColor}
+        />
+      )}
+      <TextItem
+        size={size}
+        weight={weight}
+        color={variant === 'solid' ? textColor : backgroundColor}
+      >
         {formatTitle(title)}
       </TextItem>
     </Pressable>

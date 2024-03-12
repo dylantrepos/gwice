@@ -1,7 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import { CalendarDays, ChevronLeft } from 'lucide-react-native';
 import moment from 'moment';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,7 +27,10 @@ interface FilterDateModalProps {
   setIsPopinVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDateModalProps) => {
+export const FilterDateModal = ({
+  isPopinVisible,
+  setIsPopinVisible
+}: FilterDateModalProps): ReactNode => {
   // Replace with your actual view
   const [showDatePicker, setShowDatePicker] = useState(false);
   const dispatch = useDispatch();
@@ -39,7 +42,6 @@ export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDat
     startDate: storeStartDate,
     endDate: storeEndDate
   } = useSelector((state: RootState) => state.eventReducer);
-  const { theme } = useSelector((state: RootState) => state.generalReducer);
   const [currSelectedItem, setCurrSelectedItem] = useState(currentPeriod);
   const [selectedDates, setSelectedDates] = useState<{ startDate: string; endDate: string }>({
     startDate: '',
@@ -142,7 +144,7 @@ export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDat
                 <TextItem
                   style={{
                     ...style.itemText,
-                    color: currSelectedItem === 'custom' ? palette.blueLight : colors.text
+                    color: currSelectedItem === 'custom' ? palette.bluePrimary : colors.text
                   }}
                 >
                   {getFormattedDate(customPeriod.startDate, customPeriod?.endDate) ?? 'error'}
@@ -153,7 +155,8 @@ export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDat
             <ButtonItem
               title={t('screens.events.text.openCalendar')}
               IconElt={CalendarDays}
-              type="transparentPrimary"
+              type="primary"
+              variant="clear"
               handlePress={() => {
                 setShowDatePicker(!showDatePicker);
                 handleUpdatePeriod('custom');
@@ -169,7 +172,8 @@ export const FilterDateModal = ({ isPopinVisible, setIsPopinVisible }: FilterDat
             <ButtonItem
               title={t('screens.events.text.returnPeriods')}
               IconElt={ChevronLeft}
-              type="transparentPrimary"
+              type="primary"
+              variant="clear"
               handlePress={() => {
                 setShowDatePicker(false);
               }}
