@@ -7,6 +7,7 @@ import { Pressable, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setCurrentPeriod,
+  setCustomPeriod,
   setEndDatePeriod,
   setStartDatePeriod
 } from '../../../reducers/eventReducer';
@@ -66,6 +67,12 @@ export const FilterDateModal = ({
 
       dispatch(setStartDatePeriod(startCustom));
       dispatch(setEndDatePeriod(endCustom));
+      dispatch(
+        setCustomPeriod({
+          startDate: startCustom,
+          endDate: endCustom
+        })
+      );
     } else {
       if (currSelectedItem === 'custom' && customPeriod) {
         dispatch(setStartDatePeriod(customPeriod.startDate));
