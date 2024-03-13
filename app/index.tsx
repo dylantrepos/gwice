@@ -3,17 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { Animated } from 'react-native';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
-import { CityBackgroundItem } from '../../components/base/CityBackgroundItem/CityBackgroundItem';
-import { CityEventsListHorizontalItem } from '../../components/cityEvents/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
-import { Layout } from '../../layouts/Layout';
-import { setRefetchHome } from '../../reducers/generalReducer';
+import { CityBackgroundItem } from '../components/base/CityBackgroundItem/CityBackgroundItem';
+import { CityEventsListHorizontalItem } from '../components/cityEvents/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
+import { Layout } from '../layouts/Layout';
+import { setRefetchHome } from '../reducers/generalReducer';
 
 interface HomeViewProps {
   navigation: any;
   route: any;
 }
 
-export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
+export default function HomeView({ navigation, route }: HomeViewProps): ReactNode {
   const [refreshing, setRefreshing] = useState(false);
   const { t } = useTranslation();
 
@@ -57,4 +57,4 @@ export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
       </ScrollView>
     </Layout>
   );
-};
+}

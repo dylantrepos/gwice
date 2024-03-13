@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import palette from '../../theme/palette';
+import palette from '../../../theme/palette';
 import { type HeaderThemeProps } from './HeaderItem.type';
 
 export const HEADER_THEME: HeaderThemeProps = {

@@ -20,8 +20,8 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { type ReactElement } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { BottomNavigationItem } from './components/BottomNavigationItem/BottomNavigationItem';
-import { WarningScreenItem } from './components/WarningScreenItem/WarningScreenItem';
+import { BottomNavigationItem } from './components/base/BottomNavigationItem/BottomNavigationItem';
+import { WarningScreenItem } from './components/base/WarningScreenItem/WarningScreenItem';
 import { useCustomFont } from './hooks/useCustomFont';
 import { SettingsGeneralView } from './view/SettingsView/SettingsGeneralView/SettingsGeneralView';
 

@@ -11,7 +11,7 @@ import { weatherCodeIcons } from '../../../modules/CityWeather/utils/weatherImgC
 import { setCurrentHomeViewDate } from '../../../reducers/generalReducer';
 import { type RootState } from '../../../store/store';
 import { type OpenMeteoDataForecast, type OpenMeteoDataHourly } from '../../../types/Weather';
-import { WarningScreenItem } from '../../WarningScreenItem/WarningScreenItem';
+import { WarningScreenItem } from '../../base/WarningScreenItem/WarningScreenItem';
 import { CityWeatherCurrentItem } from '../CityWeatherCurrentItem/CityWeatherCurrentItem';
 import { CityWeatherDailyItem } from '../CityWeatherDailyItem/CityWeatherDailyItem';
 import {

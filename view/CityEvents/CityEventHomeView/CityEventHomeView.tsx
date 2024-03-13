@@ -5,7 +5,7 @@ import { Animated, Keyboard, View, VirtualizedList } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
+import { WarningScreenItem } from '../../../components/base/WarningScreenItem/WarningScreenItem';
 import {
   CityEventCardEmptyItem,
   CityEventCardLargeItem

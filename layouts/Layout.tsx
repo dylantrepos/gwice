@@ -2,7 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import React, { type PropsWithChildren, type ReactNode } from 'react';
 import { StatusBar, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { type HeaderProps } from '../components/HeaderItem/HeaderItem.type';
+import { type HeaderProps } from '../components/base/HeaderItem/HeaderItem.type';
 import { type RootState } from '../store/store';
 
 interface Props {

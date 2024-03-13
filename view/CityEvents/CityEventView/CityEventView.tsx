@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import PanPinchView from 'react-native-pan-pinch-view';
 import { useDispatch } from 'react-redux';
-import { WarningScreenItem } from '../../../components/WarningScreenItem/WarningScreenItem';
+import { WarningScreenItem } from '../../../components/base/WarningScreenItem/WarningScreenItem';
 import { IconItem } from '../../../components/general/IconItem/IconItem';
 import { TextItem } from '../../../components/general/TextItem/TextItem';
 import { useGetCityEventDetails } from '../../../hooks/useGetCityEvents';

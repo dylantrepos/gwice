@@ -1,5 +1,5 @@
+import { type appearance } from '../../../types/Theme';
 import { type THEME } from '../../assets/theme';
-import { type appearance } from '../../types/Theme';
 
 export interface HeaderProps {
   headerTitle?: string;

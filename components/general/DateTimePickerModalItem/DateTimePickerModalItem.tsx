@@ -3,9 +3,9 @@ import { useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { useSelector } from 'react-redux';
-import { CalendarTranslation } from '../../localization/translations/Calendar';
-import { type RootState } from '../../store/store';
-import palette from '../../theme/palette';
+import { CalendarTranslation } from '../../../localization/translations/Calendar';
+import { type RootState } from '../../../store/store';
+import palette from '../../../theme/palette';
 
 interface DateTimePickerModalItemProps {
   selectedDates: { startDate: string; endDate: string };

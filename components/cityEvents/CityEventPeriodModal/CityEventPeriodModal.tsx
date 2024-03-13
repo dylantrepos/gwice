@@ -7,7 +7,6 @@ import { Pressable, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setCurrentPeriod,
-  setCustomPeriod,
   setEndDatePeriod,
   setStartDatePeriod
 } from '../../../reducers/eventReducer';
@@ -15,12 +14,11 @@ import { type RootState } from '../../../store/store';
 import palette from '../../../theme/palette';
 import { PERIODS } from '../../../types/Date';
 import { getFormattedDate, getPeriod } from '../../../utils/date';
-import { DateTimePickerModalItem } from '../../DateTimePickerModalItem/DateTimePickerModalItem';
 import { BottomSheetItem } from '../../general/BottomSheetItem/BottomSheetItem';
 import { ButtonItem } from '../../general/ButtonItem/ButtonItem';
+import { DateTimePickerModalItem } from '../../general/DateTimePickerModalItem/DateTimePickerModalItem';
 import { TextItem } from '../../general/TextItem/TextItem';
 import style from './CityEventPeriodModal.style';
-// import { getFormatedDate } from '../../../CityWeather/utils/utils';
 
 interface FilterDateModalProps {
   isPopinVisible: boolean;
@@ -31,17 +29,11 @@ export const FilterDateModal = ({
   isPopinVisible,
   setIsPopinVisible
 }: FilterDateModalProps): ReactNode => {
-  // Replace with your actual view
   const [showDatePicker, setShowDatePicker] = useState(false);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const {
-    currentPeriod,
-    customPeriod,
-    startDate: storeStartDate,
-    endDate: storeEndDate
-  } = useSelector((state: RootState) => state.eventReducer);
+  const { currentPeriod, customPeriod } = useSelector((state: RootState) => state.eventReducer);
   const [currSelectedItem, setCurrSelectedItem] = useState(currentPeriod);
   const [selectedDates, setSelectedDates] = useState<{ startDate: string; endDate: string }>({
     startDate: '',
@@ -49,9 +41,7 @@ export const FilterDateModal = ({
   });
 
   const handleClose = (): void => {
-    setTimeout(() => {
-      setIsPopinVisible(false);
-    }, 5);
+    setIsPopinVisible(false);
   };
 
   const handleUpdatePeriod = (item: string): void => {
@@ -62,7 +52,9 @@ export const FilterDateModal = ({
     dispatch(setCurrentPeriod(currSelectedItem));
 
     if (showDatePicker) {
+      dispatch(setCurrentPeriod('custom'));
       setShowDatePicker(false);
+      setCurrSelectedItem('custom');
       const startCustom = moment(selectedDates?.startDate).add(1, 'hour').toISOString();
       const endCustom = moment(
         selectedDates.endDate.length > 0 ? selectedDates.endDate : selectedDates.startDate
@@ -74,12 +66,6 @@ export const FilterDateModal = ({
 
       dispatch(setStartDatePeriod(startCustom));
       dispatch(setEndDatePeriod(endCustom));
-      dispatch(
-        setCustomPeriod({
-          startDate: startCustom,
-          endDate: endCustom
-        })
-      );
     } else {
       if (currSelectedItem === 'custom' && customPeriod) {
         dispatch(setStartDatePeriod(customPeriod.startDate));
@@ -89,6 +75,7 @@ export const FilterDateModal = ({
         dispatch(setStartDatePeriod(dateRange.start.toISOString()));
         dispatch(setEndDatePeriod(dateRange.end.toISOString()));
       }
+      dispatch(setCurrentPeriod(currSelectedItem));
     }
 
     handleClose();
@@ -159,7 +146,6 @@ export const FilterDateModal = ({
               variant="clear"
               handlePress={() => {
                 setShowDatePicker(!showDatePicker);
-                handleUpdatePeriod('custom');
               }}
             />
           </View>

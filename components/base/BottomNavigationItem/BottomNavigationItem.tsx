@@ -4,9 +4,9 @@ import { type ReactNode } from 'react';
 import { type StyleProp, type TextStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import { type RootState } from '../../store/store';
-import palette from '../../theme/palette';
-import { DarkTheme, DefaultTheme } from '../../theme/theme';
+import { type RootState } from '../../../store/store';
+import palette from '../../../theme/palette';
+import { DarkTheme, DefaultTheme } from '../../../theme/theme';
 
 export interface NavigatorProps {
   name: string;

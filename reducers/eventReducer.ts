@@ -1,9 +1,8 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { set } from "date-fns";
-import { PERIODS } from "../types/Date";
-import moment from "moment";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import moment from 'moment';
+import { PERIODS } from '../types/Date';
 
-type State = {
+interface State {
   searchValue: string;
   isSearchInputFocused: boolean;
   periods: PERIODS[];
@@ -22,7 +21,7 @@ const initialState: State = {
   periods: [],
   currentPeriod: PERIODS.ALWAYS,
   startDate: moment().add(1, 'hours').toISOString(),
-  endDate: moment().add(1, 'hours').add(10, 'year').endOf('day').toISOString(),
+  endDate: moment().add(1, 'hours').add(10, 'year').endOf('day').toISOString()
 };
 
 const eventSlice = createSlice({
@@ -41,7 +40,7 @@ const eventSlice = createSlice({
     setCurrentPeriod: (state, action: PayloadAction<string>) => {
       state.currentPeriod = action.payload;
     },
-    setCustomPeriod: (state, action: PayloadAction<{startDate: string, endDate: string}>) => {
+    setCustomPeriod: (state, action: PayloadAction<{ startDate: string; endDate: string }>) => {
       state.customPeriod = action.payload;
     },
     setStartDatePeriod: (state, action: PayloadAction<string>) => {
@@ -49,18 +48,18 @@ const eventSlice = createSlice({
     },
     setEndDatePeriod: (state, action: PayloadAction<string>) => {
       state.endDate = action.payload;
-    },
+    }
   }
 });
 
-export const { 
+export const {
   setSearchValue,
   setIsSearchInputFocused,
   setPeriods,
   setCurrentPeriod,
   setCustomPeriod,
   setStartDatePeriod,
-  setEndDatePeriod,
+  setEndDatePeriod
 } = eventSlice.actions;
 
 export default eventSlice.reducer;
