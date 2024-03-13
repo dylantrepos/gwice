@@ -19,6 +19,7 @@ export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
 
   const dispatch = useDispatch();
   const scrollPosition = useRef(new Animated.Value(0)).current;
+  const [disabledButton, setDisabledButton] = useState(false);
 
   const onScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrollPosition } } }],
@@ -33,6 +34,15 @@ export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
     }, 1000);
   }, []);
 
+  const handleNavigationTest = (screen: string): void => {
+    setDisabledButton(true);
+    navigation.push(screen);
+
+    setTimeout(() => {
+      setDisabledButton(false);
+    }, 1000);
+  };
+
   return (
     <Layout>
       <ScrollView
@@ -44,7 +54,9 @@ export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
         <CityBackgroundItem />
         <CityEventsListHorizontalItem
           title={t('screens.home.text.event')}
-          handleNavigation={() => navigation.push('HomeCulturalEvent')}
+          handleNavigation={() => {
+            if (!disabledButton) handleNavigationTest('HomeCulturalEvent');
+          }}
         />
         <CityEventsListHorizontalItem
           title={t('screens.home.text.event')}
