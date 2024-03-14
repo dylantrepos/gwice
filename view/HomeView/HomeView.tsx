@@ -1,30 +1,20 @@
-import { useCallback, useRef, useState, type ReactNode } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { ChevronRight } from 'lucide-react-native';
+import { useCallback, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated } from 'react-native';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { CityBackgroundItem } from '../../components/base/CityBackgroundItem/CityBackgroundItem';
 import { CityEventsListHorizontalItem } from '../../components/cityEvents/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
+import { TitleItem } from '../../components/general/TitleItem/TitleItem';
 import { Layout } from '../../layouts/Layout';
 import { setRefetchHome } from '../../reducers/generalReducer';
 
-interface HomeViewProps {
-  navigation: any;
-  route: any;
-}
-
-export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
+export const HomeView = (): ReactNode => {
   const [refreshing, setRefreshing] = useState(false);
   const { t } = useTranslation();
-
+  const navigation = useNavigation();
   const dispatch = useDispatch();
-  const scrollPosition = useRef(new Animated.Value(0)).current;
-  const [disabledButton, setDisabledButton] = useState(false);
-
-  const onScroll = Animated.event(
-    [{ nativeEvent: { contentOffset: { y: scrollPosition } } }],
-    { useNativeDriver: false } // Set this to true if you're not using the scroll position in JS
-  );
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -34,38 +24,26 @@ export const HomeView = ({ navigation, route }: HomeViewProps): ReactNode => {
     }, 1000);
   }, []);
 
-  const handleNavigationTest = (screen: string): void => {
-    setDisabledButton(true);
-    navigation.push(screen);
-
-    setTimeout(() => {
-      setDisabledButton(false);
-    }, 1000);
+  const handleEventNavigation = (): void => {
+    // @ts-expect-error navigate need definition
+    navigation.navigate('HomeCulturalEvent');
   };
 
   return (
     <Layout>
       <ScrollView
-        onScroll={onScroll}
         scrollEventThrottle={16}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         style={{ flex: 1 }}
       >
         <CityBackgroundItem />
-        <CityEventsListHorizontalItem
+        <TitleItem
           title={t('screens.home.text.event')}
-          handleNavigation={() => {
-            if (!disabledButton) handleNavigationTest('HomeCulturalEvent');
-          }}
+          size="xl"
+          handleNavigation={handleEventNavigation}
+          rightIcon={ChevronRight}
         />
-        <CityEventsListHorizontalItem
-          title={t('screens.home.text.event')}
-          handleNavigation={() => navigation.push('HomeCulturalEvent')}
-        />
-        <CityEventsListHorizontalItem
-          title={t('screens.home.text.event')}
-          handleNavigation={() => navigation.push('HomeCulturalEvent')}
-        />
+        <CityEventsListHorizontalItem />
       </ScrollView>
     </Layout>
   );

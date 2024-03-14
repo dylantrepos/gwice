@@ -107,12 +107,6 @@ export const CityEventView = ({ navigation, route }: Props): ReactNode => {
 
   return (
     <Layout>
-      {/* <HeaderItem
-        scrollPosition={scrollPosition}
-        withBackNavigation={true}
-        transparent={true}
-        forceStatusBarShow={true}
-      /> */}
       <ScrollView
         style={{ ...style.scrollView }}
         onScroll={onScroll}

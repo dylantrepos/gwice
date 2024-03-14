@@ -1,19 +1,14 @@
-import { ChevronRight } from 'lucide-react-native';
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { FlatList, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useGetCityEvents } from '../../../hooks/useGetCityEvents';
 import { type RootState } from '../../../store/store';
 import { type CityEventCard } from '../../../types/Events';
-import { TitleItem } from '../../general/TitleItem/TitleItem';
 import { CityEventCardEmptyItem, CityEventCardItem } from '../CityEventCardItem/CityEventCardItem';
 import style from './CityEventsListHorizontalItem.style';
-import {
-  type CityEventsListHorizontalItemRenderProps,
-  type Props
-} from './CityEventsListHorizontalItem.type';
+import { type CityEventsListHorizontalItemRenderProps } from './CityEventsListHorizontalItem.type';
 
-export const CityEventsListHorizontalItem = ({ title, handleNavigation }: Props): ReactNode => {
+export const CityEventsListHorizontalItem = (): ReactNode => {
   const { refetchCityEventHome } = useSelector((state: RootState) => state.generalReducer);
   const [eventList, setEventList] = useState<any[]>([]);
   const fakeWaitingData = Array(5)
@@ -51,14 +46,14 @@ export const CityEventsListHorizontalItem = ({ title, handleNavigation }: Props)
     [eventList]
   );
 
+  const handleReachingEnd = useCallback(() => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage]);
+
   return (
     <View style={style.culturalEvents}>
-      <TitleItem.Pressable
-        title={title}
-        size="xl"
-        handleNavigation={handleNavigation}
-        rightIcon={ChevronRight}
-      />
       <FlatList
         data={!isLoading ? eventList : fakeWaitingData}
         keyExtractor={(item, index) => index.toString()}
@@ -70,7 +65,7 @@ export const CityEventsListHorizontalItem = ({ title, handleNavigation }: Props)
         decelerationRate="fast"
         alwaysBounceHorizontal={false}
         snapToInterval={315}
-        onEndReached={() => (hasNextPage ? fetchNextPage() : null)}
+        onEndReached={handleReachingEnd}
         contentContainerStyle={{
           columnGap: 15,
           paddingRight: 30

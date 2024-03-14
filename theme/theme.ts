@@ -27,6 +27,16 @@ interface ExtendedTheme extends Theme {
     // Calendar
     calendarBackground: string;
     calendarText: string;
+
+    /**
+     * City event
+     */
+    // City event category list icons
+    cityEventCategoryListBackgroundColor: string;
+    cityEventCategoryListBackgroundSelectedColor: string;
+    cityEventCategoryListIconColor: string;
+    cityEventCategoryListIconSelectedColor: string;
+    cityEventCategoryListTextColor: string;
   };
 }
 
@@ -64,7 +74,17 @@ const DefaultTheme: ExtendedTheme = {
 
     // Calendar
     calendarBackground: palette.whitePrimary,
-    calendarText: palette.blackPrimary
+    calendarText: palette.blackPrimary,
+
+    /**
+     * City event
+     */
+    // City event category list icons
+    cityEventCategoryListBackgroundColor: 'transparent',
+    cityEventCategoryListBackgroundSelectedColor: palette.bluePrimary,
+    cityEventCategoryListIconColor: palette.blackPrimary,
+    cityEventCategoryListIconSelectedColor: palette.whitePrimary,
+    cityEventCategoryListTextColor: palette.blackPrimary
   }
 };
 
@@ -102,7 +122,17 @@ const DarkTheme: ExtendedTheme = {
 
     // Calendar
     calendarBackground: palette.blackPrimary,
-    calendarText: palette.whitePrimary
+    calendarText: palette.whitePrimary,
+
+    /**
+     * City event
+     */
+    // City event category list icons
+    cityEventCategoryListBackgroundColor: 'transparent',
+    cityEventCategoryListBackgroundSelectedColor: palette.bluePrimary,
+    cityEventCategoryListIconColor: palette.whitePrimary,
+    cityEventCategoryListIconSelectedColor: palette.whitePrimary,
+    cityEventCategoryListTextColor: palette.whitePrimary
   }
 };
 

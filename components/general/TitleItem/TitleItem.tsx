@@ -11,46 +11,26 @@ type Props = ViewProps & {
   title: string;
   leftIcon?: any;
   rightIcon?: any;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: Size;
   style?: ViewStyle;
+  handleNavigation?: () => void;
 };
 
 const sizeAvailable: Size[] = ['sm', 'md', 'lg', 'xl'];
 
-const getIconSize = (size: Size): ReactNode =>
+const getIconSize = (size: Size): Size =>
   sizeAvailable.includes(size)
     ? sizeAvailable[sizeAvailable.findIndex((sizeElt) => sizeElt === size) - 2]
     : 'md';
 
-export const TitleItem = ({ leftIcon, rightIcon, size = 'md', style, title }: Props) => (
-  <View
-    style={{
-      ...styleTitleItem.titleItemContainer,
-      ...(style as ViewStyle)
-    }}
-  >
-    <View>
-      {leftIcon && <IconItem IconElt={leftIcon} size={getIconSize(size)} stroke="light" />}
-      <TextItem weight="regular" size={size}>
-        {formatTitle(title)}
-      </TextItem>
-    </View>
-    {rightIcon && <IconItem IconElt={rightIcon} size={getIconSize(size)} stroke="light" />}
-  </View>
-);
-
-type PressableProps = Props & {
-  handleNavigation: () => void;
-};
-
-TitleItem.Pressable = ({
+export const TitleItem = ({
   leftIcon,
   rightIcon,
   size = 'md',
   style,
   title,
   handleNavigation
-}: PressableProps) => (
+}: Props): ReactNode => (
   <Pressable
     style={{
       ...styleTitleItem.titleItemContainer,

@@ -1,6 +1,8 @@
+import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { TextItem } from '../../general/TextItem/TextItem';
+import { CityEventCardEmptyItem } from '../CityEventCardItem/CityEventCardItem';
 
 interface CityEventListFooterItemProps {
   isLoading: boolean;
@@ -10,10 +12,16 @@ interface CityEventListFooterItemProps {
 export const CityEventListFooterItem = ({
   isLoading,
   eventLength
-}: CityEventListFooterItemProps) => {
+}: CityEventListFooterItemProps): ReactNode => {
   const { t } = useTranslation();
 
-  return (
+  return isLoading ? (
+    <>
+      <CityEventCardEmptyItem large />
+      <CityEventCardEmptyItem large />
+      <CityEventCardEmptyItem large />
+    </>
+  ) : (
     <View
       style={{
         paddingHorizontal: 20,

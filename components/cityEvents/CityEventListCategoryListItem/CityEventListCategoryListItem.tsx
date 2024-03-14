@@ -3,7 +3,6 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, FlatList, Platform, Pressable, View, type ViewProps } from 'react-native';
 import { formatTitle } from '../../../modules/CityEvents/utils/events';
-import palette from '../../../theme/palette';
 import { type CategoryItem } from '../../../types/Events';
 import { IconItem } from '../../general/IconItem/IconItem';
 import { TextItem } from '../../general/TextItem/TextItem';
@@ -66,8 +65,8 @@ export const CityEventListCategoryListItem = ({
                 <View
                   style={{
                     backgroundColor: categoriesSelected.includes(id)
-                      ? palette.bluePrimary
-                      : 'transparent',
+                      ? colors.cityEventCategoryListBackgroundSelectedColor
+                      : colors.cityEventCategoryListBackgroundColor,
                     borderRadius: 100,
                     padding: 10,
                     ...Platform.select({
@@ -86,7 +85,11 @@ export const CityEventListCategoryListItem = ({
                   }}
                 >
                   <IconItem
-                    color={colors.text}
+                    color={
+                      categoriesSelected.includes(id)
+                        ? colors.cityEventCategoryListIconSelectedColor
+                        : colors.cityEventCategoryListIconColor
+                    }
                     size="xl"
                     stroke="light"
                     IconElt={IconElt}
