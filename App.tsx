@@ -18,6 +18,7 @@ import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/Set
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { type ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BottomNavigationItem } from './components/base/BottomNavigationItem/BottomNavigationItem';
@@ -43,20 +44,23 @@ const SettingsScreens = (): ReactElement => (
   </SettingStack.Navigator>
 );
 
-const HomeScreens = (): ReactElement => (
-  <HomeStack.Navigator screenOptions={defaultScreenOptions} initialRouteName="Home">
-    <HomeStack.Screen
-      name="Home"
-      component={HomeView}
-      options={{
-        ...defaultScreenOptions
-        // headerTransparent: true
-      }}
-    />
-    <HomeStack.Screen name="CulturalEvent" component={CityEventView} />
-    <HomeStack.Screen name="HomeCulturalEvent" component={CityEventHomeView} />
-  </HomeStack.Navigator>
-);
+const HomeScreens = (): ReactElement => {
+  const { t } = useTranslation();
+  return (
+    <HomeStack.Navigator screenOptions={defaultScreenOptions} initialRouteName="Home">
+      <HomeStack.Screen
+        name="Home"
+        component={HomeView}
+        options={{
+          ...defaultScreenOptions
+          // headerTransparent: true
+        }}
+      />
+      <HomeStack.Screen name={t('screens.events.title')} component={CityEventView} />
+      <HomeStack.Screen name="HomeCulturalEvent" component={CityEventHomeView} />
+    </HomeStack.Navigator>
+  );
+};
 
 // eslint-disable-next-line @typescript-eslint/space-before-function-paren
 export default function App(): ReactElement {

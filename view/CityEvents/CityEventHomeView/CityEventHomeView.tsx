@@ -29,6 +29,7 @@ export const CityEventHomeView = (): ReactNode => {
   const [refreshing, setRefreshing] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [selectedItemDate, setSelectedItemDate] = useState(filterDate[0]);
+
   const { currentPeriod, customPeriod, startDate, endDate } = useSelector(
     (state: RootState) => state.eventReducer
   );
