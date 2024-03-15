@@ -11,8 +11,6 @@ import { store } from './store/store';
 import { HomeView } from './view/HomeView/HomeView';
 
 // Views
-import { CityEventHomeView } from './view/CityEvents/CityEventHomeView/CityEventHomeView';
-import { CityEventView } from './view/CityEvents/CityEventView/CityEventView';
 import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsHomeView';
 import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
 
@@ -23,6 +21,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BottomNavigationItem } from './components/base/BottomNavigationItem/BottomNavigationItem';
 import { WarningScreenItem } from './components/base/WarningScreenItem/WarningScreenItem';
+import { CityEventsDetailsPage } from './features/CityEvents/pages/CityEventsDetailsPage/CityEventsDetailsPage';
+import { CityEventsPage } from './features/CityEvents/pages/CityEventsPage/CityEventsPage';
 import { useCustomFont } from './hooks/useCustomFont';
 import { SettingsGeneralView } from './view/SettingsView/SettingsGeneralView/SettingsGeneralView';
 
@@ -56,8 +56,15 @@ const HomeScreens = (): ReactElement => {
           // headerTransparent: true
         }}
       />
-      <HomeStack.Screen name={t('screens.events.title')} component={CityEventView} />
-      <HomeStack.Screen name="HomeCulturalEvent" component={CityEventHomeView} />
+      <HomeStack.Screen name="CityEventsDetails" component={CityEventsDetailsPage} />
+      <HomeStack.Screen
+        name="CityEvents"
+        component={CityEventsPage}
+        options={{
+          ...defaultScreenOptions,
+          title: t('screens.events.title')
+        }}
+      />
     </HomeStack.Navigator>
   );
 };

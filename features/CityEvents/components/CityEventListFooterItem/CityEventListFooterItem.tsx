@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { TextItem } from '../../general/TextItem/TextItem';
+import { TextItem } from '../../../../components/general/TextItem/TextItem';
 import { CityEventCardEmptyItem } from '../CityEventCardItem/CityEventCardItem';
 
 interface CityEventListFooterItemProps {

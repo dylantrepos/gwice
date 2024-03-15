@@ -1,22 +1,22 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   culturalEvents: {
     marginBottom: 50,
-    height: 'auto',
+    height: 'auto'
   },
   culturalEventsTitleContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 10
   },
   culturalEventsTitle: {
-    fontSize: 20,
+    fontSize: 20
   },
   culturalEventsCardsContainer: {
     paddingHorizontal: 20,
-    flexGrow: 0,
-  },
+    flexGrow: 0
+  }
 });

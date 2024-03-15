@@ -4,14 +4,14 @@ import { Calendar } from 'lucide-react-native';
 import { memo, useEffect, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, Image, ImageBackground, Pressable, View } from 'react-native';
-import { useBackgroundColorLoading } from '../../../hooks/useBackgroundColorLoading';
-import { allEventsCategoryLille } from '../../../modules/CityEvents/utils/events';
-import { type CityEventCard } from '../../../types/Events';
-import { type FilterDateItem } from '../../../utils/date';
-import { formatDate } from '../../../utils/events';
-import { IconItem } from '../../general/IconItem/IconItem';
-import { TagItem } from '../../general/TagItem/TagItem';
-import { TextItem } from '../../general/TextItem/TextItem';
+import { IconItem } from '../../../../components/general/IconItem/IconItem';
+import { TagItem } from '../../../../components/general/TagItem/TagItem';
+import { TextItem } from '../../../../components/general/TextItem/TextItem';
+import { useBackgroundColorLoading } from '../../../../hooks/useBackgroundColorLoading';
+import { allEventsCategoryLille } from '../../../../modules/CityEvents/utils/events';
+import { type CityEventCard } from '../../../../types/Events';
+import { type FilterDateItem } from '../../../../utils/date';
+import { formatDate } from '../../../../utils/events';
 import style from './CityEventCardItem.style';
 
 interface Props {

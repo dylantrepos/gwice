@@ -3,26 +3,26 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { VirtualizedList, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
+import { useGetCityEvents } from '../../../../hooks/useGetCityEvents';
+import { Layout } from '../../../../layouts/Layout';
+import { setRefetchCityEventHome } from '../../../../reducers/generalReducer';
+import { type RootState } from '../../../../store/store';
+import { type CityEventCard } from '../../../../types/Events';
+import { filterDate } from '../../../../utils/date';
 import {
   CityEventCardEmptyItem,
   CityEventCardLargeItem
-} from '../../../components/cityEvents/CityEventCardItem/CityEventCardItem';
-import { CityEventListFooterItem } from '../../../components/cityEvents/CityEventListFooterItem/CityEventListFooterItem';
-import { HeaderList } from '../../../components/cityEvents/CityEventListHeaderItem/CityEventListHeaderItem';
-import { CityEventListStickyHeaderItem } from '../../../components/cityEvents/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem';
-import { useGetCityEvents } from '../../../hooks/useGetCityEvents';
-import { Layout } from '../../../layouts/Layout';
-import { setRefetchCityEventHome } from '../../../reducers/generalReducer';
-import { type RootState } from '../../../store/store';
-import { type CityEventCard } from '../../../types/Events';
-import { filterDate } from '../../../utils/date';
+} from '../../components/CityEventCardItem/CityEventCardItem';
+import { CityEventListFooterItem } from '../../components/CityEventListFooterItem/CityEventListFooterItem';
+import { HeaderList } from '../../components/CityEventListHeaderItem/CityEventListHeaderItem';
+import { CityEventListStickyHeaderItem } from '../../components/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem';
 
 interface CityEventCardLargeItemProps {
   item: any;
   index: number;
 }
 
-export const CityEventHomeView = (): ReactNode => {
+export const CityEventsPage = (): ReactNode => {
   const [eventList, setEventList] = useState<CityEventCard[] | number[]>([]);
   const [filteredCategoryIdList, setFilteredCategoryIdList] = useState<number[]>([]);
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -116,8 +116,6 @@ export const CityEventHomeView = (): ReactNode => {
           <CityEventListStickyHeaderItem
             filteredCategoryIdList={filteredCategoryIdList}
             handleSetFilteredCategoryIdList={setFilteredCategoryIdList}
-            selectedItemDate={selectedItemDate}
-            setSelectedItemDate={setSelectedItemDate}
           />,
           ...(!isLoading ? eventList : fakeWaitingData)
         ]}

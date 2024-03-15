@@ -2,7 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState, type ReactNode } from 'react';
 import { Image, ImageBackground, Keyboard, Pressable } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { TextItem } from '../../general/TextItem/TextItem';
+import { TextItem } from '../../../../components/general/TextItem/TextItem';
 import style from './CityEventListPromoteItem.style';
 
 export const CityEventListPromoteItem = (): ReactNode => {
@@ -29,7 +29,7 @@ export const CityEventListPromoteItem = (): ReactNode => {
 
   return (
     <Pressable onPress={handlePressPromoteEvent} style={style.promoteEvent}>
-      <Animated.View isLoading={imageLoaded} style={style.promoteEventImage}>
+      <Animated.View style={style.promoteEventImage}>
         {imageLoaded && (
           <ImageBackground
             style={style.promoteEventImage}

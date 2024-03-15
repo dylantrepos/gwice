@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { CityBackgroundItem } from '../../components/base/CityBackgroundItem/CityBackgroundItem';
-import { CityEventsListHorizontalItem } from '../../components/cityEvents/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
 import { TitleItem } from '../../components/general/TitleItem/TitleItem';
+import { CityEventsListHorizontalItem } from '../../features/CityEvents/components/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
 import { Layout } from '../../layouts/Layout';
 import { setRefetchHome } from '../../reducers/generalReducer';
 
@@ -26,7 +26,7 @@ export const HomeView = (): ReactNode => {
 
   const handleEventNavigation = (): void => {
     // @ts-expect-error navigate need definition
-    navigation.navigate('HomeCulturalEvent');
+    navigation.navigate('CityEvents');
   };
 
   return (

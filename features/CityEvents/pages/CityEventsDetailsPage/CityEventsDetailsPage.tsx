@@ -15,21 +15,21 @@ import {
 } from 'react-native';
 import PanPinchView from 'react-native-pan-pinch-view';
 import { useDispatch } from 'react-redux';
-import { WarningScreenItem } from '../../../components/base/WarningScreenItem/WarningScreenItem';
-import { IconItem } from '../../../components/general/IconItem/IconItem';
-import { TextItem } from '../../../components/general/TextItem/TextItem';
-import { useGetCityEventDetails } from '../../../hooks/useGetCityEvents';
-import { Layout } from '../../../layouts/Layout';
-import { setRefetchHome } from '../../../reducers/generalReducer';
-import { getFormatedDateFromTimestamp } from '../../../utils/utils';
-import style from './CityEventView.style';
+import { WarningScreenItem } from '../../../../components/base/WarningScreenItem/WarningScreenItem';
+import { IconItem } from '../../../../components/general/IconItem/IconItem';
+import { TextItem } from '../../../../components/general/TextItem/TextItem';
+import { useGetCityEventDetails } from '../../../../hooks/useGetCityEvents';
+import { Layout } from '../../../../layouts/Layout';
+import { setRefetchHome } from '../../../../reducers/generalReducer';
+import { getFormatedDateFromTimestamp } from '../../../../utils/utils';
+import style from './CityEventsDetailsPage.style';
 
 interface Props {
   navigation: any;
   route: any;
 }
 
-export const CityEventView = ({ navigation, route }: Props): ReactNode => {
+export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode => {
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();

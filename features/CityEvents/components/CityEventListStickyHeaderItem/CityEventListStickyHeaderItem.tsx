@@ -1,16 +1,13 @@
 import { useTheme } from '@react-navigation/native';
 import { type ReactNode } from 'react';
 import { View, type ViewProps, type ViewStyle } from 'react-native';
-import { eventsCategoryLille } from '../../../modules/CityEvents/utils/events';
-import { type FilterDateItem } from '../../../utils/date';
+import { eventsCategoryLille } from '../../../../modules/CityEvents/utils/events';
 import { CityEventListCategoryListItem } from '../CityEventListCategoryListItem/CityEventListCategoryListItem';
 import { CityEventListFilterItem } from '../CityEventListFilterItem/CityEventListFilterItem';
 
 interface StickyHeaderProps extends ViewProps {
   filteredCategoryIdList: number[];
   handleSetFilteredCategoryIdList: React.Dispatch<React.SetStateAction<number[]>>;
-  selectedItemDate: FilterDateItem;
-  setSelectedItemDate: React.Dispatch<React.SetStateAction<FilterDateItem>>;
   styles?: ViewStyle;
 }
 

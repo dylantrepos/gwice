@@ -5,20 +5,20 @@ import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { BottomSheetItem } from '../../../../components/general/BottomSheetItem/BottomSheetItem';
+import { ButtonItem } from '../../../../components/general/ButtonItem/ButtonItem';
+import { DateTimePickerModalItem } from '../../../../components/general/DateTimePickerModalItem/DateTimePickerModalItem';
+import { TextItem } from '../../../../components/general/TextItem/TextItem';
 import {
   setCurrentPeriod,
   setCustomPeriod,
   setEndDatePeriod,
   setStartDatePeriod
-} from '../../../reducers/eventReducer';
-import { type RootState } from '../../../store/store';
-import palette from '../../../theme/palette';
-import { PERIODS } from '../../../types/Date';
-import { getFormattedDate, getPeriod } from '../../../utils/date';
-import { BottomSheetItem } from '../../general/BottomSheetItem/BottomSheetItem';
-import { ButtonItem } from '../../general/ButtonItem/ButtonItem';
-import { DateTimePickerModalItem } from '../../general/DateTimePickerModalItem/DateTimePickerModalItem';
-import { TextItem } from '../../general/TextItem/TextItem';
+} from '../../../../reducers/eventReducer';
+import { type RootState } from '../../../../store/store';
+import palette from '../../../../theme/palette';
+import { PERIODS } from '../../../../types/Date';
+import { getFormattedDate, getPeriod } from '../../../../utils/date';
 import style from './CityEventPeriodModal.style';
 
 interface FilterDateModalProps {

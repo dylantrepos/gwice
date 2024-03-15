@@ -3,21 +3,20 @@ import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, Pressable, ScrollView, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { type RootState } from '../../../store/store';
-import { IconItem } from '../../general/IconItem/IconItem';
-import { TextItem } from '../../general/TextItem/TextItem';
+import { IconItem } from '../../../../components/general/IconItem/IconItem';
+import { TextItem } from '../../../../components/general/TextItem/TextItem';
+import { type RootState } from '../../../../store/store';
 import style from './CityEventListFilterItem.style';
 
 import { useTheme } from '@react-navigation/native';
-import { PERIODS } from '../../../types/Date';
-import { getFormattedDate } from '../../../utils/date';
+import { PERIODS } from '../../../../types/Date';
+import { getFormattedDate } from '../../../../utils/date';
 import { FilterDateModal } from '../CityEventPeriodModal/CityEventPeriodModal';
 
 export const CityEventListFilterItem = (): ReactNode => {
   // Replace with your actual view
   const [isPopinVisible, setIsPopinVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
-  const { theme } = useSelector((state: RootState) => state.generalReducer);
   const { currentPeriod, startDate, endDate } = useSelector(
     (state: RootState) => state.eventReducer
   );

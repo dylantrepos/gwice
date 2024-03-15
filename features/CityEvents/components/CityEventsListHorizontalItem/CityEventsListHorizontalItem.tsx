@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { FlatList, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useGetCityEvents } from '../../../hooks/useGetCityEvents';
-import { type RootState } from '../../../store/store';
-import { type CityEventCard } from '../../../types/Events';
+import { useGetCityEvents } from '../../../../hooks/useGetCityEvents';
+import { type RootState } from '../../../../store/store';
+import { type CityEventCard } from '../../../../types/Events';
 import { CityEventCardEmptyItem, CityEventCardItem } from '../CityEventCardItem/CityEventCardItem';
 import style from './CityEventsListHorizontalItem.style';
 import { type CityEventsListHorizontalItemRenderProps } from './CityEventsListHorizontalItem.type';
