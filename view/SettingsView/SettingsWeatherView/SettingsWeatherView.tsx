@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, Easing, Pressable, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { TextItem } from '../../../components/general/TextItem/TextItem';
+import { TextItem } from '../../../components/atoms/TextItem';
 import { Layout } from '../../../layouts/Layout';
 import { setWeatherSettings } from '../../../reducers/generalReducer';
 import { store } from '../../../store/store';

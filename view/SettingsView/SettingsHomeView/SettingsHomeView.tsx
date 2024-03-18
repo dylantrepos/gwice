@@ -2,8 +2,8 @@ import { Settings, Sun, type LucideIcon } from 'lucide-react-native';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
-import { IconItem } from '../../../components/general/IconItem/IconItem';
-import { TextItem } from '../../../components/general/TextItem/TextItem';
+import { IconItem } from '../../../components/atoms/IconItem';
+import { TextItem } from '../../../components/atoms/TextItem';
 import { Layout } from '../../../layouts/Layout';
 import style from './SettingsHomeView.style';
 

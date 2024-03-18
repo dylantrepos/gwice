@@ -1,6 +1,6 @@
 import { type PropsWithChildren, type ReactNode } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { TextItem } from '../../atoms/TextItem';
+import { TextItem } from '../atoms/TextItem';
 
 interface Props {
   type: 'error' | 'unavailable' | 'loader';

@@ -1,5 +1,5 @@
 import { Animated } from 'react-native';
-import { dateOptions } from '../../../components/cityWeather/cityWeatherSettings';
+import { dateOptions } from '../../../features/Weather/components/organisms/cityWeatherSettings';
 import { capitalizeFirstLetter } from '../../../utils/utils';
 
 export const getFormatedDate = (date: string, locale: string) =>

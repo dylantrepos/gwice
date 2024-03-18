@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 import './localization/i18n';
 import { store } from './store/store';
-import { HomeView } from './view/HomeView/HomeView';
 
 // Views
 import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsHomeView';
@@ -19,11 +18,12 @@ import { type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { BottomNavigationItem } from './components/base/BottomNavigationItem/BottomNavigationItem';
-import { WarningScreenItem } from './components/base/WarningScreenItem/WarningScreenItem';
-import { CityEventsDetailsPage } from './features/CityEvents/pages/CityEventsDetailsPage/CityEventsDetailsPage';
-import { CityEventsPage } from './features/CityEvents/pages/CityEventsPage/CityEventsPage';
+import { WarningScreenItem } from './components/molecules/WarningScreenItem';
+import { BottomNavigationItem } from './components/organisms/BottomNavigationItem';
+import { CityEventsDetailsPage } from './features/CityEvents/pages/CityEventsDetailsPage';
+import { CityEventsPage } from './features/CityEvents/pages/CityEventsPage';
 import { useCustomFont } from './hooks/useCustomFont';
+import { HomePage } from './pages/HomePage';
 import { SettingsGeneralView } from './view/SettingsView/SettingsGeneralView/SettingsGeneralView';
 
 const SettingStack = createNativeStackNavigator();
@@ -50,7 +50,7 @@ const HomeScreens = (): ReactElement => {
     <HomeStack.Navigator screenOptions={defaultScreenOptions} initialRouteName="Home">
       <HomeStack.Screen
         name="Home"
-        component={HomeView}
+        component={HomePage}
         options={{
           ...defaultScreenOptions
           // headerTransparent: true

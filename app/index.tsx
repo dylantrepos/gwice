@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Animated } from 'react-native';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
-import { CityBackgroundItem } from '../components/base/CityBackgroundItem/CityBackgroundItem';
 import { CityEventsListHorizontalItem } from '../components/cityEvents/CityEventsListHorizontalItem/CityEventsListHorizontalItem';
+import { CityBackgroundItem } from '../components/molecules/CityBackgroundItem';
 import { Layout } from '../layouts/Layout';
 import { setRefetchHome } from '../reducers/generalReducer';
 
