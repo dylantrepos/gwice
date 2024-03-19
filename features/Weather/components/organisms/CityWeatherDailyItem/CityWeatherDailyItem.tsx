@@ -1,13 +1,10 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, Image, View } from 'react-native';
-import {
-  getAnimatedWeatherArray,
-  getFormatedDate
-} from '../../../../../modules/CityWeather/utils/utils';
-import { weatherCodeIcons } from '../../../../../modules/CityWeather/utils/weatherImgCode';
-import { type OpenMeteoDataDaily } from '../../../../../types/Weather';
 import style from '../../../styles/organisms/CityWeatherDaiIyItem.style';
+import { type OpenMeteoDataDaily } from '../../../types/Weather';
+import { getAnimatedWeatherArray, getFormatedDate } from '../../../utils/utils';
+import { weatherCodeIcons } from '../../../utils/weatherImgCode';
 import { cityWeatherInfoElements } from '../cityWeatherInfoElements';
 import {
   animationBounceOptions,

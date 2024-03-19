@@ -30,6 +30,7 @@ export const TextItem = ({
     fontFamily: font,
     color: color ?? colors.text,
     fontSize: themeStyle.size[size],
+    lineHeight: themeStyle.lineHeights[size],
     ...(style as TextStyle)
   };
 

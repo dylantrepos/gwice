@@ -33,17 +33,16 @@ export const bounceTranslateY = {
   outputRange: [0.5, -0.5, 0.5]
 };
 
-export const animationOptions = (value: number) =>
-  ({
-    toValue: value,
-    duration: animationDuration,
-    useNativeDriver: true,
-    easing: Easing.inOut(Easing.linear)
-  }) as Animated.TimingAnimationConfig;
+export const animationOptions = (value: number): Animated.TimingAnimationConfig => ({
+  toValue: value,
+  duration: animationDuration,
+  useNativeDriver: true,
+  easing: Easing.inOut(Easing.linear)
+});
 
-export const animationBounceOptions = {
+export const animationBounceOptions: Animated.TimingAnimationConfig = {
   toValue: 1,
   duration: 2500,
   useNativeDriver: true,
   easing: Easing.inOut(Easing.linear)
-} as Animated.TimingAnimationConfig;
+};

@@ -10,7 +10,16 @@ export const themeStyle = {
     md: 14,
     lg: 16,
     xl: 18,
-    xxl: 20
+    xxl: 20,
+    '6xl': 28
+  },
+  lineHeights: {
+    sm: 16,
+    md: 20,
+    lg: 22,
+    xl: 25,
+    xxl: 27,
+    '6xl': 30
   },
   weight: {
     light: '400',

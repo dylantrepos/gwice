@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
-import { fetchWeather } from '../services/weather';
-import { type OpenMeteoData, type WeatherSettings } from '../types/Weather';
+import { fetchWeather } from '../features/Weather/services/weather';
+import { type OpenMeteoData, type WeatherSettings } from '../features/Weather/types/Weather';
 
 interface UseGetWeather {
   isLoading: boolean;

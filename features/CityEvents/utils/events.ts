@@ -22,7 +22,7 @@ import {
   Sparkle,
   Theater
 } from 'lucide-react-native';
-import { type CategoryItem } from '../../../types/Events';
+import { type CategoryItem } from '../types/Events';
 
 export const eventsCategory: Record<string, number> = {
   atelier: 3,

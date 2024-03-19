@@ -1,12 +1,14 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState, type ReactNode } from 'react';
-import { Image, ImageBackground, Keyboard, Pressable } from 'react-native';
-import Animated from 'react-native-reanimated';
+import { Animated, Image, ImageBackground, Keyboard, Pressable } from 'react-native';
+
 import { TextItem } from '../../../../components/atoms/TextItem';
+import { useBackgroundColorLoading } from '../../../../hooks/useBackgroundColorLoading';
 import style from '../../styles/organisms/CityEventListPromoteItem.style';
 
 export const CityEventListPromoteItem = (): ReactNode => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const { backgroundColor } = useBackgroundColorLoading(true);
   const handlePressPromoteEvent = (): void => {
     if (Keyboard.isVisible()) {
       Keyboard.dismiss();
@@ -28,11 +30,18 @@ export const CityEventListPromoteItem = (): ReactNode => {
   }, []);
 
   return (
-    <Pressable onPress={handlePressPromoteEvent} style={style.promoteEvent}>
-      <Animated.View style={style.promoteEventImage}>
-        {imageLoaded && (
+    imageLoaded && (
+      <Pressable onPress={handlePressPromoteEvent} style={style.promoteEvent}>
+        <Animated.View
+          style={{
+            ...style.promoteEventImage,
+            backgroundColor
+          }}
+        >
           <ImageBackground
-            style={style.promoteEventImage}
+            style={{
+              ...style.promoteEventImage
+            }}
             source={{
               uri: imageSrc
             }}
@@ -49,8 +58,8 @@ export const CityEventListPromoteItem = (): ReactNode => {
               </Pressable>
             </LinearGradient>
           </ImageBackground>
-        )}
-      </Animated.View>
-    </Pressable>
+        </Animated.View>
+      </Pressable>
+    )
   );
 };

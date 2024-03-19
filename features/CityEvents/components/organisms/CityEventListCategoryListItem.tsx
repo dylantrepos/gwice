@@ -1,7 +1,7 @@
 import { useCallback, type ReactNode } from 'react';
 import { FlatList, View, type ViewProps } from 'react-native';
-import { type CategoryItem } from '../../../../types/Events';
 import style from '../../styles/organisms/CityEventListCategoryListItem.style';
+import { type CategoryItem } from '../../types/Events';
 import { CategoryRadioItem } from '../molecules/CategoryRadioItem';
 
 interface CategoryListItemProps extends ViewProps {

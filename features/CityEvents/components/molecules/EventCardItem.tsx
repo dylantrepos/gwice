@@ -8,9 +8,9 @@ import { IconItem } from '../../../../components/atoms/IconItem';
 import { TagItem } from '../../../../components/atoms/TagItem';
 import { TextItem } from '../../../../components/atoms/TextItem';
 import palette from '../../../../theme/palette';
-import { type CityEventCard } from '../../../../types/Events';
 import { formatDate } from '../../../../utils/events';
 import styles from '../../styles/molecules/EventCardItem.style';
+import { type CityEventCard } from '../../types/Events';
 import { allEventsCategoryLille } from '../../utils/events';
 
 interface Props {

@@ -1,6 +1,6 @@
 import { SERVER_HOST } from '@env';
 import axios from 'axios';
-import { store } from '../store/store';
+import { store } from '../../../store/store';
 import { type CityEventCardRequest, type CityEventDetailsRequest } from '../types/Events';
 
 interface FetchLilleCulturalEvents {

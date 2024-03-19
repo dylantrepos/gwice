@@ -5,6 +5,7 @@ import { fadeTranslateX } from './cityWeatherSettings';
 import { type PropsWithChildren } from 'react';
 import { IconItem } from '../../../../components/atoms/IconItem';
 import { TextItem } from '../../../../components/atoms/TextItem';
+import palette from '../../../../theme/palette';
 import style from '../../styles/cityWeather.style';
 
 export const cityWeatherInfoElements = {
@@ -32,7 +33,7 @@ export const cityWeatherInfoElements = {
     component: (precipitation: string, fadeAnim: Animated.Value) => (
       <CityWeatherInfoDetail fadeAnim={fadeAnim}>
         <IconItem IconElt={CloudRainWind} size={'sm'} stroke={'light'} />
-        <TextItem>{precipitation}</TextItem>
+        <TextItem size="xl">{precipitation}</TextItem>
       </CityWeatherInfoDetail>
     )
   },
@@ -40,10 +41,14 @@ export const cityWeatherInfoElements = {
     title: 'TemperatureMinMax',
     component: (min: string, max: string, fadeAnim: Animated.Value) => (
       <CityWeatherInfoDetail fadeAnim={fadeAnim}>
-        <IconItem IconElt={Thermometer} size={'sm'} stroke={'light'} />
-        <TextItem style={style.cityWeatherTempMin}>{min}</TextItem>
-        <TextItem>|</TextItem>
-        <TextItem style={style.cityWeatherTempMax}>{max}</TextItem>
+        <IconItem IconElt={Thermometer} color={palette.whitePrimary} size={'md'} stroke={'light'} />
+        <TextItem size="xl" style={style.cityWeatherTempMin}>
+          {min}
+        </TextItem>
+        <TextItem color={palette.whitePrimary}>|</TextItem>
+        <TextItem size="xl" style={style.cityWeatherTempMax}>
+          {max}
+        </TextItem>
       </CityWeatherInfoDetail>
     )
   },
@@ -51,8 +56,10 @@ export const cityWeatherInfoElements = {
     title: 'Temperature',
     component: (temperature: string, fadeAnim: Animated.Value) => (
       <CityWeatherInfoDetail fadeAnim={fadeAnim}>
-        <IconItem IconElt={Thermometer} size={'sm'} stroke={'light'} />
-        <TextItem>{temperature}</TextItem>
+        <IconItem IconElt={Thermometer} color={palette.whitePrimary} size={'md'} stroke={'light'} />
+        <TextItem size="xl" color={palette.whitePrimary}>
+          {temperature}
+        </TextItem>
       </CityWeatherInfoDetail>
     )
   }

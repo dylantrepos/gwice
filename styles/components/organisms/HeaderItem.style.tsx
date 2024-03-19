@@ -3,7 +3,7 @@ import palette from '../../../theme/palette';
 import { type HeaderThemeProps } from '../../../types/components/organisms/HeaderItem.type';
 
 export const HEADER_THEME: HeaderThemeProps = {
-  headerHeight: 70,
+  headerHeight: 60,
   headerBackground: {
     light: palette.whitePrimary,
     dark: palette.blackPrimary

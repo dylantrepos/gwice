@@ -1,8 +1,8 @@
-export type PeriodDetails = {
+export interface PeriodDetails {
   start: Date;
   end: Date;
   title: PERIODS;
-};
+}
 
 export enum PERIODS {
   ALWAYS = 'always',
@@ -10,10 +10,10 @@ export enum PERIODS {
   TOMORROW = 'tomorrow',
   WEEKEND = 'weekend',
   WEEK = 'week',
-  CUSTOM = 'custom',
+  CUSTOM = 'custom'
 }
 
-export type PickDateRange = {
+export interface PickDateRange {
   startDate: string;
   endDate: string;
 }

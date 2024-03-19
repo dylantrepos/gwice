@@ -28,6 +28,11 @@ interface ExtendedTheme extends Theme {
     calendarBackground: string;
     calendarText: string;
 
+    // SearchBar
+    searchBarBackground: string;
+    searchBarIcon: string;
+    searchBarText: string;
+
     /**
      * City event
      */
@@ -46,7 +51,7 @@ const DefaultTheme: ExtendedTheme = {
     card: palette.whitePrimary,
     background: palette.whitePrimary,
     border: palette.gray200,
-    notification: palette.red,
+    notification: palette.redPrimary,
     primary: palette.bluePrimary,
     switchThumb: palette.grayLight,
     text: palette.blackPrimary,
@@ -76,6 +81,11 @@ const DefaultTheme: ExtendedTheme = {
     calendarBackground: palette.whitePrimary,
     calendarText: palette.blackPrimary,
 
+    // SearchBar
+    searchBarBackground: palette.gray200,
+    searchBarIcon: palette.gray500,
+    searchBarText: palette.blackPrimary,
+
     /**
      * City event
      */
@@ -94,7 +104,7 @@ const DarkTheme: ExtendedTheme = {
     card: palette.blackPrimary,
     background: palette.blackPrimary,
     border: palette.black500,
-    notification: palette.red,
+    notification: palette.redPrimary,
     primary: palette.bluePrimary,
     switchThumb: palette.grayLight,
     text: palette.whitePrimary,
@@ -103,7 +113,7 @@ const DarkTheme: ExtendedTheme = {
     bottomNavBackground: palette.blackPrimary,
     bottomNavIcon: palette.grayLight,
     bottomNavIconActive: palette.bluePrimary,
-    bottomNavBorder: palette.red,
+    bottomNavBorder: palette.redPrimary,
 
     /**
      * Components
@@ -123,6 +133,11 @@ const DarkTheme: ExtendedTheme = {
     // Calendar
     calendarBackground: palette.blackPrimary,
     calendarText: palette.whitePrimary,
+
+    // SearchBar
+    searchBarBackground: palette.gray300,
+    searchBarIcon: palette.grayLight,
+    searchBarText: palette.whitePrimary,
 
     /**
      * City event

@@ -22,9 +22,9 @@ export default StyleSheet.create({
   },
   halfBottomBorder: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 0,
     left: 0,
-    height: '50%',
+    height: '55%',
     width: '100%',
     borderRadius: 10,
     borderWidth: 1,

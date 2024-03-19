@@ -3,17 +3,17 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { VirtualizedList, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import { CityEventListFooterItem } from '../../../components/cityEvents/CityEventListFooterItem/CityEventListFooterItem';
-import { HeaderList } from '../../../components/cityEvents/CityEventListHeaderItem/CityEventListHeaderItem';
-import { CityEventListStickyHeaderItem } from '../../../components/cityEvents/CityEventListStickyHeaderItem/CityEventListStickyHeaderItem';
-import { EventCardEmptyItem } from '../../../features/CityEvents/components/molecules/EventCardEmptyItem';
-import { EventCardItem } from '../../../features/CityEvents/components/molecules/EventCardItem';
-import { useGetCityEvents } from '../../../hooks/useGetCityEvents';
-import { Layout } from '../../../layouts/Layout';
-import { setRefetchCityEventHome } from '../../../reducers/generalReducer';
-import { type RootState } from '../../../store/store';
-import { type CityEventCard } from '../../../types/Events';
-import { filterDate } from '../../../utils/date';
+import { EventCardEmptyItem } from '../features/CityEvents/components/molecules/EventCardEmptyItem';
+import { EventCardItem } from '../features/CityEvents/components/molecules/EventCardItem';
+import { CityEventListFooterItem } from '../features/CityEvents/components/organisms/CityEventListFooterItem';
+import { HeaderList } from '../features/CityEvents/components/organisms/CityEventListHeaderItem';
+import { CityEventListStickyHeaderItem } from '../features/CityEvents/components/organisms/CityEventListStickyHeaderItem';
+import { type CityEventCard } from '../features/CityEvents/types/Events';
+import { useGetCityEvents } from '../hooks/useGetCityEvents';
+import { Layout } from '../layouts/Layout';
+import { setRefetchCityEventHome } from '../reducers/generalReducer';
+import { type RootState } from '../store/store';
+import { filterDate } from '../utils/date';
 
 interface EventCardProps {
   item: any;
@@ -110,8 +110,6 @@ export const CityEventHomeView = (): ReactNode => {
           <CityEventListStickyHeaderItem
             filteredCategoryIdList={filteredCategoryIdList}
             handleSetFilteredCategoryIdList={setFilteredCategoryIdList}
-            selectedItemDate={selectedItemDate}
-            setSelectedItemDate={setSelectedItemDate}
           />,
           ...(!isLoading ? eventList : fakeWaitingData)
         ]}

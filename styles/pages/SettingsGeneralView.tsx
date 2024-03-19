@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Appearance, Pressable, ScrollView, View } from 'react-native';
 import { Switch } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
-import { TextItem } from '../../../components/atoms/TextItem';
-import { Layout } from '../../../layouts/Layout';
-import { setIsDarkMode } from '../../../reducers/generalReducer';
-import palette from '../../../theme/palette';
-import style from './SettingsGeneralView.style';
+import { TextItem } from '../../components/atoms/TextItem';
+import { Layout } from '../../layouts/Layout';
+import style from '../../pages/SettingsGeneralView.style';
+import { setIsDarkMode } from '../../reducers/generalReducer';
+import palette from '../../theme/palette';
 
 export const SettingsGeneralView = (): ReactNode => {
   const [isCurrDarkMode, setIsCurrDarkMode] = useState(Appearance.getColorScheme() === 'dark');

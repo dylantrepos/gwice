@@ -1,9 +1,9 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { Animated, Image, View, type ImageProps } from 'react-native';
-import { getAnimatedWeatherArray } from '../../../../../modules/CityWeather/utils/utils';
-import { type OpenMeteoDataCurrent } from '../../../../../types/Weather';
 import { capitalizeFirstLetter } from '../../../../../utils/utils';
 import style from '../../../styles/organisms/CityWeatherCurrentItem.style';
+import { type OpenMeteoDataCurrent } from '../../../types/Weather';
+import { getAnimatedWeatherArray } from '../../../utils/utils';
 import { cityWeatherInfoElements } from '../cityWeatherInfoElements';
 import {
   animationBounceOptions,
@@ -70,8 +70,8 @@ export const CityWeatherCurrentItem = ({
   return (
     <View
       style={{
-        ...style.cityWeather,
-        height: 150
+        ...style.cityWeather
+        // height: 150
       }}
     >
       <Animated.View

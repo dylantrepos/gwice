@@ -1,20 +1,29 @@
 import { useNavigation } from '@react-navigation/native';
 import { ChevronRight } from 'lucide-react-native';
-import { useCallback, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CityBackgroundItem } from '../components/molecules/CityBackgroundItem';
 import { TitleItem } from '../components/molecules/TitleItem';
 import { CityEventsListHorizontalItem } from '../features/CityEvents/components/organisms/CityEventsListHorizontalItem';
 import { Layout } from '../layouts/Layout';
 import { setRefetchHome } from '../reducers/generalReducer';
+import { type RootState } from '../store/store';
 
 export const HomePage = (): ReactNode => {
   const [refreshing, setRefreshing] = useState(false);
+  const { currentCity } = useSelector((state: RootState) => state.generalReducer);
   const { t } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: currentCity.cityName ?? 'Home',
+      headerShow: true
+    });
+  }, [currentCity]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);

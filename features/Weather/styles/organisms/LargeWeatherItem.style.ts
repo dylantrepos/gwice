@@ -1,15 +1,13 @@
 import { StyleSheet } from 'react-native';
-import palette from '../../../theme/palette';
 
 export default StyleSheet.create({
   cityWeather: {
     display: 'flex',
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 20,
     paddingHorizontal: 20,
     shadowColor: '#000',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: 'transparent'
   },
   cityWeatherDetails: {
     display: 'flex',
@@ -22,7 +20,6 @@ export default StyleSheet.create({
   cityAnimated: {
     // height: 150,
     // width: 150,
-    // flex: 1,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -30,16 +27,22 @@ export default StyleSheet.create({
     // borderColor: 'black',
     // borderRadius: 10,
   },
+  cityImageInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%'
+  },
   image: {
-    height: 250,
-    width: 250,
-    alignSelf: 'flex-end'
+    height: 100,
+    width: 120
     // borderWidth: 1,
     // borderColor: 'black',
     // borderRadius: 10,
   },
   cityWeatherInfo: {
-    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
     gap: 5
     // backgroundColor: 'blue',
   },
@@ -47,13 +50,12 @@ export default StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
     gap: 8
   },
   cityWeatherTempMin: {
-    color: palette.blue200
+    color: '#3988FD'
   },
   cityWeatherTempMax: {
-    color: palette.red200
+    color: '#FD3939'
   }
 });

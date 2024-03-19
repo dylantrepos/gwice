@@ -1,36 +1,26 @@
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   cityWeatherItem: {
-    width: '90%'
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   cityWeatherLargeContainer: {
-    // paddingHorizontal: 15,
-    overflow: 'hidden',
+    width: '90%',
+    // paddingHorizontal: 15,`
+    // overflow: 'hidden',
     borderRadius: 10,
-    minWidth: 300,
-    minHeight: 150,
+    minWidth: '90%',
+    // minHeight: 150,
+    flex: 1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    ...Platform.select({
-      ios: {
-        shadowOffset: {
-          width: 0,
-          height: 9
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 12.35
-      },
-      android: {
-        elevation: 20
-      }
-    })
+    paddingTop: '25%'
   },
   cityWeatherListSmall: {
-    marginTop: 20,
-    // backgroundColor: 'red',
     flexGrow: 0
   }
 });

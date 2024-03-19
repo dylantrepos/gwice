@@ -2,13 +2,14 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
 import { CityLille } from '../cities/CityLille';
 import { type City } from '../cities/types/city';
-import { type WeatherSettings } from '../types/Weather';
+import { type WeatherSettings } from '../features/Weather/types/Weather';
 
 interface State {
   isDarkMode: boolean;
   currentCity: City;
   currentHomeViewDate: string;
   weatherSettings: WeatherSettings;
+  isWeatherLoaded: boolean;
   refetchHome: boolean;
   refetchCityEventHome: boolean;
 }
@@ -20,6 +21,7 @@ const initialState: State = {
   weatherSettings: {
     startDailyHour: 7
   },
+  isWeatherLoaded: false,
   refetchHome: false,
   refetchCityEventHome: false
 };
@@ -37,6 +39,9 @@ const generalSlice = createSlice({
     setWeatherSettings: (state, action: PayloadAction<WeatherSettings>) => {
       state.weatherSettings = action.payload;
     },
+    setIsWeatherLoaded: (state, action: PayloadAction<boolean>) => {
+      state.isWeatherLoaded = action.payload;
+    },
     setRefetchHome: (state, action: PayloadAction<boolean>) => {
       state.refetchHome = action.payload;
     },
@@ -53,6 +58,7 @@ export const {
   setCurrentCity,
   setCurrentHomeViewDate,
   setWeatherSettings,
+  setIsWeatherLoaded,
   setRefetchHome,
   setRefetchCityEventHome,
   setIsDarkMode

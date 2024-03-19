@@ -43,5 +43,14 @@ export default {
   blue800: '#1976D2',
   blue900: '#1565C0',
 
-  red: '#FD3939'
+  redPrimary: '#E53935',
+  red100: '#FFEBEE',
+  red200: '#FFCDD2',
+  red300: '#EF9A9A',
+  red400: '#E57373',
+  red500: '#EF5350',
+  red600: '#F44336',
+  red700: '#E53935',
+  red800: '#D32F2F',
+  red900: '#C62828'
 };

@@ -1,10 +1,10 @@
 import { type ReactNode } from 'react';
 import { ImageBackground, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { CityWeatherItem } from '../../../features/Weather/components/organisms/CityWeatherItem/CityWeatherItem';
-import { type RootState } from '../../../store/store';
-import { TextItem } from '../../general/TextItem/TextItem';
-import style from './CityBackgroundItem.style';
+import { CityWeatherItem } from '../../features/Weather/components/organisms/CityWeatherItem/CityWeatherItem';
+import { type RootState } from '../../store/store';
+import style from '../../styles/components/organisms/CityBackgroundItem.style';
+import { TextItem } from '../atoms/TextItem';
 
 export const CityBackgroundItem = (): ReactNode => {
   const { image, cityName } = useSelector((state: RootState) => state.generalReducer.currentCity);

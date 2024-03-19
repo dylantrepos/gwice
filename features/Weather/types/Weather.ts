@@ -27,6 +27,8 @@ export interface OpenMeteoDataHourly {
   date: string;
   hour: string;
   temperature: string;
+  temperatureMin?: string;
+  temperatureMax?: string;
   isDay: number;
   weatherCode: number;
   weatherText: string;

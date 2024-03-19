@@ -7,9 +7,9 @@ import { Image, ImageBackground, Pressable, View } from 'react-native';
 import { IconItem } from '../../../../components/atoms/IconItem';
 import { TagItem } from '../../../../components/atoms/TagItem';
 import { TextItem } from '../../../../components/atoms/TextItem';
-import { type CityEventCard } from '../../../../types/Events';
 import { formatDate } from '../../../../utils/events';
 import style from '../../styles/organisms/CityEventCardItem.style';
+import { type CityEventCard } from '../../types/Events';
 import { allEventsCategoryLille } from '../../utils/events';
 
 interface Props {

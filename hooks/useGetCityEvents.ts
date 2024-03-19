@@ -1,6 +1,9 @@
 import { useInfiniteQuery, useQuery, type InfiniteData } from 'react-query';
-import { fetchCityEventDetails, fetchCityEvents } from '../services/cityEvents';
-import { type CityEventCardRequest, type CityEventDetailsRequest } from '../types/Events';
+import { fetchCityEventDetails, fetchCityEvents } from '../features/CityEvents/services/cityEvents';
+import {
+  type CityEventCardRequest,
+  type CityEventDetailsRequest
+} from '../features/CityEvents/types/Events';
 
 /*
  * Get City Events

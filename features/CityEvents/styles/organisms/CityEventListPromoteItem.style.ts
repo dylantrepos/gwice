@@ -12,7 +12,6 @@ export default StyleSheet.create({
     color: '#fff'
   },
   promoteEvent: {
-    backgroundColor: '#0D89CE',
     position: 'relative'
   },
   promoteEventImage: {

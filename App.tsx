@@ -10,21 +10,24 @@ import './localization/i18n';
 import { store } from './store/store';
 
 // Views
-import { SettingsHomeView } from './view/SettingsView/SettingsHomeView/SettingsHomeView';
-import { SettingsWeatherView } from './view/SettingsView/SettingsWeatherView/SettingsWeatherView';
+import { SettingsHomeView } from './styles/pages/SettingsHomeView';
+import { SettingsWeatherView } from './styles/pages/SettingsWeatherView';
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { TextItem } from './components/atoms/TextItem';
 import { WarningScreenItem } from './components/molecules/WarningScreenItem';
 import { BottomNavigationItem } from './components/organisms/BottomNavigationItem';
 import { CityEventsDetailsPage } from './features/CityEvents/pages/CityEventsDetailsPage';
 import { CityEventsPage } from './features/CityEvents/pages/CityEventsPage';
 import { useCustomFont } from './hooks/useCustomFont';
 import { HomePage } from './pages/HomePage';
-import { SettingsGeneralView } from './view/SettingsView/SettingsGeneralView/SettingsGeneralView';
+import { HEADER_THEME } from './styles/components/organisms/HeaderItem.style';
+import { SettingsGeneralView } from './styles/pages/SettingsGeneralView';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -52,7 +55,25 @@ const HomeScreens = (): ReactElement => {
         name="Home"
         component={HomePage}
         options={{
-          ...defaultScreenOptions
+          ...defaultScreenOptions,
+          header: () => (
+            <Animated.View
+              style={{
+                height: HEADER_THEME.headerHeight,
+                display: 'flex',
+                flexDirection: 'row'
+              }}
+            >
+              <View style={{ flex: 1 }} />
+              <Animated.View style={{ flex: 5, justifyContent: 'center', alignItems: 'center' }}>
+                <TextItem size="xl" weight="regular">
+                  {t('screens.home.title')}
+                </TextItem>
+              </Animated.View>
+
+              <View style={{ flex: 1 }} />
+            </Animated.View>
+          )
           // headerTransparent: true
         }}
       />

@@ -3,9 +3,10 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { Animated, Dimensions, Image, View, type ViewStyle } from 'react-native';
 import { TextItem } from '../../../../../components/atoms/TextItem';
 import { useBackgroundColorLoading } from '../../../../../hooks/useBackgroundColorLoading';
-import { weatherCodeIcons } from '../../../../../modules/CityWeather/utils/weatherImgCode';
-import { type OpenMeteoDataHourly } from '../../../../../types/Weather';
+import palette from '../../../../../theme/palette';
 import style from '../../../styles/organisms/CityWeatherHourlyItem.style';
+import { type OpenMeteoDataHourly } from '../../../types/Weather';
+import { weatherCodeIcons } from '../../../utils/weatherImgCode';
 import { animationOptions } from '../cityWeatherSettings';
 
 interface Props {
@@ -15,10 +16,12 @@ interface Props {
 }
 
 export const CityWeatherHourlyItem = ({ weather, show, styles }: Props): ReactNode => {
-  const { temperature, hour, weatherCode, isDay } = weather;
+  const { temperature, hour, weatherCode, isDay, temperatureMin, temperatureMax } = weather;
   const imageSource = weatherCodeIcons[isDay ? 'day' : 'night'][weatherCode];
   const fade = useRef(new Animated.Value(0)).current;
   const { colors } = useTheme();
+
+  const currentTemperature = temperature.split('°').join(' °');
 
   const fadeIn = (): void => {
     Animated.timing(fade, animationOptions(1)).start();
@@ -45,21 +48,32 @@ export const CityWeatherHourlyItem = ({ weather, show, styles }: Props): ReactNo
       <Animated.View
         style={{
           ...style.cityWeatherHourlyContainerAnimated,
-          backgroundColor: colors.card,
+          // backgroundColor: colors.card,
           opacity
         }}
       >
-        <TextItem weight="regular" size="md">
+        <TextItem weight="regular" size="md" color={palette.whitePrimary}>
           {hour}
         </TextItem>
         <Image source={imageSource} style={style.cityWeatherHourlyImage} />
-        <TextItem weight="light" size="md">
-          {temperature}
+        <TextItem
+          weight="light"
+          size="md"
+          color={
+            temperatureMin === currentTemperature
+              ? palette.blue300
+              : temperatureMax === currentTemperature
+                ? palette.red300
+                : colors.text
+          }
+        >
+          {currentTemperature}
         </TextItem>
         <View
           style={{
             ...style.halfBottomBorder,
-            borderColor: colors.border
+            borderColor: colors.border,
+            backgroundColor: colors.card
           }}
         />
       </Animated.View>
@@ -75,9 +89,16 @@ export const CityWeatherHourlyEmptyItem = (): ReactNode => {
       style={{
         ...style.cityWeatherHourlyEmptyContainer,
         height: '100%',
-        width: (Dimensions.get('window').width - 40 - 3 * 10) / 4,
-        backgroundColor
+        width: (Dimensions.get('window').width - 40 - 3 * 10) / 4
       }}
-    ></Animated.View>
+    >
+      <Animated.View
+        style={{
+          ...style.halfBottomBorder,
+          borderColor: 'transparent',
+          backgroundColor
+        }}
+      />
+    </Animated.View>
   );
 };

@@ -29,6 +29,7 @@
     "react/no-unescaped-entities": "off",
     "react/jsx-key": "off",
     "@typescript-eslint/semi": "off",
+    "@typescript-eslint/indent": "off",
     "arrow-body-style": [
       "error",
       "as-needed"

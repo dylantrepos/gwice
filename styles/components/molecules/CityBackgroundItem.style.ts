@@ -3,10 +3,11 @@ import { Platform, StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     position: 'relative',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     paddingBottom: 20,
     // backgroundColor: 'blue',
+    height: 450,
     flex: 1
   },
   image: {
