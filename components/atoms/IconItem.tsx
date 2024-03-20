@@ -20,6 +20,7 @@ export const IconItem = ({
   style
 }: PropsWithChildren<Props>): ReactNode => {
   const { colors } = useTheme();
+
   return (
     <IconElt
       color={color ?? colors.text}

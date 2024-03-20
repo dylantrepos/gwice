@@ -80,7 +80,8 @@
       "title": "Général",
       "text": {
         "language": "Langue",
-        "darkMode": "Activer le mode sombre"
+        "languageModalTitle": "Choix de la langue",
+        "darkMode": "Mode sombre"
       }
     },
     "settingsWeather": {

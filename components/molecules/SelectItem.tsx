@@ -4,6 +4,7 @@ import styles from '../../styles/components/molecules/SelectItem.style';
 import palette from '../../theme/palette';
 import { TextItem } from '../atoms/TextItem';
 
+import Animated from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
 import { type RootState } from '../../store/store';
 
@@ -26,7 +27,11 @@ export const SelectItem = ({
   const { isDarkMode } = useSelector((state: RootState) => state.generalReducer);
 
   return (
-    <View>
+    <View
+      style={{
+        ...styles.selectContainer
+      }}
+    >
       {choices.map(
         (choice, index) =>
           choice && (
@@ -35,22 +40,25 @@ export const SelectItem = ({
               onPress={() => {
                 handleUpdateChoice(choice.value);
               }}
-              style={{
-                ...styles.selectItem,
-                borderColor: activeChoice === choice.value ? palette.bluePrimary : 'transparent'
-              }}
             >
-              <TextItem
-                color={
-                  activeChoice === choice.value
-                    ? palette.bluePrimary
-                    : isDarkMode
-                      ? palette.whitePrimary
-                      : palette.blackPrimary
-                }
+              <Animated.View
+                style={{
+                  ...styles.selectItem,
+                  borderColor: activeChoice === choice.value ? palette.bluePrimary : 'transparent'
+                }}
               >
-                {choice.label}
-              </TextItem>
+                <TextItem
+                  color={
+                    activeChoice === choice.value
+                      ? palette.bluePrimary
+                      : isDarkMode
+                        ? palette.whitePrimary
+                        : palette.blackPrimary
+                  }
+                >
+                  {choice.label}
+                </TextItem>
+              </Animated.View>
             </Pressable>
           )
       )}

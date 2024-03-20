@@ -1,16 +1,14 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  settingsScreen: {
-
-  },
+  settingsScreen: {},
   settingsScreenButton: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 70,
     paddingHorizontal: 20,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   settingsScreenButtonTextIcon: {
     display: 'flex',
@@ -19,8 +17,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  settingsScreenButtonIcon: {
-  },
+  settingsScreenButtonIcon: {},
   cityWeatherCurrent: {
     display: 'flex',
     flexDirection: 'row',
@@ -28,9 +25,9 @@ export default StyleSheet.create({
     gap: 10,
     backgroundColor: 'white',
     shadowColor: '#000',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   settingsLayout: {
-    flex: 1,
-  },
+    flex: 1
+  }
 });

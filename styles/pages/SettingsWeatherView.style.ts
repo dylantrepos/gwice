@@ -1,10 +1,10 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   weatherModal: {
     flex: 1,
     height: '100%',
-    backgroundColor: 'red',
+    backgroundColor: 'red'
   },
   weatherModalTitle: {
     fontSize: 24,
@@ -13,23 +13,23 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginTop: 30,
     marginBottom: 60,
-    color: '#0D89CE',
+    color: '#0D89CE'
   },
   weatherInputContainer: {
     flexDirection: 'row',
-    gap: 10,  
+    gap: 10,
     alignItems: 'center',
-    
-    marginHorizontal: 20,
+
+    marginHorizontal: 20
   },
   weatherInputDescription: {
-    flex: 1,
+    flex: 1
   },
   weatherInputRadioContainer: {
     flexDirection: 'row',
     gap: 20,
     alignItems: 'center',
-    flex: 1,
+    flex: 1
   },
   weatherInputRadio: {
     // paddingVertical: 10,
@@ -38,7 +38,7 @@ export default StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   weatherInputRadioText: {
     fontSize: 26,
@@ -46,24 +46,23 @@ export default StyleSheet.create({
     fontWeight: '400',
     color: '#0D89CE',
     borderWidth: 1,
-    borderColor: '#0E7DBC',
+    borderColor: '#0E7DBC'
   },
   weatherInputText: {
     textAlign: 'center',
     textAlignVertical: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   weatherInputLine: {
     height: 1,
     width: '100%',
     backgroundColor: '#D2D2D2',
-    marginVertical: 20,
+    marginVertical: 20
   },
   closeButtonAnim: {
     position: 'absolute',
     width: '100%',
-    bottom: 0,
-
+    bottom: 0
   },
   closeButton: {
     height: 60,
@@ -71,10 +70,10 @@ export default StyleSheet.create({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   closeButtonText: {
     textAlign: 'center',
-    color: '#fff',
-  },
+    color: '#fff'
+  }
 });

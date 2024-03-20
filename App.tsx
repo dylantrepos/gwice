@@ -10,8 +10,8 @@ import './localization/i18n';
 import { store } from './store/store';
 
 // Views
-import { SettingsHomeView } from './styles/pages/SettingsHomeView';
-import { SettingsWeatherView } from './styles/pages/SettingsWeatherView';
+import { SettingsHomeView } from './pages/SettingsHomeView';
+import { SettingsWeatherView } from './pages/SettingsWeatherView';
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { type ReactElement } from 'react';
@@ -26,8 +26,8 @@ import { CityEventsDetailsPage } from './features/CityEvents/pages/CityEventsDet
 import { CityEventsPage } from './features/CityEvents/pages/CityEventsPage';
 import { useCustomFont } from './hooks/useCustomFont';
 import { HomePage } from './pages/HomePage';
+import { SettingsGeneralView } from './pages/SettingsGeneralView';
 import { HEADER_THEME } from './styles/components/organisms/HeaderItem.style';
-import { SettingsGeneralView } from './styles/pages/SettingsGeneralView';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();

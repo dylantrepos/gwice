@@ -1,8 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  selectContainer: {
+    gap: 5
+  },
   selectItem: {
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     borderRadius: 5,
     borderStyle: 'solid',
     borderWidth: 1

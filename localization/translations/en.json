@@ -80,6 +80,7 @@
       "title": "General",
       "text": {
         "language": "Language",
+        "languageModalTitle": "Choose a language",
         "darkMode": "Dark mode"
       }
     },

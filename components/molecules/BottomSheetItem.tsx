@@ -2,7 +2,7 @@ import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/
 import { useTheme } from '@react-navigation/native';
 import { useCallback, useEffect, useRef, type PropsWithChildren, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, type ViewProps } from 'react-native';
+import { View, type ViewProps, type ViewStyle } from 'react-native';
 import style from '../../styles/components/molecules/BottomSheetItem.style';
 import { ButtonItem } from '../atoms/ButtonItem';
 import { TextItem } from '../atoms/TextItem';
@@ -15,6 +15,8 @@ type Props = ViewProps & {
   handleConfirm: () => void;
   disableConfirm?: boolean;
   handleClose: () => void;
+  styles?: ViewStyle;
+  stylesConfirmButton?: ViewStyle;
 };
 
 export const BottomSheetItem = ({
@@ -24,7 +26,9 @@ export const BottomSheetItem = ({
   confirmText,
   handleConfirm,
   disableConfirm = false,
-  children
+  children,
+  styles,
+  stylesConfirmButton
 }: PropsWithChildren<Props>): ReactNode => {
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -75,7 +79,8 @@ export const BottomSheetItem = ({
       <BottomSheetView
         style={{
           ...style.modalContentContainer,
-          backgroundColor: colors.bottomSheetBackground
+          backgroundColor: colors.bottomSheetBackground,
+          ...styles
         }}
       >
         <View style={style.modalHeaderContainer}>
@@ -89,6 +94,10 @@ export const BottomSheetItem = ({
           title={confirmText ?? t('button.confirm')}
           handlePress={handleConfirmModal}
           type={disableConfirm ? 'disabled' : 'primary'}
+          style={{
+            ...style.confirmButton,
+            ...stylesConfirmButton
+          }}
         />
       </BottomSheetView>
     </BottomSheetModal>

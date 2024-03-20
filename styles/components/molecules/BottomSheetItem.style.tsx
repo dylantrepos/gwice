@@ -14,16 +14,7 @@ export default StyleSheet.create({
     // paddingHorizontal: 10,
     paddingBottom: 10
   },
-  confirmButton: {
-    backgroundColor: palette.bluePrimary,
-    paddingHorizontal: 10,
-    paddingVertical: 20,
-    borderRadius: 10,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20
-  }
+  confirmButton: { marginTop: 20 }
 });
 
 export const themeStyle = {

@@ -7,6 +7,7 @@ import { ButtonItem } from '../../../../components/atoms/ButtonItem';
 import { DateTimePickerModalItem } from '../../../../components/atoms/DateTimePickerModalItem';
 import { BottomSheetItem } from '../../../../components/molecules/BottomSheetItem';
 import { SelectItem, type Choice } from '../../../../components/molecules/SelectItem';
+import i18n from '../../../../localization/i18n';
 import {
   setCurrentPeriod,
   setCustomPeriod,
@@ -103,7 +104,7 @@ export const FilterDateModal = ({
             : null
       )
     ]);
-  }, [currSelectedItem]);
+  }, [currSelectedItem, i18n.language]);
 
   return (
     <BottomSheetItem
