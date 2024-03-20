@@ -1,12 +1,11 @@
 import { Platform, StyleSheet } from 'react-native';
+import { CityEventDetailsPage } from '../../types/CityEventsDetailsPage.type';
 
 export default StyleSheet.create({
   container: {
     flex: 1
   },
-  scrollView: {
-    marginBottom: 50
-  },
+  scrollView: {},
   backButton: {
     position: 'absolute',
     top: 20,
@@ -48,7 +47,7 @@ export default StyleSheet.create({
     width: '100%'
   },
   image: {
-    height: 300,
+    height: CityEventDetailsPage.ImageHeight,
     width: 'auto',
     marginBottom: 20
   },

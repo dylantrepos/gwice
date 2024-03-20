@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { isBefore } from 'date-fns';
 import { ArrowLeft, Search, X } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
@@ -10,7 +10,7 @@ import {
   type NativeSyntheticEvent
 } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
+import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconItem } from '../../../components/atoms/IconItem';
 import { SearchBarItem } from '../../../components/atoms/SearchBarItem';
@@ -21,6 +21,7 @@ import { setSearchValue } from '../../../reducers/eventReducer';
 import { setRefetchCityEventHome } from '../../../reducers/generalReducer';
 import { type RootState } from '../../../store/store';
 import { HEADER_THEME } from '../../../styles/components/organisms/HeaderItem.style';
+import palette from '../../../theme/palette';
 import { EventCardEmptyItem } from '../components/molecules/EventCardEmptyItem';
 import { EventCardItem } from '../components/molecules/EventCardItem';
 import { CityEventListFooterItem } from '../components/organisms/CityEventListFooterItem';
@@ -43,6 +44,8 @@ export const CityEventsPage = (): ReactNode => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const { colors } = useTheme();
+  const searchButtonBackground = useSharedValue(palette.bluePrimaryTransparent);
 
   const { currentPeriod, customPeriod, startDate, endDate, currentSearchValue, searchValue } =
     useSelector((state: RootState) => state.eventReducer);
@@ -76,7 +79,13 @@ export const CityEventsPage = (): ReactNode => {
         >
           <Pressable
             onPress={() => {
-              searchOpen ? setSearchOpen(false) : navigation.goBack();
+              if (searchOpen) {
+                setSearchOpen(false);
+                dispatch(setSearchValue(''));
+                scrollToTop();
+              } else {
+                navigation.goBack();
+              }
             }}
             style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           >
@@ -97,6 +106,7 @@ export const CityEventsPage = (): ReactNode => {
               <SearchBarItem
                 searchValue={currentSearchValue}
                 handleSubmitSearchValue={(value) => dispatch(setSearchValue(value))}
+                placeholder="Search..."
               />
             </Animated.View>
           ) : (
@@ -109,18 +119,35 @@ export const CityEventsPage = (): ReactNode => {
 
           <Pressable
             onPress={() => {
-              console.log('search press');
-              if (searchOpen) console.log('search : ', currentSearchValue);
+              if (searchOpen) scrollToTop();
               searchOpen ? dispatch(setSearchValue(currentSearchValue)) : setSearchOpen(true);
             }}
-            style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+            style={{ justifyContent: 'center', alignItems: 'center', flex: 1, padding: 5 }}
           >
-            <IconItem IconElt={Search} size="md" stroke="strong" />
+            <Animated.View
+              style={{
+                backgroundColor: searchButtonBackground,
+                borderRadius: 100,
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <IconItem
+                IconElt={Search}
+                size="md"
+                stroke="strong"
+                color={
+                  searchOpen && currentSearchValue.length > 0 ? palette.whitePrimary : colors.text
+                }
+              />
+            </Animated.View>
           </Pressable>
         </Animated.View>
       )
     });
-    console.log('searchOpen', searchOpen);
   }, [searchOpen, currentSearchValue]);
 
   /**
@@ -158,17 +185,21 @@ export const CityEventsPage = (): ReactNode => {
     [eventList]
   );
 
+  const scrollToTop = (): void => {
+    const offset = headerHeight;
+    flatListRef.current?.scrollToOffset({
+      animated: flatListRef.current && scrollPosition < headerHeight,
+      offset
+    });
+  };
+
   /**
    * useEffect
    */
 
   useEffect(() => {
     setEventList([]);
-    const offset = headerHeight;
-    flatListRef.current?.scrollToOffset({
-      animated: flatListRef.current && scrollPosition < headerHeight,
-      offset
-    });
+    scrollToTop();
   }, [filteredCategoryIdList, currentPeriod, customPeriod]);
 
   useEffect(() => {
@@ -179,6 +210,20 @@ export const CityEventsPage = (): ReactNode => {
       }
     }
   }, [events]);
+
+  useEffect(() => {
+    if (searchOpen && currentSearchValue.length > 0) {
+      searchButtonBackground.value = withSpring(palette.bluePrimary, {
+        damping: 100,
+        duration: 500
+      });
+    } else {
+      searchButtonBackground.value = withSpring(palette.bluePrimaryTransparent, {
+        damping: 100,
+        duration: 500
+      });
+    }
+  }, [currentSearchValue, searchOpen]);
 
   /**
    * Funtions

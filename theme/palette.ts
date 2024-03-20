@@ -33,6 +33,7 @@ export default {
   gray900: '#757575',
 
   bluePrimary: '#0D89CE',
+  bluePrimaryTransparent: 'rgba(13, 137, 206, 0.0)',
   blue100: '#E3F2FD',
   blue200: '#BBDEFB',
   blue300: '#90CAF9',

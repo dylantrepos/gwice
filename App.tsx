@@ -77,7 +77,14 @@ const HomeScreens = (): ReactElement => {
           // headerTransparent: true
         }}
       />
-      <HomeStack.Screen name="CityEventsDetails" component={CityEventsDetailsPage} />
+      <HomeStack.Screen
+        name="CityEventsDetails"
+        component={CityEventsDetailsPage}
+        options={{
+          ...defaultScreenOptions,
+          headerTransparent: true
+        }}
+      />
       <HomeStack.Screen
         name="CityEvents"
         component={CityEventsPage}

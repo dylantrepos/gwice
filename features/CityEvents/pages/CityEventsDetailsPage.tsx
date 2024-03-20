@@ -1,7 +1,6 @@
-import { BadgeEuro, Calendar, MapPin, X } from 'lucide-react-native';
-import { useCallback, useRef, useState, type ReactNode } from 'react';
+import { ArrowLeft, BadgeEuro, Calendar, MapPin, X } from 'lucide-react-native';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import {
-  Animated,
   Dimensions,
   Image,
   Linking,
@@ -14,6 +13,12 @@ import {
   View
 } from 'react-native';
 import PanPinchView from 'react-native-pan-pinch-view';
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring
+} from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
 import { IconItem } from '../../../components/atoms/IconItem';
 import { TextItem } from '../../../components/atoms/TextItem';
@@ -21,8 +26,11 @@ import { WarningScreenItem } from '../../../components/molecules/WarningScreenIt
 import { useGetCityEventDetails } from '../../../hooks/useGetCityEvents';
 import { Layout } from '../../../layouts/Layout';
 import { setRefetchHome } from '../../../reducers/generalReducer';
+import { HEADER_THEME } from '../../../styles/components/organisms/HeaderItem.style';
+import palette from '../../../theme/palette';
 import { getFormatedDateFromTimestamp } from '../../../utils/utils';
 import styles from '../styles/pages/CityEventsDetailsPage.style';
+import { CityEventDetailsPage } from '../types/CityEventsDetailsPage.type';
 
 interface Props {
   navigation: any;
@@ -32,13 +40,89 @@ interface Props {
 export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode => {
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const dispatch = useDispatch();
-  const scrollPosition = useRef(new Animated.Value(0)).current;
+  const colorTest = useSharedValue(0);
 
-  const onScroll = Animated.event(
-    [{ nativeEvent: { contentOffset: { y: scrollPosition } } }],
-    { useNativeDriver: false } // Set this to true if you're not using the scroll position in JS
-  );
+  const animatedStyle = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      colorTest.value,
+      [0, 1],
+      ['#ffffff00', palette.whitePrimary],
+      'RGB',
+      {
+        gamma: 10
+      }
+    )
+  }));
+
+  useEffect(() => {
+    if (scrollPosition > CityEventDetailsPage.ImageHeight) {
+      colorTest.value = withSpring(1, {
+        damping: 100,
+        duration: 500
+      });
+    } else {
+      colorTest.value = withSpring(0, {
+        damping: 100,
+        duration: 500
+      });
+    }
+
+    navigation.setOptions({
+      header: () => (
+        <Animated.View
+          style={[
+            {
+              height: HEADER_THEME.headerHeight,
+              display: 'flex',
+              flexDirection: 'row'
+            },
+            animatedStyle
+          ]}
+        >
+          <Pressable
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10 }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 150,
+                width: 40,
+                height: 40,
+                padding: 5,
+                backgroundColor: palette.whitePrimary
+              }}
+            >
+              <IconItem IconElt={ArrowLeft} size="md" stroke="strong" />
+            </View>
+          </Pressable>
+          <View style={{ flex: 5, justifyContent: 'center', alignItems: 'center' }} />
+          <View style={{ flex: 1 }} />
+        </Animated.View>
+      )
+    });
+  }, [scrollPosition]);
+
+  // useEffect(() => {
+  //   console.log('scrollPosition', scrollPosition);
+  //   if (scrollPosition > 50) {
+  //     headerBackground.value = withSpring(colors.background, {
+  //       damping: 100,
+  //       duration: 500
+  //     });
+  //   } else {
+  //     headerBackground.value = withSpring('transparent', {
+  //       damping: 100,
+  //       duration: 500
+  //     });
+  //   }
+  // }, [scrollPosition]);
 
   const handleOpenModal = (open: boolean = true): void => {
     setModalVisible(open);
@@ -109,7 +193,12 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
     <Layout>
       <ScrollView
         style={{ ...styles.scrollView }}
-        onScroll={onScroll}
+        contentContainerStyle={{
+          paddingBottom: 150
+        }}
+        onScroll={(event) => {
+          setScrollPosition(event.nativeEvent.contentOffset.y);
+        }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         <TouchableOpacity
