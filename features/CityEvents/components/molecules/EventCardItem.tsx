@@ -17,9 +17,10 @@ interface Props {
   event: CityEventCard;
   period: string;
   large?: boolean;
+  onTagPressed?: (category: any) => void;
 }
 
-export const EventCardItem = ({ event, period, large = false }: Props): ReactNode => {
+export const EventCardItem = ({ event, period, large = false, onTagPressed }: Props): ReactNode => {
   const {
     uid: eventId,
     title,
@@ -96,11 +97,21 @@ export const EventCardItem = ({ event, period, large = false }: Props): ReactNod
                   if (category) {
                     const CategoryIconElt = category?.iconElt ?? null;
                     return (
-                      <TagItem
+                      <Pressable
                         key={index}
-                        title={t(category.translationKey) ?? ''}
-                        IconElt={CategoryIconElt}
-                      />
+                        onPress={
+                          onTagPressed
+                            ? () => {
+                                onTagPressed(category.id);
+                              }
+                            : undefined
+                        }
+                      >
+                        <TagItem
+                          title={t(category.translationKey) ?? ''}
+                          IconElt={CategoryIconElt}
+                        />
+                      </Pressable>
                     );
                   }
                   return null;

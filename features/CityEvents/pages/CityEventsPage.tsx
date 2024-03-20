@@ -177,7 +177,7 @@ export const CityEventsPage = (): ReactNode => {
       }
 
       return eventList?.length > 0 ? (
-        <EventCardItem event={item} period={currentPeriod} large />
+        <EventCardItem event={item} period={currentPeriod} onTagPressed={handleClickTag} large />
       ) : (
         <EventCardEmptyItem large />
       );
@@ -235,6 +235,17 @@ export const CityEventsPage = (): ReactNode => {
 
   const handleKeyExtractor = (item: CityEventCard, index: number): string =>
     `${item?.uid?.toString()}-${index}` ?? `header-${index}`;
+
+  const handleClickTag = (categoryId: number): void => {
+    console.log('handleClickTag : ');
+    const index = filteredCategoryIdList.indexOf(categoryId);
+
+    setFilteredCategoryIdList(
+      index === -1
+        ? [...filteredCategoryIdList, categoryId]
+        : filteredCategoryIdList.filter((cat) => cat !== categoryId)
+    );
+  };
 
   return (
     <Layout>
