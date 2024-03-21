@@ -47,7 +47,7 @@ export interface CityEventDetailsRequest {
   after: string[];
 }
 
-interface Timing {
+export interface Timing {
   end: string;
   begin: string;
 }

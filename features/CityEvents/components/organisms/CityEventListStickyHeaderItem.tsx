@@ -1,7 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import { type ReactNode } from 'react';
 import { View, type ViewProps, type ViewStyle } from 'react-native';
-import { eventsCategoryLille } from '../../utils/events';
+import { allEventsCategoryLille } from '../../utils/events';
 import { CityEventListCategoryListItem } from './CityEventListCategoryListItem';
 import { CityEventListFilterItem } from './CityEventListFilterItem';
 
@@ -28,7 +28,7 @@ export const CityEventListStickyHeaderItem = ({
       onLayout={onLayout}
     >
       <CityEventListCategoryListItem
-        categories={eventsCategoryLille}
+        categories={allEventsCategoryLille}
         categoriesSelected={filteredCategoryIdList}
         filteredCategoryIdList={handleSetFilteredCategoryIdList}
       />

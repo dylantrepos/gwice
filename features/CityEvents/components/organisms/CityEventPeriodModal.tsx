@@ -112,7 +112,9 @@ export const FilterDateModal = ({
       visible={isPopinVisible}
       setVisibility={setIsPopinVisible}
       handleConfirm={handleConfirm}
-      disableConfirm={showDatePicker && !selectedDates.startDate}
+      disableConfirm={
+        (showDatePicker && !selectedDates.startDate) || currSelectedItem === currentPeriod
+      }
       handleClose={handleClose}
       style={styles.bottomSheetContainer}
     >

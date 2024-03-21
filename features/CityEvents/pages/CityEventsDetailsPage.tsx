@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/native';
 import { ArrowLeft, BadgeEuro, Calendar, MapPin, X } from 'lucide-react-native';
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import {
@@ -27,7 +28,6 @@ import { useGetCityEventDetails } from '../../../hooks/useGetCityEvents';
 import { Layout } from '../../../layouts/Layout';
 import { setRefetchHome } from '../../../reducers/generalReducer';
 import { HEADER_THEME } from '../../../styles/components/organisms/HeaderItem.style';
-import palette from '../../../theme/palette';
 import { getFormatedDateFromTimestamp } from '../../../utils/utils';
 import styles from '../styles/pages/CityEventsDetailsPage.style';
 import { CityEventDetailsPage } from '../types/CityEventsDetailsPage.type';
@@ -42,13 +42,14 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
   const [modalVisible, setModalVisible] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const dispatch = useDispatch();
-  const colorTest = useSharedValue(0);
+  const headerBackgroundColor = useSharedValue(0);
+  const { colors } = useTheme();
 
   const animatedStyle = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(
-      colorTest.value,
+      headerBackgroundColor.value,
       [0, 1],
-      ['#ffffff00', palette.whitePrimary],
+      [colors.backgroundTransparent, colors.background],
       'RGB',
       {
         gamma: 10
@@ -58,12 +59,12 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
 
   useEffect(() => {
     if (scrollPosition > CityEventDetailsPage.ImageHeight) {
-      colorTest.value = withSpring(1, {
+      headerBackgroundColor.value = withSpring(1, {
         damping: 100,
         duration: 500
       });
     } else {
-      colorTest.value = withSpring(0, {
+      headerBackgroundColor.value = withSpring(0, {
         damping: 100,
         duration: 500
       });
@@ -96,10 +97,10 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
                 width: 40,
                 height: 40,
                 padding: 5,
-                backgroundColor: palette.whitePrimary
+                backgroundColor: colors.background
               }}
             >
-              <IconItem IconElt={ArrowLeft} size="md" stroke="strong" />
+              <IconItem IconElt={ArrowLeft} size="md" stroke="strong" color={colors.text} />
             </View>
           </Pressable>
           <View style={{ flex: 5, justifyContent: 'center', alignItems: 'center' }} />
@@ -179,12 +180,13 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
     !category.map((cat) => cat.id).find((catId) => categoriesWithNoPrice.includes(catId));
 
   const scheme = Platform.select({ ios: 'maps://0,0?q=', android: 'geo:0,0?q=' });
-  const latLng = `${location.latitude},${location.longitude}`;
-  const locationMapUrl =
-    Platform.select({
-      ios: `${scheme}${location.name}@${latLng}`,
-      android: `${scheme}${latLng}(${location.name})`
-    }) ?? '';
+  const hasLocation = location?.latitude && location?.longitude;
+  const locationMapUrl = hasLocation
+    ? Platform.select({
+        ios: `${scheme}${location.name}@${location.latitude},${location.longitude}`,
+        android: `${scheme}${location.latitude},${location.longitude}(${location.name})`
+      })
+    : null;
 
   const today = new Date();
   const firstTimingDate = new Date(firstTiming.begin);
@@ -262,20 +264,22 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
                   : `Du ${getFormatedDateFromTimestamp(firstTiming.begin)} au ${getFormatedDateFromTimestamp(lastTiming.end)}`}
             </TextItem>
           </View>
-          <View style={styles.infoContainer}>
-            <IconItem IconElt={MapPin} size="md" />
-            <Pressable
-              onPress={() => {
-                void (async () => {
-                  await Linking.openURL(locationMapUrl);
-                })();
-              }}
-            >
-              <TextItem size="md" style={styles.date}>
-                {`${location.name}\n${location.address}`}
-              </TextItem>
-            </Pressable>
-          </View>
+          {locationMapUrl && (
+            <View style={styles.infoContainer}>
+              <IconItem IconElt={MapPin} size="md" />
+              <Pressable
+                onPress={() => {
+                  void (async () => {
+                    await Linking.openURL(locationMapUrl);
+                  })();
+                }}
+              >
+                <TextItem size="md" style={styles.date}>
+                  {`${location.name}\n${location.address}`}
+                </TextItem>
+              </Pressable>
+            </View>
+          )}
           {(conditionsPrice ?? null) && (
             <View style={styles.infoContainer}>
               <BadgeEuro size={20} color={'black'} />

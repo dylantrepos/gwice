@@ -57,7 +57,7 @@ export const themeStyle = {
       textColor: palette.whitePrimary
     },
     disabled: {
-      backgroundColor: palette.gray200,
+      backgroundColor: palette.black300,
       textColor: palette.gray400
     },
     transparentPrimary: {

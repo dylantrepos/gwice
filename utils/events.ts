@@ -2,6 +2,7 @@ import { format, formatDistanceToNow, isBefore } from 'date-fns';
 import { enGB, fr } from 'date-fns/locale';
 import i18n from 'i18next';
 import moment from 'moment';
+import { type Timing } from '../features/CityEvents/types/Events';
 
 export interface FilterDateItem {
   id: number;
@@ -16,10 +17,11 @@ export const formatTitle = (title: string): string => {
 
 interface FormatDateProps {
   nextDate: string;
+  timings: Timing[];
   period: string;
 }
 
-export const formatDate = ({ nextDate, period }: FormatDateProps): string => {
+export const formatDate = ({ nextDate, timings, period }: FormatDateProps): string => {
   if (period === 'today') {
     switch (i18n.language) {
       case 'fr':
@@ -35,7 +37,7 @@ export const formatDate = ({ nextDate, period }: FormatDateProps): string => {
 
   const nextDateFormated = new Date(nextDate);
   const endOfToday = moment().endOf('day').toDate();
-  const endOfTomorrow = moment(endOfToday).add(1, 'hours').add(1, 'day').endOf('day').toDate();
+  const endOfTomorrow = moment(endOfToday).add(1, 'day').endOf('day').toDate();
 
   if (isBefore(nextDateFormated, endOfToday)) {
     switch (i18n.language) {

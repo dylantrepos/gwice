@@ -177,7 +177,13 @@ export const CityEventsPage = (): ReactNode => {
       }
 
       return eventList?.length > 0 ? (
-        <EventCardItem event={item} period={currentPeriod} onTagPressed={handleClickTag} large />
+        <EventCardItem
+          event={item}
+          period={currentPeriod}
+          onTagPressed={handleClickTag}
+          filteredCategory={filteredCategoryIdList}
+          large
+        />
       ) : (
         <EventCardEmptyItem large />
       );

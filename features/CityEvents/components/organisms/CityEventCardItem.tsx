@@ -164,7 +164,7 @@ export const CityEventCardLargeItem = memo(
                   color: 'white'
                 }}
               >
-                {nextTiming && formatDate({ nextDate, period })}
+                {nextTiming && formatDate({ nextDate, nextTiming, period })}
               </TextItem>
             </LinearGradient>
             <LinearGradient colors={['transparent', 'rgba(0,0,0,1)']} style={style.cardDescription}>

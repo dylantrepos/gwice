@@ -11,22 +11,34 @@ type Props = ViewProps & {
   IconElt?: any;
   style?: ViewStyle;
   size?: 'sm' | 'md' | 'lg';
+  state?: 'active' | 'inactive';
 };
 
-export const TagItem = ({ title, IconElt, style, size = 'sm' }: Props): ReactNode => {
+export const TagItem = ({
+  title,
+  IconElt,
+  style,
+  size = 'sm',
+  state = 'inactive'
+}: Props): ReactNode => {
   const { colors } = useTheme();
 
   return (
     <View
       style={{
-        ...(style as ViewStyle),
         ...tagStyle.tagContainer,
-        backgroundColor: colors.tagBackground,
-        borderColor: colors.tagBorder
+        backgroundColor: state === 'active' ? colors.tagBackgroundActive : colors.tagBackground,
+        borderColor: colors.tagBorder,
+        ...(style as ViewStyle)
       }}
     >
       {IconElt && <IconItem IconElt={IconElt} size={size} stroke="light" />}
-      <TextItem size={size}>{formatTitle(title)}</TextItem>
+      <TextItem
+        size={size}
+        color={state === 'active' ? colors.tagTextActiveColor : colors.tagTextColor}
+      >
+        {formatTitle(title)}
+      </TextItem>
     </View>
   );
 };

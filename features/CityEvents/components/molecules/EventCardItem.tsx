@@ -17,16 +17,24 @@ interface Props {
   event: CityEventCard;
   period: string;
   large?: boolean;
+  filteredCategory?: number[];
   onTagPressed?: (category: any) => void;
 }
 
-export const EventCardItem = ({ event, period, large = false, onTagPressed }: Props): ReactNode => {
+export const EventCardItem = ({
+  event,
+  period,
+  large = false,
+  filteredCategory,
+  onTagPressed
+}: Props): ReactNode => {
   const {
     uid: eventId,
     title,
     image,
     'categories-metropolitaines': categoriesMetropolitaines,
     description,
+    timings,
     nextTiming,
     nextDate
   } = event;
@@ -87,35 +95,43 @@ export const EventCardItem = ({ event, period, large = false, onTagPressed }: Pr
                 color: palette.whitePrimary
               }}
             >
-              {nextTiming && formatDate({ nextDate, period })}
+              {nextTiming && formatDate({ nextDate, timings, period })}
             </TextItem>
           </LinearGradient>
           <LinearGradient colors={['transparent', 'rgba(0,0,0,1)']} style={styles.cardDescription}>
             {categories && (
               <View style={styles.cardDescriptionCategoriesContainer}>
-                {categories.slice(-3).map((category, index) => {
-                  if (category) {
-                    const CategoryIconElt = category?.iconElt ?? null;
-                    return (
-                      <Pressable
-                        key={index}
-                        onPress={
-                          onTagPressed
-                            ? () => {
-                                onTagPressed(category.id);
-                              }
-                            : undefined
-                        }
-                      >
-                        <TagItem
-                          title={t(category.translationKey) ?? ''}
-                          IconElt={CategoryIconElt}
-                        />
-                      </Pressable>
-                    );
-                  }
-                  return null;
-                })}
+                {categories
+                  .slice(-3)
+                  .sort((a, b) => {
+                    const aExistsInFiltered = filteredCategory?.includes(a.id) ? 1 : 0;
+                    const bExistsInFiltered = filteredCategory?.includes(b.id) ? 1 : 0;
+                    return bExistsInFiltered - aExistsInFiltered;
+                  })
+                  .map((category, index) => {
+                    if (category) {
+                      const CategoryIconElt = category?.iconElt ?? null;
+                      return (
+                        <Pressable
+                          key={index}
+                          onPress={
+                            onTagPressed
+                              ? () => {
+                                  onTagPressed(category.id);
+                                }
+                              : undefined
+                          }
+                        >
+                          <TagItem
+                            title={t(category.translationKey) ?? ''}
+                            IconElt={CategoryIconElt}
+                            state={filteredCategory?.includes(category.id) ? 'active' : 'inactive'}
+                          />
+                        </Pressable>
+                      );
+                    }
+                    return null;
+                  })}
               </View>
             )}
             {description && (

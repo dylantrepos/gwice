@@ -1,5 +1,8 @@
-import { type ReactNode } from 'react';
-import { Appearance, Pressable, type ViewProps, type ViewStyle } from 'react-native';
+import { useEffect, useState, type ReactNode } from 'react';
+import { Pressable, type ViewProps, type ViewStyle } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { useSelector } from 'react-redux';
+import { type RootState } from '../../store/store';
 import buttonStyle, { themeStyle } from '../../styles/components/atoms/ButtonItem.style';
 import { formatTitle } from '../../utils/events';
 import { IconItem } from './IconItem';
@@ -27,37 +30,52 @@ export const ButtonItem = ({
   variant = 'solid',
   handlePress
 }: Props): ReactNode => {
-  const { backgroundColor, textColor } =
-    Appearance.getColorScheme() === 'dark'
+  const [backgroundColorButton, setBackgroundColorButton] = useState(
+    themeStyle.buttonStyle[type].backgroundColor
+  );
+  const [textColorButton, setTextColorButton] = useState(themeStyle.buttonStyle[type].textColor);
+  const { isDarkMode } = useSelector((state: RootState) => state.generalReducer);
+
+  useEffect(() => {
+    const { backgroundColor, textColor } = isDarkMode
       ? themeStyle.buttonDarkStyle[type]
       : themeStyle.buttonStyle[type];
+
+    setBackgroundColorButton(backgroundColor);
+    setTextColorButton(textColor);
+  }, [isDarkMode, type]);
 
   return (
     <Pressable
       style={{
         ...(style as ViewStyle),
-        ...buttonStyle.buttonContainer,
-        backgroundColor: variant === 'solid' ? backgroundColor : 'transparent',
-        borderColor: variant === 'outline' ? backgroundColor : 'transparent',
+        borderColor: variant === 'outline' ? backgroundColorButton : 'transparent',
         borderWidth: variant === 'outline' ? 1 : 0,
         borderStyle: 'solid'
       }}
       onPress={handlePress}
     >
-      {IconElt && (
-        <IconItem
-          IconElt={IconElt}
-          size="md"
-          color={variant === 'solid' ? textColor : backgroundColor}
-        />
-      )}
-      <TextItem
-        size={size}
-        weight={weight}
-        color={variant === 'solid' ? textColor : backgroundColor}
+      <Animated.View
+        style={{
+          ...buttonStyle.buttonContainer,
+          backgroundColor: variant === 'solid' ? backgroundColorButton : 'transparent'
+        }}
       >
-        {formatTitle(title)}
-      </TextItem>
+        {IconElt && (
+          <IconItem
+            IconElt={IconElt}
+            size="md"
+            color={variant === 'solid' ? textColorButton : backgroundColorButton}
+          />
+        )}
+        <TextItem
+          size={size}
+          weight={weight}
+          color={variant === 'solid' ? textColorButton : backgroundColorButton}
+        >
+          {formatTitle(title)}
+        </TextItem>
+      </Animated.View>
     </Pressable>
   );
 };

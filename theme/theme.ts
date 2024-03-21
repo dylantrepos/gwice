@@ -3,6 +3,8 @@ import palette from './palette';
 
 interface ExtendedTheme extends Theme {
   colors: Theme['colors'] & {
+    backgroundTransparent: string;
+
     switchThumb: string;
     bottomNavBackground: string;
     bottomNavIcon: string;
@@ -17,7 +19,10 @@ interface ExtendedTheme extends Theme {
 
     // Tag
     tagBackground: string;
+    tagBackgroundActive: string;
     tagBorder: string;
+    tagTextColor: string;
+    tagTextActiveColor: string;
 
     // BottomSheet
     bottomSheetBackground: string;
@@ -48,6 +53,7 @@ interface ExtendedTheme extends Theme {
 const DefaultTheme: ExtendedTheme = {
   dark: false,
   colors: {
+    backgroundTransparent: 'transparent',
     card: palette.whitePrimary,
     background: palette.whitePrimary,
     border: palette.gray200,
@@ -71,6 +77,9 @@ const DefaultTheme: ExtendedTheme = {
     // Tag
     tagBackground: palette.whitePrimary,
     tagBorder: palette.grayLight,
+    tagBackgroundActive: palette.bluePrimary,
+    tagTextColor: palette.blackPrimary,
+    tagTextActiveColor: palette.whitePrimary,
 
     // BottomSheet
     bottomSheetBackground: palette.whitePrimary,
@@ -101,6 +110,7 @@ const DefaultTheme: ExtendedTheme = {
 const DarkTheme: ExtendedTheme = {
   dark: true,
   colors: {
+    backgroundTransparent: 'transparent',
     card: palette.blackPrimary,
     background: palette.blackPrimary,
     border: palette.black500,
@@ -124,6 +134,9 @@ const DarkTheme: ExtendedTheme = {
     // Tag
     tagBackground: palette.blackPrimary,
     tagBorder: palette.grayLight,
+    tagBackgroundActive: palette.bluePrimary,
+    tagTextColor: palette.whitePrimary,
+    tagTextActiveColor: palette.whitePrimary,
 
     // BottomSheet
     bottomSheetBackground: palette.blackPrimary,

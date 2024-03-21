@@ -84,7 +84,7 @@ export const allEventsCategoryLille: CategoryItem[] = [
     title: 'conseil-municipal',
     id: 8,
     iconElt: Hotel,
-    translationKey: 'eventsCategory.council'
+    translationKey: 'eventsCategory.municipalCouncil'
   },
   {
     title: 'danse',
@@ -175,12 +175,6 @@ export const allEventsCategoryLille: CategoryItem[] = [
     id: 23,
     iconElt: MapPin,
     translationKey: 'eventsCategory.visit'
-  },
-  {
-    title: 'aucune',
-    id: 28,
-    iconElt: ChevronRight,
-    translationKey: 'eventsCategory.none'
   },
   {
     title: 'voir plus',
