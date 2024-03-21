@@ -24,6 +24,9 @@ interface ExtendedTheme extends Theme {
     tagTextColor: string;
     tagTextActiveColor: string;
 
+    // Divider
+    dividerColor: string;
+
     // BottomSheet
     bottomSheetBackground: string;
     bottomSheetHandleBackground: string;
@@ -81,6 +84,9 @@ const DefaultTheme: ExtendedTheme = {
     tagTextColor: palette.blackPrimary,
     tagTextActiveColor: palette.whitePrimary,
 
+    // Divider
+    dividerColor: palette.white400,
+
     // BottomSheet
     bottomSheetBackground: palette.whitePrimary,
     bottomSheetHandleBackground: palette.grayLight,
@@ -137,6 +143,9 @@ const DarkTheme: ExtendedTheme = {
     tagBackgroundActive: palette.bluePrimary,
     tagTextColor: palette.whitePrimary,
     tagTextActiveColor: palette.whitePrimary,
+
+    // Divider
+    dividerColor: palette.black300,
 
     // BottomSheet
     bottomSheetBackground: palette.blackPrimary,

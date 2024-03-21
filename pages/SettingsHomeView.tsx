@@ -1,7 +1,8 @@
-import { Settings, Sun, type LucideIcon } from 'lucide-react-native';
+import { Home, Settings, Sun, type LucideIcon } from 'lucide-react-native';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
+import { DividerItem } from '../components/atoms/DividerItem';
 import { IconItem } from '../components/atoms/IconItem';
 import { TextItem } from '../components/atoms/TextItem';
 import { Layout } from '../layouts/Layout';
@@ -47,11 +48,19 @@ export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps): 
         id={'General'}
         icons={Settings}
       />
+      <DividerItem />
       <SettingsNavButton
         title={t('screens.settingsHome.text.weather')}
         navigation={navigation}
         id={'Weather'}
         icons={Sun}
+      />
+      <DividerItem />
+      <SettingsNavButton
+        title={t('screens.home.title')}
+        navigation={navigation}
+        id={'Home'}
+        icons={Home}
       />
     </Layout>
   );

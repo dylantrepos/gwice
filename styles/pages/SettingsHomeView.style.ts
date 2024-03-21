@@ -13,7 +13,7 @@ export default StyleSheet.create({
   settingsScreenButtonTextIcon: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 10,
+    gap: 20,
     alignItems: 'center',
     justifyContent: 'center'
   },
