@@ -8,7 +8,7 @@ import { TextItem } from '../components/atoms/TextItem';
 import { Layout } from '../layouts/Layout';
 import { setWeatherSettings } from '../reducers/generalReducer';
 import { store } from '../store/store';
-import style from '../styles/pages/SettingsWeatherView.style';
+import style from '../styles/pages/SettingsWeatherPage.style';
 
 const animationOptions = (value: number): Animated.TimingAnimationConfig => ({
   toValue: value,
@@ -17,7 +17,7 @@ const animationOptions = (value: number): Animated.TimingAnimationConfig => ({
   easing: Easing.inOut(Easing.linear)
 });
 
-export const SettingsWeatherView = (): ReactNode => {
+export const SettingsWeatherPage = (): ReactNode => {
   const startDailyHour = store.getState().generalReducer.weatherSettings.startDailyHour;
   const [currStartDailyHour, setCurrStartDailyHour] = useState(startDailyHour);
   const navigation = useNavigation();

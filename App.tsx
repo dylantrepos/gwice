@@ -10,8 +10,6 @@ import './localization/i18n';
 import { store } from './store/store';
 
 // Views
-import { SettingsHomeView } from './pages/SettingsHomeView';
-import { SettingsWeatherView } from './pages/SettingsWeatherView';
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { type ReactElement } from 'react';
@@ -26,7 +24,10 @@ import { CityEventsDetailsPage } from './features/CityEvents/pages/CityEventsDet
 import { CityEventsPage } from './features/CityEvents/pages/CityEventsPage';
 import { useCustomFont } from './hooks/useCustomFont';
 import { HomePage } from './pages/HomePage';
-import { SettingsGeneralView } from './pages/SettingsGeneralView';
+import { SettingsGeneralPage } from './pages/SettingsGeneralPage';
+import { SettingsHomePage } from './pages/SettingsHomePage';
+import { SettingsPage } from './pages/SettingsPage';
+import { SettingsWeatherPage } from './pages/SettingsWeatherPage';
 import { HEADER_THEME } from './styles/components/organisms/HeaderItem.style';
 
 const SettingStack = createNativeStackNavigator();
@@ -41,9 +42,10 @@ const defaultScreenOptions: NativeStackNavigationOptions = {
 
 const SettingsScreens = (): ReactElement => (
   <SettingStack.Navigator screenOptions={defaultScreenOptions} initialRouteName="Settings">
-    <SettingStack.Screen name="Settings" component={SettingsHomeView} />
-    <SettingStack.Screen name="Weather" component={SettingsWeatherView} />
-    <SettingStack.Screen name="General" component={SettingsGeneralView} />
+    <SettingStack.Screen name="Settings" component={SettingsPage} />
+    <SettingStack.Screen name="Weather" component={SettingsWeatherPage} />
+    <SettingStack.Screen name="General" component={SettingsGeneralPage} />
+    <SettingStack.Screen name="Home" component={SettingsHomePage} />
   </SettingStack.Navigator>
 );
 

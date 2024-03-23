@@ -6,9 +6,9 @@ import { DividerItem } from '../components/atoms/DividerItem';
 import { IconItem } from '../components/atoms/IconItem';
 import { TextItem } from '../components/atoms/TextItem';
 import { Layout } from '../layouts/Layout';
-import style from '../styles/pages/SettingsHomeView.style';
+import style from '../styles/pages/SettingsPage.style';
 
-interface SettingsHomeViewProps {
+interface SettingsPageProps {
   navigation: any;
   route: any;
 }
@@ -36,21 +36,21 @@ const SettingsNavButton = ({ title, navigation, icons, id }: SettingsNavButtonPr
   </Pressable>
 );
 
-export const SettingsHomeView = ({ navigation, route }: SettingsHomeViewProps): ReactNode => {
+export const SettingsPage = ({ navigation, route }: SettingsPageProps): ReactNode => {
   const { t } = useTranslation();
 
   return (
     <Layout>
       {/* <HeaderItem title={t('screens.settingsHome.title')} /> */}
       <SettingsNavButton
-        title={t('screens.settingsHome.text.general')}
+        title={t('screens.settings.text.general')}
         navigation={navigation}
         id={'General'}
         icons={Settings}
       />
       <DividerItem />
       <SettingsNavButton
-        title={t('screens.settingsHome.text.weather')}
+        title={t('screens.settings.text.weather')}
         navigation={navigation}
         id={'Weather'}
         icons={Sun}

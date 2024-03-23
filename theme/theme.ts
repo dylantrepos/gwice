@@ -157,7 +157,7 @@ const DarkTheme: ExtendedTheme = {
     calendarText: palette.whitePrimary,
 
     // SearchBar
-    searchBarBackground: palette.gray300,
+    searchBarBackground: palette.black400,
     searchBarIcon: palette.grayLight,
     searchBarText: palette.whitePrimary,
 

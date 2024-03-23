@@ -69,11 +69,17 @@
         "noMoreEventsAvailable": "Pas d'autres événements disponibles pour cette période"
       }
     },
-    "settingsHome": {
+    "settings": {
       "title": "Paramètres",
       "text": {
         "general": "Général",
         "weather": "Météo"
+      }
+    },
+    "settingsHome": {
+      "title": "Accueil",
+      "text": {
+        "preferredEventsCategories": "Catégories d'événements préférées"
       }
     },
     "settingsGeneral": {

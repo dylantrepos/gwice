@@ -1,6 +1,6 @@
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { isBefore } from 'date-fns';
-import { ArrowLeft, Search, X } from 'lucide-react-native';
+import { ArrowLeft, Search } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -89,14 +89,14 @@ export const CityEventsPage = (): ReactNode => {
             }}
             style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           >
-            <IconItem IconElt={searchOpen ? X : ArrowLeft} size="md" stroke="strong" />
+            <IconItem IconElt={ArrowLeft} size="md" stroke="strong" />
           </Pressable>
 
           {searchOpen ? (
             <Animated.View
               style={{
                 width: 200,
-                paddingVertical: 5,
+                paddingVertical: 10,
                 flex: 5,
                 display: 'flex',
                 justifyContent: 'center',
@@ -122,14 +122,15 @@ export const CityEventsPage = (): ReactNode => {
               if (searchOpen) scrollToTop();
               searchOpen ? dispatch(setSearchValue(currentSearchValue)) : setSearchOpen(true);
             }}
-            style={{ justifyContent: 'center', alignItems: 'center', flex: 1, padding: 5 }}
+            style={{ justifyContent: 'center', alignItems: 'center', flex: 1, padding: 10 }}
           >
             <Animated.View
               style={{
                 backgroundColor: searchButtonBackground,
                 borderRadius: 100,
-                height: '100%',
-                width: '100%',
+                // height: '100%',
+                padding: 10,
+                // width: '100%',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center'

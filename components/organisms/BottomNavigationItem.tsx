@@ -41,7 +41,7 @@ export const BottomNavigationItem = ({ navigatorTabs }: Props): ReactNode => {
           tabBarStyle: {
             backgroundColor: isDarkMode ? palette.blackPrimary : palette.whitePrimary,
             borderTopWidth: 1,
-            borderTopColor: isDarkMode ? palette.gray700 : palette.gray200,
+            borderTopColor: isDarkMode ? palette.black400 : palette.gray200,
             elevation: 0,
             height: 60 + insets.bottom
             // height: 60

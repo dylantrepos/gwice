@@ -196,7 +196,7 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
       <ScrollView
         style={{ ...styles.scrollView }}
         contentContainerStyle={{
-          paddingBottom: 150
+          paddingBottom: 50
         }}
         onScroll={(event) => {
           setScrollPosition(event.nativeEvent.contentOffset.y);

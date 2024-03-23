@@ -69,11 +69,17 @@
         "noMoreEventsAvailable": "No more events available for this period"
       }
     },
-    "settingsHome": {
+    "settings": {
       "title": "Settings",
       "text": {
         "general": "General",
         "weather": "Weather"
+      }
+    },
+    "settingsHome": {
+      "title": "Home",
+      "text": {
+        "preferredEventsCategories": "Preferred events categories"
       }
     },
     "settingsGeneral": {
