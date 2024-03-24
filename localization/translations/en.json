@@ -20,7 +20,7 @@
     "conference": "Conference",
     "municipalCouncil": "Municipal council",
     "dance": "Dance",
-    "sustainableDevelopment": "Sustainable development",
+    "sustainableDevelopment": "Ecology",
     "employment": "Employment",
     "exhibition": "Exhibition",
     "festival": "Festival",
@@ -79,7 +79,8 @@
     "settingsHome": {
       "title": "Home",
       "text": {
-        "preferredEventsCategories": "Preferred events categories"
+        "preferredEventsCategories": "Preferred events categories",
+        "preferredEventsCategoriesTitle": "Choose categories"
       }
     },
     "settingsGeneral": {

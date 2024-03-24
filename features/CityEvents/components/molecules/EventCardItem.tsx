@@ -18,6 +18,7 @@ interface Props {
   period: string;
   large?: boolean;
   filteredCategory?: number[];
+  withTagText?: boolean;
   onTagPressed?: (category: any) => void;
 }
 
@@ -25,6 +26,7 @@ export const EventCardItem = ({
   event,
   period,
   large = false,
+  withTagText = true,
   filteredCategory,
   onTagPressed
 }: Props): ReactNode => {
@@ -151,6 +153,7 @@ export const EventCardItem = ({
           <TagItem
             title={t(firstCategory.translationKey) ?? ''}
             IconElt={CategoryIconElt}
+            withText={withTagText}
             style={{
               position: 'absolute',
               top: 5

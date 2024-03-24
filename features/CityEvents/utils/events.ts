@@ -5,7 +5,6 @@ import {
   BookHeart,
   Briefcase,
   Brush,
-  ChevronRight,
   Clapperboard,
   Drama,
   Guitar,
@@ -175,13 +174,13 @@ export const allEventsCategoryLille: CategoryItem[] = [
     id: 23,
     iconElt: MapPin,
     translationKey: 'eventsCategory.visit'
-  },
-  {
-    title: 'voir plus',
-    id: 28,
-    iconElt: ChevronRight,
-    translationKey: 'eventsCategory.seeMore'
   }
+  // {
+  //   title: 'voir plus',
+  //   id: 28,
+  //   iconElt: ChevronRight,
+  //   translationKey: 'eventsCategory.seeMore'
+  // }
 ];
 
 const eventsCategoryShort = [

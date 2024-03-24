@@ -4,8 +4,7 @@ import palette from '../../../theme/palette';
 export default StyleSheet.create({
   modalContentContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 10,
-    paddingBottom: 30
+    paddingVertical: 10
   },
   modalHeaderContainer: {
     display: 'flex',

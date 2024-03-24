@@ -19,10 +19,11 @@ export const CityEventsListHorizontalItem = (): ReactNode => {
   const { currentPeriod, startDate, endDate } = useSelector(
     (state: RootState) => state.eventReducer
   );
+  const { eventCategory } = useSelector((state: RootState) => state.homeReducer);
 
   const { isLoading, events, hasNextPage, fetchNextPage } = useGetCityEvents({
     refetchCityEventHome,
-    categoryIdList: [],
+    categoryIdList: eventCategory,
     startDate,
     endDate,
     key: 'cityEventHome'

@@ -1,9 +1,10 @@
 import { ChevronDown } from 'lucide-react-native';
-import { type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, View } from 'react-native';
 import { IconItem } from '../components/atoms/IconItem';
 import { TextItem } from '../components/atoms/TextItem';
+import { ChooseFavoriteCategoryModal } from '../components/organisms/ChooseFavoriteCategoryModal';
 import { Layout } from '../layouts/Layout';
 import style from '../styles/pages/SettingsHomePage.style';
 
@@ -14,9 +15,14 @@ interface SettingsHomePageProps {
 
 export const SettingsHomePage = ({ navigation, route }: SettingsHomePageProps): ReactNode => {
   const { t } = useTranslation();
+  const [showLFavoriteCategoryModal, setShowLFavoriteCategoryModal] = useState(false);
 
   return (
     <Layout>
+      <ChooseFavoriteCategoryModal
+        isPopinVisible={showLFavoriteCategoryModal}
+        setIsPopinVisible={setShowLFavoriteCategoryModal}
+      />
       <ScrollView>
         <View style={style.title}>
           <TextItem weight="regular" size="6xl">
@@ -26,7 +32,7 @@ export const SettingsHomePage = ({ navigation, route }: SettingsHomePageProps): 
         <Pressable
           style={style.option}
           onPress={() => {
-            // setShowLanguageModal(!showLanguageModal);
+            setShowLFavoriteCategoryModal(!showLFavoriteCategoryModal);
           }}
         >
           <TextItem weight="light" size="lg" style={style.optionTitle}>

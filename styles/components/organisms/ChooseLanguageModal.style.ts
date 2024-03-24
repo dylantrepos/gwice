@@ -5,6 +5,7 @@ export default StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     gap: 5,
-    paddingTop: 10
+    paddingTop: 10,
+    flex: 1
   }
 });

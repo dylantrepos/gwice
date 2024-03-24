@@ -14,7 +14,7 @@ export default StyleSheet.create({
   },
   categoryName: {
     textAlign: 'center',
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     paddingVertical: 5,
     lineHeight: 23
   }

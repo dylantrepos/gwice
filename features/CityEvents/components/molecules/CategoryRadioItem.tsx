@@ -11,6 +11,7 @@ interface CategoryRadioItemProps {
   name: string;
   icon: any;
   isCategorySelected: boolean;
+  stylesProps?: any;
   handleOnPress: () => void;
 }
 
@@ -18,13 +19,20 @@ export const CategoryRadioItem = ({
   name,
   icon,
   isCategorySelected,
+  stylesProps,
   handleOnPress
 }: CategoryRadioItemProps): ReactNode => {
   const { colors } = useTheme();
   const { t } = useTranslation();
 
   return (
-    <Pressable style={styles.category} onPress={handleOnPress}>
+    <Pressable
+      style={{
+        ...styles.category,
+        ...stylesProps
+      }}
+      onPress={handleOnPress}
+    >
       <View
         style={{
           ...styles.iconContainer,

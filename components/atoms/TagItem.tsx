@@ -12,6 +12,7 @@ type Props = ViewProps & {
   style?: ViewStyle;
   size?: 'sm' | 'md' | 'lg';
   state?: 'active' | 'inactive';
+  withText?: boolean;
 };
 
 export const TagItem = ({
@@ -19,7 +20,8 @@ export const TagItem = ({
   IconElt,
   style,
   size = 'sm',
-  state = 'inactive'
+  state = 'inactive',
+  withText = true
 }: Props): ReactNode => {
   const { colors } = useTheme();
 
@@ -32,13 +34,22 @@ export const TagItem = ({
         ...(style as ViewStyle)
       }}
     >
-      {IconElt && <IconItem IconElt={IconElt} size={size} stroke="light" />}
-      <TextItem
-        size={size}
-        color={state === 'active' ? colors.tagTextActiveColor : colors.tagTextColor}
-      >
-        {formatTitle(title)}
-      </TextItem>
+      {IconElt && (
+        <IconItem
+          IconElt={IconElt}
+          size={size}
+          stroke="light"
+          color={state === 'active' ? colors.tagTextActiveColor : colors.tagTextColor}
+        />
+      )}
+      {withText && (
+        <TextItem
+          size={size}
+          color={state === 'active' ? colors.tagTextActiveColor : colors.tagTextColor}
+        >
+          {formatTitle(title)}
+        </TextItem>
+      )}
     </View>
   );
 };

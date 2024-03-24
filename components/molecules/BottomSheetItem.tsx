@@ -12,6 +12,7 @@ type Props = ViewProps & {
   visible: boolean;
   setVisibility: React.Dispatch<React.SetStateAction<boolean>>;
   confirmText?: string;
+  withConfirm?: boolean;
   handleConfirm: () => void;
   disableConfirm?: boolean;
   handleClose: () => void;
@@ -25,6 +26,7 @@ export const BottomSheetItem = ({
   setVisibility,
   confirmText,
   handleConfirm,
+  withConfirm = true,
   disableConfirm = false,
   children,
   styles,
@@ -80,25 +82,28 @@ export const BottomSheetItem = ({
         style={{
           ...style.modalContentContainer,
           backgroundColor: colors.bottomSheetBackground,
+          paddingBottom: withConfirm ? 30 : 0,
           ...styles
         }}
       >
         <View style={style.modalHeaderContainer}>
-          <TextItem size="xl" weight="semiBold" color={colors.text}>
+          <TextItem size="xl" weight="semiBold" color={colors.text} align="center">
             {title}
           </TextItem>
         </View>
 
         {children}
-        <ButtonItem
-          title={confirmText ?? t('button.confirm')}
-          handlePress={handleConfirmModal}
-          type={disableConfirm ? 'disabled' : 'primary'}
-          style={{
-            ...style.confirmButton,
-            ...stylesConfirmButton
-          }}
-        />
+        {withConfirm && (
+          <ButtonItem
+            title={confirmText ?? t('button.confirm')}
+            handlePress={handleConfirmModal}
+            type={disableConfirm ? 'disabled' : 'primary'}
+            style={{
+              ...style.confirmButton,
+              ...stylesConfirmButton
+            }}
+          />
+        )}
       </BottomSheetView>
     </BottomSheetModal>
   );

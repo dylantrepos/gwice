@@ -5,7 +5,7 @@ import styles from '../../styles/components/organisms/ChooseLanguageModal.style'
 import { BottomSheetItem } from '../molecules/BottomSheetItem';
 import { SelectItem } from '../molecules/SelectItem';
 
-interface FilterDateModalProps {
+interface FilterLangugageModalProps {
   isPopinVisible: boolean;
   setIsPopinVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -13,7 +13,7 @@ interface FilterDateModalProps {
 export const ChooseLanguageModal = ({
   isPopinVisible,
   setIsPopinVisible
-}: FilterDateModalProps): ReactNode => {
+}: FilterLangugageModalProps): ReactNode => {
   const { t, i18n } = useTranslation();
   const [currSelectedLanguageItem, setCurrSelectedLangugage] = useState(i18n.language);
   const languageAvailable = useGetLanguages();

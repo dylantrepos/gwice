@@ -17,10 +17,10 @@
     "sale": "Braderie-brocante",
     "ceremony": "Ceremonie",
     "cinema": "Cinema",
-    "conference": "Conference-rencontre",
-    "municipalCouncil": "Conseil-municipal",
+    "conference": "Conference",
+    "municipalCouncil": "Conseil municipal",
     "dance": "Danse",
-    "sustainableDevelopment": "Developpement-durable",
+    "sustainableDevelopment": "Écologie",
     "employment": "Emploi",
     "exhibition": "Exposition",
     "festival": "Fete-festival",
@@ -28,7 +28,7 @@
     "lecture": "Lecture",
     "fashion": "Mode",
     "music": "Musique",
-    "publicMeeting": "Reunion-publique",
+    "publicMeeting": "Reunion publique",
     "health": "Sante",
     "show": "Spectacle",
     "sport": "Sport",
@@ -79,7 +79,8 @@
     "settingsHome": {
       "title": "Accueil",
       "text": {
-        "preferredEventsCategories": "Catégories d'événements préférées"
+        "preferredEventsCategories": "Catégories d'événements préférées",
+        "preferredEventsCategoriesTitle": "Choix des catégories"
       }
     },
     "settingsGeneral": {

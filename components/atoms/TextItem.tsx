@@ -11,6 +11,7 @@ type Props = TextProps & {
   ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip' | undefined;
   italic?: boolean;
   style?: TextStyle;
+  align?: 'left' | 'center' | 'right' | 'justify' | 'auto' | undefined;
 };
 
 export const TextItem = ({
@@ -21,6 +22,7 @@ export const TextItem = ({
   numberOfLines,
   ellipsizeMode,
   style,
+  align = 'left',
   children
 }: PropsWithChildren<Props>): ReactNode => {
   const font = `Poppins_${themeStyle.weight[weight as keyof typeof themeStyle.weight]}${italic ? '_Italic' : ''}`;
@@ -31,6 +33,7 @@ export const TextItem = ({
     color: color ?? colors.text,
     fontSize: themeStyle.size[size],
     lineHeight: themeStyle.lineHeights[size],
+    textAlign: align,
     ...(style as TextStyle)
   };
 
