@@ -27,6 +27,7 @@ export const fetchCityEvents = async ({
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().generalReducer.currentCity.cityName;
 
+  console.log('fetchCityEvents -> categoryIdList', search);
   try {
     const response = await axios.get(`${address}/events`, {
       headers: {
@@ -41,6 +42,8 @@ export const fetchCityEvents = async ({
         search: search && search.length > 0 ? search : null
       }
     });
+
+    console.log('fetchCityEvents -> response', response.data);
 
     return response.data as CityEventCardRequest;
   } catch (error) {

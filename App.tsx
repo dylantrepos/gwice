@@ -15,20 +15,18 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { TextItem } from './components/atoms/TextItem';
 import { WarningScreenItem } from './components/molecules/WarningScreenItem';
 import { BottomNavigationItem } from './components/organisms/BottomNavigationItem';
 import { CityEventsDetailsPage } from './features/CityEvents/pages/CityEventsDetailsPage';
 import { CityEventsPage } from './features/CityEvents/pages/CityEventsPage';
 import { useCustomFont } from './hooks/useCustomFont';
 import { HomePage } from './pages/HomePage';
+import { SearchPage } from './pages/SearchPage';
 import { SettingsGeneralPage } from './pages/SettingsGeneralPage';
 import { SettingsHomePage } from './pages/SettingsHomePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { SettingsWeatherPage } from './pages/SettingsWeatherPage';
-import { HEADER_THEME } from './styles/components/organisms/HeaderItem.style';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -58,25 +56,8 @@ const HomeScreens = (): ReactElement => {
         component={HomePage}
         options={{
           ...defaultScreenOptions,
-          header: () => (
-            <Animated.View
-              style={{
-                height: HEADER_THEME.headerHeight,
-                display: 'flex',
-                flexDirection: 'row'
-              }}
-            >
-              <View style={{ flex: 1 }} />
-              <Animated.View style={{ flex: 5, justifyContent: 'center', alignItems: 'center' }}>
-                <TextItem size="xl" weight="regular">
-                  {t('screens.home.title')}
-                </TextItem>
-              </Animated.View>
-
-              <View style={{ flex: 1 }} />
-            </Animated.View>
-          )
-          // headerTransparent: true
+          headerShown: true,
+          headerTitle: t('screens.home.title')
         }}
       />
       <HomeStack.Screen
@@ -93,6 +74,15 @@ const HomeScreens = (): ReactElement => {
         options={{
           ...defaultScreenOptions,
           title: t('screens.events.title')
+        }}
+      />
+      <HomeStack.Screen
+        name="Search"
+        component={SearchPage}
+        options={{
+          ...defaultScreenOptions,
+          headerShown: false
+          // title: t('screens.search.title')
         }}
       />
     </HomeStack.Navigator>

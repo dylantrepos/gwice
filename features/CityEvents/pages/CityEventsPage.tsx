@@ -1,8 +1,7 @@
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { isBefore } from 'date-fns';
-import { ArrowLeft, Search } from 'lucide-react-native';
+import { Search } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Pressable,
   VirtualizedList,
@@ -10,18 +9,12 @@ import {
   type NativeSyntheticEvent
 } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconItem } from '../../../components/atoms/IconItem';
-import { SearchBarItem } from '../../../components/atoms/SearchBarItem';
-import { TextItem } from '../../../components/atoms/TextItem';
 import { useGetCityEvents } from '../../../hooks/useGetCityEvents';
 import { Layout } from '../../../layouts/Layout';
-import { setSearchValue } from '../../../reducers/eventReducer';
 import { setRefetchCityEventHome } from '../../../reducers/generalReducer';
 import { type RootState } from '../../../store/store';
-import { HEADER_THEME } from '../../../styles/components/organisms/HeaderItem.style';
-import palette from '../../../theme/palette';
 import { EventCardEmptyItem } from '../components/molecules/EventCardEmptyItem';
 import { EventCardItem } from '../components/molecules/EventCardItem';
 import { CityEventListFooterItem } from '../components/organisms/CityEventListFooterItem';
@@ -40,15 +33,12 @@ export const CityEventsPage = (): ReactNode => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [searchOpen, setSearchOpen] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { t } = useTranslation();
-  const { colors } = useTheme();
-  const searchButtonBackground = useSharedValue(palette.bluePrimaryTransparent);
 
-  const { currentPeriod, customPeriod, startDate, endDate, currentSearchValue, searchValue } =
-    useSelector((state: RootState) => state.eventReducer);
+  const { currentPeriod, customPeriod, startDate, endDate, searchValue } = useSelector(
+    (state: RootState) => state.eventReducer
+  );
   const flatListRef = useRef<VirtualizedList<CityEventCard> | null>(null);
   const fakeWaitingData = Array(5)
     .fill(0)
@@ -64,92 +54,28 @@ export const CityEventsPage = (): ReactNode => {
       key: 'cityEventHome'
     });
 
+  // useEffect(() => {
+  //   console.log('[cityEventPAge] searchValue : ', searchValue);
+  // }, [searchValue]);
+
   /**
    * Header
    */
   useEffect(() => {
     navigation.setOptions({
-      header: () => (
-        <Animated.View
-          style={{
-            height: HEADER_THEME.headerHeight,
-            display: 'flex',
-            flexDirection: 'row'
+      headerRight: () => (
+        <Pressable
+          onPress={() => {
+            // @ts-expect-error navigate need definition
+            navigation.navigate('Search');
           }}
+          style={{ justifyContent: 'center', alignItems: 'center', padding: 10 }}
         >
-          <Pressable
-            onPress={() => {
-              if (searchOpen) {
-                setSearchOpen(false);
-                dispatch(setSearchValue(''));
-                scrollToTop();
-              } else {
-                navigation.goBack();
-              }
-            }}
-            style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-          >
-            <IconItem IconElt={ArrowLeft} size="md" stroke="strong" />
-          </Pressable>
-
-          {searchOpen ? (
-            <Animated.View
-              style={{
-                width: 200,
-                paddingVertical: 10,
-                flex: 5,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
-            >
-              <SearchBarItem
-                searchValue={currentSearchValue}
-                handleSubmitSearchValue={(value) => dispatch(setSearchValue(value))}
-                placeholder="Search..."
-              />
-            </Animated.View>
-          ) : (
-            <Animated.View style={{ flex: 5, justifyContent: 'center', alignItems: 'center' }}>
-              <TextItem size="xl" weight="regular">
-                {t('screens.events.title')}
-              </TextItem>
-            </Animated.View>
-          )}
-
-          <Pressable
-            onPress={() => {
-              if (searchOpen) scrollToTop();
-              searchOpen ? dispatch(setSearchValue(currentSearchValue)) : setSearchOpen(true);
-            }}
-            style={{ justifyContent: 'center', alignItems: 'center', flex: 1, padding: 10 }}
-          >
-            <Animated.View
-              style={{
-                backgroundColor: searchButtonBackground,
-                borderRadius: 100,
-                // height: '100%',
-                padding: 10,
-                // width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
-            >
-              <IconItem
-                IconElt={Search}
-                size="md"
-                stroke="strong"
-                color={
-                  searchOpen && currentSearchValue.length > 0 ? palette.whitePrimary : colors.text
-                }
-              />
-            </Animated.View>
-          </Pressable>
-        </Animated.View>
+          <IconItem IconElt={Search} size="md" stroke="strong" />
+        </Pressable>
       )
     });
-  }, [searchOpen, currentSearchValue]);
+  }, []);
 
   /**
    * useCallback
@@ -217,20 +143,6 @@ export const CityEventsPage = (): ReactNode => {
       }
     }
   }, [events]);
-
-  useEffect(() => {
-    if (searchOpen && currentSearchValue.length > 0) {
-      searchButtonBackground.value = withSpring(palette.bluePrimary, {
-        damping: 100,
-        duration: 500
-      });
-    } else {
-      searchButtonBackground.value = withSpring(palette.bluePrimaryTransparent, {
-        damping: 100,
-        duration: 500
-      });
-    }
-  }, [currentSearchValue, searchOpen]);
 
   /**
    * Funtions

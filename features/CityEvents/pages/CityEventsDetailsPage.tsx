@@ -9,6 +9,7 @@ import {
   Platform,
   Pressable,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   View
@@ -20,6 +21,7 @@ import Animated, {
   useSharedValue,
   withSpring
 } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { IconItem } from '../../../components/atoms/IconItem';
 import { TextItem } from '../../../components/atoms/TextItem';
@@ -44,6 +46,7 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
   const dispatch = useDispatch();
   const headerBackgroundColor = useSharedValue(0);
   const { colors } = useTheme();
+  const { top } = useSafeAreaInsets();
 
   const animatedStyle = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(
@@ -72,40 +75,42 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
 
     navigation.setOptions({
       header: () => (
-        <Animated.View
-          style={[
-            {
-              height: HEADER_THEME.headerHeight,
-              display: 'flex',
-              flexDirection: 'row'
-            },
-            animatedStyle
-          ]}
-        >
-          <Pressable
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10 }}
-            onPress={() => {
-              navigation.goBack();
-            }}
+        <SafeAreaView>
+          <Animated.View
+            style={[
+              {
+                height: HEADER_THEME.headerHeight,
+                display: 'flex',
+                flexDirection: 'row'
+              },
+              animatedStyle
+            ]}
           >
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 150,
-                width: 40,
-                height: 40,
-                padding: 5,
-                backgroundColor: colors.background
+            <Pressable
+              style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10 }}
+              onPress={() => {
+                navigation.goBack();
               }}
             >
-              <IconItem IconElt={ArrowLeft} size="md" stroke="strong" color={colors.text} />
-            </View>
-          </Pressable>
-          <View style={{ flex: 5, justifyContent: 'center', alignItems: 'center' }} />
-          <View style={{ flex: 1 }} />
-        </Animated.View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 150,
+                  width: 40,
+                  height: 40,
+                  padding: 5,
+                  backgroundColor: colors.background
+                }}
+              >
+                <IconItem IconElt={ArrowLeft} size="md" stroke="strong" color={colors.text} />
+              </View>
+            </Pressable>
+            <View style={{ flex: 5, justifyContent: 'center', alignItems: 'center' }} />
+            <View style={{ flex: 1 }} />
+          </Animated.View>
+        </SafeAreaView>
       )
     });
   }, [scrollPosition]);
@@ -196,7 +201,8 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
       <ScrollView
         style={{ ...styles.scrollView }}
         contentContainerStyle={{
-          paddingBottom: 50
+          paddingBottom: 50,
+          marginTop: top
         }}
         onScroll={(event) => {
           setScrollPosition(event.nativeEvent.contentOffset.y);
