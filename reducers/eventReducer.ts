@@ -4,7 +4,7 @@ import { PERIODS } from '../types/Date';
 
 interface State {
   searchValue: string;
-  currentSearchValue: string;
+  searchValueHistory: string[];
   isSearchInputFocused: boolean;
   periods: PERIODS[];
   currentPeriod: string;
@@ -18,7 +18,7 @@ interface State {
 
 const initialState: State = {
   searchValue: '',
-  currentSearchValue: '',
+  searchValueHistory: [],
   isSearchInputFocused: false,
   periods: [],
   currentPeriod: PERIODS.ALWAYS,
@@ -33,8 +33,8 @@ const eventSlice = createSlice({
     setSearchValue: (state, action: PayloadAction<string>) => {
       state.searchValue = action.payload;
     },
-    setCurrentSearchValue: (state, action: PayloadAction<string>) => {
-      state.currentSearchValue = action.payload;
+    setSearchValueHistory: (state, action: PayloadAction<string[]>) => {
+      state.searchValueHistory = action.payload;
     },
     setIsSearchInputFocused: (state, action: PayloadAction<boolean>) => {
       state.isSearchInputFocused = action.payload;
@@ -59,7 +59,7 @@ const eventSlice = createSlice({
 
 export const {
   setSearchValue,
-  setCurrentSearchValue,
+  setSearchValueHistory,
   setIsSearchInputFocused,
   setPeriods,
   setCurrentPeriod,

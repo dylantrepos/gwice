@@ -61,7 +61,7 @@
       "title": "Events",
       "text": {
         "pushToFindCTA": "Push to find out events",
-        "searchBarPlaceholder": "Search events...",
+        "searchPlaceholder": "Search events...",
         "noEvents": "No events found",
         "openCalendar": "Open calendar",
         "returnPeriods": "Return to the periods",

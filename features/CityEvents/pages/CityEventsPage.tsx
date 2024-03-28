@@ -54,10 +54,6 @@ export const CityEventsPage = (): ReactNode => {
       key: 'cityEventHome'
     });
 
-  // useEffect(() => {
-  //   console.log('[cityEventPAge] searchValue : ', searchValue);
-  // }, [searchValue]);
-
   /**
    * Header
    */
@@ -133,12 +129,12 @@ export const CityEventsPage = (): ReactNode => {
   useEffect(() => {
     setEventList([]);
     scrollToTop();
-  }, [filteredCategoryIdList, currentPeriod, customPeriod]);
+  }, [filteredCategoryIdList, currentPeriod, customPeriod, searchValue]);
 
   useEffect(() => {
     if (!isLoading && events) {
       const eventsListFinal = events.pages.map((page) => page?.events).flat();
-      if (eventsListFinal && eventsListFinal.length > 0) {
+      if (eventsListFinal) {
         setEventList(eventsListFinal as CityEventCard[]);
       }
     }

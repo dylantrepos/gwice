@@ -14,7 +14,8 @@ export default StyleSheet.create({
     // color: '#fff',
     backgroundColor: '#ECECEC',
     flexDirection: 'row',
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
+    alignItems: 'center',
     paddingVertical: 10,
     borderRadius: 100,
     gap: 10
