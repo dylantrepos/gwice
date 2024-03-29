@@ -81,8 +81,8 @@ const HomeScreens = (): ReactElement => {
         component={SearchPage}
         options={{
           ...defaultScreenOptions,
-          headerShown: false
-          // title: t('screens.search.title')
+          headerShown: true,
+          title: t('screens.search.title')
         }}
       />
     </HomeStack.Navigator>

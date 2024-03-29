@@ -2,8 +2,10 @@ import { useNavigation } from '@react-navigation/native';
 import { isBefore } from 'date-fns';
 import { Search } from 'lucide-react-native';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Pressable,
+  View,
   VirtualizedList,
   type NativeScrollEvent,
   type NativeSyntheticEvent
@@ -11,6 +13,7 @@ import {
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconItem } from '../../../components/atoms/IconItem';
+import { TextItem } from '../../../components/atoms/TextItem';
 import { useGetCityEvents } from '../../../hooks/useGetCityEvents';
 import { Layout } from '../../../layouts/Layout';
 import { setRefetchCityEventHome } from '../../../reducers/generalReducer';
@@ -35,6 +38,7 @@ export const CityEventsPage = (): ReactNode => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const { currentPeriod, customPeriod, startDate, endDate, searchValue } = useSelector(
     (state: RootState) => state.eventReducer
@@ -98,15 +102,38 @@ export const CityEventsPage = (): ReactNode => {
           return null;
         }
       }
+      // console.log('eventList : ', events?.pages[0]?.total);
+      console.log('eventList check : ', (events?.pages[0]?.total ?? 0) < 2);
 
       return eventList?.length > 0 ? (
-        <EventCardItem
-          event={item}
-          period={currentPeriod}
-          onTagPressed={handleClickTag}
-          filteredCategory={filteredCategoryIdList}
-          large
-        />
+        <>
+          {index === 1 && searchValue && searchValue && (
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 10
+              }}
+            >
+              <TextItem>
+                {`${events?.pages[0]?.total} ${
+                  (events?.pages[0]?.total ?? 0) < 2
+                    ? t('screens.events.text.numberEventFound')
+                    : t('screens.events.text.numberEventsFound')
+                }`}
+              </TextItem>
+            </View>
+          )}
+          <EventCardItem
+            event={item}
+            period={currentPeriod}
+            onTagPressed={handleClickTag}
+            filteredCategory={filteredCategoryIdList}
+            large
+          />
+        </>
       ) : (
         <EventCardEmptyItem large />
       );

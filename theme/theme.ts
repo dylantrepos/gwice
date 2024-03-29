@@ -50,6 +50,8 @@ interface ExtendedTheme extends Theme {
     cityEventCategoryListIconColor: string;
     cityEventCategoryListIconSelectedColor: string;
     cityEventCategoryListTextColor: string;
+    cityEventSearchBarBackground: string;
+    cityEventSearchBarText: string;
   };
 }
 
@@ -109,7 +111,9 @@ const DefaultTheme: ExtendedTheme = {
     cityEventCategoryListBackgroundSelectedColor: palette.bluePrimary,
     cityEventCategoryListIconColor: palette.blackPrimary,
     cityEventCategoryListIconSelectedColor: palette.whitePrimary,
-    cityEventCategoryListTextColor: palette.blackPrimary
+    cityEventCategoryListTextColor: palette.blackPrimary,
+    cityEventSearchBarBackground: palette.blue200,
+    cityEventSearchBarText: palette.blackPrimary
   }
 };
 
@@ -169,7 +173,9 @@ const DarkTheme: ExtendedTheme = {
     cityEventCategoryListBackgroundSelectedColor: palette.bluePrimary,
     cityEventCategoryListIconColor: palette.whitePrimary,
     cityEventCategoryListIconSelectedColor: palette.whitePrimary,
-    cityEventCategoryListTextColor: palette.whitePrimary
+    cityEventCategoryListTextColor: palette.whitePrimary,
+    cityEventSearchBarBackground: palette.blue200,
+    cityEventSearchBarText: palette.blackPrimary
   }
 };
 

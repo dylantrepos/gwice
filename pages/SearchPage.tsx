@@ -23,6 +23,7 @@ export const SearchPage = (): ReactNode => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const handleSearch = (): void => {
+    if (search.length === 0) return;
     if (!searchValueHistory.includes(search)) {
       dispatch(setSearchValueHistory([...searchValueHistory, search]));
     }
@@ -44,10 +45,6 @@ export const SearchPage = (): ReactNode => {
     dispatch(setSearchValueHistory(searchValueHistory.filter((history) => history !== item)));
   };
 
-  navigation.setOptions({
-    headerShown: true
-  });
-
   return (
     <Layout>
       <SafeAreaView>
@@ -57,19 +54,12 @@ export const SearchPage = (): ReactNode => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding: 10
+            paddingVertical: 10,
+            paddingHorizontal: 20
           }}
         >
-          {/* <Pressable
-            onPress={() => {
-              navigation.goBack();
-            }}
-            style={{ justifyContent: 'center', alignItems: 'center', padding: 10 }}
-          >
-            <IconItem IconElt={ArrowLeft} size="md" stroke="strong" />
-          </Pressable> */}
           <Searchbar
-            placeholder={t('screens.events.text.searchPlaceholder')}
+            placeholder={t('screens.search.text.searchPlaceholder')}
             onChangeText={setSearch}
             value={search}
             onSubmitEditing={handleSearch}
@@ -99,6 +89,7 @@ export const SearchPage = (): ReactNode => {
                 justifyContent: 'space-between',
                 alignItems: 'center'
               }}
+              key={`searchHistory-${index}`}
             >
               <Pressable
                 key={index}

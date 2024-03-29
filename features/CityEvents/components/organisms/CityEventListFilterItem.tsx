@@ -10,7 +10,6 @@ import style from '../../styles/organisms/CityEventListFilterItem.style';
 
 import { useTheme } from '@react-navigation/native';
 import { setSearchValue } from '../../../../reducers/eventReducer';
-import palette from '../../../../theme/palette';
 import { PERIODS } from '../../../../types/Date';
 import { getFormattedDate } from '../../../../utils/date';
 import { FilterDateModal } from './CityEventPeriodModal';
@@ -58,12 +57,18 @@ export const CityEventListFilterItem = (): ReactNode => {
           <Pressable
             style={{
               ...style.filter,
-              backgroundColor: palette.blue100,
+              backgroundColor: colors.cityEventSearchBarBackground,
               maxWidth: 250
             }}
             onPress={handleClearSearch}
           >
-            <IconItem size="md" stroke="light" IconElt={Search} style={{ flex: 1 }} />
+            <IconItem
+              size="md"
+              stroke="light"
+              IconElt={Search}
+              style={{ flex: 1 }}
+              color={colors.cityEventSearchBarText}
+            />
             <TextItem
               style={{
                 ...style.filterTitle,
@@ -71,10 +76,17 @@ export const CityEventListFilterItem = (): ReactNode => {
               }}
               ellipsizeMode="tail"
               numberOfLines={1}
+              color={colors.cityEventSearchBarText}
             >
               {searchValue}
             </TextItem>
-            <IconItem size="md" stroke="light" IconElt={X} style={{ flex: 1 }} />
+            <IconItem
+              size="md"
+              stroke="light"
+              IconElt={X}
+              style={{ flex: 1 }}
+              color={colors.cityEventSearchBarText}
+            />
           </Pressable>
         )}
         <Pressable

@@ -61,12 +61,13 @@
       "title": "Events",
       "text": {
         "pushToFindCTA": "Push to find out events",
-        "searchPlaceholder": "Search events...",
         "noEvents": "No events found",
         "openCalendar": "Open calendar",
         "returnPeriods": "Return to the periods",
         "noEventsAvailable": "No events available for this period",
-        "noMoreEventsAvailable": "No more events available for this period"
+        "noMoreEventsAvailable": "No more events available for this period",
+        "numberEventFound": "event found",
+        "numberEventsFound": "events found"
       }
     },
     "settings": {
@@ -74,6 +75,13 @@
       "text": {
         "general": "General",
         "weather": "Weather"
+      }
+    },
+    "search": {
+      "title": "Search",
+      "text": {
+        "searchPlaceholder": "Search events...",
+        "noEvents": "No events found"
       }
     },
     "settingsHome": {
