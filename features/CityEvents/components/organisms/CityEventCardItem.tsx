@@ -79,7 +79,6 @@ export const CityEventCardItem = ({ event, period }: Props): ReactNode => {
             {title.fr ?? ''}
           </TextItem>
           <View style={style.culturalEventsCardDetailsDate}>
-            {/* <Calendar size={12} color={'black'} strokeWidth={1}/> */}
             <IconItem IconElt={Calendar} size="sm" stroke="light" />
             <TextItem style={style.culturalEventsCardDetailsDateTitle} size="sm" weight="light">
               {nextTiming && formatDate({ nextDate, period })}

@@ -1,5 +1,5 @@
 import { useTheme } from '@react-navigation/native';
-import { ArrowLeft, BadgeEuro, Calendar, MapPin, X } from 'lucide-react-native';
+import { BadgeEuro, Calendar, MapPin, X } from 'lucide-react-native';
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import {
   Dimensions,
@@ -9,13 +9,12 @@ import {
   Platform,
   Pressable,
   RefreshControl,
-  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   View
 } from 'react-native';
 import PanPinchView from 'react-native-pan-pinch-view';
-import Animated, {
+import {
   interpolateColor,
   useAnimatedStyle,
   useSharedValue,
@@ -29,7 +28,6 @@ import { WarningScreenItem } from '../../../components/molecules/WarningScreenIt
 import { useGetCityEventDetails } from '../../../hooks/useGetCityEvents';
 import { Layout } from '../../../layouts/Layout';
 import { setRefetchHome } from '../../../reducers/generalReducer';
-import { HEADER_THEME } from '../../../styles/components/organisms/HeaderItem.style';
 import { getFormatedDateFromTimestamp } from '../../../utils/utils';
 import styles from '../styles/pages/CityEventsDetailsPage.style';
 import { CityEventDetailsPage } from '../types/CityEventsDetailsPage.type';
@@ -74,61 +72,46 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
     }
 
     navigation.setOptions({
-      header: () => (
-        <SafeAreaView>
-          <Animated.View
-            style={[
-              {
-                height: HEADER_THEME.headerHeight,
-                display: 'flex',
-                flexDirection: 'row'
-              },
-              animatedStyle
-            ]}
-          >
-            <Pressable
-              style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10 }}
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 150,
-                  width: 40,
-                  height: 40,
-                  padding: 5,
-                  backgroundColor: colors.background
-                }}
-              >
-                <IconItem IconElt={ArrowLeft} size="md" stroke="strong" color={colors.text} />
-              </View>
-            </Pressable>
-            <View style={{ flex: 5, justifyContent: 'center', alignItems: 'center' }} />
-            <View style={{ flex: 1 }} />
-          </Animated.View>
-        </SafeAreaView>
-      )
+      // header: () => (
+      //   <SafeAreaView>
+      //     <Animated.View
+      //       style={[
+      //         {
+      //           height: HEADER_THEME.headerHeight,
+      //           display: 'flex',
+      //           flexDirection: 'row'
+      //         },
+      //         animatedStyle
+      //       ]}
+      //     >
+      //       <Pressable
+      //         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10 }}
+      //         onPress={() => {
+      //           navigation.goBack();
+      //         }}
+      //       >
+      //         <View
+      //           style={{
+      //             flex: 1,
+      //             justifyContent: 'center',
+      //             alignItems: 'center',
+      //             borderRadius: 150,
+      //             width: 40,
+      //             height: 40,
+      //             padding: 5,
+      //             backgroundColor: colors.background
+      //           }}
+      //         >
+      //           <IconItem IconElt={ArrowLeft} size="md" stroke="strong" color={colors.text} />
+      //         </View>
+      //       </Pressable>
+      //       <View style={{ flex: 5, justifyContent: 'center', alignItems: 'center' }} />
+      //       <View style={{ flex: 1 }} />
+      //     </Animated.View>
+      //   </SafeAreaView>
+      // )
     });
   }, [scrollPosition]);
-
-  // useEffect(() => {
-  //   console.log('scrollPosition', scrollPosition);
-  //   if (scrollPosition > 50) {
-  //     headerBackground.value = withSpring(colors.background, {
-  //       damping: 100,
-  //       duration: 500
-  //     });
-  //   } else {
-  //     headerBackground.value = withSpring('transparent', {
-  //       damping: 100,
-  //       duration: 500
-  //     });
-  //   }
-  // }, [scrollPosition]);
 
   const handleOpenModal = (open: boolean = true): void => {
     setModalVisible(open);
@@ -201,8 +184,7 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
       <ScrollView
         style={{ ...styles.scrollView }}
         contentContainerStyle={{
-          paddingBottom: 50,
-          marginTop: top
+          paddingBottom: 50
         }}
         onScroll={(event) => {
           setScrollPosition(event.nativeEvent.contentOffset.y);

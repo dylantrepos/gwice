@@ -102,8 +102,6 @@ export const CityEventsPage = (): ReactNode => {
           return null;
         }
       }
-      // console.log('eventList : ', events?.pages[0]?.total);
-      console.log('eventList check : ', (events?.pages[0]?.total ?? 0) < 2);
 
       return eventList?.length > 0 ? (
         <>
@@ -179,7 +177,6 @@ export const CityEventsPage = (): ReactNode => {
     `${item?.uid?.toString()}-${index}` ?? `header-${index}`;
 
   const handleClickTag = (categoryId: number): void => {
-    console.log('handleClickTag : ');
     const index = filteredCategoryIdList.indexOf(categoryId);
 
     setFilteredCategoryIdList(

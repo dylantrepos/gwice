@@ -61,7 +61,8 @@ export default StyleSheet.create({
     // fontSize: 20,
     paddingHorizontal: 10,
     paddingVertical: 10,
-    display: 'flex'
+    display: 'flex',
+    gap: 5
   },
   culturalEventsCardDetailsDate: {
     display: 'flex',

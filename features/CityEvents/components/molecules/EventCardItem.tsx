@@ -161,11 +161,10 @@ export const EventCardItem = ({
           />
         )}
         <View style={styles.culturalEventsCardDetails}>
-          <TextItem size="sm" weight="regular" numberOfLines={2} ellipsizeMode="tail">
+          <TextItem size="md" weight="regular" numberOfLines={2} ellipsizeMode="tail">
             {title.fr ?? ''}
           </TextItem>
           <View style={styles.culturalEventsCardDetailsDate}>
-            {/* <Calendar size={12} color={'black'} strokeWidth={1}/> */}
             <IconItem IconElt={Calendar} size="sm" stroke="light" />
             <TextItem style={styles.culturalEventsCardDetailsDateTitle} size="sm" weight="light">
               {nextTiming && formatDate({ nextDate, period })}
