@@ -79,8 +79,8 @@ export const FilterDateModal = ({
         dispatch(setEndDatePeriod(customPeriod.endDate));
       } else {
         const dateRange = getPeriod(currSelectedItem as PERIODS);
-        dispatch(setStartDatePeriod(dateRange.start.toISOString()));
-        dispatch(setEndDatePeriod(dateRange.end.toISOString()));
+        dispatch(setStartDatePeriod(dateRange.start));
+        dispatch(setEndDatePeriod(dateRange.end));
       }
       dispatch(setCurrentPeriod(currSelectedItem));
     }

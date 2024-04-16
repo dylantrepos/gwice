@@ -4,7 +4,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "prestart": "watchman watch-del-all && watchman watch-project .",
-    "start": "expo start --reset-cache",
+    "start": "npx expo start -c",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"

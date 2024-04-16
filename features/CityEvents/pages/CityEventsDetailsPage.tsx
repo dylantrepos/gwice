@@ -1,26 +1,16 @@
-import { useTheme } from '@react-navigation/native';
-import { BadgeEuro, Calendar, MapPin, X } from 'lucide-react-native';
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { BadgeEuro, Calendar, X } from 'lucide-react-native';
+import moment from 'moment';
+import { useCallback, useState, type ReactNode } from 'react';
 import {
   Dimensions,
   Image,
-  Linking,
   Modal,
-  Platform,
-  Pressable,
   RefreshControl,
   ScrollView,
   TouchableOpacity,
   View
 } from 'react-native';
 import PanPinchView from 'react-native-pan-pinch-view';
-import {
-  interpolateColor,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring
-} from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { IconItem } from '../../../components/atoms/IconItem';
 import { TextItem } from '../../../components/atoms/TextItem';
@@ -30,7 +20,6 @@ import { Layout } from '../../../layouts/Layout';
 import { setRefetchHome } from '../../../reducers/generalReducer';
 import { getFormatedDateFromTimestamp } from '../../../utils/utils';
 import styles from '../styles/pages/CityEventsDetailsPage.style';
-import { CityEventDetailsPage } from '../types/CityEventsDetailsPage.type';
 
 interface Props {
   navigation: any;
@@ -38,80 +27,11 @@ interface Props {
 }
 
 export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode => {
+  const { eventId } = route.params;
+
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const dispatch = useDispatch();
-  const headerBackgroundColor = useSharedValue(0);
-  const { colors } = useTheme();
-  const { top } = useSafeAreaInsets();
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(
-      headerBackgroundColor.value,
-      [0, 1],
-      [colors.backgroundTransparent, colors.background],
-      'RGB',
-      {
-        gamma: 10
-      }
-    )
-  }));
-
-  useEffect(() => {
-    if (scrollPosition > CityEventDetailsPage.ImageHeight) {
-      headerBackgroundColor.value = withSpring(1, {
-        damping: 100,
-        duration: 500
-      });
-    } else {
-      headerBackgroundColor.value = withSpring(0, {
-        damping: 100,
-        duration: 500
-      });
-    }
-
-    navigation.setOptions({
-      // header: () => (
-      //   <SafeAreaView>
-      //     <Animated.View
-      //       style={[
-      //         {
-      //           height: HEADER_THEME.headerHeight,
-      //           display: 'flex',
-      //           flexDirection: 'row'
-      //         },
-      //         animatedStyle
-      //       ]}
-      //     >
-      //       <Pressable
-      //         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10 }}
-      //         onPress={() => {
-      //           navigation.goBack();
-      //         }}
-      //       >
-      //         <View
-      //           style={{
-      //             flex: 1,
-      //             justifyContent: 'center',
-      //             alignItems: 'center',
-      //             borderRadius: 150,
-      //             width: 40,
-      //             height: 40,
-      //             padding: 5,
-      //             backgroundColor: colors.background
-      //           }}
-      //         >
-      //           <IconItem IconElt={ArrowLeft} size="md" stroke="strong" color={colors.text} />
-      //         </View>
-      //       </Pressable>
-      //       <View style={{ flex: 5, justifyContent: 'center', alignItems: 'center' }} />
-      //       <View style={{ flex: 1 }} />
-      //     </Animated.View>
-      //   </SafeAreaView>
-      // )
-    });
-  }, [scrollPosition]);
 
   const handleOpenModal = (open: boolean = true): void => {
     setModalVisible(open);
@@ -127,9 +47,7 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
     }, 1000);
   }, []);
 
-  const { eventId } = route.params;
-
-  const { isLoading, events, isError } = useGetCityEventDetails({ eventId });
+  const { isLoading, data: event, isError } = useGetCityEventDetails({ eventId });
 
   if (isLoading) {
     return <WarningScreenItem type="loader" />;
@@ -139,7 +57,7 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
     return <WarningScreenItem type="error" />;
   }
 
-  if (events === undefined) {
+  if (event === undefined) {
     return (
       <WarningScreenItem type="unavailable">
         Cet événement n&apos;est pas disponible.
@@ -147,37 +65,17 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
     );
   }
 
-  const {
-    title,
-    image,
-    longDescription,
-    firstTiming,
-    lastTiming,
-    location,
-    conditions,
-    links,
-    'categories-metropolitaines': category
-  } = events.events[0];
+  // const scheme = Platform.select({ ios: 'maps://0,0?q=', android: 'geo:0,0?q=' });
+  // const hasLocation = location?.latitude && location?.longitude;
+  // const locationMapUrl = hasLocation
+  //   ? Platform.select({
+  //       ios: `${scheme}${location.name}@${location.latitude},${location.longitude}`,
+  //       android: `${scheme}${location.latitude},${location.longitude}(${location.name})`
+  //     })
+  //   : null;
 
-  const imageSrc = `${image.base}${image.filename}`;
-  const siteLink = links?.length > 0 ? links[0].link : null;
-  const categoriesWithNoPrice = [5, 7, 8, 10, 11, 14, 18, 19];
-
-  const conditionsPrice =
-    conditions.fr &&
-    !category.map((cat) => cat.id).find((catId) => categoriesWithNoPrice.includes(catId));
-
-  const scheme = Platform.select({ ios: 'maps://0,0?q=', android: 'geo:0,0?q=' });
-  const hasLocation = location?.latitude && location?.longitude;
-  const locationMapUrl = hasLocation
-    ? Platform.select({
-        ios: `${scheme}${location.name}@${location.latitude},${location.longitude}`,
-        android: `${scheme}${location.latitude},${location.longitude}(${location.name})`
-      })
-    : null;
-
-  const today = new Date();
-  const firstTimingDate = new Date(firstTiming.begin);
+  const today = moment().startOf('day');
+  const firstTimingDate = moment(event.timings[0].begin);
 
   return (
     <Layout>
@@ -186,9 +84,6 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
         contentContainerStyle={{
           paddingBottom: 50
         }}
-        onScroll={(event) => {
-          setScrollPosition(event.nativeEvent.contentOffset.y);
-        }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         <TouchableOpacity
@@ -196,7 +91,7 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
             handleOpenModal();
           }}
         >
-          <Image style={styles.image} source={{ uri: imageSrc ?? '' }} />
+          <Image style={styles.image} source={{ uri: event.image_url ?? '' }} />
         </TouchableOpacity>
         <Modal
           animationType="slide"
@@ -229,30 +124,30 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
             >
               <Image
                 style={{ width: '100%', height: '100%' }}
-                source={{ uri: imageSrc ?? '' }}
+                source={{ uri: event.image_url ?? '' }}
                 resizeMode="contain"
               />
             </PanPinchView>
           </View>
         </Modal>
-        {title && (
+        {event.title && (
           <TextItem weight="bold" size="lg" style={styles.title}>
-            {title.fr}
+            {event.title}
           </TextItem>
         )}
         <View style={styles.infosContainer}>
           <View style={styles.infoContainer}>
             <IconItem IconElt={Calendar} size="md" />
             <TextItem size="md" style={styles.date}>
-              {getFormatedDateFromTimestamp(firstTiming.begin) ===
-              getFormatedDateFromTimestamp(lastTiming.end)
-                ? `${getFormatedDateFromTimestamp(firstTiming.begin)}`
+              {getFormatedDateFromTimestamp(event.timings[0].begin) ===
+              getFormatedDateFromTimestamp(event.timings[event.timings.length - 1].end)
+                ? `${getFormatedDateFromTimestamp(event.timings[0].begin)}`
                 : firstTimingDate < today
-                  ? `Jusqu'au ${getFormatedDateFromTimestamp(lastTiming.end)}`
-                  : `Du ${getFormatedDateFromTimestamp(firstTiming.begin)} au ${getFormatedDateFromTimestamp(lastTiming.end)}`}
+                  ? `Jusqu'au ${getFormatedDateFromTimestamp(event.timings[event.timings.length - 1].end)}`
+                  : `Du ${getFormatedDateFromTimestamp(event.timings[0].begin)} au ${getFormatedDateFromTimestamp(event.timings[event.timings.length - 1].end)}`}
             </TextItem>
           </View>
-          {locationMapUrl && (
+          {/* {locationMapUrl && (
             <View style={styles.infoContainer}>
               <IconItem IconElt={MapPin} size="md" />
               <Pressable
@@ -267,20 +162,20 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
                 </TextItem>
               </Pressable>
             </View>
-          )}
-          {(conditionsPrice ?? null) && (
+          )} */}
+          {(event.price ?? null) && (
             <View style={styles.infoContainer}>
               <BadgeEuro size={20} color={'black'} />
               <TextItem size="md" style={styles.date}>
-                {conditions.fr ? `${conditions.fr}` : 'Non spécifié'}
+                {event.price ? `${event.price}` : 'Non spécifié'}
               </TextItem>
             </View>
           )}
         </View>
         <TextItem size="md" style={styles.description}>
-          {longDescription.fr}
+          {event.long_description}
         </TextItem>
-        {siteLink && (
+        {/* {siteLink && (
           <Pressable
             style={styles.link}
             onPress={() => {
@@ -296,7 +191,7 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
               {siteLink}
             </TextItem>
           </Pressable>
-        )}
+        )} */}
         {/* { contact?.email && <View>
           <TextItem
             style={styles.linkText}

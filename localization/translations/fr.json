@@ -67,7 +67,8 @@
         "noEventsAvailable": "Pas d'événements disponibles pour cette période",
         "noMoreEventsAvailable": "Pas d'autres événements disponibles pour cette période",
         "numberEventFound": "événement trouvé",
-        "numberEventsFound": "événements trouvés"
+        "numberEventsFound": "événements trouvés",
+        "error": "Erreur lors de la récupération des événements, veuillez réessayer plus tard..."
       }
     },
     "search": {

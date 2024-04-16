@@ -1,11 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import { isBefore } from 'date-fns';
 import { Search } from 'lucide-react-native';
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, View, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Pressable,
-  View,
   VirtualizedList,
   type NativeScrollEvent,
   type NativeSyntheticEvent
@@ -48,15 +47,24 @@ export const CityEventsPage = (): ReactNode => {
     .fill(0)
     .map((_, index) => index);
 
-  const { isLoading, events, fetchNextPage, isFetching, isFetchingNextPage, isRefetching } =
-    useGetCityEvents({
-      refetchCityEventHome: refreshing,
-      categoryIdList: filteredCategoryIdList,
-      startDate,
-      endDate,
-      search: searchValue,
-      key: 'cityEventHome'
-    });
+  const {
+    isLoading,
+    events,
+    hasNextPage,
+    fetchNextPage,
+    isError,
+    isFetching,
+    isFetchingNextPage,
+    isRefetching,
+    error
+  } = useGetCityEvents({
+    refetchCityEventHome: refreshing,
+    categoryIdList: filteredCategoryIdList,
+    startDate,
+    endDate,
+    search: searchValue,
+    key: 'cityEventHome'
+  });
 
   /**
    * Header
@@ -91,7 +99,7 @@ export const CityEventsPage = (): ReactNode => {
 
   const CityHomeEventRender = useCallback(
     ({ item, index }: EventCardProps) => {
-      if (index === 0) return item;
+      if (index === 0 || isError) return item;
 
       if (item.nextTiming) {
         const nextTimingStart = new Date((item as CityEventCard).nextTiming.begin);
@@ -136,7 +144,7 @@ export const CityEventsPage = (): ReactNode => {
         <EventCardEmptyItem large />
       );
     },
-    [eventList]
+    [eventList, isError]
   );
 
   const scrollToTop = (): void => {
@@ -157,13 +165,15 @@ export const CityEventsPage = (): ReactNode => {
   }, [filteredCategoryIdList, currentPeriod, customPeriod, searchValue]);
 
   useEffect(() => {
-    if (!isLoading && events) {
+    if (!isLoading && events && !isError) {
       const eventsListFinal = events.pages.map((page) => page?.events).flat();
       if (eventsListFinal) {
         setEventList(eventsListFinal as CityEventCard[]);
       }
+    } else {
+      setEventList([]);
     }
-  }, [events]);
+  }, [events, isError]);
 
   /**
    * Funtions
@@ -207,11 +217,14 @@ export const CityEventsPage = (): ReactNode => {
           <CityEventListFooterItem
             isLoading={isLoading || isFetching || isFetchingNextPage || isRefetching}
             eventLength={eventList.length}
+            isError={isError}
           />
         }
         ListHeaderComponent={<HeaderList setHeaderHeight={setHeaderHeight} />}
         maxToRenderPerBatch={10}
-        onEndReached={fetchNextPage}
+        onEndReached={() => {
+          if (hasNextPage && !isError) fetchNextPage();
+        }}
         onEndReachedThreshold={5}
         onScroll={handleScroll}
         ref={flatListRef}

@@ -1,73 +1,88 @@
 import { SERVER_HOST } from '@env';
-import axios from 'axios';
+import axios, { type AxiosError } from 'axios';
 import { store } from '../../../store/store';
-import { type CityEventCardRequest, type CityEventDetailsRequest } from '../types/Events';
+import { type ErrorResponse } from '../../../types/Request';
+import {
+  type CityEventListReturn,
+  type CityEventReturn,
+  type FetchCityEventDetailsTestProps,
+  type FetchLilleCulturalEventsTest
+} from '../types/EventTest';
 
-interface FetchLilleCulturalEvents {
-  categoryIdList?: number[];
-  nextEventPageIds?: Array<number | string> | null;
-  currentPeriod?: string | null;
-  customPeriod?: {
-    startDate: Date;
-    endDate: Date;
-  } | null;
-  startDate?: string | null;
-  endDate?: string | null;
-  search?: string | null;
-}
+export const fetchCityEventDetails = async ({
+  eventId
+}: FetchCityEventDetailsTestProps): Promise<CityEventReturn | undefined> => {
+  const cityName = store.getState().generalReducer.currentCity.cityName;
 
-export const fetchCityEvents = async ({
+  try {
+    console.log('url & params : ', cityName, eventId);
+    const response = await axios.get(`${SERVER_HOST}/events-test`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      params: {
+        cityName,
+        eventId
+      }
+    });
+
+    return response.data as CityEventReturn;
+  } catch (error) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    if (axiosError.response) {
+      console.error('[cityEvent] Error : ', axiosError.response.data.message);
+      throw Error(axiosError.response.data.message);
+    }
+  }
+};
+
+export const fetchCityEventListTest = async ({
   categoryIdList = [],
   nextEventPageIds = null,
   currentPeriod = null,
   startDate = null,
   endDate = null,
   search = null
-}: FetchLilleCulturalEvents): Promise<CityEventCardRequest | undefined> => {
+}: FetchLilleCulturalEventsTest): Promise<CityEventListReturn | undefined> => {
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().generalReducer.currentCity.cityName;
+  console.log('nextEventPageIds : ', nextEventPageIds);
 
   try {
-    const response = await axios.get(`${address}/events`, {
+    console.log('request : ', {
+      adress: `${address}/events-all-test`,
+      params: {
+        cityName,
+        categoryId: categoryIdList.join(','),
+        page: nextEventPageIds,
+        from: startDate ?? null,
+        to: endDate ?? null
+        // search: search && search.length > 0 ? search : null
+      }
+    });
+
+    const response = await axios.get(`${address}/events-all-test`, {
       headers: {
         'Content-Type': 'application/json'
       },
       params: {
         cityName,
-        categoryIdList: categoryIdList.join(','),
-        nextEventPageIds,
-        startDate: startDate ?? null,
-        endDate: endDate ?? null,
-        search: search && search.length > 0 ? search : null
+        categoryId: categoryIdList.join(','),
+        page: nextEventPageIds,
+        from: startDate ?? null,
+        to: endDate ?? null
+        // search: search && search.length > 0 ? search : null
       }
     });
 
-    return response.data as CityEventCardRequest;
+    console.log('request url : ', response.config.params);
+
+    return response.data as CityEventListReturn;
   } catch (error) {
-    console.error('Error while fetching city events', error);
-    return undefined;
-  }
-};
-
-interface FetchCityEventDetailsProps {
-  eventId: number;
-}
-
-export const fetchCityEventDetails = async ({
-  eventId
-}: FetchCityEventDetailsProps): Promise<CityEventDetailsRequest> => {
-  const cityName = store.getState().generalReducer.currentCity.cityName;
-  const address = `${SERVER_HOST}`;
-
-  const response = await axios.get(`${address}/event`, {
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    params: {
-      cityName,
-      eventId
+    const axiosError = error as AxiosError<ErrorResponse>;
+    if (axiosError.response) {
+      console.error('[cityEvent] Error : ', axiosError.response.data.message);
+      throw Error(axiosError.response.data.message);
     }
-  });
-
-  return response.data as CityEventDetailsRequest;
+  }
 };

@@ -22,8 +22,8 @@ const initialState: State = {
   isSearchInputFocused: false,
   periods: [],
   currentPeriod: PERIODS.ALWAYS,
-  startDate: moment().add(1, 'hours').toISOString(),
-  endDate: moment().add(1, 'hours').add(10, 'year').endOf('day').toISOString()
+  startDate: moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
+  endDate: moment().add(10, 'year').endOf('day').format('YYYY-MM-DDTHH:mm:ss')
 };
 
 const eventSlice = createSlice({

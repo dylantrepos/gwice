@@ -67,7 +67,8 @@
         "noEventsAvailable": "No events available for this period",
         "noMoreEventsAvailable": "No more events available for this period",
         "numberEventFound": "event found",
-        "numberEventsFound": "events found"
+        "numberEventsFound": "events found",
+        "error": "An error occurred while fetching events, please try again later..."
       }
     },
     "settings": {

@@ -1,9 +1,13 @@
 import { useInfiniteQuery, useQuery, type InfiniteData } from 'react-query';
-import { fetchCityEventDetails, fetchCityEvents } from '../features/CityEvents/services/cityEvents';
 import {
-  type CityEventCardRequest,
-  type CityEventDetailsRequest
-} from '../features/CityEvents/types/Events';
+  fetchCityEventDetails,
+  fetchCityEventListTest
+} from '../features/CityEvents/services/cityEvents';
+import { type CityEventCardRequest } from '../features/CityEvents/types/Events';
+import {
+  type UseGetCityEventDetails,
+  type UseGetCityEventDetailsProps
+} from '../features/CityEvents/types/EventTest';
 
 /*
  * Get City Events
@@ -41,6 +45,7 @@ export const useGetCityEvents = ({
   const {
     isLoading,
     isError,
+    error,
     data: events,
     hasNextPage,
     fetchNextPage,
@@ -50,7 +55,7 @@ export const useGetCityEvents = ({
   } = useInfiniteQuery(
     [key, refetchCityEventHome, categoryIdList, startDate, endDate, search],
     async ({ pageParam: nextEventPageIds = null }) =>
-      await fetchCityEvents({
+      await fetchCityEventListTest({
         categoryIdList,
         nextEventPageIds,
         startDate,
@@ -59,9 +64,10 @@ export const useGetCityEvents = ({
       }),
     {
       refetchOnWindowFocus: false,
+      retry: 0,
       getNextPageParam: (lastPage, pages) => {
-        if (lastPage?.after) {
-          return lastPage.after;
+        if (lastPage?.nextPage) {
+          return lastPage.nextPage;
         }
         return undefined;
       }
@@ -71,6 +77,7 @@ export const useGetCityEvents = ({
   return {
     isLoading,
     isError,
+    error,
     events,
     hasNextPage,
     fetchNextPage,
@@ -83,28 +90,13 @@ export const useGetCityEvents = ({
 /*
  * Get City Details
  */
-interface UseGetCityEventDetailsProps {
-  eventId: number;
-}
-
-interface UseGetCityEventDetails {
-  isLoading: boolean;
-  isError: boolean;
-  events: CityEventDetailsRequest | undefined;
-  category?: string;
-}
 
 export const useGetCityEventDetails = ({
   eventId
 }: UseGetCityEventDetailsProps): UseGetCityEventDetails => {
-  const {
-    isLoading,
-    isError,
-    data: events,
-    error
-  } = useQuery(
+  const { isLoading, isError, data } = useQuery(
     [`event-details-${eventId}`, eventId],
     async () => await fetchCityEventDetails({ eventId })
   );
-  return { isLoading, isError, events };
+  return { isLoading, isError, data };
 };

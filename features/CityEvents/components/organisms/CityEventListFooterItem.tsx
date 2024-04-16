@@ -6,11 +6,13 @@ import { EventCardEmptyItem } from '../molecules/EventCardEmptyItem';
 
 interface CityEventListFooterItemProps {
   isLoading: boolean;
+  isError: boolean;
   eventLength: number;
 }
 
 export const CityEventListFooterItem = ({
   isLoading,
+  isError,
   eventLength
 }: CityEventListFooterItemProps): ReactNode => {
   const { t } = useTranslation();
@@ -24,7 +26,7 @@ export const CityEventListFooterItem = ({
   ) : (
     <View
       style={{
-        paddingHorizontal: 20,
+        paddingHorizontal: 40,
         paddingVertical: 40,
         width: '100%',
         height: 600
@@ -35,11 +37,13 @@ export const CityEventListFooterItem = ({
           textAlign: 'center'
         }}
       >
-        {t(
-          eventLength === 0
-            ? 'screens.events.text.noEventsAvailable'
-            : 'screens.events.text.noMoreEventsAvailable'
-        )}
+        {isError
+          ? t('screens.events.text.error')
+          : t(
+              eventLength === 0
+                ? 'screens.events.text.noEventsAvailable'
+                : 'screens.events.text.noMoreEventsAvailable'
+            )}
       </TextItem>
     </View>
   );

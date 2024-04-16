@@ -15,42 +15,47 @@ import {
 import { fr } from 'date-fns/locale';
 import { type Timing } from '../../../types/Events';
 
-export const getPeriod = (dateRange: PERIODS): { start: Date; end: Date; title: PERIODS } => {
+export const getPeriod = (dateRange: PERIODS): { start: string; end: string; title: PERIODS } => {
   switch (dateRange) {
     case PERIODS.ALWAYS:
       return {
-        start: moment.utc().add(1, 'hour').toDate(),
-        end: moment.utc().add(5, 'year').endOf('day').toDate(),
+        start: moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
+        end: moment().add(10, 'year').endOf('day').format('YYYY-MM-DDTHH:mm:ss'),
         title: PERIODS.ALWAYS
       };
     case PERIODS.TODAY:
       return {
-        start: moment.utc().add(1, 'hour').toDate(),
-        end: moment.utc().add(1, 'hour').endOf('day').toDate(),
+        start: moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
+        end: moment().endOf('day').format('YYYY-MM-DDTHH:mm:ss'),
         title: PERIODS.TODAY
       };
     case PERIODS.TOMORROW:
       return {
-        start: moment.utc().add(1, 'day').startOf('day').toDate(),
-        end: moment.utc().add(1, 'day').endOf('day').toDate(),
+        start: moment().add(1, 'day').startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
+        end: moment().add(1, 'day').endOf('day').format('YYYY-MM-DDTHH:mm:ss'),
         title: PERIODS.TOMORROW
       };
     case PERIODS.WEEKEND:
       return {
-        start: moment.utc().isoWeekday(6).startOf('day').toDate(),
-        end: moment.utc().isoWeekday(7).endOf('day').toDate(),
+        start: isAfter(
+          moment().format('YYYY-MM-DDTHH:mm:ss'),
+          moment.utc().isoWeekday(6).startOf('day').format('YYYY-MM-DDTHH:mm:ss')
+        )
+          ? moment().format('YYYY-MM-DDTHH:mm:ss')
+          : moment.utc().isoWeekday(6).startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
+        end: moment.utc().isoWeekday(7).endOf('day').format('YYYY-MM-DDTHH:mm:ss'),
         title: PERIODS.WEEKEND
       };
     case PERIODS.WEEK:
       return {
-        start: moment.utc().add(1, 'hours').toDate(),
-        end: moment.utc().isoWeekday(7).endOf('day').toDate(),
+        start: moment().utc().isoWeekday(6).startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
+        end: moment.utc().isoWeekday(7).endOf('day').format('YYYY-MM-DDTHH:mm:ss'),
         title: PERIODS.WEEK
       };
     default:
       return {
-        start: moment.utc().add(1, 'hour').toDate(),
-        end: moment.utc().add(5, 'year').endOf('day').toDate(),
+        start: moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
+        end: moment().add(10, 'year').endOf('day').format('YYYY-MM-DDTHH:mm:ss'),
         title: PERIODS.ALWAYS
       };
   }
