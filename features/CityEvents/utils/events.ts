@@ -1,3 +1,4 @@
+import { formatDistance } from 'date-fns';
 import {
   Award,
   BadgePercent,
@@ -21,6 +22,8 @@ import {
   Sparkle,
   Theater
 } from 'lucide-react-native';
+import moment from 'moment';
+import { formatDate } from '../../../utils/events';
 import { type CategoryItem } from '../types/Events';
 
 export const eventsCategory: Record<string, number> = {
@@ -203,4 +206,20 @@ export const eventsCategoryLille = allEventsCategoryLille.filter((item) =>
 export const formatTitle = (title: string): string => {
   const titleUpdate = title.split('-')[0];
   return titleUpdate[0].toUpperCase() + titleUpdate.slice(1);
+};
+
+export const getNextTimingFormatted = (begin: string, end: string, period: string): string => {
+  const startTime = moment(begin);
+  const endTime = moment(end);
+  const now = moment();
+
+  if (now.isBetween(startTime, endTime)) {
+    const remainingTime = formatDistance(endTime.toDate(), now.toDate());
+    return `Now (end in ${remainingTime})`;
+  } else if (startTime.isAfter(now) && startTime.isSame(now, 'day')) {
+    const untilStart = formatDistance(startTime.toDate(), now.toDate());
+    return `In ${untilStart}`;
+  } else {
+    return formatDate({ nextDate: begin, period });
+  }
 };

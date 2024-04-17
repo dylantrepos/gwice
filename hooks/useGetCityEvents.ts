@@ -1,38 +1,20 @@
-import { useInfiniteQuery, useQuery, type InfiniteData } from 'react-query';
+import { useInfiniteQuery, useQuery } from 'react-query';
 import {
   fetchCityEventDetails,
   fetchCityEventListTest
 } from '../features/CityEvents/services/cityEvents';
-import { type CityEventCardRequest } from '../features/CityEvents/types/Events';
 import {
   type UseGetCityEventDetails,
   type UseGetCityEventDetailsProps
 } from '../features/CityEvents/types/EventTest';
+import {
+  type UseGetCityEvents,
+  type UseGetCityEventsProps
+} from '../types/hooks/UseGetCityEvents.type';
 
 /*
  * Get City Events
  */
-
-interface UseGetCityEvents {
-  isLoading: boolean;
-  isError: boolean;
-  events: InfiniteData<CityEventCardRequest | undefined> | undefined;
-  category?: string;
-  hasNextPage?: boolean;
-  fetchNextPage: () => void;
-  isFetching: boolean;
-  isFetchingNextPage: boolean;
-  isRefetching: boolean;
-}
-
-interface UseGetCityEventsProps {
-  refetchCityEventHome: boolean;
-  categoryIdList?: number[];
-  search?: string | null;
-  startDate?: string | null;
-  endDate?: string | null;
-  key: string;
-}
 
 export const useGetCityEvents = ({
   refetchCityEventHome,
