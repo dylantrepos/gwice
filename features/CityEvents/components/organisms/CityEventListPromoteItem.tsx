@@ -13,7 +13,6 @@ export const CityEventListPromoteItem = (): ReactNode => {
     if (Keyboard.isVisible()) {
       Keyboard.dismiss();
     }
-    console.log('Promote pressed!');
   };
 
   const imageSrc =

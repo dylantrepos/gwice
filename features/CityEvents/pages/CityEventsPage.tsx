@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { isBefore } from 'date-fns';
 import { Search } from 'lucide-react-native';
-import { useCallback, useEffect, useRef, useState, View, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Pressable,
+  View,
   VirtualizedList,
   type NativeScrollEvent,
   type NativeSyntheticEvent
@@ -55,8 +56,7 @@ export const CityEventsPage = (): ReactNode => {
     isError,
     isFetching,
     isFetchingNextPage,
-    isRefetching,
-    error
+    isRefetching
   } = useGetCityEvents({
     refetchCityEventHome: refreshing,
     categoryIdList: filteredCategoryIdList,
@@ -214,11 +214,13 @@ export const CityEventsPage = (): ReactNode => {
         keyboardShouldPersistTaps="handled"
         keyExtractor={handleKeyExtractor}
         ListFooterComponent={
-          <CityEventListFooterItem
-            isLoading={isLoading || isFetching || isFetchingNextPage || isRefetching}
-            eventLength={eventList.length}
-            isError={isError}
-          />
+          !hasNextPage ? (
+            <CityEventListFooterItem
+              isLoading={isLoading || isFetching || isFetchingNextPage || isRefetching}
+              eventLength={eventList.length}
+              isError={isError}
+            />
+          ) : null
         }
         ListHeaderComponent={<HeaderList setHeaderHeight={setHeaderHeight} />}
         maxToRenderPerBatch={10}

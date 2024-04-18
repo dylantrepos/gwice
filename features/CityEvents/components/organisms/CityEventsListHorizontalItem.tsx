@@ -8,7 +8,6 @@ import { type CityEventsListHorizontalItemRenderProps } from '../../types/CityEv
 import { type CityEventCard } from '../../types/Events';
 import { EventCardEmptyItem } from '../molecules/EventCardEmptyItem';
 import { EventCardItem } from '../molecules/EventCardItem';
-import { CityEventListFooterItem } from './CityEventListFooterItem';
 
 export const CityEventsListHorizontalItem = (): ReactNode => {
   const { refetchCityEventHome } = useSelector((state: RootState) => state.generalReducer);
@@ -22,16 +21,7 @@ export const CityEventsListHorizontalItem = (): ReactNode => {
   );
   const { eventCategory } = useSelector((state: RootState) => state.homeReducer);
 
-  const {
-    isLoading,
-    events,
-    hasNextPage,
-    fetchNextPage,
-    isFetching,
-    isError,
-    isFetchingNextPage,
-    isRefetching
-  } = useGetCityEvents({
+  const { isLoading, events, hasNextPage, fetchNextPage } = useGetCityEvents({
     refetchCityEventHome,
     categoryIdList: eventCategory,
     startDate,
@@ -59,9 +49,7 @@ export const CityEventsListHorizontalItem = (): ReactNode => {
   );
 
   const handleReachingEnd = useCallback(() => {
-    if (hasNextPage) {
-      fetchNextPage();
-    }
+    if (hasNextPage) fetchNextPage();
   }, [hasNextPage]);
 
   return (
@@ -78,13 +66,6 @@ export const CityEventsListHorizontalItem = (): ReactNode => {
         alwaysBounceHorizontal={false}
         snapToInterval={315}
         onEndReached={handleReachingEnd}
-        ListFooterComponent={
-          <CityEventListFooterItem
-            isLoading={isLoading || isFetching || isFetchingNextPage || isRefetching}
-            eventLength={eventList.length}
-            isError={isError}
-          />
-        }
         contentContainerStyle={{
           columnGap: 15,
           paddingRight: 30

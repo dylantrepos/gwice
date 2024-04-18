@@ -15,8 +15,7 @@ export const fetchCityEventDetails = async ({
   const cityName = store.getState().generalReducer.currentCity.cityName;
 
   try {
-    console.log('url & params : ', cityName, eventId);
-    const response = await axios.get(`${SERVER_HOST}/events-test`, {
+    const response = await axios.get(`${SERVER_HOST}/city-event-details`, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -46,22 +45,9 @@ export const fetchCityEventListTest = async ({
 }: FetchLilleCulturalEventsTest): Promise<CityEventListReturn | undefined> => {
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().generalReducer.currentCity.cityName;
-  console.log('nextEventPageIds : ', nextEventPageIds);
 
   try {
-    console.log('request : ', {
-      adress: `${address}/events-all-test`,
-      params: {
-        cityName,
-        categoryId: categoryIdList.join(','),
-        page: nextEventPageIds,
-        from: startDate ?? null,
-        to: endDate ?? null
-        // search: search && search.length > 0 ? search : null
-      }
-    });
-
-    const response = await axios.get(`${address}/events-all-test`, {
+    const response = await axios.get(`${address}/city-events`, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -74,8 +60,6 @@ export const fetchCityEventListTest = async ({
         // search: search && search.length > 0 ? search : null
       }
     });
-
-    console.log('request url : ', response.config.params);
 
     return response.data as CityEventListReturn;
   } catch (error) {
