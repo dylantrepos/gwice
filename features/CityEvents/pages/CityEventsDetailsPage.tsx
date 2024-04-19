@@ -131,14 +131,14 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
           </View>
         </Modal>
         {event.title && (
-          <TextItem weight="bold" size="lg" style={styles.title}>
+          <TextItem weight="bold" size="lg" style={styles.title} selectable>
             {event.title}
           </TextItem>
         )}
         <View style={styles.infosContainer}>
           <View style={styles.infoContainer}>
             <IconItem IconElt={Calendar} size="md" />
-            <TextItem size="md" style={styles.date}>
+            <TextItem size="md" style={styles.date} selectable>
               {getFormatedDateFromTimestamp(event.timings[0].begin) ===
               getFormatedDateFromTimestamp(event.timings[event.timings.length - 1].end)
                 ? `${getFormatedDateFromTimestamp(event.timings[0].begin)}`
@@ -166,13 +166,13 @@ export const CityEventsDetailsPage = ({ navigation, route }: Props): ReactNode =
           {(event.price ?? null) && (
             <View style={styles.infoContainer}>
               <BadgeEuro size={20} color={'black'} />
-              <TextItem size="md" style={styles.date}>
+              <TextItem size="md" style={styles.date} selectable>
                 {event.price ? `${event.price}` : 'Non spécifié'}
               </TextItem>
             </View>
           )}
         </View>
-        <TextItem size="md" style={styles.description}>
+        <TextItem size="md" style={styles.description} selectable>
           {event.long_description}
         </TextItem>
         {/* {siteLink && (

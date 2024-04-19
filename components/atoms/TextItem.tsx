@@ -19,6 +19,7 @@ export const TextItem = ({
   italic = false,
   color = undefined,
   size = 'md',
+  selectable = false,
   numberOfLines,
   ellipsizeMode,
   style,
@@ -38,7 +39,12 @@ export const TextItem = ({
   };
 
   return (
-    <Text style={textStyle} numberOfLines={numberOfLines} ellipsizeMode={ellipsizeMode}>
+    <Text
+      style={textStyle}
+      numberOfLines={numberOfLines}
+      ellipsizeMode={ellipsizeMode}
+      selectable={selectable}
+    >
       {children}
     </Text>
   );
