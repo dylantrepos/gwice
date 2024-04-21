@@ -3,6 +3,7 @@ import moment from 'moment';
 import { CityLille } from '../cities/CityLille';
 import { type City } from '../cities/types/city';
 import { type WeatherSettings } from '../features/Weather/types/Weather';
+import { type ToastContent } from '../types/components/molecules/Toast.type';
 
 interface State {
   isDarkMode: boolean;
@@ -12,6 +13,7 @@ interface State {
   isWeatherLoaded: boolean;
   refetchHome: boolean;
   refetchCityEventHome: boolean;
+  toastQueue: ToastContent[];
 }
 
 const initialState: State = {
@@ -23,7 +25,8 @@ const initialState: State = {
   },
   isWeatherLoaded: false,
   refetchHome: false,
-  refetchCityEventHome: false
+  refetchCityEventHome: false,
+  toastQueue: []
 };
 
 const generalSlice = createSlice({
@@ -50,6 +53,15 @@ const generalSlice = createSlice({
     },
     setIsDarkMode: (state, action: PayloadAction<boolean>) => {
       state.isDarkMode = action.payload;
+    },
+    addToast: (state, action: PayloadAction<ToastContent>) => {
+      state.toastQueue.push(action.payload);
+    },
+    removeToast: (state, action: PayloadAction<ToastContent>) => {
+      const toastQueuePosition = state.toastQueue.findIndex(
+        (toast) => toast.id === action.payload.id
+      );
+      state.toastQueue.splice(toastQueuePosition, 1);
     }
   }
 });
@@ -61,7 +73,9 @@ export const {
   setIsWeatherLoaded,
   setRefetchHome,
   setRefetchCityEventHome,
-  setIsDarkMode
+  setIsDarkMode,
+  addToast,
+  removeToast
 } = generalSlice.actions;
 
 export default generalSlice.reducer;

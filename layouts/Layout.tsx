@@ -2,6 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import React, { type PropsWithChildren, type ReactNode } from 'react';
 import { StatusBar, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import ToastItem from '../components/molecules/ToastItem';
 import { type RootState } from '../store/store';
 import { type HeaderProps } from '../types/components/organisms/HeaderItem.type';
 
@@ -26,6 +27,7 @@ export const Layout = ({ children }: PropsWithChildren<Props>): ReactNode => {
           backgroundColor={colors.background}
           animated
         />
+        <ToastItem />
         {children}
       </View>
     </View>

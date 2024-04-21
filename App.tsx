@@ -18,11 +18,12 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { WarningScreenItem } from './components/molecules/WarningScreenItem';
 import { BottomNavigationItem } from './components/organisms/BottomNavigationItem';
-import { CityEventsDetailsPage } from './features/CityEvents/pages/CityEventsDetailsPage';
+
+import { CityEventDetailsPage } from './features/CityEvents/pages/CityEventDetailsPage';
 import { CityEventsPage } from './features/CityEvents/pages/CityEventsPage';
+import { CityEventSearchPage } from './features/CityEvents/pages/CityEventsSearchPage';
 import { useCustomFont } from './hooks/useCustomFont';
 import { HomePage } from './pages/HomePage';
-import { SearchPage } from './pages/SearchPage';
 import { SettingsGeneralPage } from './pages/SettingsGeneralPage';
 import { SettingsHomePage } from './pages/SettingsHomePage';
 import { SettingsPage } from './pages/SettingsPage';
@@ -62,7 +63,7 @@ const HomeScreens = (): ReactElement => {
       />
       <HomeStack.Screen
         name="CityEventsDetails"
-        component={CityEventsDetailsPage}
+        component={CityEventDetailsPage}
         options={{
           ...defaultScreenOptions,
           title: ''
@@ -78,7 +79,7 @@ const HomeScreens = (): ReactElement => {
       />
       <HomeStack.Screen
         name="Search"
-        component={SearchPage}
+        component={CityEventSearchPage}
         options={{
           ...defaultScreenOptions,
           headerShown: true,
