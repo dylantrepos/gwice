@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next';
 import {
   Pressable,
-  View,
   VirtualizedList,
   type NativeScrollEvent,
   type NativeSyntheticEvent
@@ -13,14 +12,12 @@ import {
 import { RefreshControl } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconItem } from '../../../components/atoms/IconItem';
-import { TextItem } from '../../../components/atoms/TextItem';
 import { useGetCityEvents } from '../../../hooks/useGetCityEvents';
 import { Layout } from '../../../layouts/Layout';
 import { setRefetchCityEventHome } from '../../../reducers/generalReducer';
 import { type RootState } from '../../../store/store';
 import { EventCardEmptyItem } from '../components/molecules/EventCardEmptyItem';
 import { EventCardItem } from '../components/molecules/EventCardItem';
-import { CityEventListFooterItem } from '../components/organisms/CityEventListFooterItem';
 import { HeaderList } from '../components/organisms/CityEventListHeaderItem';
 import { CityEventListStickyHeaderItem } from '../components/organisms/CityEventListStickyHeaderItem';
 import { type CityEventCard } from '../types/Events';
@@ -113,7 +110,7 @@ export const CityEventsPage = (): ReactNode => {
 
       return eventList?.length > 0 ? (
         <>
-          {index === 1 && searchValue && searchValue && (
+          {/* {index === 1 && searchValue && searchValue && (
             <View
               style={{
                 display: 'flex',
@@ -131,7 +128,7 @@ export const CityEventsPage = (): ReactNode => {
                 }`}
               </TextItem>
             </View>
-          )}
+          )} */}
           <EventCardItem
             event={item}
             period={currentPeriod}
@@ -213,15 +210,15 @@ export const CityEventsPage = (): ReactNode => {
         initialNumToRender={1}
         keyboardShouldPersistTaps="handled"
         keyExtractor={handleKeyExtractor}
-        ListFooterComponent={
-          !hasNextPage ? (
-            <CityEventListFooterItem
-              isLoading={isLoading || isFetching || isFetchingNextPage || isRefetching}
-              eventLength={eventList.length}
-              isError={isError}
-            />
-          ) : null
-        }
+        // ListFooterComponent={
+        //   !hasNextPage ? (
+        //     <CityEventListFooterItem
+        //       isLoading={isLoading || isFetching || isFetchingNextPage || isRefetching}
+        //       eventLength={eventList.length}
+        //       isError={isError}
+        //     />
+        //   ) : null
+        // }
         ListHeaderComponent={<HeaderList setHeaderHeight={setHeaderHeight} />}
         maxToRenderPerBatch={10}
         onEndReached={() => {

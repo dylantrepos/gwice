@@ -106,5 +106,11 @@
         "dailyStartHour": "Heure de début quotidienne"
       }
     }
+  },
+  "error": {
+    "search": {
+      "toShort": "La recherche doit contenir au moins 3 caractères",
+      "toLong": "La recherche doit contenir moins de 50 caractères"
+    }
   }
 }

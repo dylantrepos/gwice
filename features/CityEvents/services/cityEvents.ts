@@ -29,8 +29,8 @@ export const fetchCityEventDetails = async ({
   } catch (error) {
     const axiosError = error as AxiosError<ErrorResponse>;
     if (axiosError.response) {
-      console.error('[cityEvent] Error : ', axiosError.response.data.message);
-      throw Error(axiosError.response.data.message);
+      console.error('[cityEvent] Error : ', axiosError.response.data.error);
+      throw Error(axiosError.response.data.error);
     }
   }
 };
@@ -56,8 +56,8 @@ export const fetchCityEventListTest = async ({
         categoryId: categoryIdList.join(','),
         page: nextEventPageIds,
         from: startDate ?? null,
-        to: endDate ?? null
-        // search: search && search.length > 0 ? search : null
+        to: endDate ?? null,
+        search: search && search.length > 0 ? search : null
       }
     });
 
@@ -65,8 +65,8 @@ export const fetchCityEventListTest = async ({
   } catch (error) {
     const axiosError = error as AxiosError<ErrorResponse>;
     if (axiosError.response) {
-      console.error('[cityEvent] Error : ', axiosError.response.data.message);
-      throw Error(axiosError.response.data.message);
+      console.error('[cityEvent] Error : ', axiosError.response.data.error);
+      throw Error(axiosError.response.data.error);
     }
   }
 };

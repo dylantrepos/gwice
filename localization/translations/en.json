@@ -106,5 +106,11 @@
         "dailyStartHour": "Daily start hour"
       }
     }
+  },
+  "error": {
+    "search": {
+      "toShort": "Search query must be at least 3 characters long",
+      "toLong": "Search query must be at most 50 characters long"
+    }
   }
 }
