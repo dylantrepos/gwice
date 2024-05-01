@@ -7,7 +7,8 @@ import {
   type CityEventReturn,
   type FetchCityEventDetailsTestProps,
   type FetchLilleCulturalEventsTest
-} from '../types/EventTest';
+} from '../types/CityEvent';
+import { TypeTitle } from '../types/Constant';
 
 export const fetchCityEventDetails = async ({
   eventId
@@ -37,6 +38,7 @@ export const fetchCityEventDetails = async ({
 
 export const fetchCityEventListTest = async ({
   categoryIdList = [],
+  activeTab = TypeTitle.Coming,
   nextEventPageIds = null,
   currentPeriod = null,
   startDate = null,
@@ -45,6 +47,17 @@ export const fetchCityEventListTest = async ({
 }: FetchLilleCulturalEventsTest): Promise<CityEventListReturn | undefined> => {
   const address = `${SERVER_HOST}`;
   const cityName = store.getState().generalReducer.currentCity.cityName;
+  // const period = store.getState().eventReducer.periods;
+  console.log({
+    categoryIdList,
+    activeTab,
+    nextEventPageIds,
+    currentPeriod,
+    startDate,
+    endDate,
+    search
+  });
+  // const dateRange = getPeriod(period);
 
   try {
     const response = await axios.get(`${address}/city-events`, {
@@ -52,6 +65,7 @@ export const fetchCityEventListTest = async ({
         'Content-Type': 'application/json'
       },
       params: {
+        type: activeTab,
         cityName,
         categoryId: categoryIdList.join(','),
         page: nextEventPageIds,

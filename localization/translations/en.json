@@ -12,6 +12,11 @@
     "close": "Close",
     "confirm": "Confirm"
   },
+  "generic": {
+    "period": "Period",
+    "category": "Category",
+    "favorite": "Favorite"
+  },
   "eventsCategory": {
     "workshop": "Workshop",
     "sale": "Sale",
@@ -39,16 +44,20 @@
   },
   "period": {
     "choose": "Choose a period",
+    "now": "Now",
     "today": "Today",
     "tomorrow": "Tomorrow",
     "in": "In",
     "at": "at",
+    "endIn": "End in",
     "tomorrowAt": "Tomorrow at",
     "week": "This week",
     "weekend": "This weekend",
     "always": "Always",
     "from": "From",
-    "to": "to"
+    "to": "to",
+    "until": "Until",
+    "coming": "Coming"
   },
   "screens": {
     "home": {
@@ -68,6 +77,7 @@
         "noMoreEventsAvailable": "No more events available for this period",
         "numberEventFound": "event found",
         "numberEventsFound": "events found",
+        "noCurrentEvents": "No current events",
         "error": "An error occurred while fetching events, please try again later..."
       }
     },

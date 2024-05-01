@@ -6,10 +6,10 @@ import {
 import {
   type UseGetCityEventDetails,
   type UseGetCityEventDetailsProps
-} from '../features/CityEvents/types/EventTest';
+} from '../features/CityEvents/types/CityEvent';
 import {
-  type UseGetCityEvents,
-  type UseGetCityEventsProps
+  type UseGetCityEventsProps,
+  type UseGetCityEventsResult
 } from '../types/hooks/UseGetCityEvents.type';
 
 /*
@@ -22,22 +22,23 @@ export const useGetCityEvents = ({
   startDate = null,
   endDate = null,
   search = null,
+  activeTab,
   key
-}: UseGetCityEventsProps): UseGetCityEvents => {
+}: UseGetCityEventsProps): UseGetCityEventsResult => {
   const {
     isLoading,
     isError,
-    error,
-    data: events,
+    data,
     hasNextPage,
     fetchNextPage,
     isFetching,
     isFetchingNextPage,
     isRefetching
   } = useInfiniteQuery(
-    [key, refetchCityEventHome, categoryIdList, startDate, endDate, search],
+    [key, refetchCityEventHome, categoryIdList, activeTab, startDate, endDate, search],
     async ({ pageParam: nextEventPageIds = null }) =>
       await fetchCityEventListTest({
+        activeTab,
         categoryIdList,
         nextEventPageIds,
         startDate,
@@ -59,8 +60,7 @@ export const useGetCityEvents = ({
   return {
     isLoading,
     isError,
-    error,
-    events,
+    data,
     hasNextPage,
     fetchNextPage,
     isFetching,

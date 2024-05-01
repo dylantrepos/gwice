@@ -6,7 +6,8 @@ interface State {
   searchValue: string;
   searchValueHistory: string[];
   isSearchInputFocused: boolean;
-  periods: PERIODS[];
+  periods: PERIODS;
+  categoriesId: number[];
   currentPeriod: string;
   customPeriod?: {
     startDate: string;
@@ -19,10 +20,11 @@ interface State {
 const initialState: State = {
   searchValue: '',
   searchValueHistory: [],
+  categoriesId: [],
   isSearchInputFocused: false,
-  periods: [],
+  periods: PERIODS.ALWAYS,
   currentPeriod: PERIODS.ALWAYS,
-  startDate: moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
+  startDate: moment().utc().add(2, 'hours').startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
   endDate: moment().add(10, 'year').endOf('day').format('YYYY-MM-DDTHH:mm:ss')
 };
 
@@ -39,7 +41,10 @@ const eventSlice = createSlice({
     setIsSearchInputFocused: (state, action: PayloadAction<boolean>) => {
       state.isSearchInputFocused = action.payload;
     },
-    setPeriods: (state, action: PayloadAction<PERIODS[]>) => {
+    setCategoriesId: (state, action: PayloadAction<number[]>) => {
+      state.categoriesId = action.payload;
+    },
+    setPeriods: (state, action: PayloadAction<PERIODS>) => {
       state.periods = action.payload;
     },
     setCurrentPeriod: (state, action: PayloadAction<string>) => {
@@ -61,6 +66,7 @@ export const {
   setSearchValue,
   setSearchValueHistory,
   setIsSearchInputFocused,
+  setCategoriesId,
   setPeriods,
   setCurrentPeriod,
   setCustomPeriod,

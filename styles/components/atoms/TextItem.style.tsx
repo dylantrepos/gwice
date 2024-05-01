@@ -6,6 +6,7 @@ export default StyleSheet.create({
 
 export const themeStyle = {
   size: {
+    xs: 10,
     sm: 12,
     md: 14,
     lg: 16,
@@ -14,9 +15,10 @@ export const themeStyle = {
     '6xl': 28
   },
   lineHeights: {
+    xs: 14,
     sm: 16,
-    md: 20,
-    lg: 22,
+    md: 22,
+    lg: 24,
     xl: 25,
     xxl: 27,
     '6xl': 30

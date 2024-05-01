@@ -2,8 +2,8 @@ import {
   createNativeStackNavigator,
   type NativeStackNavigationOptions
 } from '@react-navigation/native-stack';
-import { Home, Settings } from 'lucide-react-native';
-import { SafeAreaView, View } from 'react-native';
+import { Edit, Home, Search, Settings } from 'lucide-react-native';
+import { Pressable, SafeAreaView, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 import './localization/i18n';
@@ -19,8 +19,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { WarningScreenItem } from './components/molecules/WarningScreenItem';
 import { BottomNavigationItem } from './components/organisms/BottomNavigationItem';
 
+import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { IconItem } from './components/atoms/IconItem';
 import { CityEventDetailsPage } from './features/CityEvents/pages/CityEventDetailsPage';
 import { CityEventsPage } from './features/CityEvents/pages/CityEventsPage';
+import { CityEventsPageNew } from './features/CityEvents/pages/CityEventsPageNew';
 import { CityEventSearchPage } from './features/CityEvents/pages/CityEventsSearchPage';
 import { useCustomFont } from './hooks/useCustomFont';
 import { HomePage } from './pages/HomePage';
@@ -50,6 +54,7 @@ const SettingsScreens = (): ReactElement => (
 
 const HomeScreens = (): ReactElement => {
   const { t } = useTranslation();
+  const navigation = useNavigation();
   return (
     <HomeStack.Navigator screenOptions={defaultScreenOptions} initialRouteName="Home">
       <HomeStack.Screen
@@ -74,7 +79,63 @@ const HomeScreens = (): ReactElement => {
         component={CityEventsPage}
         options={{
           ...defaultScreenOptions,
-          title: t('screens.events.title')
+          title: t('screens.events.title'),
+          headerRight: () => (
+            <Pressable
+              onPress={() => {
+                // @ts-expect-error navigate need definition
+                navigation.navigate('Search');
+              }}
+              style={{ justifyContent: 'center', alignItems: 'center', padding: 10 }}
+            >
+              <IconItem IconElt={Search} size="md" stroke="strong" />
+            </Pressable>
+          )
+        }}
+      />
+      <HomeStack.Screen
+        name="CityEventsNew"
+        component={CityEventsPageNew}
+        options={{
+          ...defaultScreenOptions,
+          title: t('screens.events.title'),
+          // headerStyle: {
+          //   backgroundColor: '#A98BFE'
+          // },
+          headerBackground: () => (
+            <LinearGradient
+              colors={['#340696', '#9E3EFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{
+                flex: 1 // make sure the LinearGradient fills the entire header
+              }}
+            />
+          ),
+          headerTintColor: '#fff',
+          headerRight: () => (
+            <>
+              <Pressable
+                onPress={() => {
+                  // @ts-expect-error navigate need definition
+                  navigation.navigate('Search');
+                }}
+                style={{ justifyContent: 'center', alignItems: 'center', padding: 10 }}
+              >
+                <IconItem IconElt={Edit} size="md" stroke="strong" color={'white'} />
+              </Pressable>
+
+              <Pressable
+                onPress={() => {
+                  // @ts-expect-error navigate need definition
+                  navigation.navigate('Search');
+                }}
+                style={{ justifyContent: 'center', alignItems: 'center', padding: 10 }}
+              >
+                <IconItem IconElt={Search} size="md" stroke="strong" color={'white'} />
+              </Pressable>
+            </>
+          )
         }}
       />
       <HomeStack.Screen

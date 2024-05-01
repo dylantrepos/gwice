@@ -107,7 +107,9 @@ export default StyleSheet.create({
   },
   cardDescription: {
     justifyContent: 'flex-end',
-    height: 200
+    // height: 200,
+    height: '100%',
+    paddingBottom: 20
   },
   cardDescriptionCategoriesContainer: {
     display: 'flex',
@@ -135,6 +137,7 @@ export default StyleSheet.create({
   cardDescriptionText: {
     color: '#fff',
     padding: 20,
+    paddingBottom: 0,
     paddingTop: 15
   }
 });

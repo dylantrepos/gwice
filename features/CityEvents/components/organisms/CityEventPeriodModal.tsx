@@ -56,13 +56,10 @@ export const FilterDateModal = ({
       dispatch(setCurrentPeriod('custom'));
       setShowDatePicker(false);
       setCurrSelectedItem('custom');
-      const startCustom = moment(selectedDates?.startDate).add(1, 'hour').toISOString();
-      const endCustom = moment(
-        selectedDates.endDate.length > 0 ? selectedDates.endDate : selectedDates.startDate
-      )
-        .add(1, 'hour')
+      const startCustom = moment.utc(selectedDates?.startDate).toISOString();
+      const endCustom = moment
+        .utc(selectedDates.endDate.length > 0 ? selectedDates.endDate : selectedDates.startDate)
         .endOf('day')
-        .add(1, 'hour')
         .toISOString();
 
       dispatch(setStartDatePeriod(startCustom));
@@ -112,9 +109,7 @@ export const FilterDateModal = ({
       visible={isPopinVisible}
       setVisibility={setIsPopinVisible}
       handleConfirm={handleConfirm}
-      disableConfirm={
-        (showDatePicker && !selectedDates.startDate) || currSelectedItem === currentPeriod
-      }
+      disableConfirm={showDatePicker && selectedDates.startDate.length === 0}
       handleClose={handleClose}
       style={styles.bottomSheetContainer}
     >

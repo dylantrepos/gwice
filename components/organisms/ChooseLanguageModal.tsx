@@ -1,7 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGetLanguages } from '../../hooks/useGetLanguages';
-import styles from '../../styles/components/organisms/ChooseLanguageModal.style';
 import { BottomSheetItem } from '../molecules/BottomSheetItem';
 import { SelectItem } from '../molecules/SelectItem';
 
@@ -41,7 +40,7 @@ export const ChooseLanguageModal = ({
       handleConfirm={handleConfirm}
       disableConfirm={currSelectedLanguageItem === i18n.language}
       handleClose={handleClose}
-      styles={styles.bottomSheetContainer}
+      dynamicSize={true}
       stylesConfirmButton={{
         marginTop: 40
       }}

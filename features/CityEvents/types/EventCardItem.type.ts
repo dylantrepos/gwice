@@ -1,6 +1,5 @@
 import { type LucideIcon } from 'lucide-react-native';
-import { type CategoryItem } from './Events';
-import { type Timing } from './EventTest';
+import { type CategoryItem, type Timing } from './CityEvent';
 
 export interface SmallEventCardProps {
   handlePress: () => void;

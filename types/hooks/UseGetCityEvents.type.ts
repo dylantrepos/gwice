@@ -1,13 +1,19 @@
-import { type InfiniteData } from 'react-query';
-import { type CityEventCardRequest } from '../../features/CityEvents/types/Events';
+import {
+  type FetchNextPageOptions,
+  type InfiniteData,
+  type InfiniteQueryObserverResult
+} from 'react-query';
+import { type CityEventListReturn } from '../../features/CityEvents/types/CityEvent';
+import { type TypeTitle } from '../../features/CityEvents/types/Constant';
 
-export interface UseGetCityEvents {
+export interface UseGetCityEventsResult {
   isLoading: boolean;
   isError: boolean;
-  events: InfiniteData<CityEventCardRequest | undefined> | undefined;
-  category?: string;
-  hasNextPage?: boolean;
-  fetchNextPage: () => void;
+  data: InfiniteData<CityEventListReturn | undefined> | undefined;
+  hasNextPage: boolean | undefined;
+  fetchNextPage: (
+    options?: FetchNextPageOptions | undefined
+  ) => Promise<InfiniteQueryObserverResult<CityEventListReturn | undefined, unknown>>;
   isFetching: boolean;
   isFetchingNextPage: boolean;
   isRefetching: boolean;
@@ -20,4 +26,5 @@ export interface UseGetCityEventsProps {
   startDate?: string | null;
   endDate?: string | null;
   key: string;
+  activeTab: TypeTitle;
 }

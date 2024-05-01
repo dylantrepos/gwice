@@ -5,10 +5,7 @@ export default StyleSheet.create({
   filterList: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 10,
-    paddingVertical: 10,
-    paddingTop: 10,
-    paddingBottom: 10
+    gap: 10
   },
   filter: {
     // color: '#fff',

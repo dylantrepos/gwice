@@ -12,6 +12,11 @@
     "close": "Fermer",
     "confirm": "Valider"
   },
+  "generic": {
+    "period": "Période",
+    "category": "Catégorie",
+    "favorite": "Favoris"
+  },
   "eventsCategory": {
     "workshop": "Atelier",
     "sale": "Braderie-brocante",
@@ -39,16 +44,20 @@
   },
   "period": {
     "choose": "Choix de la période",
+    "now": "En cours",
     "today": "Aujourd'hui",
     "in": "Dans",
     "at": "à",
+    "endIn": "Se termine dans",
     "tomorrow": "Demain",
     "tomorrowAt": "Demain à",
     "week": "Cette semaine",
     "weekend": "Ce week-end",
     "always": "Toujours",
     "from": "Du",
-    "to": "au"
+    "to": "au",
+    "until": "Jusqu'à",
+    "coming": "À venir"
   },
   "screens": {
     "home": {
@@ -68,6 +77,7 @@
         "noMoreEventsAvailable": "Pas d'autres événements disponibles pour cette période",
         "numberEventFound": "événement trouvé",
         "numberEventsFound": "événements trouvés",
+        "noCurrentEvents": "Aucun événement en cours",
         "error": "Erreur lors de la récupération des événements, veuillez réessayer plus tard..."
       }
     },

@@ -17,6 +17,18 @@ interface ExtendedTheme extends Theme {
     // Button
     buttonBackground: string;
 
+    // Filter
+    filter: {
+      default: {
+        backgroundColor: string;
+        textColor: string;
+      };
+      cityEvent: {
+        backgroundColor: string;
+        textColor: string;
+      };
+    };
+
     // Tag
     tagBackground: string;
     tagBackgroundActive: string;
@@ -79,6 +91,18 @@ const DefaultTheme: ExtendedTheme = {
     // Button
     buttonBackground: palette.gray100,
 
+    // Filter
+    filter: {
+      default: {
+        backgroundColor: palette.white200,
+        textColor: palette.blackPrimary
+      },
+      cityEvent: {
+        backgroundColor: palette.purple100,
+        textColor: palette.blackPrimary
+      }
+    },
+
     // Tag
     tagBackground: palette.whitePrimary,
     tagBorder: palette.grayLight,
@@ -140,6 +164,18 @@ const DarkTheme: ExtendedTheme = {
      */
     // Button
     buttonBackground: palette.black400,
+
+    // Filter
+    filter: {
+      default: {
+        backgroundColor: palette.black200,
+        textColor: palette.whitePrimary
+      },
+      cityEvent: {
+        backgroundColor: palette.black400,
+        textColor: palette.whitePrimary
+      }
+    },
 
     // Tag
     tagBackground: palette.blackPrimary,

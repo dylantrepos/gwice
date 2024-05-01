@@ -1,4 +1,6 @@
 import { formatDistance } from 'date-fns';
+import { enGB, fr } from 'date-fns/locale';
+import { type TFunction } from 'i18next';
 import {
   Award,
   BadgePercent,
@@ -12,7 +14,7 @@ import {
   HeartPulse,
   Hotel,
   Leaf,
-  MapPin,
+  MapIcon,
   MessageSquareText,
   Mic2,
   Palette,
@@ -23,33 +25,9 @@ import {
   Theater
 } from 'lucide-react-native';
 import moment from 'moment';
+import i18n from '../../../localization/i18n';
 import { formatDate } from '../../../utils/events';
-import { type CategoryItem } from '../types/Events';
-
-export const eventsCategory: Record<string, number> = {
-  atelier: 3,
-  'braderie-brocante': 4,
-  ceremonie: 5,
-  cinema: 6,
-  'conference-rencontre': 7,
-  'conseil-municipal': 8,
-  danse: 9,
-  'developpement-durable': 10,
-  emploi: 11,
-  exposition: 12,
-  'fete-festival': 13,
-  formation: 14,
-  lecture: 15,
-  mode: 16,
-  musique: 17,
-  'reunion-publique': 18,
-  sante: 19,
-  spectacle: 20,
-  sport: 21,
-  theatre: 22,
-  'visite-balade': 23,
-  aucune: 28
-};
+import { type CategoryItem } from '../types/CityEvent';
 
 export const allEventsCategoryLille: CategoryItem[] = [
   {
@@ -175,50 +153,42 @@ export const allEventsCategoryLille: CategoryItem[] = [
   {
     title: 'visite-balade',
     id: 23,
-    iconElt: MapPin,
+    iconElt: MapIcon,
     translationKey: 'eventsCategory.visit'
   }
-  // {
-  //   title: 'voir plus',
-  //   id: 28,
-  //   iconElt: ChevronRight,
-  //   translationKey: 'eventsCategory.seeMore'
-  // }
 ];
-
-const eventsCategoryShort = [
-  'fete-festival',
-  'visite-balade',
-  'musique',
-  'sport',
-  'cinema',
-  'atelier',
-  'braderie-brocante',
-  'spectacle',
-  'exposition',
-  'voir plus'
-];
-
-export const eventsCategoryLille = allEventsCategoryLille.filter((item) =>
-  eventsCategoryShort.includes(item.title)
-);
 
 export const formatTitle = (title: string): string => {
   const titleUpdate = title.split('-')[0];
   return titleUpdate[0].toUpperCase() + titleUpdate.slice(1);
 };
 
-export const getNextTimingFormatted = (begin: string, end: string, period: string): string => {
-  const startTime = moment(begin);
-  const endTime = moment(end);
-  const now = moment();
+export const getNextTimingFormatted = (
+  begin: string,
+  end: string,
+  period: string,
+  t: TFunction<'translation', undefined>
+): string => {
+  const startTime = moment(begin).utc().add(2, 'hour');
+  const endTime = moment(end).utc().add(2, 'hour');
+  const now = moment().utc().add(2, 'hour');
 
   if (now.isBetween(startTime, endTime)) {
-    const remainingTime = formatDistance(endTime.toDate(), now.toDate());
-    return `Now (end in ${remainingTime})`;
+    let untilEnd = moment(endTime)
+      .utc()
+      .format(i18n.language === 'fr' ? 'HH:mm' : 'h:mm a');
+    if (i18n.language === 'fr') {
+      untilEnd = untilEnd.replace(':', 'h').replace('h00', 'h');
+    } else {
+      untilEnd = untilEnd.replace(':00', '');
+    }
+
+    return `${t('period.until')} ${untilEnd}`;
   } else if (startTime.isAfter(now) && startTime.isSame(now, 'day')) {
-    const untilStart = formatDistance(startTime.toDate(), now.toDate());
-    return `In ${untilStart}`;
+    const untilStart = formatDistance(startTime.toDate(), now.toDate(), {
+      locale: i18n.language === 'fr' ? fr : enGB
+    });
+    return `${t('period.in')} ${untilStart}`;
   } else {
     return formatDate({ nextDate: begin, period });
   }

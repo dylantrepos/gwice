@@ -35,7 +35,7 @@ export const HomePage = (): ReactNode => {
 
   const handleEventNavigation = (): void => {
     // @ts-expect-error navigate need definition
-    navigation.navigate('CityEvents');
+    navigation.navigate('CityEventsNew');
   };
 
   return (

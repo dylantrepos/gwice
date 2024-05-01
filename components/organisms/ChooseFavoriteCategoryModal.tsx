@@ -3,11 +3,10 @@ import { useTheme } from '@react-navigation/native';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { type CategoryItem } from '../../features/CityEvents/types/CityEvent';
 import { allEventsCategoryLille } from '../../features/CityEvents/utils/events';
-import { setEventCategory } from '../../reducers/homeReducer';
-import { type RootState } from '../../store/store';
 import styles from '../../styles/components/organisms/ChooseLanguageModal.style';
+import palette from '../../theme/palette';
 import { formatTitle } from '../../utils/events';
 import { IconItem } from '../atoms/IconItem';
 import { TextItem } from '../atoms/TextItem';
@@ -16,34 +15,59 @@ import { BottomSheetItem } from '../molecules/BottomSheetItem';
 interface FilterFavoriteCategoryModalProps {
   isPopinVisible: boolean;
   setIsPopinVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  onConfirm: (categories: CategoryItem[]) => void;
 }
 
 export const ChooseFavoriteCategoryModal = ({
   isPopinVisible,
-  setIsPopinVisible
+  setIsPopinVisible,
+  onConfirm
 }: FilterFavoriteCategoryModalProps): ReactNode => {
   const { t } = useTranslation();
-  const { eventCategory } = useSelector((state: RootState) => state.homeReducer);
-  const [currSelectedCategory, setCurrSelectedCategory] = useState(eventCategory);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryItem[]>([]);
+  const [currSelectedCategory, setCurrSelectedCategory] =
+    useState<CategoryItem[]>(selectedCategory);
+  const [sortedCategories, setSortedCategories] = useState<CategoryItem[]>(allEventsCategoryLille);
   const { colors } = useTheme();
-  const dispatch = useDispatch();
 
   const handleClose = (): void => {
     setIsPopinVisible(false);
+    setSelectedCategory(currSelectedCategory);
+    setSortedCategories(() =>
+      allEventsCategoryLille.sort((a, b) => {
+        const isSelectedA = isSelected(a);
+        const isSelectedB = isSelected(b);
+        if (isSelectedA && !isSelectedB) {
+          return -1;
+        }
+        if (!isSelectedA && isSelectedB) {
+          return 1;
+        }
+        return t(a.translationKey).localeCompare(t(b.translationKey));
+      })
+    );
+    setCurrSelectedCategory(selectedCategory);
+    onConfirm(currSelectedCategory);
   };
 
   // @ts-expect-error-next-line
   const handleConfirm = async (): void => {
-    dispatch(setEventCategory(currSelectedCategory));
     handleClose();
   };
 
-  const handleToggleCategory = (category: number): void => {
-    if (currSelectedCategory.includes(category)) {
-      setCurrSelectedCategory(currSelectedCategory.filter((cat) => cat !== category));
+  const isSelected = (category: CategoryItem): boolean =>
+    currSelectedCategory.find((cat) => cat.id === category.id) !== undefined;
+
+  const handleToggleCategory = (category: CategoryItem): void => {
+    if (isSelected(category)) {
+      setCurrSelectedCategory(currSelectedCategory.filter((cat) => cat.id !== category.id));
     } else {
       setCurrSelectedCategory([...currSelectedCategory, category]);
     }
+  };
+
+  const handleDismissModal = (): void => {
+    setCurrSelectedCategory(selectedCategory);
   };
 
   return (
@@ -55,53 +79,43 @@ export const ChooseFavoriteCategoryModal = ({
       disableConfirm={false}
       handleClose={handleClose}
       styles={styles.bottomSheetContainer}
-      // withConfirm={false}
-      stylesConfirmButton={
-        {
-          // marginTop: 40
-          // position: 'absolute'
-        }
-      }
+      dynamicSize={false}
+      handleDismiss={handleDismissModal}
     >
       <BottomSheetScrollView
         contentContainerStyle={{
-          // backgroundColor: 'blue',
           flexDirection: 'row',
           flexWrap: 'wrap',
           justifyContent: 'space-between',
-          // gap: 20,
           paddingBottom: 20
         }}
       >
-        {allEventsCategoryLille.map((category, key) => (
+        {sortedCategories.map((category, key) => (
           <Pressable
             style={{
               width: '100%',
               flexDirection: 'row',
-              // backgroundColor: 'red',
               alignItems: 'center',
               paddingVertical: 10,
               gap: 10
             }}
             onPress={() => {
-              handleToggleCategory(category.id);
+              handleToggleCategory(category);
             }}
             key={`category-${key}`}
           >
             <View
               style={{
-                // display: 'flex',
-                // ...styles.iconContainer,
                 padding: 5,
                 borderRadius: 50,
-                backgroundColor: currSelectedCategory.includes(category.id)
-                  ? colors.cityEventCategoryListBackgroundSelectedColor
+                backgroundColor: isSelected(category)
+                  ? palette.purple400
                   : colors.cityEventCategoryListBackgroundColor
               }}
             >
               <IconItem
                 color={
-                  currSelectedCategory.includes(category.id)
+                  isSelected(category)
                     ? colors.cityEventCategoryListIconSelectedColor
                     : colors.cityEventCategoryListIconColor
                 }

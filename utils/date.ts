@@ -13,13 +13,13 @@ import {
   isWithinInterval
 } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { type Timing } from '../../../types/Events';
+import { type Timing } from '../features/CityEvents/types/CityEvent';
 
 export const getPeriod = (dateRange: PERIODS): { start: string; end: string; title: PERIODS } => {
   switch (dateRange) {
     case PERIODS.ALWAYS:
       return {
-        start: moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
+        start: moment().utc().add(2, 'hours').startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
         end: moment().add(10, 'year').endOf('day').format('YYYY-MM-DDTHH:mm:ss'),
         title: PERIODS.ALWAYS
       };
@@ -48,7 +48,7 @@ export const getPeriod = (dateRange: PERIODS): { start: string; end: string; tit
       };
     case PERIODS.WEEK:
       return {
-        start: moment().utc().isoWeekday(6).startOf('day').format('YYYY-MM-DDTHH:mm:ss'),
+        start: moment().utc().add(2, 'hour').format('YYYY-MM-DDTHH:mm:ss'),
         end: moment.utc().isoWeekday(7).endOf('day').format('YYYY-MM-DDTHH:mm:ss'),
         title: PERIODS.WEEK
       };

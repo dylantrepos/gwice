@@ -10,27 +10,31 @@ import { TextItem } from '../atoms/TextItem';
 type Props = ViewProps & {
   title: string;
   visible: boolean;
-  setVisibility: React.Dispatch<React.SetStateAction<boolean>>;
   confirmText?: string;
   withConfirm?: boolean;
-  handleConfirm: () => void;
+  dynamicSize?: boolean;
   disableConfirm?: boolean;
-  handleClose: () => void;
   styles?: ViewStyle;
   stylesConfirmButton?: ViewStyle;
+  setVisibility: React.Dispatch<React.SetStateAction<boolean>>;
+  handleConfirm: () => void;
+  handleClose: () => void;
+  handleDismiss?: () => void;
 };
 
 export const BottomSheetItem = ({
   title,
   visible,
-  setVisibility,
   confirmText,
-  handleConfirm,
   withConfirm = true,
+  dynamicSize = true,
   disableConfirm = false,
   children,
   styles,
-  stylesConfirmButton
+  stylesConfirmButton,
+  setVisibility,
+  handleConfirm,
+  handleDismiss
 }: PropsWithChildren<Props>): ReactNode => {
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -64,11 +68,13 @@ export const BottomSheetItem = ({
     <BottomSheetModal
       ref={bottomSheetModalRef}
       index={0}
-      enableDynamicSizing={true}
+      enableDynamicSizing={dynamicSize}
+      snapPoints={dynamicSize ? undefined : ['70%']}
       enablePanDownToClose={true}
       backdropComponent={renderBackdrop}
       animateOnMount={true}
       enableOverDrag={false}
+      onDismiss={handleDismiss}
       handleStyle={{
         backgroundColor: colors.bottomSheetBackground,
         borderTopLeftRadius: 10,

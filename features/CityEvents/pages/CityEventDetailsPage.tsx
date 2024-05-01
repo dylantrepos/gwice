@@ -1,4 +1,5 @@
-import { BadgeEuro, Calendar, X } from 'lucide-react-native';
+import { useTheme } from '@react-navigation/native';
+import { BadgeEuro, Calendar, MapPin, X } from 'lucide-react-native';
 import moment from 'moment';
 import { useCallback, useState, type ReactNode } from 'react';
 import {
@@ -10,6 +11,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 import PanPinchView from 'react-native-pan-pinch-view';
 import { useDispatch } from 'react-redux';
 import { IconItem } from '../../../components/atoms/IconItem';
@@ -19,7 +21,7 @@ import { useGetCityEventDetails } from '../../../hooks/useGetCityEvents';
 import { Layout } from '../../../layouts/Layout';
 import { setRefetchHome } from '../../../reducers/generalReducer';
 import { getFormatedDateFromTimestamp } from '../../../utils/utils';
-import styles from '../styles/pages/CityEventsDetailsPage.style';
+import styles, { markdownStyles } from '../styles/pages/CityEventsDetailsPage.style';
 
 interface Props {
   navigation: any;
@@ -28,6 +30,7 @@ interface Props {
 
 export const CityEventDetailsPage = ({ navigation, route }: Props): ReactNode => {
   const { eventId } = route.params;
+  const { colors } = useTheme();
 
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -76,7 +79,6 @@ export const CityEventDetailsPage = ({ navigation, route }: Props): ReactNode =>
 
   const today = moment().startOf('day');
   const firstTimingDate = moment(event.timings[0].begin);
-
   return (
     <Layout>
       <ScrollView
@@ -147,6 +149,14 @@ export const CityEventDetailsPage = ({ navigation, route }: Props): ReactNode =>
                   : `Du ${getFormatedDateFromTimestamp(event.timings[0].begin)} au ${getFormatedDateFromTimestamp(event.timings[event.timings.length - 1].end)}`}
             </TextItem>
           </View>
+          {event.location.adress && (
+            <View style={styles.infoContainer}>
+              <IconItem IconElt={MapPin} size="md" />
+              <TextItem size="md" style={styles.date} selectable>
+                {`${event.location.adress}`}
+              </TextItem>
+            </View>
+          )}
           {/* {locationMapUrl && (
             <View style={styles.infoContainer}>
               <IconItem IconElt={MapPin} size="md" />
@@ -165,16 +175,28 @@ export const CityEventDetailsPage = ({ navigation, route }: Props): ReactNode =>
           )} */}
           {(event.price ?? null) && (
             <View style={styles.infoContainer}>
-              <BadgeEuro size={20} color={'black'} />
+              <IconItem IconElt={BadgeEuro} size="md" />
               <TextItem size="md" style={styles.date} selectable>
                 {event.price ? `${event.price}` : 'Non spécifié'}
               </TextItem>
             </View>
           )}
         </View>
-        <TextItem size="md" style={styles.description} selectable>
+        <Markdown
+          // markdownit={MarkdownIt({ typographer: true }).disable(['link', 'image'])}
+          style={{
+            ...markdownStyles,
+            body: {
+              ...markdownStyles.body,
+              color: colors.text
+            }
+          }}
+        >
           {event.long_description}
-        </TextItem>
+        </Markdown>
+        {/* <TextItem size="md" style={styles.description} selectable>
+          {event.long_description}
+        </TextItem> */}
         {/* {siteLink && (
           <Pressable
             style={styles.link}

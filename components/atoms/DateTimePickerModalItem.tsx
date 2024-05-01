@@ -1,4 +1,5 @@
 import { useTheme } from '@react-navigation/native';
+import moment from 'moment';
 import { useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
@@ -34,7 +35,7 @@ export const DateTimePickerModalItem = ({
     if (!selectedDates.startDate || (selectedDates.startDate && selectedDates.endDate)) {
       handleSelectedDates({ startDate: day.dateString, endDate: '' });
     } else if (!selectedDates.endDate) {
-      if (new Date(day.dateString as string) < new Date(selectedDates.startDate)) {
+      if (moment(day.dateString as Date).isBefore(selectedDates.startDate)) {
         handleSelectedDates({ startDate: day.dateString, endDate: '' });
         return;
       }

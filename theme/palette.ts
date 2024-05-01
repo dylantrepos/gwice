@@ -53,5 +53,18 @@ export default {
   red600: '#F44336',
   red700: '#E53935',
   red800: '#D32F2F',
-  red900: '#C62828'
+  red900: '#C62828',
+
+  purplePrimary: '#340696',
+  purple100: '#E2DFFE',
+  purple200: '#C4BBFD',
+  purple300: '#A98BFE',
+  purple400: '#8D5CFD',
+  purple500: '#7A3DFA',
+  purple600: '#6929F8',
+  purple700: '#5C1DF5',
+  purple800: '#4F0DE3',
+  purple900: '#9E3EFF'
 };
+
+// colors={['#340696', '#9E3EFF']}

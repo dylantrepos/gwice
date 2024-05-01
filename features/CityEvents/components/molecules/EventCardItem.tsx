@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Calendar } from 'lucide-react-native';
+import { Calendar, Clock, MapPin } from 'lucide-react-native';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, ImageBackground, Pressable, View } from 'react-native';
@@ -11,8 +11,8 @@ import { TextItem } from '../../../../components/atoms/TextItem';
 import { useLoadImage } from '../../../../hooks/useLoadImage';
 import palette from '../../../../theme/palette';
 import styles from '../../styles/molecules/EventCardItem.style';
+import { type CategoryItem, type CityEventReturn } from '../../types/CityEvent';
 import { type SmallEventCardProps } from '../../types/EventCardItem.type';
-import { type CityEventReturn } from '../../types/EventTest';
 import { type RootStackParamList } from '../../types/Navigation.type';
 import { allEventsCategoryLille, getNextTimingFormatted } from '../../utils/events';
 
@@ -39,10 +39,19 @@ export const EventCardItem = ({
     image_url: imageUrl,
     category,
     short_description: shortDescription,
-    nextTiming
+    nextTiming,
+    location
   } = event;
 
-  if (!id || !title || !imageUrl || !category || !shortDescription || !nextTiming) {
+  if (
+    !id ||
+    !title ||
+    !imageUrl ||
+    !category ||
+    !shortDescription ||
+    !nextTiming ||
+    !location.city
+  ) {
     return;
   }
 
@@ -51,12 +60,12 @@ export const EventCardItem = ({
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'CityEventsDetails'>>();
   const imageLoaded = useLoadImage(imageUrl);
 
-  const categories = category.map((categoryId) =>
+  const categories: Array<CategoryItem | undefined> = category.map((categoryId) =>
     allEventsCategoryLille.find((category) => category.id === categoryId.open_agenda_id)
   );
   const firstCategory = categories[0];
   const CategoryIconElt = firstCategory?.iconElt ?? null;
-  const timingEvent = getNextTimingFormatted(nextTiming.begin, nextTiming.end, period);
+  const timingEvent = getNextTimingFormatted(nextTiming.begin, nextTiming.end, period, t);
 
   if (!firstCategory || !CategoryIconElt) return;
 
@@ -82,7 +91,7 @@ export const EventCardItem = ({
             uri: imageUrl
           }}
         >
-          <LinearGradient colors={['rgba(0,0,0,1)', 'transparent']} style={styles.cardInfos}>
+          {/* <LinearGradient colors={['rgba(0,0,0,1)', 'transparent']} style={styles.cardInfos}>
             <TextItem
               size="lg"
               weight="bold"
@@ -92,17 +101,63 @@ export const EventCardItem = ({
               }}
             >
               {title}
-            </TextItem>
-            <TextItem
+            </TextItem> */}
+          {/* <TextItem
               weight="regular"
               style={{
                 color: palette.whitePrimary
               }}
             >
               {timingEvent}
-            </TextItem>
-          </LinearGradient>
+            </TextItem> */}
+          {/* </LinearGradient> */}
           <LinearGradient colors={['transparent', 'rgba(0,0,0,1)']} style={styles.cardDescription}>
+            {
+              <TextItem
+                size="lg"
+                weight="bold"
+                numberOfLines={2}
+                style={{
+                  color: palette.whitePrimary,
+                  marginHorizontal: 20
+                }}
+              >
+                {title}
+              </TextItem>
+            }
+            {
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginHorizontal: 20,
+                  gap: 5
+                }}
+              >
+                <IconItem IconElt={MapPin} size="sm" stroke="light" color={palette.whitePrimary} />
+                <TextItem weight="regular" color={palette.whitePrimary}>
+                  {location.city}
+                </TextItem>
+              </View>
+            }
+            {
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginHorizontal: 20,
+                  gap: 5
+                }}
+              >
+                <IconItem IconElt={Clock} size="sm" stroke="light" color={palette.whitePrimary} />
+                <TextItem weight="regular" color={palette.whitePrimary}>
+                  {timingEvent}
+                </TextItem>
+              </View>
+            }
+
             {
               <View style={styles.cardDescriptionCategoriesContainer}>
                 {thirdFirstCategories.map((category, index) => {
@@ -127,9 +182,9 @@ export const EventCardItem = ({
               </View>
             }
             {
-              <TextItem style={styles.cardDescriptionText} numberOfLines={3}>
-                {shortDescription}
-              </TextItem>
+              // <TextItem style={styles.cardDescriptionText} numberOfLines={3}>
+              //   {shortDescription}
+              // </TextItem>
             }
           </LinearGradient>
         </ImageBackground>

@@ -30,6 +30,14 @@
     "react/jsx-key": "off",
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-misused-promises": [
+      2,
+      {
+        "checksVoidReturn": {
+          "attributes": false
+        }
+      }
+    ],
     "arrow-body-style": [
       "error",
       "as-needed"
