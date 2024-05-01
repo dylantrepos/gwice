@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import PanPinchView from 'react-native-pan-pinch-view';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { IconItem } from '../../../components/atoms/IconItem';
 import { TextItem } from '../../../components/atoms/TextItem';
@@ -35,6 +36,7 @@ export const CityEventDetailsPage = ({ navigation, route }: Props): ReactNode =>
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
+  const { top } = useSafeAreaInsets();
 
   const handleOpenModal = (open: boolean = true): void => {
     setModalVisible(open);
@@ -84,7 +86,8 @@ export const CityEventDetailsPage = ({ navigation, route }: Props): ReactNode =>
       <ScrollView
         style={{ ...styles.scrollView }}
         contentContainerStyle={{
-          paddingBottom: 50
+          paddingBottom: 50,
+          marginTop: top
         }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >

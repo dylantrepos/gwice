@@ -2,6 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import { ChevronDown, type LucideIcon } from 'lucide-react-native';
 import { type ReactNode } from 'react';
 import { Pressable, StyleSheet, type ViewProps, type ViewStyle } from 'react-native';
+import palette from '../../theme/palette';
 import { IconItem } from './IconItem';
 import { TextItem } from './TextItem';
 
@@ -16,6 +17,7 @@ type Props = ViewProps & {
   style?: ViewStyle;
   withArrow?: boolean;
   type?: FilterType;
+  active?: boolean;
   handlePress: () => void;
 };
 
@@ -23,6 +25,7 @@ export const FilterItem = ({
   title,
   IconElt,
   withArrow = true,
+  active = false,
   type = FilterType.DEFAULT,
   handlePress
 }: Props): ReactNode => {
@@ -32,7 +35,9 @@ export const FilterItem = ({
     <Pressable
       style={{
         ...styles.filter,
-        backgroundColor: colors.filter[type].backgroundColor
+        backgroundColor: active ? colors.filter[type].backgroundColor : 'transparent',
+        borderWidth: 1,
+        borderColor: palette.gray300
       }}
       onPress={handlePress}
     >

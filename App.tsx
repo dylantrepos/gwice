@@ -2,10 +2,11 @@ import {
   createNativeStackNavigator,
   type NativeStackNavigationOptions
 } from '@react-navigation/native-stack';
-import { Edit, Home, Search, Settings } from 'lucide-react-native';
-import { Pressable, SafeAreaView, View } from 'react-native';
+import { Edit, Heart, Home, Search, Settings } from 'lucide-react-native';
+import { Platform, Pressable, SafeAreaView, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
+import { HeaderBackButton } from './components/atoms/HeaderBackButton';
 import './localization/i18n';
 import { store } from './store/store';
 
@@ -32,6 +33,7 @@ import { SettingsGeneralPage } from './pages/SettingsGeneralPage';
 import { SettingsHomePage } from './pages/SettingsHomePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { SettingsWeatherPage } from './pages/SettingsWeatherPage';
+import palette from './theme/palette';
 
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -40,7 +42,11 @@ const defaultScreenOptions: NativeStackNavigationOptions = {
   headerShown: true,
   headerBackTitleVisible: false,
   headerTitleAlign: 'center',
-  headerShadowVisible: false
+  headerShadowVisible: false,
+  headerTransparent: false,
+  headerBackTitleStyle: false,
+  statusBarTranslucent: false
+  // statusBarStyle: 'dark'
 };
 
 const SettingsScreens = (): ReactElement => (
@@ -71,7 +77,37 @@ const HomeScreens = (): ReactElement => {
         component={CityEventDetailsPage}
         options={{
           ...defaultScreenOptions,
-          title: ''
+          headerTransparent: true,
+          statusBarTranslucent: false,
+          headerLeft: () => <HeaderBackButton />,
+          title: '',
+          headerRight: () => (
+            <Pressable
+              onPress={() => {}}
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 10,
+                backgroundColor: 'white',
+                borderRadius: 100,
+                ...Platform.select({
+                  ios: {
+                    shadowOffset: {
+                      width: 0,
+                      height: 0
+                    },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 2
+                  },
+                  android: {
+                    elevation: 10
+                  }
+                })
+              }}
+            >
+              <IconItem IconElt={Heart} size="sm" stroke="strong" color={palette.redPrimary} />
+            </Pressable>
+          )
         }}
       />
       <HomeStack.Screen
@@ -102,6 +138,7 @@ const HomeScreens = (): ReactElement => {
           // headerStyle: {
           //   backgroundColor: '#A98BFE'
           // },
+          headerLeft: () => <HeaderBackButton transparent arrowColor={palette.whitePrimary} />,
           headerBackground: () => (
             <LinearGradient
               colors={['#340696', '#9E3EFF']}

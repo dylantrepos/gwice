@@ -12,6 +12,7 @@ import { useTheme } from '@react-navigation/native';
 import { FilterItem, FilterType } from '../../../../components/atoms/FilterItem';
 import { ChooseFavoriteCategoryModal } from '../../../../components/organisms/ChooseFavoriteCategoryModal';
 import { setCategoriesId, setSearchValue } from '../../../../reducers/eventReducer';
+import { PERIODS } from '../../../../types/Date';
 import { type CategoryItem } from '../../types/CityEvent';
 import { TypeTitle } from '../../types/Constant';
 import { FilterDateModal } from './CityEventPeriodModal';
@@ -27,7 +28,9 @@ export const CityEventListFilterItem = ({
   const [isPopinVisible, setIsPopinVisible] = useState(false);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
-  const { searchValue } = useSelector((state: RootState) => state.eventReducer);
+  const { searchValue, categoriesId, currentPeriod } = useSelector(
+    (state: RootState) => state.eventReducer
+  );
   const dispatch = useDispatch();
   const { colors } = useTheme();
   const { t } = useTranslation();
@@ -113,6 +116,7 @@ export const CityEventListFilterItem = ({
           <FilterItem
             type={FilterType.CITY_EVENT}
             IconElt={CalendarDays}
+            active={currentPeriod !== PERIODS.ALWAYS}
             title={t('generic.period')}
             handlePress={handlePopin}
           />
@@ -120,6 +124,7 @@ export const CityEventListFilterItem = ({
         <FilterItem
           type={FilterType.CITY_EVENT}
           IconElt={PartyPopper}
+          active={categoriesId.length > 0}
           title={t('generic.category')}
           handlePress={() => {
             setShowCategoryModal(true);
